@@ -1,0 +1,51 @@
+{
+  "name": "amit-viol",
+  "version": "1.0.0",
+  "description": "amit-viol web app",
+  "productName": "amit-viol",
+  "author": "AlameenAzad <alameen.azad@protonmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/cli": "^1.2.2",
+    "@quasar/extras": "^1.12.2",
+    "axios": "^0.24.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "core-js": "^3.6.5",
+    "darkreader": "^4.9.33",
+    "quasar": "^1.18.5",
+    "vue-i18n": "^8.0.0",
+    "vue-translation-manager": "^1.2.0",
+    "vuex-persistedstate": "^3.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "@quasar/app": "^2.2.11",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2",
+    "vue-i18n-extract": "1.2.0"
+  },
+  "browserslist": [
+    "ie >= 11",
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
