@@ -18,7 +18,6 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       errorDialog,
-      user,
     },
     plugins: [createPersistedState({ storage: window.localStorage })],
     // enable strict mode (adds overhead!)

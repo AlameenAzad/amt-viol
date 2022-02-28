@@ -1,5 +1,5 @@
 import enUS from "./en-us";
-import ar from "./de";
+import de from "./de";
 
 export default {
   "en-us": enUS,
