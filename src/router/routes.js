@@ -1,22 +1,20 @@
 const routes = [
   {
     path: "/",
-    name: "home",
 
-        meta: { requiresAuth: true },
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "",
-        component: () => import("pages/Index.vue"),
-        meta: { requiresAuth: true },
-      },
-    ],
+        name: "landing",
+        component: () => import("pages/Index.vue")
+      }
+    ]
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue"),
-  },
+    component: () => import("pages/Error404.vue")
+  }
 ];
 
 export default routes;
