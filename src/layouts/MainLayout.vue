@@ -15,7 +15,7 @@
 
     <q-page-container>
       <router-view />
-      <div class="bg-yellow-10 q-py-xl">
+      <div v-if="$router.currentRoute.path != '/'" class="bg-yellow-10 q-py-xl">
         <div class="row container">
           <div class="col-2">
             <img src="folder.svg" alt="folder icon" />
