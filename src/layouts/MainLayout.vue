@@ -1,87 +1,56 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
+  <q-layout view="lHh lpR fFf">
+    <q-header elevated class="bg-primary text-white">
+      <q-toolbar class="q-my-sm navContainer ">
+        <q-toolbar-title>
+          Amt Viöl
+        </q-toolbar-title>
         <div>
-          <q-btn
-            :icon="themeIcon"
-            flat
-            round
-            dark
-            @click="toggleDarkMode"
-            class="mr-0"
-          >
+          <q-btn color="yellow" unelevated class="mr-0 radius-6" no-caps>
+            <p class="q-mb-none text-blue q-mx-lg q-my-xs">Login</p>
           </q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="leftDrawer text-white"
-    >
-      <q-list>
-        <EssentialLink />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
       <router-view />
+      <div class="bg-yellow-10 q-py-xl">
+        <div class="row container">
+          <div class="col-2">
+            <img src="folder.svg" alt="folder icon" />
+          </div>
+          <div class="col self-center font-18">
+            <p>
+              Wenn Sie weitere Dokumente sowie Checklisten sehen möchten, dann
+              registrieren Sie sich.
+            </p>
+            <q-btn color="blue" unelevated class="mr-0 radius-6" no-caps>
+              <p class="q-mb-none  q-mx-lg q-my-xs">Sign Up</p>
+            </q-btn>
+          </div>
+        </div>
+      </div>
+      <div class="text-center bg-blue-5 text-white font-16 q-py-md">
+        {{ currentYear }} © Amt Viöl. All rights reserved
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
-import errorDialog from "components/errorDialog.vue";
-import {
-  enable as enableDarkMode,
-  disable as disableDarkMode,
-  isEnabled as isDarkReaderEnabled
-} from "darkreader";
-
+import { date } from "quasar";
 export default {
   name: "MainLayout",
-  components: {
-    EssentialLink
-  },
   data() {
     return {
-      leftDrawerOpen: true,
-      themeIcon: isDarkReaderEnabled()
-        ? "mdi-weather-night"
-        : "mdi-white-balance-sunny",
-      isEnabled: false
+      currentYear: date.formatDate(Date.now(), "YYYY")
     };
-  },
-  methods: {
-    toggleDarkMode() {
-      if (isDarkReaderEnabled()) disableDarkMode();
-      else
-        enableDarkMode({
-          brightness: 100,
-          contrast: 90,
-          sepia: 10
-        });
-    }
-  },
-  mounted() {
-    console.log("dev? ", process.env.DEV);
-    console.log("prod? ", process.env.PROD);
-    console.log("router ", this.$router);
   }
 };
 </script>
+<style scoped>
+.navContainer {
+  padding: 0 135px !important;
+}
+</style>
