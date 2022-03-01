@@ -9,6 +9,10 @@
   }
 }
 /* radius classes */
+.radius-6 {
+  border-radius: 6px !important;
+}
+/* End radius classes */
 /* font sizes */
 .font-10 {
   font-size: 10px;
@@ -222,5 +226,6 @@ html,
 body {
   font-family: helvetica, sans-serif;
   font-weight: 400;
+  background-color: #EFF2F7;
 }
 /* End font import */
