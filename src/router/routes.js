@@ -12,6 +12,69 @@ const routes = [
     ]
   },
   {
+    path: "/dashboard",
+
+    component: () => import("layouts/dashboardLayout.vue"),
+    children: [
+      {
+        path: "/",
+        name: "Home",
+        title: "Home",
+        icon: "img:/icons/Home.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/overview",
+        name: "DataOverview",
+        title: "Data Overview",
+        icon: "img:/icons/Documents.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/watchlist",
+        name: "watchlist",
+        title: "My Watchlist",
+        icon: "img:/icons/Favorite.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/catkeytags",
+        name: "CatKeyTags",
+        title: "Categories & Keywords/Tags",
+        icon: "img:/icons/Hash.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/Administation/User",
+        name: "AdministationUser",
+        title: "User Administation",
+        icon: "img:/icons/Users.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/network",
+        name: "Network",
+        title: "My Network",
+        icon: "img:/icons/Network.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/Administation/Areas",
+        name: "AdministationAreas",
+        title: "Administrative areas",
+        icon: "img:/icons/Municipality.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      },
+      {
+        path: "/Stats",
+        name: "Statistics&Archive",
+        title: "Statistics & Archive ",
+        icon: "img:/icons/Archive.svg",
+        component: () => import("pages/dashboard/Home.vue")
+      }
+    ]
+  },
+  {
     path: "/:catchAll(.*)*",
     component: () => import("pages/Error404.vue")
   }
