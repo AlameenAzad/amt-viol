@@ -21,7 +21,7 @@
                   bg-color="white"
                   placeholder="Search"
                   filled
-                  v-model="text"
+                  v-model="documentSearch"
                 >
                   <template v-slot:append>
                     <q-icon color="black" name="search" />
@@ -150,7 +150,7 @@ export default {
   name: "index",
   data() {
     return {
-      text: ""
+      documentSearch: ""
     };
   }
 };
