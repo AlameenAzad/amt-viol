@@ -7,9 +7,12 @@
         :to="link.to"
         clickable
         v-ripple
+        class="q-px-lg"
+        :active="$router.currentRoute.name == link.name"
+        active-class="text-white activeMenu"
       >
         <q-item-section avatar>
-          <q-icon class="text-white" :name="link.icon" />
+          <img class="icon-white" :src="link.icon" />
         </q-item-section>
         <q-item-section>
           {{ link.title }}
@@ -32,4 +35,21 @@ export default {
   }
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.activeMenu {
+  position: relative;
+}
+.activeMenu .q-focus-helper {
+  background: white !important;
+  opacity: 0.15 !important;
+}
+.activeMenu::before {
+  position: absolute;
+  left: 0;
+  content: "";
+  top: 0;
+  background: yellow;
+  height: 100%;
+  width: 3px;
+}
+</style>
