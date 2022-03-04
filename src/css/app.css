@@ -18,14 +18,17 @@
 .radius-20 {
   border-radius: 20px !important;
 }
+/* End radius classes */
+/* Input Border radius */
 .searchInput .q-field__inner .q-field__control {
   border-radius: 4px !important;
 }
+
 .tableSearchInput .q-field__inner .q-field__control {
   border-radius: 6px !important;
   width: 350px;
 }
-/* End radius classes */
+/* End Input Border radius */
 .icon-white {
   filter: invert(100%) sepia(0%) saturate(6403%) hue-rotate(213deg)
     brightness(108%) contrast(100%);
