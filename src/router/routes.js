@@ -1,13 +1,21 @@
-const routes = [
-  {
+const routes = [{
     path: "/",
 
     component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
+      },
+      {
+        path: "/documents",
+        name: "documents",
+        component: () => import("pages/Documents.vue")
+      },
+      {
+        path: "/documents/:id",
+        name: "documentView",
+        component: () => import("pages/DocumentView.vue")
       }
     ]
   },
@@ -15,8 +23,7 @@ const routes = [
     path: "/dashboard",
 
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "/",
         name: "Home",
         title: "Home",
