@@ -12,6 +12,12 @@
 .radius-6 {
   border-radius: 6px !important;
 }
+.radius-10 {
+  border-radius: 10px !important;
+}
+.searchInput .q-field__inner .q-field__control {
+  border-radius: 4px !important;
+}
 /* End radius classes */
 /* font sizes */
 .font-10 {
@@ -56,8 +62,14 @@
 .font-28 {
   font-size: 28px;
 }
+.font-36 {
+  font-size: 36px;
+}
 .font-38 {
   font-size: 38.89px;
+}
+.font-50 {
+  font-size: 50px;
 }
 /* End font sizes */
 /* shadows */

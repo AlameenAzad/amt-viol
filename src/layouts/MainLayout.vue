@@ -1,13 +1,14 @@
 <template>
-  <q-layout view="lHh lpR fFf">
-    <q-header elevated class="bg-primary text-white">
+  <!-- TODO Changed lHh to lhh -->
+  <q-layout view="lhh lpR fFf">
+    <q-header class="bg-primary text-white no-shadow">
       <q-toolbar class="q-my-sm navContainer ">
         <q-toolbar-title>
           Amt Viöl
         </q-toolbar-title>
         <div>
           <q-btn color="yellow" unelevated class="mr-0 radius-6" no-caps>
-            <p class="q-mb-none text-blue q-mx-lg q-my-xs">Login</p>
+            <p class="q-mb-none text-blue q-mx-xl q-my-xs">Login</p>
           </q-btn>
         </div>
       </q-toolbar>
