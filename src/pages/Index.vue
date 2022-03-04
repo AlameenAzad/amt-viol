@@ -22,9 +22,15 @@
                   placeholder="Search"
                   filled
                   v-model="documentSearch"
+                  @keyup.enter="searchForDocument"
                 >
                   <template v-slot:append>
-                    <q-icon color="black" name="search" />
+                    <q-icon
+                      class="cursor-pointer"
+                      @click="searchForDocument"
+                      color="black"
+                      name="search"
+                    />
                   </template>
                 </q-input>
               </div>
@@ -152,6 +158,16 @@ export default {
     return {
       documentSearch: ""
     };
+  },
+  methods: {
+    // TODO Check if input is empty
+    // TODO call API from store>actions then go to next page?
+    searchForDocument() {
+      this.$router.push({
+        name: "documents",
+        query: { q: this.documentSearch }
+      });
+    }
   }
 };
 </script>
