@@ -1,12 +1,12 @@
 <template>
-  <q-page>
+  <q-page class="bg-blue-1">
     <div class="container">
       <div class="row">
         <div class="col-12 text-center">
           <h1 class="font-36 text-weight-600">Document View</h1>
         </div>
         <div class="col-12">
-          Document View
+          {{ $route.params.id }}
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@ export default {
   },
   mounted() {
     console.log("Documents mounted");
-    console.log(this.$route.query);
+    console.log(this.$route.params);
   }
 };
 </script>
