@@ -47,6 +47,7 @@
               <div class="row">
                 <div class="col-12 text-center">
                   <q-img
+                    spinner-color="primary"
                     src="https://placeimg.com/500/300/nature"
                     style="height: 60px; max-width: 60px"
                   />
@@ -69,6 +70,7 @@
               <div class="row">
                 <div class="col-12 text-center">
                   <q-img
+                    spinner-color="primary"
                     src="https://placeimg.com/500/300/nature"
                     style="height: 60px; max-width: 60px"
                   />
@@ -91,6 +93,7 @@
               <div class="row">
                 <div class="col-12 text-center">
                   <q-img
+                    spinner-color="primary"
                     src="https://placeimg.com/500/300/nature"
                     style="height: 60px; max-width: 60px"
                   />
