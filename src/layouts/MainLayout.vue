@@ -1,10 +1,19 @@
 <template>
-  <!-- TODO Changed lHh to lhh -->
   <q-layout view="lhh lpR fFf">
     <q-header class="bg-primary text-white no-shadow">
       <q-toolbar class="q-my-sm navContainer ">
+        <!-- TODO Fix toolbar title taking full width -->
         <q-toolbar-title>
-          Amt Viöl
+          <q-btn
+            unelevated
+            no-caps
+            flat
+            size="lg"
+            :ripple="false"
+            :to="{ name: 'landing' }"
+          >
+            Amt Viöl
+          </q-btn>
         </q-toolbar-title>
         <div>
           <q-btn color="yellow" unelevated class="mr-0 radius-6" no-caps>
