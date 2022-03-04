@@ -85,7 +85,9 @@
   box-shadow: none !important;
 }
 /* end shadows */
-
+.text-weight-600 {
+  font-weight: 600;
+}
 html,
 body {
   font-family: "Open Sans", sans-serif;
