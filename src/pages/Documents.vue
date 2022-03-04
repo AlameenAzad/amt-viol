@@ -48,10 +48,10 @@
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td
+                  auto-width
                   v-for="col in props.cols"
                   :key="col.name"
                   :props="props"
-                  auto-width
                   class="font-14"
                 >
                   {{ col.value }}
@@ -172,11 +172,22 @@ export default {
     };
   },
   mounted() {
+    // TODO uncomment this on prod.
+    // if (!this.$route.query.q) {
+    //   this.$router.push({ name: "landing" });
+    // } else {
     this.query = this.$route.query.q;
+    // }
   },
   methods: {
     openDocument(val) {
       console.log(val.name);
+      this.$router.push({
+        name: "documentView",
+        params: {
+          id: val.name
+        }
+      });
     }
   }
 };
