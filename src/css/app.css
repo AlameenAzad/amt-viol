@@ -15,8 +15,15 @@
 .radius-10 {
   border-radius: 10px !important;
 }
+.radius-20 {
+  border-radius: 20px !important;
+}
 .searchInput .q-field__inner .q-field__control {
   border-radius: 4px !important;
+}
+.tableSearchInput .q-field__inner .q-field__control {
+  border-radius: 6px !important;
+  width: 350px;
 }
 /* End radius classes */
 /* font sizes */
