@@ -7,7 +7,7 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 
-module.exports = function(ctx) {
+module.exports = function (ctx) {
   return {
     preFetch: true,
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -22,7 +22,7 @@ module.exports = function(ctx) {
     boot: ["i18n", "axios"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ["app.css"],
+    css: ["app.scss", "app.css"],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -111,7 +111,9 @@ module.exports = function(ctx) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: { skipWaiting: true }, // only for GenerateSW
+      workboxOptions: {
+        skipWaiting: true
+      }, // only for GenerateSW
       manifest: {
         name: `amit-viol`,
         short_name: `amit-viole`,
@@ -120,8 +122,7 @@ module.exports = function(ctx) {
         orientation: "portrait",
         background_color: "#ffffff",
         theme_color: "#027be3",
-        icons: [
-          {
+        icons: [{
             src: "icons/icon-128x128.png",
             sizes: "128x128",
             type: "image/png"
@@ -184,7 +185,7 @@ module.exports = function(ctx) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack(/* cfg */) {
+      extendWebpack( /* cfg */ ) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
