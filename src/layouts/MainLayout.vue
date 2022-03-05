@@ -16,7 +16,13 @@
           </q-btn>
         </q-toolbar-title>
         <div>
-          <q-btn color="yellow" unelevated class="mr-0 radius-6" no-caps>
+          <q-btn
+            :to="{ name: 'Home' }"
+            color="yellow"
+            unelevated
+            class="mr-0 radius-6"
+            no-caps
+          >
             <p class="q-mb-none text-blue q-mx-xl q-my-xs">Login</p>
           </q-btn>
         </div>
