@@ -2,18 +2,59 @@
   <div class="q-mt-lg">
     <q-table
       class="radius-20 shadow-1"
-      title="Current funding information"
       :data="data"
       :columns="columns"
       row-key="name"
       hide-bottom
+      hide-header
+      :visible-columns="visibleColumns"
     >
       <template v-slot:top>
-        <p class="font-24">Current funding information</p>
-        <q-space />
-        <p class="font-16 text-blue text-underline text-weight-600">
-          Show all funding information
-        </p>
+        <div class="row full-width">
+          <div class="col-12">
+            <p class="font-24">
+              My Data
+              <span
+                class="font-16 float-right text-blue text-underline text-weight-600"
+              >
+                Show my Documents
+              </span>
+            </p>
+          </div>
+          <div class="col-12">
+            <q-btn
+              color="yellow"
+              unelevated
+              outline
+              class="mr-0 radius-6 text-weight-600"
+              no-caps
+            >
+              <p class="q-mb-none q-mx-md q-my-none text-black">
+                Project Ideas
+              </p>
+            </q-btn>
+            <q-btn
+              color="yellow"
+              unelevated
+              outline
+              class="mr-0 radius-6 q-mx-md text-weight-600"
+              no-caps
+            >
+              <p class="q-mb-none q-mx-xl q-my-none text-black">fundings</p>
+            </q-btn>
+            <q-btn
+              color="yellow"
+              unelevated
+              outline
+              class="mr-0 radius-6 q-mr-md text-weight-600"
+              no-caps
+            >
+              <p class="q-mb-none q-mx-md q-my-none text-black">
+                Implementation Checklist
+              </p>
+            </q-btn>
+          </div>
+        </div>
       </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
@@ -57,9 +98,10 @@
 
 <script>
 export default {
-  name: "fundingInfo",
+  name: "dataOverview",
   data() {
     return {
+      visibleColumns: ["name"],
       columns: [
         {
           name: "name",

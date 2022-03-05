@@ -44,15 +44,32 @@
     <div>
       <fundingInfo />
     </div>
+    <div class="row q-gutter-md q-mb-lg">
+      <div class="col">
+        <dataOverview />
+      </div>
+      <div class="col">
+        <watchlist />
+      </div>
+    </div>
+    <div>
+      <network />
+    </div>
   </q-page>
 </template>
 
 <script>
 import fundingInfo from "components/funding/info.vue";
+import dataOverview from "components/data/overview.vue";
+import watchlist from "components/watchlist/overview.vue";
+import network from "components/network/overview.vue";
 export default {
   name: "index",
   components: {
-    fundingInfo
+    fundingInfo,
+    dataOverview,
+    watchlist,
+    network
   },
   data() {
     return {};
