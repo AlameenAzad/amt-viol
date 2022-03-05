@@ -8,6 +8,11 @@
     width: calc(100% - 30px);
   }
 }
+/* Opacity Classes */
+.opacity-10 {
+  opacity: 0.10;
+}
+/* End Opacity Classes */
 /* radius classes */
 .radius-6 {
   border-radius: 6px !important;
