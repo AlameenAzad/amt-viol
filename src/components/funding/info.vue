@@ -40,14 +40,56 @@
             {{ col.value }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn
-              size="md"
-              color="primary"
-              round
-              flat
-              dense
-              icon="more_vert"
-            />
+            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+              <q-menu transition-show="jump-down" transition-hide="jump-up">
+                <q-list style="min-width: 140px">
+                  <q-item clickable v-close-popup>
+                    <q-item-section
+                      ><span class="text-right font-14">
+                        View
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="visibility"/></span
+                    ></q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup>
+                    <q-item-section
+                      ><span class="text-right font-14">
+                        Edit
+                        <q-icon size="sm" class="text-blue" name="edit"/></span
+                    ></q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup>
+                    <q-item-section
+                      ><span class="text-right font-14">
+                        Bookmark
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="star_rate"/></span
+                    ></q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup>
+                    <q-item-section
+                      ><span class="text-right font-14">
+                        Archive
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="inventory"/></span
+                    ></q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup>
+                    <q-item-section
+                      ><span class="text-right font-14 text-red">
+                        Delete
+                        <q-icon size="sm" name="delete"/></span
+                    ></q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
           </q-td>
         </q-tr>
       </template>
