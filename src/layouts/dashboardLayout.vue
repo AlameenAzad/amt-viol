@@ -3,7 +3,7 @@
     <q-header elevated class="bg-white text-black text-white">
       <q-toolbar class="q-my-sm q-px-xl">
         <q-toolbar-title class="text-weight-600">
-          {{ $router.currentRoute.name }}
+          {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
         <div>
           <q-btn
@@ -11,9 +11,24 @@
             flat
             round
             dark
+            color="blue"
             @click="toggleDarkMode"
             class="mr-0"
           >
+          </q-btn>
+          <q-btn
+            icon="notifications"
+            to="/user/notifications"
+            flat
+            round
+            dark
+            color="blue"
+            class="mr-0"
+          >
+          </q-btn>
+          <q-btn icon="person" flat round dark color="blue" class="mr-0">
+          </q-btn>
+          <q-btn icon="settings" flat round dark color="blue" class="mr-0">
           </q-btn>
         </div>
       </q-toolbar>
@@ -81,6 +96,7 @@ export default {
     console.log("dev? ", process.env.DEV);
     console.log("prod? ", process.env.PROD);
     console.log("router ", this.$router);
+    console.log("router", this.$router.currentRoute);
   }
 };
 </script>
