@@ -1,8 +1,10 @@
-const routes = [{
+const routes = [
+  {
     path: "/",
 
     component: () => import("layouts/MainLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
@@ -21,63 +23,94 @@ const routes = [{
   },
   {
     path: "/dashboard",
-
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [{
-        path: "/",
+    children: [
+      {
+        path: "/dashboard",
         name: "Home",
-        title: "Home",
+        meta: {
+          title: "Home"
+        },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/overview",
         name: "DataOverview",
-        title: "Data Overview",
+        meta: {
+          title: "Data Overview"
+        },
         icon: "/icons/Documents.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/watchlist",
         name: "watchlist",
-        title: "My Watchlist",
+        meta: {
+          title: "My Watchlist"
+        },
         icon: "/icons/Favorite.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/catkeytags",
         name: "CatKeyTags",
-        title: "Categories & Keywords/Tags",
+        meta: {
+          title: "Categories & Keywords/Tags"
+        },
         icon: "/icons/Hash.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/Administation/User",
         name: "AdministationUser",
-        title: "User Administation",
+        meta: {
+          title: "User Administation"
+        },
         icon: "/icons/Users.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/network",
         name: "Network",
-        title: "My Network",
+        meta: {
+          title: "My Network"
+        },
         icon: "/icons/Network.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/Administation/Areas",
         name: "AdministationAreas",
-        title: "Administrative areas",
+        meta: {
+          title: "Administrative areas"
+        },
         icon: "/icons/Municipality.svg",
         component: () => import("pages/dashboard/Home.vue")
       },
       {
         path: "/Stats",
         name: "Statistics&Archive",
-        title: "Statistics & Archive ",
+        meta: {
+          title: "Statistics & Archive "
+        },
         icon: "/icons/Archive.svg",
         component: () => import("pages/dashboard/Home.vue")
+      }
+    ]
+  },
+  {
+    path: "/user",
+    component: () => import("layouts/dashboardLayout.vue"),
+    children: [
+      {
+        path: "/user/notifications",
+        name: "notifications",
+        meta: {
+          title: "Notifications"
+        },
+        icon: "/icons/Home.svg",
+        component: () => import("pages/dashboard/Notifications.vue")
       }
     ]
   },

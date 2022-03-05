@@ -3,19 +3,19 @@
     <q-list>
       <q-item
         v-for="link in dashboardRoutes"
-        :key="link.to"
-        :to="link.to"
+        :key="link.path"
+        :to="link.path"
         clickable
         v-ripple
         class="q-px-lg"
-        :active="$router.currentRoute.name == link.name"
+        :active="$router.currentRoute.fullPath == link.path"
         active-class="text-white activeMenu"
       >
         <q-item-section avatar>
           <img class="icon-white" :src="link.icon" />
         </q-item-section>
         <q-item-section>
-          {{ link.title }}
+          {{ link.meta.title }}
         </q-item-section>
       </q-item>
     </q-list>
@@ -51,5 +51,9 @@ export default {
   background: yellow;
   height: 100%;
   width: 3px;
+}
+//TODO: this class is applied to the current active link. made it white for now.
+.q-item--active {
+  color: white;
 }
 </style>
