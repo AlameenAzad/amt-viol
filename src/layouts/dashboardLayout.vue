@@ -26,7 +26,15 @@
             class="mr-0"
           >
           </q-btn>
-          <q-btn icon="person" flat round dark color="blue" class="mr-0">
+          <q-btn
+            icon="person"
+            to="/user/myData"
+            flat
+            round
+            dark
+            color="blue"
+            class="mr-0"
+          >
           </q-btn>
           <q-btn icon="settings" flat round dark color="blue" class="mr-0">
           </q-btn>
