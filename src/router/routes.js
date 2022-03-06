@@ -1,10 +1,8 @@
-const routes = [
-  {
+const routes = [{
     path: "/",
 
     component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
@@ -24,8 +22,7 @@ const routes = [
   {
     path: "/dashboard",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "/dashboard",
         name: "Home",
         meta: {
@@ -102,8 +99,7 @@ const routes = [
   {
     path: "/user",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "/user/notifications",
         name: "notifications",
         meta: {
@@ -111,7 +107,16 @@ const routes = [
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/Notifications.vue")
-      }
+      },
+      {
+        path: "/user/myData",
+        name: "MyData",
+        meta: {
+          title: "My Data"
+        },
+        icon: "/icons/Home.svg",
+        component: () => import("pages/dashboard/MyData.vue")
+      },
     ]
   },
   {
