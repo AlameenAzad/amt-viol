@@ -8,23 +8,14 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab
-        color="red"
-        class="q-pa-lg font-20 q-mr-lg radius-10 customBorder"
-        name="projectIdeas"
-      >
+      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="projectIdeas">
         <p class="font-20 no-margin">Project Ideas</p>
       </q-tab>
-      <q-tab
-        color="red"
-        class="q-pa-lg font-20 q-mr-lg radius-10 customBorder"
-        name="fundings"
-      >
+      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="fundings">
         <p class="font-20 no-margin">Fundings</p>
       </q-tab>
       <q-tab
-        color="red"
-        class="q-pa-lg font-20 q-mr-lg radius-10 customBorder"
+        class="q-pa-lg q-mr-lg radius-10 customBorder"
         name="implementationChecklist"
       >
         <p class="font-20 no-margin">Implementation Checklist</p>
