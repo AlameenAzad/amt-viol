@@ -36,7 +36,15 @@
             class="mr-0"
           >
           </q-btn>
-          <q-btn icon="settings" flat round dark color="blue" class="mr-0">
+          <q-btn
+            icon="settings"
+            to="/user/settings"
+            flat
+            round
+            dark
+            color="blue"
+            class="mr-0"
+          >
           </q-btn>
         </div>
       </q-toolbar>
