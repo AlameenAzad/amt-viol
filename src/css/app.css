@@ -41,8 +41,11 @@
 }
 /* End table borders */
 /* Input Border radius */
-.searchInput .q-field__inner .q-field__control {
+.input-radius-4 .q-field__inner .q-field__control {
   border-radius: 4px !important;
+}
+.input-radius-6 .q-field__inner .q-field__control {
+  border-radius: 6px !important;
 }
 
 .tableSearchInput .q-field__inner .q-field__control {
