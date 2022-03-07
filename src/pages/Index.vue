@@ -16,7 +16,7 @@
               <div class="col-12">
                 <p class="text-white">Find Document</p>
                 <q-input
-                  class="no-shadow q-mb-lg searchInput"
+                  class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
                   placeholder="Search"
