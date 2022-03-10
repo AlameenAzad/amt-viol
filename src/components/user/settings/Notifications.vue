@@ -6,110 +6,229 @@
       @submit.prevent="saveNotificationsData"
       class="q-gutter-lg q-px-md q-mb-md"
     >
-      <div class="row items-center">
-        <div class="col-3">
+      <h2 class="text-left font-16 text-weight-bold q-mb-none text-grey">
+        IN THE APP
+      </h2>
+      <q-separator inset class="bg-blue-5 q-mt-none" />
+
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
           <p class="font-16 no-margin">
-            Email
+            Anfragen zur Daten
           </p>
         </div>
-        <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="email"
-            :rules="[]"
-          />
-        </div>
-      </div>
-      <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            Current Password
-          </p>
-        </div>
-        <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="currentPassword"
-            :rules="[]"
-          />
-        </div>
-      </div>
-      <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            New Password
-          </p>
-        </div>
-        <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="newPassword"
-            :rules="[]"
-          />
-        </div>
-      </div>
-      <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            Repeat New Password
-          </p>
-        </div>
-        <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="newPasswordConfirm"
-            :rules="[]"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10" />
-      <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            Transfer Data
-          </p>
-        </div>
-        <div class="col-9">
-          <q-btn
-            outline
-            no-caps
-            size="16px"
+        <div class="col-2 text-right">
+          <q-toggle
+            @input="changeSomething($event)"
+            size="lg"
             color="primary"
-            class="text-weight-600 q-py-xs"
-            label="Select User"
+            class="customToggle"
+            v-model="appAnfragenZurDaten"
           />
         </div>
       </div>
-      <q-separator inset class="bg-blue opacity-10" />
-      <div class="row items-center">
-        <div class="col-12">
-          <q-btn
-            flat
-            no-caps
-            icon="delete"
-            size="16px"
-            color="red"
-            class="text-red q-py-xs"
-            label="Delete General Data"
-          >
-          </q-btn>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Anfrage
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="appAnfrage"
+          />
         </div>
       </div>
-      <q-separator inset class="bg-blue opacity-10" />
-      <div class="row justify-center">
-        <q-btn
-          label="Save Changes"
-          type="submit"
-          size="16px"
-          color="primary"
-          no-caps
-          class="radius-6 q-px-xl q-py-sm"
-        />
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Neue Projekte
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="appNeueProjekte"
+          />
+        </div>
       </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Fördermöglichkeit läuft aus
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="appFordermoglichkeitLauftAus"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Neue Umsetzungschecklisten
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="appNeueUmsetzungschecklisten"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Wenn mich jemand als Kontakt hinzufügen möchte
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="appWennMichJemandAlsKontaktHinzufugenMochte"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <h2
+        class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey"
+      >
+        VIA EMAIL
+      </h2>
+      <q-separator inset class="bg-blue-5 q-mt-none" />
+
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Anfragen zur Daten
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailAnfragenZurDaten"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Anfrage
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailAnfrage"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Neue Projekte
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailNeueProjekte"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Fördermöglichkeit läuft aus
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailFordermoglichkeitLauftAus"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Neue Umsetzungschecklisten
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailNeueUmsetzungschecklisten"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Wenn mich jemand als Kontakt hinzufügen möchte
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailWennMichJemandAlsKontaktHinzufugenMochte"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row items-center q-mt-xs q-pl-md">
+        <div class="col-10">
+          <p class="font-16 no-margin">
+            Sichere E-Mails
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="emailSichereEmails"
+          />
+        </div>
+      </div>
+      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
     </q-form>
   </div>
 </template>
@@ -119,24 +238,41 @@ export default {
   name: "NotificationsTab",
   data() {
     return {
-      email: "",
-      currentPassword: "",
-      newPassword: "",
-      newPasswordConfirm: ""
+      appAnfragenZurDaten: true,
+      appAnfrage: false,
+      appNeueProjekte: true,
+      appFordermoglichkeitLauftAus: true,
+      appNeueUmsetzungschecklisten: true,
+      appWennMichJemandAlsKontaktHinzufugenMochte: true,
+      emailAnfragenZurDaten: true,
+      emailAnfrage: true,
+      emailNeueProjekte: false,
+      emailFordermoglichkeitLauftAus: true,
+      emailNeueUmsetzungschecklisten: true,
+      emailWennMichJemandAlsKontaktHinzufugenMochte: true,
+      emailSichereEmails: true
     };
   },
   methods: {
-    saveNotificationsData() {
-      this.$refs.notificationsDataForn.validate().then(success => {
-        if (success) {
-          console.log("success");
-        } else {
-          console.log("error");
-        }
-      });
+    changeSomething(value) {
+      console.log(value);
     }
   }
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.customToggle .q-toggle__track {
+  height: 0.4em;
+  border-radius: 0.2em;
+}
+.customToggle .q-toggle__inner--truthy .q-toggle__track {
+  background: $primary;
+  opacity: 1;
+}
+.customToggle .q-toggle__thumb {
+  color: white;
+  transform: scale(0.64);
+  top: 0.27em;
+}
+</style>
