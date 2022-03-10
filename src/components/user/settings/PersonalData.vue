@@ -6,6 +6,83 @@
       @submit.prevent="savePersonalData"
       class="q-gutter-lg q-px-md q-mb-md"
     >
+      <div class="row justify-center">
+        <div class="col-3 text-center">
+          <!-- TODO add a placeholder image when no image is chosen -->
+          <q-img
+            class="radius-10"
+            spinner-color="primary"
+            :src="profileImage"
+            style="height: 160px; max-width: 160px"
+          />
+        </div>
+      </div>
+      <div class="row justify-center q-mt-sm">
+        <div
+          class="flex justify-between"
+          style="width: 160px; max-width: 160px"
+        >
+          <a
+            @click.prevent="changeImage()"
+            class="font-16 text-primary text-weight-600 cursor-pointer text-underline"
+            >Change</a
+          >
+          <a
+            @click.prevent="deleteImage()"
+            class="font-16 text-red text-weight-600 cursor-pointer text-underline"
+          >
+            Delete</a
+          >
+          <!-- <q-btn
+                label="Delete"
+                size="16px"
+                color="primary"
+                flat
+                no-caps
+                class="d-inline radius-6 no-padding no-margin text-underline"
+              /> -->
+        </div>
+        <div class="">
+          <!-- <q-btn
+                label="Delete"
+                size="16px"
+                color="red"
+                flat
+                no-caps
+                class="d-inline radius-6 no-padding no-margin text-underline"
+              /> -->
+        </div>
+      </div>
+      <div class="row items-center">
+        <div class="col-3">
+          <p class="font-16 no-margin">
+            Name
+          </p>
+        </div>
+        <div class="col-9">
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="name"
+            :rules="[]"
+          />
+        </div>
+      </div>
+      <div class="row items-center">
+        <div class="col-3">
+          <p class="font-16 no-margin">
+            Administration
+          </p>
+        </div>
+        <div class="col-9">
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="administration"
+            :rules="[]"
+          />
+        </div>
+      </div>
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
@@ -24,14 +101,14 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Current Password
+            Telephone
           </p>
         </div>
         <div class="col-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="currentPassword"
+            v-model="telephone"
             :rules="[]"
           />
         </div>
@@ -39,67 +116,29 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            New Password
+            Location
           </p>
         </div>
         <div class="col-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="newPassword"
+            v-model="location"
             :rules="[]"
           />
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            Repeat New Password
-          </p>
-        </div>
-        <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="newPasswordConfirm"
-            :rules="[]"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10" />
-      <div class="row items-center">
-        <div class="col-3">
-          <p class="font-16 no-margin">
-            Transfer Data
-          </p>
-        </div>
-        <div class="col-9">
-          <q-btn
-            outline
-            no-caps
-            size="16px"
+        <div class="col-12 bg-yellow-10 radius-6">
+          <q-checkbox
             color="primary"
-            class="text-weight-600 q-py-xs"
-            label="Select User"
+            class="dataVisible font-16 q-py-sm"
+            right-label
+            v-model="dataVisible"
+            label="Do you want your contact details to be visible to users?"
           />
         </div>
       </div>
-      <q-separator inset class="bg-blue opacity-10" />
-      <div class="row items-center">
-        <div class="col-12">
-          <q-btn
-            flat
-            no-caps
-            icon="delete"
-            size="16px"
-            color="red"
-            class="text-red q-py-xs"
-            label="Delete General Data"
-          >
-          </q-btn>
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10" />
       <div class="row justify-center">
         <q-btn
           label="Save Changes"
@@ -119,13 +158,22 @@ export default {
   name: "personalDataTab",
   data() {
     return {
+      profileImage: "https://placeimg.com/500/300/nature",
+      name: "",
+      administration: "",
       email: "",
-      currentPassword: "",
-      newPassword: "",
-      newPasswordConfirm: ""
+      telephone: "",
+      location: "",
+      dataVisible: true
     };
   },
   methods: {
+    changeImage() {
+      console.log("Clicked change image");
+    },
+    deleteImage() {
+      console.log("Clicked Delete image");
+    },
     savePersonalData() {
       this.$refs.personalDataForm.validate().then(success => {
         if (success) {
@@ -139,4 +187,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.dataVisible .q-checkbox__bg {
+  background: transparent;
+}
+.dataVisible .q-checkbox__bg svg {
+  color: $primary;
+  padding: 2px;
+}
+</style>
