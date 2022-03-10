@@ -24,8 +24,12 @@
 
     <div class="overflow-hidden">
       <div class="row justify-center">
-        <div class="col-7">
-          <q-tab-panels class="radius-20 shadow-1" v-model="tab" animated>
+        <div class="col-12 col-lg-7">
+          <q-tab-panels
+            class="radius-20 shadow-1 q-mb-xl"
+            v-model="tab"
+            animated
+          >
             <q-tab-panel name="generalData">
               <GeneralData />
             </q-tab-panel>
@@ -56,7 +60,7 @@ export default {
   },
   data() {
     return {
-      tab: "personalData"
+      tab: "notifications"
     };
   }
 };
