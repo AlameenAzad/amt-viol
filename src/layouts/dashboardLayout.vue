@@ -2,7 +2,11 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black text-white">
       <q-toolbar class="q-my-sm q-px-xl">
-        <q-toolbar-title class="text-weight-600">
+        <q-toolbar-title
+          class="text-weight-600"
+          :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
+          @click="goBack()"
+        >
           {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
         <div>
@@ -106,6 +110,10 @@ export default {
           contrast: 90,
           sepia: 10
         });
+    },
+    goBack() {
+      this.$router.currentRoute.meta.backLink &&
+        this.$router.push(this.$router.currentRoute.meta.backLink);
     }
   },
   mounted() {
