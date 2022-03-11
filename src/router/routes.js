@@ -71,10 +71,11 @@ const routes = [{
         path: "/network",
         name: "Network",
         meta: {
-          title: "My Network"
+          title: "My Network",
+          backLink: "/dashboard"
         },
         icon: "/icons/Network.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("pages/dashboard/Network.vue")
       },
       {
         path: "/Administation/Areas",
