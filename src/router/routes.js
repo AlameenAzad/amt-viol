@@ -50,7 +50,7 @@ const routes = [
           title: "My Watchlist"
         },
         icon: "/icons/Favorite.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("pages/dashboard/Watchlist.vue")
       },
       {
         path: "/catkeytags",
