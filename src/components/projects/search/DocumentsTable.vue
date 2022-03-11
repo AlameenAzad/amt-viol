@@ -18,6 +18,7 @@
         debounce="300"
         v-model="query"
         placeholder="Search"
+        dense
       >
         <template v-slot:prepend>
           <q-icon name="search" />
