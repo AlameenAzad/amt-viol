@@ -4,7 +4,7 @@
     :columns="columns"
     row-key="name"
     :filter="query"
-    class="bg-white radius-20 q-pa-md q-mb-xl"
+    class="bg-white shadow-1 radius-20 -mb-xl"
     hide-pagination
     :pagination="{
       rowsPerPage: 0
