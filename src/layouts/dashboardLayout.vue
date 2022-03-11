@@ -32,7 +32,7 @@
           </q-btn>
           <q-btn
             icon="person"
-            to="/user/myData"
+            to="/user/data"
             flat
             round
             dark
