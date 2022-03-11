@@ -10,10 +10,10 @@
 }
 /* Opacity Classes */
 .opacity-10 {
-  opacity: 0.10;
+  opacity: 0.1;
 }
 .opacity-50 {
-  opacity: 0.50;
+  opacity: 0.5;
 }
 /* End Opacity Classes */
 /* radius classes */
@@ -56,6 +56,10 @@
   width: 350px;
 }
 /* End Input Border radius */
+.q-field--dense .q-field__control,
+.q-field--dense .q-field__marginal {
+  height: 48px !important;
+}
 .icon-white {
   filter: invert(100%) sepia(0%) saturate(6403%) hue-rotate(213deg)
     brightness(108%) contrast(100%);
