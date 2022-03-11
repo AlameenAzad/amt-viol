@@ -17,8 +17,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.customBorder {
-  border: 2px solid $yellow;
-}
-</style>
+<style lang="scss"></style>
