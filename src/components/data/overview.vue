@@ -1,58 +1,110 @@
 <template>
   <div class="q-mt-lg">
+    <q-tabs
+      v-if="isInPage"
+      v-model="tab"
+      align="justify"
+      indicator-color="transparent"
+      class="q-mb-lg text-black"
+      active-bg-color="yellow"
+      no-caps
+    >
+      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="projectIdeas">
+        <p class="font-20 no-margin">Project Ideas</p>
+      </q-tab>
+      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="fundings">
+        <p class="font-20 no-margin">Fundings</p>
+      </q-tab>
+      <q-tab
+        class="q-pa-lg q-mr-lg radius-10 customBorder"
+        name="implementationChecklist"
+      >
+        <p class="font-20 no-margin">Implementation Checklist</p>
+      </q-tab>
+    </q-tabs>
     <q-table
       class="radius-20 shadow-1"
       :data="data"
       :columns="columns"
       row-key="name"
       hide-bottom
-      hide-header
-      :visible-columns="visibleColumns"
+      :hide-header="!isInPage"
+      :visible-columns="isInPage ? visibleColumns : []"
+      :filter="filter"
     >
-      <template v-slot:top>
+      <template v-slot:top-left>
+        <q-input
+          borderless
+          outlined
+          class="no-shadow tableSearchInput"
+          debounce="300"
+          v-model="filter"
+          dense
+          placeholder="Search"
+        >
+          <template v-slot:prepend>
+            <q-icon color="blue-5" name="search" />
+          </template>
+        </q-input>
+      </template>
+      <template v-slot:top-right>
+        <q-btn
+          color="blue"
+          icon="add"
+          unelevated
+          filled
+          class="mr-0 radius-6 text-weight-600"
+          no-caps
+        >
+          <p class="q-mb-none q-mx-md q-my-sm">
+            {{
+              tab == "projectIdeas"
+                ? "Create project ideas"
+                : tab == "fundings"
+                ? "Create fundings"
+                : "Create Implementation checklist"
+            }}
+          </p>
+        </q-btn>
+      </template>
+      <template v-slot:top v-if="!isInPage">
         <div class="row full-width">
           <div class="col-12">
             <p class="font-24">
               My Data
               <span
-                class="font-16 float-right text-blue text-underline text-weight-600"
+                class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
+                @click="$router.push({ path: '/user/data' })"
               >
                 Show my Documents
               </span>
             </p>
           </div>
           <div class="col-12">
-            <q-btn
-              color="yellow"
-              unelevated
-              outline
-              class="mr-0 radius-6 text-weight-600"
+            <q-tabs
+              v-model="tab"
+              align="justify"
+              indicator-color="transparent"
+              class="q-mb-lg text-black"
+              active-bg-color="yellow"
               no-caps
+              dense
             >
-              <p class="q-mb-none q-mx-md q-my-none text-black">
-                Project Ideas
-              </p>
-            </q-btn>
-            <q-btn
-              color="yellow"
-              unelevated
-              outline
-              class="mr-0 radius-6 q-mx-md text-weight-600"
-              no-caps
-            >
-              <p class="q-mb-none q-mx-xl q-my-none text-black">fundings</p>
-            </q-btn>
-            <q-btn
-              color="yellow"
-              unelevated
-              outline
-              class="mr-0 radius-6 q-mr-md text-weight-600"
-              no-caps
-            >
-              <p class="q-mb-none q-mx-md q-my-none text-black">
-                Implementation Checklist
-              </p>
-            </q-btn>
+              <q-tab class="q-mr-lg radius-6 customBorder" name="projectIdeas">
+                <p class="font-14 text-weight-600 no-margin">Project Ideas</p>
+              </q-tab>
+              <q-tab class="q-mr-lg radius-6 customBorder" name="fundings">
+                <p class="font-14 text-weight-600 no-margin">Fundings</p>
+              </q-tab>
+              <q-tab
+                class="q-mr-lg radius-6 customBorder"
+                name="implementationChecklist"
+              >
+                <p class="font-14 text-weight-600 no-margin">
+                  Implementation Checklist
+                </p>
+              </q-tab>
+            </q-tabs>
           </div>
         </div>
       </template>
@@ -143,12 +195,15 @@ export default {
   name: "dataOverview",
   data() {
     return {
-      visibleColumns: ["name"],
-      columns: [
+      tab: "projectIdeas",
+      filter: "",
+      visibleColumns: ["name", "calories", "fat", "carbs"],
+      projectCols: [
         {
           name: "name",
           required: true,
-          label: "funding information",
+          label: "Title",
+          required: true,
           align: "left",
           field: row => row.name,
           format: val => `${val}`,
@@ -157,12 +212,53 @@ export default {
         {
           name: "calories",
           align: "center",
-          label: "title",
+          label: "Categories",
           field: "calories",
           sortable: true
         },
-        { name: "fat", label: "categories", field: "fat", sortable: true },
-        { name: "carbs", label: "author", field: "carbs" }
+        { name: "fat", label: "Status", field: "fat", sortable: true }
+      ],
+      fundingCols: [
+        {
+          name: "name",
+          required: true,
+          label: "Title",
+          required: true,
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "calories",
+          align: "center",
+          label: "Categories",
+          field: "calories",
+          sortable: true
+        },
+        { name: "fat", label: "Publish Date", field: "fat", sortable: true },
+        { name: "fat", label: "End Date", field: "fat", sortable: true },
+        { name: "fat", label: "Status", field: "fat", sortable: true }
+      ],
+      checklistCols: [
+        {
+          name: "name",
+          required: true,
+          label: "Title",
+          required: true,
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "calories",
+          align: "center",
+          label: "Categories",
+          field: "calories",
+          sortable: true
+        },
+        { name: "fat", label: "Status", field: "fat", sortable: true }
       ],
       data: [
         {
@@ -267,6 +363,18 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    isInPage() {
+      return this.$router.currentRoute.fullPath == "/user/data";
+    },
+    columns() {
+      return this.tab == "projectIdeas"
+        ? this.projectCols
+        : this.tab == "fundings"
+        ? this.fundingCols
+        : this.checklistCols;
+    }
   }
 };
 </script>
