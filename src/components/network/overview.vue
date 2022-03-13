@@ -8,14 +8,31 @@
     hide-header
     class="tableHead q-mb-lg"
     hide-bottom
-    :pagination="{ rowsPerPage: 6 }"
+    :pagination="isInPage ? { rowsPerPage: 0 } : { rowsPerPage: 4 }"
+    card-container-class="q-col-gutter-md q-mt-none"
+    :filter="filter"
   >
     <template v-slot:top>
-      <div class="col-12 q-mt-sm">
+      <div v-if="isInPage" class="col-3">
+        <q-input
+          borderless
+          outlined
+          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+          v-model="filter"
+          placeholder="Search"
+          dense
+        >
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+      <div v-if="!isInPage" class="col-12 q-mt-sm">
         <p class="font-24 q-mb-none">
           My Network
           <span
-            class="font-16 float-right q-mb-md q-pt-sm text-blue text-underline text-weight-600"
+            class="font-16 float-right q-mb-md q-pt-sm text-blue text-underline text-weight-600 cursor-pointer"
+            @click="$router.push({ path: '/network' })"
           >
             Show my Network
           </span>
@@ -23,25 +40,83 @@
       </div>
     </template>
     <template v-slot:item="props">
-      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-2">
-        <q-card class="shadow-2 bg-blue-1 radius-10 q-py-md">
-          <q-card-section class="text-center">
-            <q-avatar class="radius-10 q-mb-md" size="100px">
-              <img
-                :src="
-                  props.row.img.length > 0
-                    ? props.row.img
-                    : '/icons/networkPlaceholder.svg'
-                "
-              />
-            </q-avatar>
-            <br />
-            <p class="font-16 text-weight-bold q-mb-none">
-              {{ props.row.name }}
-            </p>
-            <p class="font-12 q-mb-none">{{ props.row.title }}</p>
-          </q-card-section>
-        </q-card>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="q-pa-xs">
+          <q-card class="shadow-2 radius-10 bg-blue-1">
+            <q-card-section class="q-pt-xs ">
+              <div class="row items-start no-wrap">
+                <div class="col-1"></div>
+                <div class="col-10 text-center q-mt-md">
+                  <q-img
+                    class="radius-10"
+                    spinner-color="primary"
+                    :src="
+                      props.row.img.length > 0
+                        ? props.row.img
+                        : '/icons/networkPlaceholder.svg'
+                    "
+                    style="height: 100px; max-width: 100px"
+                  />
+                </div>
+                <div class="col-1 q-mt-xs">
+                  <q-btn
+                    color="primary"
+                    round
+                    flat
+                    size="md"
+                    dense
+                    icon="more_vert"
+                  >
+                    <q-menu
+                      transition-show="jump-down"
+                      auto-close
+                      transition-hide="jump-up"
+                    >
+                      <q-list style="min-width: 140px">
+                        <q-item clickable v-close-popup>
+                          <q-item-section
+                            ><span class="text-right font-14">
+                              Ansehen
+                              <q-icon
+                                size="sm"
+                                class="text-blue"
+                                name="visibility"/></span
+                          ></q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup>
+                          <q-item-section
+                            ><span class="text-right font-14">
+                              Entfolgen
+                              <!-- TODO need to add the icon from Figma. Not sure how to do this -->
+                              <q-icon
+                                size="sm"
+                                class="text-blue"
+                                name="img:/icons/Unfollow.svg"/></span
+                          ></q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <p class="no-margin font-16 text-weight-bold">
+                    {{ props.row.name }}
+                  </p>
+                  <!-- TODO adding color directly isnt working. Fix this -->
+                  <p
+                    class="secondaryText no-margin font-12 text-weight-regular"
+                  >
+                    {{ props.row.title }}
+                  </p>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </template>
   </q-table>
@@ -111,12 +186,20 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    isInPage() {
+      return this.$router.currentRoute.fullPath == "/network";
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .tableHead .q-table__top {
   background: white;
+}
+.secondaryText {
+  color: $black-1;
 }
 </style>
