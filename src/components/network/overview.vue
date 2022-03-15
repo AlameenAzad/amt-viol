@@ -13,7 +13,7 @@
     :filter="filter"
   >
     <template v-slot:top>
-      <div v-if="isInPage" class="col-3">
+      <div v-if="isInPage" class="col-12 col-md-3">
         <q-input
           borderless
           outlined
@@ -73,7 +73,13 @@
                       transition-hide="jump-up"
                     >
                       <q-list style="min-width: 140px">
-                        <q-item clickable v-close-popup>
+                        <q-item
+                          clickable
+                          v-close-popup
+                          @click="
+                            $router.push({ path: `/network/${props.row.name}` })
+                          "
+                        >
                           <q-item-section
                             ><span class="text-right font-14">
                               Ansehen

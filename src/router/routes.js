@@ -1,10 +1,7 @@
-const routes = [
-  {
+const routes = [{
     path: "/",
-
     component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
@@ -24,12 +21,12 @@ const routes = [
   {
     path: "/dashboard",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "/dashboard",
         name: "Home",
         meta: {
-          title: "Home"
+          title: "Home",
+          showInNavigation: true
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -38,7 +35,8 @@ const routes = [
         path: "/overview",
         name: "DataOverview",
         meta: {
-          title: "Data Overview"
+          title: "Data Overview",
+          showInNavigation: true
         },
         icon: "/icons/Documents.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -47,7 +45,8 @@ const routes = [
         path: "/watchlist",
         name: "watchlist",
         meta: {
-          title: "My Watchlist"
+          title: "My Watchlist",
+          showInNavigation: true
         },
         icon: "/icons/Favorite.svg",
         component: () => import("pages/dashboard/Watchlist.vue")
@@ -56,7 +55,8 @@ const routes = [
         path: "/catkeytags",
         name: "CatKeyTags",
         meta: {
-          title: "Categories & Keywords/Tags"
+          title: "Categories & Keywords/Tags",
+          showInNavigation: true
         },
         icon: "/icons/Hash.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -65,7 +65,8 @@ const routes = [
         path: "/Administation/User",
         name: "AdministationUser",
         meta: {
-          title: "User Administation"
+          title: "User Administation",
+          showInNavigation: true
         },
         icon: "/icons/Users.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -75,16 +76,28 @@ const routes = [
         name: "Network",
         meta: {
           title: "My Network",
-          backLink: "/dashboard"
+          showInNavigation: true,
         },
         icon: "/icons/Network.svg",
-        component: () => import("pages/dashboard/Network.vue")
+        component: () => import("pages/dashboard/Network.vue"),
+      },
+      {
+        path: "/network/:id",
+        name: "UserData",
+        meta: {
+          title: "User Data",
+          showInNavigation: false,
+          backLink: "/network"
+        },
+        icon: "/icons/Users.svg",
+        component: () => import("pages/dashboard/NetworkUser.vue")
       },
       {
         path: "/Administation/Areas",
         name: "AdministationAreas",
         meta: {
-          title: "Administrative areas"
+          title: "Administrative areas",
+          showInNavigation: true
         },
         icon: "/icons/Municipality.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -93,7 +106,8 @@ const routes = [
         path: "/Stats",
         name: "Statistics&Archive",
         meta: {
-          title: "Statistics & Archive "
+          title: "Statistics & Archive",
+          showInNavigation: true
         },
         icon: "/icons/Archive.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -103,8 +117,7 @@ const routes = [
   {
     path: "/user",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [
-      {
+    children: [{
         path: "/user/notifications",
         name: "notifications",
         meta: {

@@ -10,20 +10,21 @@
       rowsPerPage: 0
     }"
   >
-    <template v-slot:top-left>
-      <q-input
-        borderless
-        outlined
-        class="no-shadow tableSearchInput"
-        debounce="300"
-        v-model="query"
-        placeholder="Search"
-        dense
-      >
-        <template v-slot:prepend>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+    <template v-slot:top>
+      <div class="col-12 col-md-3">
+        <q-input
+          borderless
+          outlined
+          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+          v-model="query"
+          placeholder="Search"
+          dense
+        >
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
     </template>
     <template v-slot:header="props">
       <q-tr :props="props">

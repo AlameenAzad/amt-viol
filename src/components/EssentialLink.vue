@@ -10,6 +10,7 @@
         class="q-px-lg"
         :active="$router.currentRoute.fullPath == link.path"
         active-class="text-white activeMenu"
+        v-show="link.meta.showInNavigation === true"
       >
         <q-item-section avatar>
           <img class="icon-white" :src="link.icon" />

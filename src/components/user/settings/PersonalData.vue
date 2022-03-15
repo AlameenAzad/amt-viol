@@ -7,7 +7,7 @@
       class="q-gutter-lg q-px-md q-mb-md"
     >
       <div class="row justify-center">
-        <div class="col-3 text-center">
+        <div class="col-12 text-center">
           <!-- TODO add a placeholder image when no image is chosen -->
           <q-img
             class="radius-10"

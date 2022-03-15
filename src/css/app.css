@@ -117,6 +117,10 @@
   font-size: 50px;
 }
 /* End font sizes */
+/* Text Overflow */
+.text-overflow {
+  overflow-wrap: break-word;
+}
 .text-underline {
   text-decoration: underline;
 }
