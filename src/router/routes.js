@@ -143,6 +143,15 @@ const routes = [{
         },
         icon: "/icons/Settings.svg",
         component: () => import("pages/dashboard/Settings.vue")
+      },
+      {
+        path: "/user/admin",
+        name: "adminUser",
+        meta: {
+          title: "User Adminitration (or Manage User)"
+        },
+        icon: "/icons/Settings.svg",
+        component: () => import("pages/dashboard/AdminUser.vue")
       }
     ]
   },
