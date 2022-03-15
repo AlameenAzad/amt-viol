@@ -24,7 +24,7 @@
 
     <div class="overflow-hidden">
       <div class="row justify-center">
-        <div class="col-12 col-lg-7">
+        <div class="col-12 col-lg-8 col-xl-7">
           <q-tab-panels
             class="radius-20 shadow-1 q-mb-xl"
             v-model="tab"
