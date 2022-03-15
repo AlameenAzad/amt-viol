@@ -7,6 +7,13 @@
           :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
           @click="goBack()"
         >
+          <q-icon
+            v-if="$router.currentRoute.meta.backLink"
+            name="chevron_left"
+            size="sm"
+            color="primary"
+            class="q-mb-"
+          />
           {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
         <div>
