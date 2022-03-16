@@ -1,7 +1,9 @@
-const routes = [{
+const routes = [
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
@@ -21,7 +23,8 @@ const routes = [{
   {
     path: "/dashboard",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "/dashboard",
         name: "Home",
         meta: {
@@ -69,17 +72,17 @@ const routes = [{
           showInNavigation: true
         },
         icon: "/icons/Users.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("pages/dashboard/AdminUser.vue")
       },
       {
         path: "/network",
         name: "Network",
         meta: {
           title: "My Network",
-          showInNavigation: true,
+          showInNavigation: true
         },
         icon: "/icons/Network.svg",
-        component: () => import("pages/dashboard/Network.vue"),
+        component: () => import("pages/dashboard/Network.vue")
       },
       {
         path: "/network/:id",
@@ -117,7 +120,8 @@ const routes = [{
   {
     path: "/user",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "/user/notifications",
         name: "notifications",
         meta: {
