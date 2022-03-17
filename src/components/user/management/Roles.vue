@@ -175,6 +175,7 @@
               <q-btn
                 label="Send Invitation"
                 type="submit"
+                unelevated
                 size="16px"
                 color="primary"
                 no-caps
