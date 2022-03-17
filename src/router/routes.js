@@ -147,6 +147,15 @@ const routes = [
         },
         icon: "/icons/Settings.svg",
         component: () => import("pages/dashboard/Settings.vue")
+      },
+      {
+        path: "/user/detail",
+        name: "detail",
+        meta: {
+          title: "User Details"
+        },
+
+        component: () => import("pages/dashboard/DetailUser.vue")
       }
     ]
   },
