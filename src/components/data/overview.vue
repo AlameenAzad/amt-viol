@@ -33,6 +33,7 @@
       :filter="filter"
     >
       <template v-slot:top-left>
+        <!-- Remove tableSearchInput -->
         <q-input
           borderless
           outlined
