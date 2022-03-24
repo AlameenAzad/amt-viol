@@ -62,7 +62,7 @@ const routes = [
           showInNavigation: true
         },
         icon: "/icons/Hash.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("src/pages/dashboard/CategoriesKeywords.vue")
       },
       {
         path: "/Administation/User",
