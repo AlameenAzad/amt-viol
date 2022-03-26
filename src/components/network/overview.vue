@@ -13,7 +13,7 @@
     :filter="filter"
   >
     <template v-slot:top>
-      <div v-if="isInPage" class="col-12 col-md-3">
+      <div v-if="isInPage" class="col-12 col-md-4">
         <q-input
           borderless
           outlined
