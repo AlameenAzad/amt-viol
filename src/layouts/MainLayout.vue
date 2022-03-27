@@ -12,7 +12,7 @@
             :ripple="false"
             :to="{ name: 'landing' }"
           >
-            Amt Viöl-D
+            Amt Viöl
           </q-btn>
         </q-toolbar-title>
         <div>
