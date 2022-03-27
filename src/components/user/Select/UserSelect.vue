@@ -13,7 +13,9 @@
         {{ model }}
       </template>
       <template v-else>
-        Select user
+        <span class="text-grey">
+          Select user
+        </span>
       </template>
     </template></q-select
   >
@@ -21,6 +23,7 @@
 
 <script>
 export default {
+  name: "userSelect",
   props: ["editor"],
   data() {
     return {
