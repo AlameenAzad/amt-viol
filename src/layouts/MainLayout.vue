@@ -43,7 +43,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.email"
+                  v-model="form.identifier"
                   :rules="[val => !!val || 'Field is required']"
                 />
               </div>
@@ -108,21 +108,20 @@ export default {
   data() {
     return {
       form: {
-        email: "",
+        identifier: "",
         password: ""
       },
       currentYear: date.formatDate(Date.now(), "YYYY"),
-      loginModal: true
+      loginModal: false
     };
   },
   methods: {
     login() {
       this.$refs.loginForm.validate().then(success => {
         if (success) {
-          console.log("success");
-          console.log(this.form);
+          this.$store.dispatch("auth/login", this.form);
         } else {
-          console.log("error");
+          console.log("Validation failed");
         }
       });
     }
