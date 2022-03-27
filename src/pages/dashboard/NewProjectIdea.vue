@@ -397,7 +397,7 @@
                   placeholder="Start"
                 >
                   <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
+                    <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
                         ref="qDateProxy"
                         transition-show="scale"
@@ -429,7 +429,7 @@
                   placeholder="End"
                 >
                   <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
+                    <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
                         ref="qDateProxy"
                         transition-show="scale"
