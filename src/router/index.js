@@ -1,7 +1,8 @@
+import { api } from "boot/axios";
 import Vue from "vue";
 import VueRouter from "vue-router";
-
 import routes from "./routes";
+import store from "src/store/index";
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,15 @@ Vue.use(VueRouter);
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
+let jwt = null;
+if (localStorage.getItem("amt-viol")) {
+  let user = JSON.parse(localStorage.getItem("amt-viot"));
+  jwt = !!user ? user.auth.user.jwt : null;
+} else if (!!store().state.auth.user && store().state.auth.user.jwt) {
+  jwt = store().state.auth.user.jwt;
+}
+
+api.defaults.headers.common["Authorization"] = "Bearer " + jwt;
 
 export default function(/* { store, ssrContext } */) {
   const Router = new VueRouter({
