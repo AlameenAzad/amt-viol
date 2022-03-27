@@ -2,7 +2,7 @@
   <div>
     <div class="row q-col-gutter-y-lg q-mb-lg">
       <div v-for="(cost, index) in estimatedCosts" :key="index" class="col-12">
-        <div class="row q-col-gutter-x-md">
+        <div class="row items-center q-col-gutter-x-md">
           <div class="col-11">
             <div class="row q-col-gutter-x-md">
               <div class="col-6">
