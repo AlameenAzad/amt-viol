@@ -56,6 +56,7 @@
           filled
           class="mr-0 radius-6 text-weight-600"
           no-caps
+          @click="goToPage(tab)"
         >
           <p class="q-mb-none q-mx-md q-my-sm">
             {{
@@ -364,6 +365,13 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    goToPage(page) {
+      if (page === "projectIdeas") {
+        this.$router.push({ path: "/user/newProjectIdea" });
+      }
+    }
   },
   computed: {
     isInPage() {
