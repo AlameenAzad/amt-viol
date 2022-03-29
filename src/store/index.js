@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import errorDialog from "./errorDialog";
 import auth from "./auth";
+import project from "./project";
+import general from "./general";
 
 Vue.use(Vuex);
 /*
@@ -18,7 +20,9 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       errorDialog,
-      auth
+      auth,
+      project,
+      general
     },
     plugins: [
       createPersistedState({
