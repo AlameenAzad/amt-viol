@@ -100,7 +100,16 @@ const routes = [{
           showInNavigation: true
         },
         icon: "/icons/Municipality.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("pages/dashboard/Municipality.vue")
+      },
+      {
+        path: "/Administation/Areas/details",
+        name: "AdministationAreasDetails",
+        meta: {
+          title: "Details for the Administration"
+        },
+        icon: "/icons/Municipality.svg",
+        component: () => import("pages/dashboard/MunicipalityDetail.vue")
       },
       {
         path: "/stats",
