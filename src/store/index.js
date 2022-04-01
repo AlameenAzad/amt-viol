@@ -3,11 +3,10 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import errorDialog from "./errorDialog";
 import auth from "./auth";
-
-let store = null;
+import project from "./project";
+import general from "./general";
 
 Vue.use(Vuex);
-
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -21,7 +20,9 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       errorDialog,
-      auth
+      auth,
+      project,
+      general
     },
     plugins: [
       createPersistedState({
@@ -35,9 +36,6 @@ export default function(/* { ssrContext } */) {
   });
 
   // add this so that we export store
-  store = Store;
 
   return Store;
 }
-
-export { store };

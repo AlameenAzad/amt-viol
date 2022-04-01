@@ -479,7 +479,7 @@
 </template>
 
 <script>
-import UserSelect from "components/user/select/UserSelect.vue";
+import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import EstimatedCost from "src/components/projects/create/EstimatedCost.vue";
