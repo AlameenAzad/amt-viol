@@ -41,5 +41,5 @@ export function deleteTag(state, payload) {
 }
 
 export function editTag(state, payload) {
-  console.log("called edit category mutation", payload);
+  console.log("called edit tag mutation", payload);
 }
