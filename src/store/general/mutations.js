@@ -1,4 +1,3 @@
-/*
-export function someMutation (state) {
+export function setLoading(state, payload) {
+  state.loading = payload;
 }
-*/
