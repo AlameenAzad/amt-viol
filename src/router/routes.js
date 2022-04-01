@@ -1,7 +1,9 @@
-const routes = [{
+const routes = [
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "",
         name: "landing",
         component: () => import("pages/Index.vue")
@@ -21,7 +23,8 @@ const routes = [{
   {
     path: "/dashboard",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "/dashboard",
         name: "Home",
         meta: {
@@ -126,7 +129,8 @@ const routes = [{
   {
     path: "/user",
     component: () => import("layouts/dashboardLayout.vue"),
-    children: [{
+    children: [
+      {
         path: "/user/notifications",
         name: "notifications",
         meta: {
@@ -167,10 +171,10 @@ const routes = [{
         name: "NewProjectIdea",
         meta: {
           title: "New Project Ideas",
-          backLink: '/user/data'
+          backLink: "/user/data"
         },
 
-        component: () => import("pages/dashboard/newProjectIdea.vue")
+        component: () => import("pages/dashboard/NewProjectIdea.vue")
       }
     ]
   },
