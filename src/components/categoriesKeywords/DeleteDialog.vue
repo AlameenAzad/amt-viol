@@ -42,7 +42,6 @@
           />
         </div>
       </q-card-section>
-      {{ tab }}
     </q-card>
   </q-dialog>
 </template>
@@ -61,7 +60,16 @@ export default {
   methods: {
     deleteCategory() {
       this.$store
-        .dispatch("project/deleteCategory", { id: this.categoryId })
+        .dispatch(
+          `project/${
+            this.tab === "Delete category"
+              ? "deleteCategory"
+              : this.tab === "Delete Keyword/Tag"
+              ? "deleteTag"
+              : ""
+          }`,
+          { id: this.id }
+        )
         .then(() => {
           this.$_options = false;
         });
