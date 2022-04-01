@@ -14,10 +14,17 @@ Vue.prototype.$api = api;
 //       so you can easily perform requests against your app's API
 export default ({ app, store, router }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
-  if (!!store.state.auth.user && store.state.auth.user.jwt) {
-    api.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${store.state.auth.user.jwt}`;
-  }
+  api.interceptors.request.use(config => {
+    var token = !!store.state.auth.user && store.state.auth.user.jwt;
+    if (token) {
+      // Checking if the url is not login because we should have Auth header there. Login witll not work
+      if (config.url !== "/api/auth/local") {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        config.headers.Authorization = null;
+      }
+    }
+    return config;
+  });
 };
 export { api, axios };
