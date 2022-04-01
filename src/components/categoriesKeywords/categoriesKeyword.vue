@@ -10,13 +10,13 @@
       no-caps
     >
       <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="categories">
-        <p class="font-20 no-margin  ">Categories</p>
+        <p class="font-20 no-margin">Categories</p>
       </q-tab>
       <q-tab
         class="q-pa-lg q-mr-lg radius-10 customBorder"
         name="keywords/Tags"
       >
-        <p class="font-20 no-margin ">Keywords/Tags</p>
+        <p class="font-20 no-margin">Keywords/Tags</p>
       </q-tab>
     </q-tabs>
 
@@ -29,12 +29,15 @@
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : []"
       :filter="filter"
+      :pagination="{
+        rowsPerPage: 0
+      }"
     >
       <template v-slot:top-left>
         <div class="row justify-between items-center">
-          <q-label class=" font-24 q-mr-lg">{{
-            tab == "categories" ? "Categories" : "Tags"
-          }}</q-label>
+          <div class=" font-24 q-mr-lg">
+            {{ tab == "categories" ? "Categories" : "Tags" }}
+          </div>
           <q-input
             borderless
             outlined
@@ -101,7 +104,7 @@
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable v-close-popup>
-                    <q-item-section
+                    <q-item-section @click="prepEditDialog(props.row)"
                       ><span class="text-right font-14">
                         Edit
                         <q-icon size="sm" class="text-blue" name="edit"/></span
@@ -112,7 +115,7 @@
                     <q-item-section
                       ><span
                         class="text-right font-14 text-red"
-                        @click="deleteDialog = true"
+                        @click="prepDeleteDialog(props.row)"
                       >
                         Delete
                         <q-icon size="sm" name="delete"/></span
@@ -125,113 +128,36 @@
         </q-tr>
       </template>
     </q-table>
-    <q-dialog v-model="createDialog">
-      <q-card class="  q-px-xl radius-10  column ">
-        <q-card-section align="center">
-          <h6 class="text-center font-20 q-mt-md q-mb-none">
-            {{ tab == "categories" ? "New categories" : "New Keywords/Tags" }}
-          </h6>
-        </q-card-section>
-        <q-card-section align="left"
-          ><div class=" items-center ">
-            <div class="col-3">
-              <p class="font-14 no-margin">
-                {{
-                  tab == "categories"
-                    ? "Title of the category"
-                    : "Title of the keyword/Tag"
-                }}
-              </p>
-            </div>
-            <div class="col-9">
-              <q-input
-                outlined
-                class="no-shadow input-radius-6"
-                v-model="createDialogInput"
-                :rules="[]"
-                label="Title"
-              />
-            </div></div
-        ></q-card-section>
-        <q-card-section>
-          <div class="row justify-center q-ml-lg ">
-            <q-btn
-              label="Cancel"
-              outline
-              type="submit"
-              size="14px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-px-xl  q-mr-sm "
-            />
-            <q-btn
-              label="Save"
-              type="submit"
-              unelevated
-              size="14px"
-              color="primary"
-              no-caps
-              class="  no-shadow	 radius-6 q-px-xl  q-py-sm  "
-            />
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="deleteDialog">
-      <q-card class="  q-px-xl radius-10  column ">
-        <q-card-section align="center">
-          <h6 class="text-center font-20 q-mt-md q-mb-none">
-            {{ tab == "categories" ? "Delete category" : "Delete Keyword/Tag" }}
-          </h6>
-        </q-card-section>
-        <q-card-section align="left"
-          ><div class=" items-center text-center ">
-            <p>
-              {{
-                tab == "categories"
-                  ? "Do you really want to delete the category? It will be removed from all documents."
-                  : "Do you really want to delete the tag? It will be removed from all documents."
-              }}
-            </p>
-          </div></q-card-section
-        >
-        <q-card-section>
-          <div class="row justify-center q-ml-lg ">
-            <q-btn
-              label="Cancel"
-              outline
-              type="submit"
-              size="14px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-px-xl  q-mr-sm "
-            />
-            <q-btn
-              label="Confirm"
-              type="submit"
-              unelevated
-              size="14px"
-              color="red"
-              no-caps
-              class="  no-shadow	 radius-6 q-px-xl  q-py-sm  "
-            />
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <CreateDialog
+      :editingId="itemId"
+      :tab="tab === 'categories' ? 'New categories' : 'New Keywords/Tags'"
+      :dialogState="createDialog"
+      @update="(createDialog = $event), (itemId = null)"
+    />
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab === 'categories' ? 'Delete category' : 'Delete Keyword/Tag'"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null)"
+    />
   </div>
 </template>
 
 <script>
+import CreateDialog from "components/categoriesKeywords/CreateDialog.vue";
+import DeleteDialog from "components/categoriesKeywords/DeleteDialog.vue";
 export default {
   name: "categoriesKeyword",
+  components: {
+    CreateDialog,
+    DeleteDialog
+  },
   data() {
     return {
       tab: "categories",
       createDialog: false,
       deleteDialog: false,
-      createDialogInput: "",
-
+      itemId: null,
       filter: "",
       visibleColumns: ["name", "calories", "fat", "carbs"],
       categoriesCol: [
@@ -309,7 +235,8 @@ export default {
           protein: 4.0,
           sodium: 87,
           calcium: "14%",
-          iron: "1%"
+          iron: "1%",
+          id: "1"
         },
         {
           name: "Ice cream sandwich",
@@ -319,7 +246,8 @@ export default {
           protein: 4.3,
           sodium: 129,
           calcium: "8%",
-          iron: "1%"
+          iron: "1%",
+          id: "2"
         },
         {
           name: "Eclair",
@@ -329,7 +257,8 @@ export default {
           protein: 6.0,
           sodium: 337,
           calcium: "6%",
-          iron: "7%"
+          iron: "7%",
+          id: "3"
         },
         {
           name: "Cupcake",
@@ -339,7 +268,8 @@ export default {
           protein: 4.3,
           sodium: 413,
           calcium: "3%",
-          iron: "8%"
+          iron: "8%",
+          id: "4"
         },
         {
           name: "Gingerbread",
@@ -349,7 +279,8 @@ export default {
           protein: 3.9,
           sodium: 327,
           calcium: "7%",
-          iron: "16%"
+          iron: "16%",
+          id: "5"
         },
         {
           name: "Jelly bean",
@@ -359,7 +290,8 @@ export default {
           protein: 0.0,
           sodium: 50,
           calcium: "0%",
-          iron: "0%"
+          iron: "0%",
+          id: "6"
         },
         {
           name: "Lollipop",
@@ -369,7 +301,8 @@ export default {
           protein: 0,
           sodium: 38,
           calcium: "0%",
-          iron: "2%"
+          iron: "2%",
+          id: "7"
         },
         {
           name: "Honeycomb",
@@ -379,38 +312,44 @@ export default {
           protein: 6.5,
           sodium: 562,
           calcium: "0%",
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
+          iron: "45%",
+          id: "8"
         }
       ]
     };
   },
+  methods: {
+    prepDeleteDialog(row) {
+      this.itemId = !!row.id ? row.id : "";
+      this.deleteDialog = true;
+    },
+    prepEditDialog(row) {
+      this.itemId = !!row.id ? row.id : "";
+      this.createDialog = true;
+    }
+  },
+  watch: {
+    tab(val) {
+      if (val === "categories") {
+        this.$store.dispatch("project/getCategories");
+      } else {
+        this.$store.dispatch("project/getTags");
+      }
+    }
+  },
   computed: {
+    isLoading() {
+      return this.$store.state.general.loading;
+    },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/catkeytags";
     },
     columns() {
       return this.tab == "categories" ? this.categoriesCol : this.keywordCol;
     }
+  },
+  mounted() {
+    this.$store.dispatch("project/getCategories");
   }
 };
 </script>
