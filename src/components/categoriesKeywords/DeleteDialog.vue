@@ -56,16 +56,14 @@ export default {
     id: { type: String, default: "" }
   },
   data() {
-    return {
-      createDialogInput: ""
-    };
+    return {};
   },
   methods: {
     deleteCategory() {
       this.$store
         .dispatch("project/deleteCategory", { id: this.categoryId })
         .then(() => {
-          this.deleteDialog = false;
+          this.$_options = false;
         });
     }
   },
