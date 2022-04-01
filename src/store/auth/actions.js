@@ -4,7 +4,6 @@ import { Notify } from "quasar";
 export function login(context, payload) {
   const { identifier } = payload;
   const { password } = payload;
-  api.defaults.headers.common["Authorization"] = null;
   api
     .post("/api/auth/local", {
       identifier,
