@@ -55,6 +55,10 @@ export function deleteCategory(context, payload) {
           response.data.data && response.data.data.id
         );
         context.commit("general/setLoading", false, { root: true });
+        Notify.create({
+          message: "Category deleted successfully",
+          type: "positive"
+        });
       })
       .catch(error => {
         console.error("error :>> ", error);
@@ -101,6 +105,35 @@ export function addTag(context, payload) {
       .catch(error => {
         context.commit("general/setLoading", false, { root: true });
         console.error("error :>> ", error);
+        Notify.create({
+          position: "top-right",
+          type: "negative",
+          message: error.response.data.error.message
+        });
+      });
+  }
+}
+
+export function deleteTag(context, payload) {
+  context.commit("general/setLoading", true, { root: true });
+  const { id } = payload;
+  if (!!id) {
+    api
+      .delete(`/api/tags/${id}`)
+      .then(response => {
+        context.commit(
+          "deleteTag",
+          response.data.data && response.data.data.id
+        );
+        context.commit("general/setLoading", false, { root: true });
+        Notify.create({
+          message: "Tag deleted successfully",
+          type: "positive"
+        });
+      })
+      .catch(error => {
+        console.error("error :>> ", error);
+        context.commit("general/setLoading", false, { root: true });
         Notify.create({
           position: "top-right",
           type: "negative",
