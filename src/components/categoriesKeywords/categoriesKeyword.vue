@@ -236,7 +236,7 @@ export default {
           sodium: 87,
           calcium: "14%",
           iron: "1%",
-          id: "1"
+          id: "9"
         },
         {
           name: "Ice cream sandwich",
@@ -247,7 +247,7 @@ export default {
           sodium: 129,
           calcium: "8%",
           iron: "1%",
-          id: "2"
+          id: "11"
         },
         {
           name: "Eclair",
@@ -258,7 +258,7 @@ export default {
           sodium: 337,
           calcium: "6%",
           iron: "7%",
-          id: "3"
+          id: "12"
         },
         {
           name: "Cupcake",
@@ -269,7 +269,7 @@ export default {
           sodium: 413,
           calcium: "3%",
           iron: "8%",
-          id: "4"
+          id: "13"
         },
         {
           name: "Gingerbread",
@@ -280,7 +280,7 @@ export default {
           sodium: 327,
           calcium: "7%",
           iron: "16%",
-          id: "5"
+          id: "14"
         },
         {
           name: "Jelly bean",
@@ -291,7 +291,7 @@ export default {
           sodium: 50,
           calcium: "0%",
           iron: "0%",
-          id: "6"
+          id: "15"
         },
         {
           name: "Lollipop",
@@ -302,7 +302,7 @@ export default {
           sodium: 38,
           calcium: "0%",
           iron: "2%",
-          id: "7"
+          id: "16"
         },
         {
           name: "Honeycomb",
@@ -313,7 +313,7 @@ export default {
           sodium: 562,
           calcium: "0%",
           iron: "45%",
-          id: "8"
+          id: "17"
         }
       ]
     };
@@ -331,9 +331,9 @@ export default {
   watch: {
     tab(val) {
       if (val === "categories") {
-        this.$store.dispatch("project/getCategories");
+        this.$store.dispatch("category/getCategories");
       } else {
-        this.$store.dispatch("project/getTags");
+        this.$store.dispatch("tag/getTags");
       }
     }
   },
@@ -349,7 +349,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("project/getCategories");
+    this.$store.dispatch("category/getCategories");
   }
 };
 </script>
