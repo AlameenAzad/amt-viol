@@ -5,6 +5,9 @@ import errorDialog from "./errorDialog";
 import auth from "./auth";
 import project from "./project";
 import general from "./general";
+import category from "./category";
+import tag from "./tag";
+import municipality from "./municipality";
 
 Vue.use(Vuex);
 /*
@@ -22,7 +25,10 @@ export default function(/* { ssrContext } */) {
       errorDialog,
       auth,
       project,
-      general
+      general,
+      category,
+      tag,
+      municipality
     },
     plugins: [
       createPersistedState({
