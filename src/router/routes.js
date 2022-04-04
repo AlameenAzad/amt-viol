@@ -175,6 +175,15 @@ const routes = [
         },
 
         component: () => import("pages/dashboard/NewProjectIdea.vue")
+      },
+      {
+        path: "/user/newFunding",
+        name: "NewFunding",
+        meta: {
+          title: "New Funding"
+        },
+
+        component: () => import("pages/dashboard/NewFunding.vue")
       }
     ]
   },
