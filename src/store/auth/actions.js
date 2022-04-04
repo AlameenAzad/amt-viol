@@ -9,14 +9,14 @@ export async function login(context, payload) {
       const res = await api.post("/api/auth/local", { identifier, password });
       context.commit("setUser", res.data);
       this.$router.push({ path: "/dashboard" });
+      return true;
     } catch (error) {
-      console.log("error :>> ", error);
-      Notify.create({
-        position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
-      return false;
+      // console.log("error :>> ", error.response);
+      // Notify.create({
+      //   type: "negative",
+      //   message: error.response.data.error.message
+      // });
+      return error.response.data.error.message;
     }
   }
 }

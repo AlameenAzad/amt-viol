@@ -59,6 +59,7 @@
                 />
               </div>
             </div>
+            <p class="no-margin text-red text-center">{{ errorMsg }}</p>
             <div class="row justify-center">
               <div class="col-6 text-center">
                 <q-btn
@@ -68,6 +69,7 @@
                   padding="12px 60px"
                   color="yellow"
                   text-color="black"
+                  :loading="isLoading"
                   unelevated
                 />
               </div>
@@ -112,19 +114,28 @@ export default {
         identifier: "",
         password: ""
       },
+      errorMsg: "",
       currentYear: date.formatDate(Date.now(), "YYYY"),
-      loginModal: false
+      loginModal: false,
+      isLoading: false
     };
   },
   methods: {
-    login() {
-      this.$refs.loginForm.validate().then(success => {
-        if (success) {
-          this.$store.dispatch("auth/login", this.form);
-        } else {
-          console.log("Validation failed");
+    // May need to rework this....
+    async login() {
+      if (!!this.form.identifier && this.form.password) {
+        this.isLoading = true;
+        const res = await this.$store.dispatch("auth/login", this.form);
+        console.log("res :>> ", res);
+        this.isLoading = false;
+        this.errorMsg = res;
+        if (res === true) {
+          this.loginModal = false;
+          this.form.identifier = "";
+          this.form.password = "";
+          this.errorMsg = "";
         }
-      });
+      }
     }
   }
 };
