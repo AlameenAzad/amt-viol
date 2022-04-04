@@ -32,7 +32,7 @@
               unelevated
               class="no-shadow radius-6 text-weight-600 "
               no-caps
-              @click="showDialog = true"
+              @click="createDialog = true"
             >
               <p class="q-mb-none q-mx-md q-my-sm">Create Administration</p>
             </q-btn>
@@ -75,13 +75,10 @@
                     <q-item-section>
                       <span class="text-right font-14">
                         View
-                        <q-icon
-                          size="sm"
-                          class="text-blue"
-                          name="visibility"/></span
-                    ></q-item-section>
+                        <q-icon size="sm" class="text-blue" name="visibility"
+                      /></span>
+                    </q-item-section>
                   </q-item>
-
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
@@ -91,7 +88,7 @@
                   </q-item>
 
                   <q-item clickable v-close-popup>
-                    <q-item-section @click="deleteDialog = true"
+                    <q-item-section @click="prepDeleteDialog(props.row)"
                       ><span class="text-right font-14 text-red">
                         Delete
                         <q-icon size="sm" name="delete"/></span
@@ -104,138 +101,37 @@
         </q-tr>
       </template>
     </q-table>
-    <q-dialog v-model="showDialog">
-      <q-card class="q-pa-lg radius-10">
-        <div>
-          <h6 class="text-center font-24 q-mt-md">Create Administration</h6>
-          <q-form ref="personalDataForm" class="q-gutter-lg q-px-md q-mb-md ">
-            <div class=" items-center ">
-              <div class="col-3">
-                <p class="font-14 no-margin">
-                  Title
-                </p>
-              </div>
-              <div class="col-9">
-                <q-input
-                  outlined
-                  class="no-shadow input-radius-6"
-                  v-model="email"
-                  :rules="[]"
-                  label="Administration name"
-                />
-              </div>
-            </div>
-            <div class=" items-center ">
-              <div class="col-3 ">
-                <p class="font-14 no-margin ">
-                  Location
-                </p>
-              </div>
-              <div class="col-9">
-                <q-select
-                  outlined
-                  :options="options"
-                  class="no-shadow input-radius-6"
-                  v-model="role"
-                  :rules="[]"
-                  label="Location of the municipality"
-                />
-              </div>
-            </div>
-            <div class="items-center">
-              <div class="col-3">
-                <p class="font-14 no-margin">
-                  Select account, to transfer data and rights
-                </p>
-              </div>
-              <div class="col-9">
-                <q-select
-                  outlined
-                  :options="options"
-                  class="no-shadow input-radius-6"
-                  v-model="administration"
-                  :rules="[]"
-                  label="Alfonso Lipshutz"
-                />
-              </div>
-            </div>
-
-            <div class="row justify-center q-ml-lg ">
-              <q-btn
-                label="Cancel"
-                outline
-                type="submit"
-                size="16px"
-                color="primary"
-                no-caps
-                class="no-shadow radius-6 q-px-xl  q-mr-sm "
-              />
-              <q-btn
-                label="Save"
-                type="submit"
-                unelevated
-                size="16px"
-                color="primary"
-                no-caps
-                class="  no-shadow	 radius-6 q-px-xl   "
-              />
-            </div>
-          </q-form>
-        </div>
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="deleteDialog">
-      <q-card class="q-pa-lg radius-10">
-        <div>
-          <h6 class="text-center font-24 q-mt-md">Delete Administration</h6>
-          <p
-            class="text-center text-weight-light
-"
-          >
-            Do you really want to delete this administration? This cannot be
-            <br />
-            undone.
-          </p>
-          <p
-            class="text-center q-mt-lg text-weight-light
-"
-          >
-            All data and rights are transferred to another member.
-          </p>
-        </div>
-        <q-form ref="personalDataForm" class="q-gutter-lg q-mb-md q-mt-lg ">
-          <div class=" items-center ">
-            <div class="col-3">
-              <p class="font-14 no-margin">
-                Select account, to transfer data and rights
-              </p>
-            </div>
-            <div class="col-9">
-              <q-select
-                outlined
-                :options="options"
-                class="no-shadow input-radius-6"
-                v-model="administration"
-                :rules="[]"
-                label="Alfonso Lipshutz"
-              />
-            </div>
-          </div>
-        </q-form>
-      </q-card>
-    </q-dialog>
+    <CreateDialog
+      :dialogState="createDialog"
+      @update="(createDialog = $event), getData()"
+    />
+    <DeleteDialog
+      :id="itemId"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null), getData()"
+    />
   </div>
 </template>
 
 <script>
+import CreateDialog from "components/Municipality/CreateDialog.vue";
+import DeleteDialog from "components/Municipality/DeleteDialog.vue";
 export default {
-  name: "Roles",
+  name: "municipality",
+  components: {
+    CreateDialog,
+    DeleteDialog
+  },
   data() {
     return {
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
-      showDialog: false,
+      createDialog: false,
       deleteDialog: false,
-      role: "",
+      form: {
+        title: "",
+        location: ""
+      },
+      itemId: null,
       filter: "",
       administration: "",
       email: "",
@@ -280,7 +176,8 @@ export default {
           protein: 4.0,
           sodium: 87,
           calcium: "14%",
-          iron: "1%"
+          iron: "1%",
+          id: "1"
         },
         {
           name: "Ice cream sandwich",
@@ -290,7 +187,8 @@ export default {
           protein: 4.3,
           sodium: 129,
           calcium: "8%",
-          iron: "1%"
+          iron: "1%",
+          id: "2"
         },
         {
           name: "Eclair",
@@ -300,7 +198,8 @@ export default {
           protein: 6.0,
           sodium: 337,
           calcium: "6%",
-          iron: "7%"
+          iron: "7%",
+          id: "3"
         },
         {
           name: "Cupcake",
@@ -310,7 +209,8 @@ export default {
           protein: 4.3,
           sodium: 413,
           calcium: "3%",
-          iron: "8%"
+          iron: "8%",
+          id: "4"
         },
         {
           name: "Gingerbread",
@@ -320,7 +220,8 @@ export default {
           protein: 3.9,
           sodium: 327,
           calcium: "7%",
-          iron: "16%"
+          iron: "16%",
+          id: "5"
         },
         {
           name: "Jelly bean",
@@ -330,7 +231,8 @@ export default {
           protein: 0.0,
           sodium: 50,
           calcium: "0%",
-          iron: "0%"
+          iron: "0%",
+          id: "6"
         },
         {
           name: "Lollipop",
@@ -340,7 +242,8 @@ export default {
           protein: 0,
           sodium: 38,
           calcium: "0%",
-          iron: "2%"
+          iron: "2%",
+          id: "7"
         },
         {
           name: "Honeycomb",
@@ -350,7 +253,8 @@ export default {
           protein: 6.5,
           sodium: 562,
           calcium: "0%",
-          iron: "45%"
+          iron: "45%",
+          id: "8"
         },
         {
           name: "Donut",
@@ -360,7 +264,8 @@ export default {
           protein: 4.9,
           sodium: 326,
           calcium: "2%",
-          iron: "22%"
+          iron: "22%",
+          id: "9"
         },
         {
           name: "KitKat",
@@ -370,10 +275,23 @@ export default {
           protein: 7,
           sodium: 54,
           calcium: "12%",
-          iron: "6%"
+          iron: "6%",
+          id: "10"
         }
       ]
     };
+  },
+  methods: {
+    prepDeleteDialog(row) {
+      this.itemId = !!row.id ? row.id : "";
+      this.deleteDialog = true;
+    },
+    getData() {
+      this.$store.dispatch("municipality/getMunicipalities");
+    }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
