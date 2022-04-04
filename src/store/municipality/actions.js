@@ -40,3 +40,27 @@ export async function createMunicipality(context, payload) {
     }
   }
 }
+
+export async function delteMunicipality(context, payload) {
+  const { id } = payload;
+  console.log("id :>> ", id);
+  //  if (!!title && !!location) {
+  //    try {
+  //      const res = await api.post("/api/municipalities", {
+  //        data: { title, location }
+  //      });
+  //      context.commit("addMunicipality", res.data.data);
+  //      Notify.create({
+  //        message: "Municiplaity added successfully",
+  //        type: "positive"
+  //      });
+  //    } catch (error) {
+  //      Notify.create({
+  //        position: "top-right",
+  //        type: "negative",
+  //        message: error.response.data.error.message
+  //      });
+  //      return false;
+  //    }
+  //  }
+}
