@@ -52,6 +52,7 @@
                 <q-input
                   outlined
                   dense
+                  type="password"
                   class="no-shadow input-radius-6"
                   v-model="form.password"
                   :rules="[val => !!val || 'Field is required']"
