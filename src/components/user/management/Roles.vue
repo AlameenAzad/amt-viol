@@ -144,7 +144,7 @@
                 />
               </div>
             </div>
-            <div class="row items-center justify-evenly">
+            <div class="row items-baseline justify-evenly">
               <div class="col-3">
                 <p class="font-14 no-margin">
                   Message
@@ -157,7 +157,7 @@
                   v-model="message"
                   :rules="[]"
                   type="textarea"
-                  label="text"
+                  placeholder="text"
                 />
               </div>
             </div>
