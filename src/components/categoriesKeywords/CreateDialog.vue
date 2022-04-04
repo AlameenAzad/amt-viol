@@ -1,7 +1,7 @@
 <template>
   <q-dialog @before-show="addItemInfo" v-model="$_options">
     <q-card class="q-px-xl radius-10  column ">
-      <q-form @submit.prevent="addItem">
+      <q-form @submit.prevent="editingId ? editItem() : addItem()">
         <q-card-section align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
@@ -31,7 +31,7 @@
             </div></div
         ></q-card-section>
         <q-card-section>
-          <div class="row justify-center q-ml-lg ">
+          <div class="row justify-center">
             <q-btn
               label="Cancel"
               v-close-popup
@@ -42,7 +42,7 @@
               class="no-shadow radius-6 q-px-xl q-mr-sm"
             />
             <q-btn
-              label="Save"
+              :label="editingId ? 'Edit' : 'Save'"
               type="submit"
               unelevated
               :loading="isLoading"
@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  name: "createDialog",
+  name: "createCategoryKeywordDialog",
   props: {
     dialogState: { type: Boolean, default: false },
     tab: { type: String, default: "" },
@@ -68,32 +68,36 @@ export default {
   },
   data() {
     return {
-      createDialogInput: ""
+      createDialogInput: "",
+      isLoading: false
     };
   },
   methods: {
-    addItem() {
+    async addItem() {
       if (!!this.createDialogInput) {
-        this.$store
-          .dispatch(
-            `project/${
-              this.tab === "New categories"
-                ? "addCategory"
-                : this.tab === "New Keywords/Tags"
-                ? "addTag"
-                : ""
-            }`,
-            {
-              name: this.createDialogInput
-            }
-          )
-          .then(() => {
-            this.createDialogInput = "";
-            this.$_options = false;
+        let res = null;
+        this.isLoading = true;
+        if (this.tab === "New categories") {
+          res = await this.$store.dispatch("category/addCategory", {
+            name: this.createDialogInput
           });
+        } else {
+          res = await this.$store.dispatch("tag/addTag", {
+            name: this.createDialogInput
+          });
+        }
+        this.isLoading = false;
+        if (res !== false) {
+          this.$_options = false;
+          this.createDialogInput = "";
+        }
       }
     },
+    editItem() {
+      console.log("Edit item");
+    },
     addItemInfo() {
+      console.log("this.editingId :>> ", this.editingId);
       if (!!this.editingId) {
         // TODO change this to categories and tags like above
         this.$api.get(`api/categories/${this.editingId}`).then(res => {
@@ -105,9 +109,6 @@ export default {
     }
   },
   computed: {
-    isLoading() {
-      return this.$store.state.general.loading;
-    },
     $_options: {
       get: function() {
         return this.dialogState;

@@ -48,20 +48,23 @@
 
 <script>
 export default {
-  name: "deleteDialog",
+  name: "deleteCategoryKeywordDialog",
   props: {
     dialogState: { type: Boolean, default: false },
     tab: { type: String, default: "" },
     id: { type: String, default: "" }
   },
   data() {
-    return {};
+    return {
+      isLoading: false
+    };
   },
   methods: {
-    deleteCategory() {
-      this.$store
-        .dispatch(
-          `project/${
+    async deleteCategory() {
+      if (!!this.id) {
+        this.isLoading = true;
+        const res = this.$store.dispatch(
+          `category/${
             this.tab === "Delete category"
               ? "deleteCategory"
               : this.tab === "Delete Keyword/Tag"
@@ -69,16 +72,16 @@ export default {
               : ""
           }`,
           { id: this.id }
-        )
-        .then(() => {
+        );
+        this.isLoading = false;
+        if (res !== false) {
           this.$_options = false;
-        });
+          this.createDialogInput = "";
+        }
+      }
     }
   },
   computed: {
-    isLoading() {
-      return this.$store.state.general.loading;
-    },
     $_options: {
       get: function() {
         return this.dialogState;
