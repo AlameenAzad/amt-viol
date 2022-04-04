@@ -79,6 +79,10 @@ module.exports = function(ctx) {
                 {
                   from: "./pull-BackEnd.php",
                   to: cfg.output.path
+                },
+                {
+                  from: "./.htaccess",
+                  to: cfg.output.path
                 }
               ]
             })
