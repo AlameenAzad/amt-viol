@@ -123,7 +123,7 @@ export default {
   methods: {
     // May need to rework this....
     async login() {
-      if (!!this.form.identifier && this.form.password) {
+      if (!!this.form.identifier && !!this.form.password) {
         this.isLoading = true;
         const res = await this.$store.dispatch("auth/login", this.form);
         this.isLoading = false;
