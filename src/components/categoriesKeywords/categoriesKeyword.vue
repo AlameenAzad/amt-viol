@@ -12,7 +12,7 @@
       <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="categories">
         <p class="font-20 no-margin">Categories</p>
       </q-tab>
-      <q-tab class="q-pa-lg  radius-10 customBorder" name="keywords/Tags">
+      <q-tab class="q-pa-lg radius-10 customBorder" name="keywords/Tags">
         <p class="font-20 no-margin">Keywords/Tags</p>
       </q-tab>
     </q-tabs>
