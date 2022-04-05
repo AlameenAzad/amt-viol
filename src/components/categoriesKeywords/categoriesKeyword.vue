@@ -16,14 +16,14 @@
         <p class="font-20 no-margin">Keywords/Tags</p>
       </q-tab>
     </q-tabs>
-
     <q-table
       class="radius-20 shadow-1"
       :data="apiData"
       :columns="columns"
       row-key="name"
-      hide-bottom
+      :hide-bottom="apiData.length > 0"
       :hide-header="!isInPage"
+      :visible-columns="isInPage ? visibleColumns : []"
       :filter="filter"
       :pagination="{
         rowsPerPage: 0
@@ -168,7 +168,7 @@ export default {
       deleteDialog: false,
       itemId: null,
       filter: "",
-      visibleColumns: ["name", "calories", "fat", "carbs"],
+      visibleColumns: ["id", "title", "projectsCount", "fat"],
       categoriesCol: [
         {
           name: "title",
@@ -352,9 +352,6 @@ export default {
       return this.tab == "categories"
         ? this.$store.state.category.categories
         : this.$store.state.tag.tags;
-    },
-    isLoading() {
-      return this.$store.state.general.loading;
     },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/catkeytags";
