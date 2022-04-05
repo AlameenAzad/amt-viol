@@ -17,5 +17,16 @@ export function deleteTag(state, payload) {
 }
 
 export function editTag(state, payload) {
-  console.log("called edit tag mutation", payload);
+  if (!!payload) {
+    // create a copy of state.categories using spread operator. Then map through the array and when the IDs match, update the category with payload
+    // with spread operator so we keep the old values in the array
+    state.tags = [
+      ...state.tags.map(tag => {
+        if (tag.id === payload.id) {
+          return { ...tag, title: payload.title };
+        }
+        return tag;
+      })
+    ];
+  }
 }
