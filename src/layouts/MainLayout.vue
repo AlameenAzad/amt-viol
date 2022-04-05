@@ -126,11 +126,11 @@ export default {
       if (!!this.form.identifier && this.form.password) {
         this.isLoading = true;
         const res = await this.$store.dispatch("auth/login", this.form);
-        console.log("res :>> ", res);
         this.isLoading = false;
         this.errorMsg = res;
         if (res === true) {
           this.loginModal = false;
+          this.isLoading = false;
           this.form.identifier = "";
           this.form.password = "";
           this.errorMsg = "";
