@@ -5,7 +5,8 @@ export function getCategories(context) {
   api
     .get("/api/categories")
     .then(response => {
-      context.commit("setCategories", response.data.data);
+      console.log("response :>> ", response);
+      context.commit("setCategories", response.data);
     })
     .catch(error => {
       console.error("error :>> ", error);
@@ -47,6 +48,31 @@ export async function deleteCategory(context, payload) {
       context.commit("deleteCategory", res.data.data && res.data.data.id);
       Notify.create({
         message: "Category deleted successfully",
+        type: "positive"
+      });
+    } catch (error) {
+      Notify.create({
+        position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function editCategory(context, payload) {
+  const { id } = payload;
+  const { title } = payload;
+  if (!!id && !!title) {
+    try {
+      const res = await api.put(`/api/categories/${id}`, {
+        data: { title: title, updatedAt: new Date().toISOString() }
+      });
+      console.log("res :>> ", res);
+      context.commit("editCategory", res.data.data);
+      Notify.create({
+        message: "Category updated successfully",
         type: "positive"
       });
     } catch (error) {
