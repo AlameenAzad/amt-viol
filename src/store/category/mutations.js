@@ -19,5 +19,16 @@ export function deleteCategory(state, payload) {
 }
 
 export function editCategory(state, payload) {
-  console.log("called edit category mutation", payload);
+  if (!!payload) {
+    // create a copy of state.categories using spread operator. Then map through the array and when the IDs match, update the category with payload
+    // with spread operator so we keep the old values in the array
+    state.categories = [
+      ...state.categories.map(category => {
+        if (category.id === payload.id) {
+          return { ...category, title: payload.title };
+        }
+        return category;
+      })
+    ];
+  }
 }
