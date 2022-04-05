@@ -33,6 +33,7 @@ export default function(/* { ssrContext } */) {
     plugins: [
       createPersistedState({
         key: "amt-viot",
+        // TODO change this to session storage
         storage: window.localStorage
       })
     ],
