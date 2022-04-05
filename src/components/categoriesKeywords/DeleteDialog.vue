@@ -52,7 +52,7 @@ export default {
   props: {
     dialogState: { type: Boolean, default: false },
     tab: { type: String, default: "" },
-    id: { type: String, default: "" }
+    id: { type: Number, default: null }
   },
   data() {
     return {
@@ -62,21 +62,18 @@ export default {
   methods: {
     async deleteCategory() {
       if (!!this.id) {
+        let res = null;
         this.isLoading = true;
-        const res = this.$store.dispatch(
-          `category/${
-            this.tab === "Delete category"
-              ? "deleteCategory"
-              : this.tab === "Delete Keyword/Tag"
-              ? "deleteTag"
-              : ""
-          }`,
-          { id: this.id }
-        );
+        if (this.tab === "Delete category") {
+          res = await this.$store.dispatch("category/deleteCategory", {
+            id: this.id
+          });
+        } else {
+          res = await this.$store.dispatch("tag/deleteTag", { id: this.id });
+        }
         this.isLoading = false;
         if (res !== false) {
           this.$_options = false;
-          this.createDialogInput = "";
         }
       }
     }
