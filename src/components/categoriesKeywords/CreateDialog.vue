@@ -1,5 +1,5 @@
 <template>
-  <q-dialog @before-show="addItemInfo" v-model="$_options">
+  <q-dialog @before-show="getItemInfo" v-model="$_options">
     <q-card class="q-px-xl radius-10  column ">
       <q-form @submit.prevent="editingId ? editItem() : addItem()">
         <q-card-section align="center">
@@ -9,8 +9,8 @@
             }}
           </h6>
         </q-card-section>
-        <q-card-section align="left"
-          ><div class=" items-center ">
+        <q-card-section align="left">
+          <div class=" items-center ">
             <div class="col-3">
               <p class="font-14 no-margin">
                 {{
@@ -28,8 +28,9 @@
                 :rules="[val => !!val || 'Field is required']"
                 placeholder="Title"
               />
-            </div></div
-        ></q-card-section>
+            </div>
+          </div>
+        </q-card-section>
         <q-card-section>
           <div class="row justify-center">
             <q-btn
@@ -64,12 +65,13 @@ export default {
   props: {
     dialogState: { type: Boolean, default: false },
     tab: { type: String, default: "" },
-    editingId: { type: String, default: "" }
+    editingId: { type: Number, default: null }
   },
   data() {
     return {
       createDialogInput: "",
-      isLoading: false
+      isLoading: false,
+      item: {}
     };
   },
   methods: {
@@ -93,18 +95,60 @@ export default {
         }
       }
     },
-    editItem() {
-      console.log("Edit item");
+    async editItem() {
+      if (!!this.createDialogInput && !!this.editingId) {
+        if (this.createDialogInput !== this.item.title) {
+          let res = null;
+          this.isLoading = true;
+          if (this.tab === "New categories") {
+            res = await this.$store.dispatch("category/editCategory", {
+              id: this.editingId,
+              title: this.createDialogInput
+            });
+          } else {
+            res = await this.$store.dispatch("tag/editTag", {
+              id: this.editingId,
+              title: this.createDialogInput
+            });
+          }
+          this.isLoading = false;
+          if (res !== false) {
+            this.$_options = false;
+            this.createDialogInput = "";
+          }
+        } else {
+          this.$q.notify({
+            type: "negative",
+            message: "Please pick a different title"
+          });
+        }
+      }
     },
-    addItemInfo() {
-      console.log("this.editingId :>> ", this.editingId);
+    async getItemInfo() {
       if (!!this.editingId) {
-        // TODO change this to categories and tags like above
-        this.$api.get(`api/categories/${this.editingId}`).then(res => {
-          // this.createDialogInput = res.data.name;
-          // TODO getting forbidden error
-          console.log(res);
-        });
+        let res = null;
+        this.isLoading = true;
+        if (this.tab === "New categories") {
+          try {
+            res = await this.$api.get(`api/categories/${this.editingId}`);
+            this.item = res.data.data;
+            this.createDialogInput = res.data.data && res.data.data.title;
+            this.isLoading = false;
+          } catch (error) {
+            this.isLoading = false;
+            console.error(error);
+          }
+        } else {
+          try {
+            res = await this.$api.get(`api/tags/${this.editingId}`);
+            this.item = res.data.data;
+            this.createDialogInput = res.data.data && res.data.data.title;
+            this.isLoading = false;
+          } catch (error) {
+            this.isLoading = false;
+            console.error(error);
+          }
+        }
       }
     }
   },
