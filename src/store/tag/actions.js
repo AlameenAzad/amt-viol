@@ -4,7 +4,7 @@ import { Notify } from "quasar";
 export async function getTags(context) {
   try {
     const res = await api.get("/api/tags");
-    context.commit("setTags", res.data.data);
+    context.commit("setTags", res.data);
   } catch (error) {
     Notify.create({
       position: "top-right",
@@ -67,5 +67,30 @@ export function deleteTag(context, payload) {
           message: error.response.data.error.message
         });
       });
+  }
+}
+
+export async function editTag(context, payload) {
+  const { id } = payload;
+  const { title } = payload;
+  if (!!id && !!title) {
+    try {
+      const res = await api.put(`/api/tags/${id}`, {
+        data: { title: title, updatedAt: new Date().toISOString() }
+      });
+      console.log("res :>> ", res);
+      context.commit("editTag", res.data.data);
+      Notify.create({
+        message: "Tag updated successfully",
+        type: "positive"
+      });
+    } catch (error) {
+      Notify.create({
+        position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
   }
 }
