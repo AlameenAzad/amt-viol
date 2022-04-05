@@ -7,6 +7,7 @@
       :columns="columns"
       row-key="name"
       hide-bottom
+      :filter="filter"
     >
       <template v-slot:top>
         <div class="row full-width justify-between ">
