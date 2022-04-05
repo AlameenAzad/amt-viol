@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg q-ma-xl">
+  <div class="q-mt-lg q-ma-xl q-pb-md">
     <q-tabs
       v-if="isInPage"
       v-model="tab"
@@ -12,15 +12,24 @@
       <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="categories">
         <p class="font-20 no-margin">Categories</p>
       </q-tab>
-      <q-tab
-        class="q-pa-lg q-mr-lg radius-10 customBorder"
-        name="keywords/Tags"
-      >
+      <q-tab class="q-pa-lg  radius-10 customBorder" name="keywords/Tags">
         <p class="font-20 no-margin">Keywords/Tags</p>
       </q-tab>
     </q-tabs>
 
     <q-table
+      class="radius-20 shadow-1"
+      :data="apiData"
+      :columns="columns"
+      row-key="name"
+      hide-bottom
+      :hide-header="!isInPage"
+      :filter="filter"
+      :pagination="{
+        rowsPerPage: 0
+      }"
+    >
+      <!-- <q-table
       class="radius-20 shadow-1"
       :data="data"
       :columns="columns"
@@ -32,7 +41,7 @@
       :pagination="{
         rowsPerPage: 0
       }"
-    >
+    > -->
       <template v-slot:top-left>
         <div class="row justify-between items-center">
           <div class=" font-24 q-mr-lg">
@@ -162,28 +171,28 @@ export default {
       visibleColumns: ["name", "calories", "fat", "carbs"],
       categoriesCol: [
         {
-          name: "name",
-          required: true,
+          name: "title",
           label: "Title",
+          field: "title",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "id",
+          required: true,
+          label: "ID",
           required: true,
           align: "left",
-          field: row => row.name,
+          field: row => row.id,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "calories",
+          name: "projectsCount",
           align: "left",
           label: "Project ideas",
-          field: "calories",
+          field: "projectsCount",
           sortable: true
-        },
-        {
-          name: "fat",
-          label: "Fundings",
-          field: "fat",
-          sortable: true,
-          align: "left"
         },
         {
           name: "fat",
@@ -195,29 +204,30 @@ export default {
       ],
       keywordCol: [
         {
-          name: "name",
-          required: true,
+          name: "title",
           label: "Title",
+          field: "title",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "id",
+          required: true,
+          label: "ID",
           required: true,
           align: "left",
-          field: row => row.name,
+          field: row => row.id,
           format: val => `${val}`,
           sortable: true
         },
         {
-          name: "calories",
+          name: "projectsCount",
           align: "left",
           label: "Project ideas",
-          field: "calories",
+          field: "projectsCount",
           sortable: true
         },
-        {
-          name: "fat",
-          label: "Fundings",
-          field: "fat",
-          sortable: true,
-          align: "left"
-        },
+
         {
           name: "fat",
           label: "Implementation checklist",
@@ -236,7 +246,7 @@ export default {
           sodium: 87,
           calcium: "14%",
           iron: "1%",
-          id: "9"
+          id: "25"
         },
         {
           name: "Ice cream sandwich",
@@ -338,6 +348,11 @@ export default {
     }
   },
   computed: {
+    apiData() {
+      return this.tab == "categories"
+        ? this.$store.state.category.categories
+        : this.$store.state.tag.tags;
+    },
     isLoading() {
       return this.$store.state.general.loading;
     },
