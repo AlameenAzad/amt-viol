@@ -3,11 +3,13 @@
     <q-table
       class="radius-20 shadow-1"
       title="Current funding information"
-      :data="data"
-      :columns="columns"
+      :data="apiData"
       row-key="name"
       hide-bottom
       :filter="filter"
+      :pagination="{
+        rowsPerPage: 0
+      }"
     >
       <template v-slot:top>
         <div class="row full-width justify-between ">
@@ -289,6 +291,11 @@ export default {
     },
     getData() {
       this.$store.dispatch("municipality/getMunicipalities");
+    }
+  },
+  computed: {
+    apiData() {
+      return this.$store.state.municipality.municipalities;
     }
   },
   mounted() {
