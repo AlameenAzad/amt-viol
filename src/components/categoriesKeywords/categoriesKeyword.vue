@@ -29,19 +29,6 @@
         rowsPerPage: 0
       }"
     >
-      <!-- <q-table
-      class="radius-20 shadow-1"
-      :data="data"
-      :columns="columns"
-      row-key="name"
-      hide-bottom
-      :hide-header="!isInPage"
-      :visible-columns="isInPage ? visibleColumns : []"
-      :filter="filter"
-      :pagination="{
-        rowsPerPage: 0
-      }"
-    > -->
       <template v-slot:top-left>
         <div class="row justify-between items-center">
           <div class=" font-24 q-mr-lg">
@@ -181,7 +168,6 @@ export default {
           name: "id",
           required: true,
           label: "ID",
-          required: true,
           align: "left",
           field: row => row.id,
           format: val => `${val}`,
@@ -214,7 +200,6 @@ export default {
           name: "id",
           required: true,
           label: "ID",
-          required: true,
           align: "left",
           field: row => row.id,
           format: val => `${val}`,
@@ -235,96 +220,6 @@ export default {
           sortable: true,
           align: "left"
         }
-      ],
-      data: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
-          id: "25"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%",
-          id: "11"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%",
-          id: "12"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%",
-          id: "13"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%",
-          id: "14"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%",
-          id: "15"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
-          id: "16"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%",
-          id: "17"
-        }
       ]
     };
   },
@@ -336,14 +231,17 @@ export default {
     prepEditDialog(row) {
       this.itemId = !!row.id ? row.id : "";
       this.createDialog = true;
+    },
+    getData(item) {
+      this.$store.dispatch(item);
     }
   },
   watch: {
     tab(val) {
       if (val === "categories") {
-        this.$store.dispatch("category/getCategories");
+        this.getData("category/getCategories");
       } else {
-        this.$store.dispatch("tag/getTags");
+        this.getData("tag/getTags");
       }
     }
   },
@@ -361,7 +259,11 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("category/getCategories");
+    if (this.tab === "categories") {
+      this.getData("category/getCategories");
+    } else {
+      this.getData("tag/getTags");
+    }
   }
 };
 </script>
