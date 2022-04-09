@@ -5,7 +5,13 @@
         <q-card-section align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
-              tab == "New categories" ? "New categories" : "New Keywords/Tags"
+              !!editingId
+                ? tab == "Edit categories"
+                  ? "New categories"
+                  : "Edit Keywords/Tags"
+                : tab == "New categories"
+                ? "New categories"
+                : "New Keywords/Tags"
             }}
           </h6>
         </q-card-section>
@@ -136,7 +142,6 @@ export default {
             this.isLoading = false;
           } catch (error) {
             this.isLoading = false;
-            console.error(error);
           }
         } else {
           try {
@@ -146,7 +151,6 @@ export default {
             this.isLoading = false;
           } catch (error) {
             this.isLoading = false;
-            console.error(error);
           }
         }
       }
@@ -165,5 +169,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
