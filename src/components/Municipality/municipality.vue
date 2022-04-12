@@ -5,15 +5,17 @@
       title="Current funding information"
       :data="apiData"
       row-key="name"
-      hide-bottom
+      :columns="columns"
+      :hide-bottom="apiData.length > 0"
       :filter="filter"
+      :visible-columns="visibleColumns"
       :pagination="{
         rowsPerPage: 0
       }"
     >
       <template v-slot:top>
         <div class="row full-width justify-between ">
-          <div class="col-auto  ">
+          <div class="col-auto">
             <q-input
               borderless
               outlined
@@ -83,8 +85,8 @@
                     </q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
-                    <q-item-section
-                      ><span class="text-right font-14">
+                    <q-item-section @click="prepEditDialog(props.row)">
+                      <span class="text-right font-14">
                         Edit
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
@@ -106,12 +108,13 @@
     </q-table>
     <CreateDialog
       :dialogState="createDialog"
-      @update="(createDialog = $event), getData()"
+      :editingId="municipalityId"
+      @update="(createDialog = $event), (municipalityId = null)"
     />
     <DeleteDialog
-      :id="itemId"
+      :id="municipalityId"
       :dialogState="deleteDialog"
-      @update="(deleteDialog = $event), (itemId = null), getData()"
+      @update="(deleteDialog = $event), (municipalityId = null)"
     />
   </div>
 </template>
@@ -127,167 +130,65 @@ export default {
   },
   data() {
     return {
-      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
       createDialog: false,
       deleteDialog: false,
-      form: {
-        title: "",
-        location: ""
-      },
-      itemId: null,
+      municipalityId: null,
       filter: "",
-      administration: "",
-      email: "",
-      message: "",
+      visibleColumns: [
+        "administration",
+        "federal state",
+        "data sets",
+        "project coordinators"
+      ],
       columns: [
         {
-          name: "name",
-          required: true,
-          label: "Adminstration",
+          name: "id",
+          required: false,
+          label: "id",
           align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
+          field: row => row.id,
           sortable: true
         },
         {
-          name: "calories",
-          align: "left",
-          label: "Federal State",
-          field: "calories",
-          sortable: true
-        },
-        {
-          name: "fat",
-          label: "Data sets",
-          field: "fat",
+          name: "administration",
+          label: "Administration",
+          field: "title",
           sortable: true,
           align: "left"
         },
         {
-          name: "carbs",
-          label: "project coordinators",
-          field: "carbs",
+          name: "federal state",
+          label: "Federal State",
+          field: "location",
+          sortable: true,
           align: "left"
-        }
-      ],
-      data: [
+        },
+
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
-          id: "1"
+          name: "data sets",
+          align: "left",
+          label: "Data sets",
+          field: "projectsCount",
+          sortable: true
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%",
-          id: "2"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%",
-          id: "3"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%",
-          id: "4"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%",
-          id: "5"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%",
-          id: "6"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
-          id: "7"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%",
-          id: "8"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%",
-          id: "9"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%",
-          id: "10"
+          name: "project coordinators",
+          label: "Project coordinators",
+          field: "fat",
+          sortable: true,
+          align: "left"
         }
       ]
     };
   },
   methods: {
     prepDeleteDialog(row) {
-      this.itemId = !!row.id ? row.id : "";
+      this.municipalityId = !!row.id ? row.id : "";
       this.deleteDialog = true;
+    },
+    prepEditDialog(row) {
+      this.municipalityId = !!row.id ? row.id : "";
+      this.createDialog = true;
     },
     getData() {
       this.$store.dispatch("municipality/getMunicipalities");

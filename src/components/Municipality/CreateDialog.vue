@@ -1,10 +1,14 @@
 <template>
-  <q-dialog v-model="$_options">
+  <q-dialog @before-show="getMunicipalityInfo" v-model="$_options">
     <q-card class="q-pa-lg radius-10">
       <div>
-        <h6 class="text-center font-24 q-mt-md">Create Administration</h6>
+        <h6 class="text-center font-24 q-mt-md">
+          {{ !!editingId ? "Edit Administration" : "Create Administration" }}
+        </h6>
         <q-form
-          @submit.prevent="createMunicipality"
+          @submit.prevent="
+            !!editingId ? editMunicipality() : createMunicipality()
+          "
           class="q-gutter-sm q-px-md q-mb-md "
         >
           <div class="items-center ">
@@ -50,7 +54,7 @@
               class="no-shadow radius-6 q-px-xl q-mr-sm "
             />
             <q-btn
-              label="Save"
+              :label="!!editingId ? 'Edit' : 'Save'"
               type="submit"
               unelevated
               size="16px"
@@ -70,7 +74,8 @@
 export default {
   name: "createMunicipalityDialog",
   props: {
-    dialogState: { type: Boolean, default: false }
+    dialogState: { type: Boolean, default: false },
+    editingId: { type: Number, default: null }
   },
   data() {
     return {
@@ -78,12 +83,13 @@ export default {
         title: "",
         location: ""
       },
+      municipality: {},
       isLoading: false
     };
   },
   methods: {
     async createMunicipality() {
-      if (!!this.form.title && this.form.location) {
+      if (!!this.form.title && !!this.form.location) {
         this.isLoading = true;
         const res = await this.$store.dispatch(
           "municipality/createMunicipality",
@@ -94,6 +100,51 @@ export default {
           this.$_options = false;
           this.form.title = "";
           this.form.location = "";
+        }
+      }
+    },
+    async editMunicipality() {
+      if (!!this.form.title && this.form.location && !!this.editingId) {
+        if (
+          this.form.title !== this.municipality.title &&
+          this.form.location !== this.municipality.location
+        ) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch(
+            "municipality/editMunicipality",
+            {
+              id: this.editingId,
+              title: this.form.title,
+              location: this.form.location
+            }
+          );
+          this.isLoading = false;
+          if (res !== false) {
+            this.$_options = false;
+            this.form.title = "";
+            this.form.location = "";
+          }
+        } else {
+          this.$q.notify({
+            type: "negative",
+            message: "Please pick a different title or location"
+          });
+        }
+      }
+    },
+    async getMunicipalityInfo() {
+      if (!!this.editingId) {
+        this.isLoading = true;
+        try {
+          const res = await this.$api.get(
+            `/api/municipalities/${this.editingId}`
+          );
+          this.municipality = res.data.data;
+          this.form.title = res.data.data && res.data.data.title;
+          this.form.location = res.data.data && res.data.data.location;
+          this.isLoading = false;
+        } catch (error) {
+          this.isLoading = false;
         }
       }
     }

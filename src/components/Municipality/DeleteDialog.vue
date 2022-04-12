@@ -45,7 +45,7 @@ export default {
   name: "deleteMunicipalityDialog",
   props: {
     dialogState: { type: Boolean, default: false },
-    id: { type: String, default: null }
+    id: { type: Number, default: null }
   },
   data() {
     return {
