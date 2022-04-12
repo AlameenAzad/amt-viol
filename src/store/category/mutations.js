@@ -6,7 +6,7 @@ export function setCategories(state, payload) {
 
 export function addCategory(state, payload) {
   if (!!payload) {
-    state.categories.push(payload);
+    state.categories.push({ ...payload, projectsCount: 0 });
   }
 }
 
@@ -25,7 +25,11 @@ export function editCategory(state, payload) {
     state.categories = [
       ...state.categories.map(category => {
         if (category.id === payload.id) {
-          return { ...category, title: payload.title };
+          return {
+            ...category,
+            title: payload.title,
+            updatedAt: payload.updatedAt
+          };
         }
         return category;
       })
