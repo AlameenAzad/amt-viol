@@ -15,58 +15,47 @@ export async function getTags(context) {
   }
 }
 
-export function addTag(context, payload) {
-  context.commit("general/setLoading", true, { root: true });
+export async function addTag(context, payload) {
   const { name } = payload;
   if (!!name) {
-    api
-      .post("/api/tags", { data: { title: name } })
-      .then(response => {
-        context.commit("addTag", response.data.data);
-        context.commit("general/setLoading", false, { root: true });
-        Notify.create({
-          message: "Tag added successfully",
-          type: "positive"
-        });
-      })
-      .catch(error => {
-        context.commit("general/setLoading", false, { root: true });
-        console.error("error :>> ", error);
-        Notify.create({
-          position: "top-right",
-          type: "negative",
-          message: error.response.data.error.message
-        });
+    try {
+      const res = await api.post("/api/tags", { data: { title: name } });
+      context.commit("addTag", res.data.data);
+      Notify.create({
+        message: "Tag added successfully",
+        type: "positive"
       });
+      context.dispatch("getTags");
+    } catch (error) {
+      Notify.create({
+        position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
   }
 }
 
-export function deleteTag(context, payload) {
-  context.commit("general/setLoading", true, { root: true });
+export async function deleteTag(context, payload) {
   const { id } = payload;
   if (!!id) {
-    api
-      .delete(`/api/tags/${id}`)
-      .then(response => {
-        context.commit(
-          "deleteTag",
-          response.data.data && response.data.data.id
-        );
-        context.commit("general/setLoading", false, { root: true });
-        Notify.create({
-          message: "Tag deleted successfully",
-          type: "positive"
-        });
-      })
-      .catch(error => {
-        console.error("error :>> ", error);
-        context.commit("general/setLoading", false, { root: true });
-        Notify.create({
-          position: "top-right",
-          type: "negative",
-          message: error.response.data.error.message
-        });
+    try {
+      const res = await api.delete(`/api/tags/${id}`);
+      context.commit("deleteTag", res.data.data && res.data.data.id);
+      Notify.create({
+        message: "Tag deleted successfully",
+        type: "positive"
       });
+      context.dispatch("getTags");
+    } catch (error) {
+      Notify.create({
+        position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
   }
 }
 
@@ -78,12 +67,12 @@ export async function editTag(context, payload) {
       const res = await api.put(`/api/tags/${id}`, {
         data: { title: title, updatedAt: new Date().toISOString() }
       });
-      console.log("res :>> ", res);
       context.commit("editTag", res.data.data);
       Notify.create({
         message: "Tag updated successfully",
         type: "positive"
       });
+      context.dispatch("getTags");
     } catch (error) {
       Notify.create({
         position: "top-right",
