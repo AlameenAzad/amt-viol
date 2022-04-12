@@ -6,7 +6,7 @@ export function setTags(state, payload) {
 
 export function addTag(state, payload) {
   if (!!payload) {
-    state.tags.push(payload);
+    state.tags.push({ ...payload, projectsCount: 0 });
   }
 }
 
