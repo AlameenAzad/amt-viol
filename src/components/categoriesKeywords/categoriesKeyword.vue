@@ -232,16 +232,20 @@ export default {
       this.itemId = !!row.id ? row.id : "";
       this.createDialog = true;
     },
-    getData(item) {
-      this.$store.dispatch(item);
+    getData(tab) {
+      if (tab === "categories") {
+        this.$store.dispatch("category/getCategories");
+      } else {
+        this.$store.dispatch("tag/getTags");
+      }
     }
   },
   watch: {
     tab(val) {
       if (val === "categories") {
-        this.getData("category/getCategories");
+        this.getData("categories");
       } else {
-        this.getData("tag/getTags");
+        this.getData("keywords/Tags");
       }
     }
   },
@@ -259,11 +263,7 @@ export default {
     }
   },
   mounted() {
-    if (this.tab === "categories") {
-      this.getData("category/getCategories");
-    } else {
-      this.getData("tag/getTags");
-    }
+    this.getData(this.tab);
   }
 };
 </script>

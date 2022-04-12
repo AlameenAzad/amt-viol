@@ -1,7 +1,7 @@
 <template>
   <q-dialog @before-show="getItemInfo" v-model="$_options">
     <q-card class="q-px-xl radius-10  column ">
-      <q-form @submit.prevent="editingId ? editItem() : addItem()">
+      <q-form @submit.prevent="!!editingId ? editItem() : addItem()">
         <q-card-section align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
@@ -49,7 +49,7 @@
               class="no-shadow radius-6 q-px-xl q-mr-sm"
             />
             <q-btn
-              :label="editingId ? 'Edit' : 'Save'"
+              :label="!!editingId ? 'Edit' : 'Save'"
               type="submit"
               unelevated
               :loading="isLoading"
