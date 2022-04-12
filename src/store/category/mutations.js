@@ -25,11 +25,7 @@ export function editCategory(state, payload) {
     state.categories = [
       ...state.categories.map(category => {
         if (category.id === payload.id) {
-          return {
-            ...category,
-            title: payload.title,
-            updatedAt: payload.updatedAt
-          };
+          return { ...category, title: payload.title };
         }
         return category;
       })
