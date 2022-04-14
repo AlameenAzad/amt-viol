@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import errorDialog from "./errorDialog";
-import auth from "./auth";
+import userCenter from "./userCenter";
 import project from "./project";
 import general from "./general";
 import category from "./category";
@@ -23,7 +23,7 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       errorDialog,
-      auth,
+      userCenter,
       project,
       general,
       category,
