@@ -18,6 +18,7 @@
         'cd /mnt/HC_Volume_18048612/api-clone/amtviold-api && git submodule status',
 	    'cd /mnt/HC_Volume_18048612/api-clone/amtviold-api && yarn',
 	    'cd /mnt/HC_Volume_18048612/api-clone/amtviold-api && NODE_ENV=production yarn build',
+	    'cd /mnt/HC_Volume_18048612/api-clone/amtviold-api && pm2 restart server',
     );
 
     // exec commands
