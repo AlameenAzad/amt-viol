@@ -85,4 +85,3 @@ export async function deleteCategory(context, payload) {
     }
   }
 }
-
