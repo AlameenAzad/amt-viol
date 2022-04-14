@@ -8,15 +8,15 @@
 
     // array of commands
     $commands = array(
-        'cd /var/www/amt-viol/ && echo $PWD',
-        'cd /var/www/amt-viol/ && whoami',
-        'cd /var/www/amt-viol/ && git pull',
-        'cd /var/www/amt-viol/ && git status',
-        'cd /var/www/amt-viol/ && git submodule sync',
-        'cd /var/www/amt-viol/ && git submodule update',
-        'cd /var/www/amt-viol/ && git submodule status',
-	    'cd /var/www/amt-viol/ && yarn',
-	    'cd /var/www/amt-viol/ && quasar build'
+        'cd /var/www/amt-clone/amt-viol/ && echo $PWD',
+        'cd /var/www/amt-clone/amt-viol/ && whoami',
+        'cd /var/www/amt-clone/amt-viol/ && git pull',
+        'cd /var/www/amt-clone/amt-viol/ && git status',
+        'cd /var/www/amt-clone/amt-viol/ && git submodule sync',
+        'cd /var/www/amt-clone/amt-viol/ && git submodule update',
+        'cd /var/www/amt-clone/amt-viol/ && git submodule status',
+        'cd /var/www/amt-clone/amt-viol/ && yarn',
+        'cd /var/www/amt-clone/amt-viol/ && quasar build'
     );
 
     // exec commands
