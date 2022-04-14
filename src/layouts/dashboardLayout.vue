@@ -57,6 +57,16 @@
             class="mr-0"
           >
           </q-btn>
+          <q-btn
+            icon="logout"
+            flat
+            round
+            dark
+            color="red"
+            class="mr-0"
+            @click="$store.dispatch('userCenter/logout')"
+          >
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
