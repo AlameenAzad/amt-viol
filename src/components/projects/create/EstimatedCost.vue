@@ -75,7 +75,6 @@ export default {
     },
     addEstimatedCost(index) {
       this.estimatedCosts.push({
-        id: index.toString(),
         name: "",
         price: ""
       });
