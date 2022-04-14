@@ -15,7 +15,8 @@ Vue.prototype.$api = api;
 export default ({ app, store, router }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
   api.interceptors.request.use(config => {
-    var token = !!store.state.auth.user && store.state.auth.user.jwt;
+    var token =
+      !!store.state.userCenter.user && store.state.userCenter.user.jwt;
     if (token) {
       // Checking if the url is not login because we should have Auth header there. Login witll not work
       if (config.url !== "/api/auth/local") {
