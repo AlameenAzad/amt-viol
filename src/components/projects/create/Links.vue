@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row q-col-gutter-y-lg q-mb-lg">
-      <div v-for="(cost, index) in estimatedCosts" :key="index" class="col-12">
+      <div v-for="(link, index) in links" :key="index" class="col-12">
         <div class="row items-center q-col-gutter-x-md">
           <div class="col-11">
             <div class="row q-col-gutter-x-md">
@@ -10,8 +10,8 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Cost name"
-                  v-model="cost.name"
+                  placeholder="Link name"
+                  v-model="link.title"
                   :rules="[]"
                   @input="onInput(index)"
                 />
@@ -21,8 +21,8 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Cost amount"
-                  v-model.number="cost.price"
+                  placeholder="Link URL"
+                  v-model.number="link.link"
                   :rules="[]"
                   @input="onInput(index)"
                 />
@@ -31,7 +31,7 @@
           </div>
           <div class="col-1">
             <q-btn
-              @click="removeEstimatedCost(index)"
+              @click="removeLink(index)"
               icon="delete"
               flat
               round
@@ -44,13 +44,13 @@
     </div>
     <div class="row">
       <q-btn
-        @click="addEstimatedCost(!!estimatedCosts && estimatedCosts.length + 1)"
+        @click="addLink()"
         outline
         class="radius-6"
         icon="add"
         size="md"
         color="primary"
-        label="Add Costs"
+        label="Add Link"
       />
     </div>
   </div>
@@ -61,28 +61,24 @@ export default {
   name: "links",
   data() {
     return {
-      estimatedCosts: []
+      links: []
     };
   },
   methods: {
     onInput(index) {
-      if (
-        !!this.estimatedCosts[index].name &&
-        !!this.estimatedCosts[index].price
-      ) {
-        this.$emit("update:cost", this.estimatedCosts);
+      if (!!this.links[index].title && !!this.links[index].link) {
+        this.$emit("update:link", this.links);
       }
     },
-    addEstimatedCost(index) {
-      this.estimatedCosts.push({
-        id: index.toString(),
-        name: "",
-        price: ""
+    addLink() {
+      this.links.push({
+        title: "",
+        link: ""
       });
-      this.$emit("update:cost", this.estimatedCosts);
+      this.$emit("update:link", this.links);
     },
-    removeEstimatedCost(index) {
-      this.estimatedCosts.splice(index, 1);
+    removeLink(index) {
+      this.links.splice(index, 1);
     }
   }
 };
