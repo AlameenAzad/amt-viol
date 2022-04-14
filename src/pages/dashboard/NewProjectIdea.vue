@@ -4,11 +4,7 @@
       Project Ideas
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
-      <q-form
-        ref="newProjectIdeaForm"
-        @submit.prevent="submitNewProjectIdea"
-        class="q-gutter-lg q-px-md q-mb-md"
-      >
+      <q-form ref="newProjectIdeaForm" class="q-gutter-lg q-px-md q-mb-md">
         <div class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -21,7 +17,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Title"
-              v-model="form.projectName"
+              v-model="form.title"
               :rules="[]"
             />
           </div>
@@ -38,9 +34,10 @@
                 <q-input
                   outlined
                   dense
+                  disable
                   class="no-shadow input-radius-6"
                   placeholder="Name, Surname"
-                  v-model="form.nameAndSurname"
+                  :value="!!userDetails && userDetails.fullName"
                   :rules="[]"
                 />
               </div>
@@ -48,9 +45,10 @@
                 <q-input
                   outlined
                   dense
+                  disable
                   class="no-shadow input-radius-6"
                   placeholder="Administration"
-                  v-model="form.administration"
+                  :value="!!userDetails && userDetails.municipality.location"
                   :rules="[]"
                 />
               </div>
@@ -71,7 +69,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
-                  v-model="form.streetAndNr"
+                  v-model="form.info.streetNo"
                   :rules="[]"
                 />
               </div>
@@ -81,7 +79,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
-                  v-model="form.postalCodeAndCity"
+                  v-model="form.info.postalCode"
                   :rules="[]"
                 />
               </div>
@@ -91,7 +89,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
-                  v-model="form.telephone"
+                  v-model="form.info.phone"
                   :rules="[]"
                 />
               </div>
@@ -101,7 +99,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
-                  v-model="form.email"
+                  v-model="form.info.email"
                   :rules="[]"
                 />
               </div>
@@ -111,7 +109,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Location with geoinformation"
-                  v-model="form.locWithGeoInfo"
+                  v-model="form.info.location"
                   :rules="[]"
                 />
               </div>
@@ -120,9 +118,7 @@
         </div>
         <div
           class="row"
-          :class="
-            form.editorsInvited.length > 0 ? 'items-baseline' : 'items-center'
-          "
+          :class="form.editors.length > 0 ? 'items-baseline' : 'items-center'"
         >
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -130,41 +126,10 @@
             </p>
           </div>
           <div class="col-8">
-            <div
-              v-for="(editor, index) in form.editorsInvited"
-              :key="index + 1"
-              class="row q-col-gutter-x-md q-col-gutter-y-lg items-center q-mb-lg"
-            >
-              <div class="col-11">
-                <UserSelect
-                  :editor="editor"
-                  @update:editor="updateEditor(index, $event)"
-                />
-              </div>
-              <div class="col-1">
-                <q-btn
-                  @click="removeEditor(index)"
-                  icon="delete"
-                  flat
-                  round
-                  color="red"
-                  size="md"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <q-btn
-                @click="addEditor"
-                outline
-                class="radius-6"
-                icon="add"
-                size="md"
-                color="primary"
-                label="Add Editor"
-              />
-            </div>
+            <UserSelect @update:user="form.editors = $event" />
           </div>
         </div>
+
         <div class="row items-baseline">
           <div class="col-4">
             <p class="font-16 no-margin">Visibility</p>
@@ -177,6 +142,7 @@
               :options="visibilityOptions"
               class="no-shadow input-radius-6"
               options-selected-class="text-primary"
+              map-options
             >
               <template v-slot:selected>
                 <template v-if="form.visibility">
@@ -190,8 +156,15 @@
               </template></q-select
             >
             <p class="font-16 q-mb-none q-mt-md text-grey">
-              <!-- TODO make this text dynamic -->
-              This Document is visible for all Users
+              {{
+                form.visibility === "only for me"
+                  ? "This Document is visible only for you"
+                  : form.visibility === "all users"
+                  ? "This Document is visible for all Users"
+                  : form.visibility === "listed only"
+                  ? "This document is listed only"
+                  : ""
+              }}
             </p>
           </div>
         </div>
@@ -233,7 +206,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Describe the project"
-              v-model="form.projectContent"
+              v-model="form.details.content"
               :rules="[]"
             />
           </div>
@@ -250,7 +223,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Project goals"
-              v-model="form.projectGoals"
+              v-model="form.details.goals"
               :rules="[]"
             />
           </div>
@@ -267,7 +240,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="project value &amp; benefits"
-              v-model="form.projectValuesAndBenefits"
+              v-model="form.details.valuesAndBenefits"
               :rules="[]"
             />
           </div>
@@ -284,7 +257,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="cooperation partners (optional)"
-              v-model="form.coorperationPartners"
+              v-model="form.details.partner"
               :rules="[]"
             />
           </div>
@@ -302,7 +275,7 @@
           </div>
           <div class="col-8">
             <q-btn-toggle
-              v-model="form.investiveNoninvestive"
+              v-model="form.details.investive"
               spread
               no-caps
               toggle-color="yellow"
@@ -323,7 +296,7 @@
           </div>
           <div class="col-8">
             <q-btn-toggle
-              v-model="form.projectStatus"
+              v-model="form.details.status"
               spread
               no-caps
               toggle-color="yellow"
@@ -391,7 +364,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.startDate"
+                  v-model="form.plannedStart"
                   color="primary"
                   bg-color="white"
                   placeholder="Start"
@@ -403,7 +376,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.startDate" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedStart" mask="DD.MM.YYYY">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -423,7 +396,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.endDate"
+                  v-model="form.plannedEnd"
                   color="primary"
                   bg-color="white"
                   placeholder="End"
@@ -435,7 +408,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.endDate" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedEnd" mask="DD.MM.YYYY">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -460,9 +433,7 @@
         </div>
         <div
           class="row"
-          :class="
-            form.estimatedCosts.length > 0 ? 'items-baseline' : 'items-center'
-          "
+          :class="form.links.length > 0 ? 'items-baseline' : 'items-center'"
         >
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -470,8 +441,58 @@
             </p>
           </div>
           <div class="col-8">
-            <Links @update:link="updateEstimatedCosts" />
+            <Links @update:link="updateLinks" />
           </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <q-separator class="bg-blue opacity-10" />
+          </div>
+        </div>
+        <div class="row items-center">
+          <div class="col-4">
+            <p class="font-16 no-margin">
+              Uploads
+            </p>
+          </div>
+          <div class="col-8">
+            <q-uploader
+              flat
+              v-model="form.files"
+              class="uploadInput"
+              label-color="white"
+              bg-color="primary"
+              label="Select files"
+              multiple
+              style="max-width: 170px"
+              no-thumbnails
+            >
+            </q-uploader>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <q-separator class="bg-blue opacity-10" />
+          </div>
+        </div>
+        <div class="row justify-center">
+          <q-btn
+            label="Save Draft"
+            @click="submitNewProjectIdea(false)"
+            size="16px"
+            outline
+            color="primary"
+            no-caps
+            class="radius-6 q-px-xl q-py-xs q-mr-md"
+          />
+          <q-btn
+            label="Publish"
+            @click="submitNewProjectIdea(true)"
+            size="16px"
+            color="primary"
+            no-caps
+            class="radius-6 q-px-xl q-py-xs q-ml-md"
+          />
         </div>
       </q-form>
     </div>
@@ -497,33 +518,39 @@ export default {
     return {
       componentKey: 0,
       form: {
-        projectName: "",
-        nameAndSurname: "",
-        administration: "",
-        streetAndNr: "",
-        postalCodeAndCity: "",
-        telephone: "",
-        email: "",
-        locWithGeoInfo: "",
-        editorsInvited: [],
-        visibility: "",
+        title: "",
+        plannedStart: "",
+        plannedEnd: "",
+        visibility: "only for me",
+        info: {
+          contactName: "",
+          phone: "",
+          email: "",
+          location: "",
+          streetNo: "",
+          postalCode: ""
+        },
+        details: {
+          content: "",
+          goals: "",
+          valuesAndBenefits: "",
+          partner: "",
+          investive: null,
+          status: "development"
+        },
+        municipality: "",
+        editors: [],
         categories: [],
         tags: [],
-        projectContent: "",
-        projectGoals: "",
-        projectValuesAndBenefits: "",
-        coorperationPartners: "",
-        investiveNoninvestive: "",
-        projectStatus: "",
         estimatedCosts: [],
+        links: [],
         fundingGuidelines: "",
-        startDate: "",
-        endDate: ""
+        files: null
       },
-      visibilityOptions: ["Google", "Facebook"],
+      visibilityOptions: ["only for me", "all users", "listed only"],
       investiveNoninvestiveOptions: [
-        { label: "Investive", value: "investive" },
-        { label: "Nicht-investiv", value: "nonInvestive" }
+        { label: "Investive", value: true },
+        { label: "Nicht-investiv", value: false }
       ],
       projectStatuses: [
         { label: "Idea", value: "idea" },
@@ -534,22 +561,55 @@ export default {
     };
   },
   methods: {
+    submitNewProjectIdea(val) {
+      const published = val;
+      this.$refs.newProjectIdeaForm.validate().then(success => {
+        if (success) {
+          this.$store.dispatch("project/createNewProjectIdea", {
+            ...this.form,
+            published: published,
+            info: {
+              ...this.form.info,
+              contactName: this.userDetails.fullName,
+              phone: this.userDetails.phone,
+              email: this.user.email,
+              location: this.userDetails.location,
+              streetNo: "",
+              postalCode: ""
+            },
+            municipality: {
+              id:
+                this.userDetails.municipality &&
+                this.userDetails.municipality.id
+            },
+            owner: {
+              id: 1
+            }
+          });
+        } else {
+          console.log("error");
+        }
+      });
+    },
     forceRerender() {
       this.componentKey += 1;
     },
-    addEditor() {
-      this.form.editorsInvited.push("");
-    },
-    removeEditor(index) {
-      this.form.editorsInvited.splice(index, 1);
-      this.forceRerender();
-    },
-    updateEditor(index, value) {
-      this.form.editorsInvited[index] = value;
-      this.forceRerender();
-    },
     updateEstimatedCosts(val) {
       this.form.estimatedCosts = val;
+    },
+    updateLinks(val) {
+      this.form.links = val;
+    }
+  },
+  computed: {
+    userDetails() {
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.userDetails
+      );
+    },
+    user() {
+      return this.$store.state.userCenter.user;
     }
   }
 };
@@ -562,5 +622,7 @@ export default {
     border-radius: 10px !important;
     border: 1px solid $yellow;
   }
+}
+.uploadInput {
 }
 </style>
