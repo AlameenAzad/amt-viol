@@ -76,7 +76,7 @@ export default {
     async login() {
       if (!!this.form.identifier && !!this.form.password) {
         this.isLoading = true;
-        const res = await this.$store.dispatch("auth/login", this.form);
+        const res = await this.$store.dispatch("userCenter/login", this.form);
         this.isLoading = false;
         this.errorMsg = res;
         if (res === true) {
@@ -99,7 +99,7 @@ export default {
       }
     },
     loginMessages() {
-      return this.$store.state.auth.loadingMessages;
+      return this.$store.state.userCenter.loadingMessages;
     }
   }
 };
