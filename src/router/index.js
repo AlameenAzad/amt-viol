@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./routes";
+// import { Loading, QSpinnerGears } from "quasar";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ export default function(/* { store, ssrContext } */) {
     // scrollBehavior(to, from) {
     //   return { x: 0, y: 0 };
     // },
+
     routes,
 
     // Leave these as they are and change in quasar.conf.js instead!
@@ -28,6 +30,18 @@ export default function(/* { store, ssrContext } */) {
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   });
+
+  // Router.beforeEach(async (to, from, next) => {
+  // if (from.fullPath === "/" && to.fullPath === "/dashboard") {
+  // console.log("from :>> ", from);
+  // console.log("to :>> ", to);
+  // const res = await store.dispatch("tag/getTags");
+  // console.log("res :>> ", res);
+  // Loading.show();
+  // next();
+  // }
+  // next();
+  // });
 
   return Router;
 }
