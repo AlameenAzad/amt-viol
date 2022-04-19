@@ -25,6 +25,7 @@ export async function login(context, payload) {
       this.$router.push({ path: "/dashboard" });
       return true;
     } catch (error) {
+      console.log("error :>> ", error.response);
       // TODO add error for too many login requests
       // console.log("error :>> ", error.response);
       // Notify.create({
@@ -55,7 +56,6 @@ export async function getUserDetails(context) {
 export async function getUsers(context) {
   try {
     const res = await api.get("/api/users");
-    console.log("res :>> ", res);
     context.commit("setUsers", res.data);
   } catch (error) {
     console.log("error :>> ", error.response);
@@ -66,7 +66,59 @@ export async function getUsers(context) {
   }
 }
 
+export async function inviteUser(context, payload) {
+  const { data } = payload;
+  if (!!data) {
+    try {
+      const res = await api.post("/api/users", data);
+      console.log("res :>> ", res);
+      Notify.create({
+        message: "An Email has been sent to the invited user",
+        type: "positive"
+      });
+      context.dispatch("getUsers");
+      // TODO perform add user mutation? Ask Ameen if I should update the table right away
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function resetPassword(context, payload) {
+  const { data } = payload;
+  if (!!data) {
+    try {
+      await api.post("/api/auth/reset-password", data);
+      Notify.create({
+        message: "Password reset successfully. Redirecting to Login",
+        type: "positive"
+      });
+      setTimeout(() => {
+        this.$router.push({ path: "/" });
+      }, 2000);
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function logout(context) {
   context.commit("setUser", null);
+  context.commit("setUsers", []);
+  context.commit("project/setProjectIdeas", [], { root: true });
+  context.commit("tag/setTags", [], { root: true });
+  context.commit("municipality/setMunicipalities", [], { root: true });
+  context.commit("category/setCategories", [], { root: true });
+  context.commit("project/setProjectIdeas", [], { root: true });
   this.$router.push({ path: "/" });
 }
