@@ -1,7 +1,5 @@
 export function setMunicipalities(state, payload) {
-  if (!!payload) {
-    state.municipalities = payload;
-  }
+  state.municipalities = payload;
 }
 
 export function addMunicipality(state, payload) {
