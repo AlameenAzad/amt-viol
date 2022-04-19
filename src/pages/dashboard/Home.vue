@@ -38,7 +38,12 @@
         class="mr-0 radius-6 text-weight-600"
         no-caps
       >
-        <p class="q-mb-none q-mx-md q-my-sm">Project ideas</p>
+        <p
+          @click="$router.push({ path: '/user/newProjectIdea' })"
+          class="q-mb-none q-mx-md q-my-sm"
+        >
+          Project ideas
+        </p>
       </q-btn>
     </div>
     <div>
