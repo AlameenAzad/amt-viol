@@ -1,7 +1,5 @@
 export function setTags(state, payload) {
-  if (!!payload) {
-    state.tags = payload;
-  }
+  state.tags = payload;
 }
 
 export function addTag(state, payload) {
