@@ -22,6 +22,7 @@
             />
           </div>
         </div>
+        <p class="text-red">Please fill these manually for now :) ~Bilend</p>
         <div class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -34,10 +35,9 @@
                 <q-input
                   outlined
                   dense
-                  disable
                   class="no-shadow input-radius-6"
                   placeholder="Name, Surname"
-                  :value="!!userDetails && userDetails.fullName"
+                  v-model="form.info.contactName"
                   :rules="[]"
                 />
               </div>
@@ -129,7 +129,6 @@
             <UserSelect @update:user="form.editors = $event" />
           </div>
         </div>
-
         <div class="row items-baseline">
           <div class="col-4">
             <p class="font-16 no-margin">Visibility</p>
@@ -142,7 +141,6 @@
               :options="visibilityOptions"
               class="no-shadow input-radius-6"
               options-selected-class="text-primary"
-              map-options
             >
               <template v-slot:selected>
                 <template v-if="form.visibility">
@@ -376,7 +374,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.plannedStart" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedStart" mask="YYYY-MM-DD">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -408,7 +406,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.plannedEnd" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedEnd" mask="YYYY-MM-DD">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -456,18 +454,22 @@
             </p>
           </div>
           <div class="col-8">
-            <q-uploader
+            <q-file
               flat
               v-model="form.files"
-              class="uploadInput"
+              class="uploadInput input-radius-6 text-white"
               label-color="white"
+              dark
               bg-color="primary"
               label="Select files"
               multiple
-              style="max-width: 170px"
-              no-thumbnails
+              use-chips
+              style="max-width: 200px"
             >
-            </q-uploader>
+              <template v-slot:prepend>
+                <q-icon color="white" class="on-right" name="upload" />
+              </template>
+            </q-file>
           </div>
         </div>
         <div class="row">
@@ -482,6 +484,7 @@
             size="16px"
             outline
             color="primary"
+            :loading="isLoading"
             no-caps
             class="radius-6 q-px-xl q-py-xs q-mr-md"
           />
@@ -490,6 +493,7 @@
             @click="submitNewProjectIdea(true)"
             size="16px"
             color="primary"
+            :loading="isLoading"
             no-caps
             class="radius-6 q-px-xl q-py-xs q-ml-md"
           />
@@ -516,7 +520,6 @@ export default {
   },
   data() {
     return {
-      componentKey: 0,
       form: {
         title: "",
         plannedStart: "",
@@ -536,7 +539,7 @@ export default {
           valuesAndBenefits: "",
           partner: "",
           investive: null,
-          status: "development"
+          status: "Development"
         },
         municipality: "",
         editors: [],
@@ -553,46 +556,51 @@ export default {
         { label: "Nicht-investiv", value: false }
       ],
       projectStatuses: [
-        { label: "Idea", value: "idea" },
-        { label: "Development", value: "development" },
-        { label: "Pre-Planing", value: "pre-planning" },
-        { label: "Detailed-Planning", value: "detailed-planning" }
-      ]
+        { label: "Idea", value: "Idea" },
+        { label: "Development", value: "Development" },
+        { label: "Pre-Planing", value: "Pre-planning" },
+        { label: "Detailed-Planning", value: "Detailed-planning" }
+      ],
+      isLoading: false
     };
   },
   methods: {
     submitNewProjectIdea(val) {
       const published = val;
-      this.$refs.newProjectIdeaForm.validate().then(success => {
+      this.$refs.newProjectIdeaForm.validate().then(async success => {
         if (success) {
-          this.$store.dispatch("project/createNewProjectIdea", {
-            ...this.form,
-            published: published,
-            info: {
-              ...this.form.info,
-              contactName: this.userDetails.fullName,
-              phone: this.userDetails.phone,
-              email: this.user.email,
-              location: this.userDetails.location,
-              streetNo: "",
-              postalCode: ""
-            },
-            municipality: {
-              id:
-                this.userDetails.municipality &&
-                this.userDetails.municipality.id
-            },
-            owner: {
-              id: 1
+          this.isLoading = true;
+          const res = await this.$store.dispatch(
+            "project/createNewProjectIdea",
+            {
+              data: {
+                ...this.form,
+                published: published,
+                // info: {
+                //   ...this.form.info,
+                //   contactName: this.userDetails.fullName,
+                //   phone: this.userDetails.phone,
+                //   email: this.user.email,
+                //   location: this.userDetails.location,
+                //   streetNo: "",
+                //   postalCode: ""
+                // },
+                municipality: {
+                  id:
+                    this.userDetails.municipality &&
+                    this.userDetails.municipality.id
+                },
+                owner: {
+                  id: this.user && this.user.id
+                }
+              }
             }
-          });
+          );
+          this.isLoading = false;
         } else {
           console.log("error");
         }
       });
-    },
-    forceRerender() {
-      this.componentKey += 1;
     },
     updateEstimatedCosts(val) {
       this.form.estimatedCosts = val;
