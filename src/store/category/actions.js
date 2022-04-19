@@ -1,20 +1,17 @@
 import { api } from "boot/axios";
 import { Notify } from "quasar";
 
-export function getCategories(context) {
-  // Make this async aswell
-  api
-    .get("/api/categories")
-    .then(response => {
-      context.commit("setCategories", response.data);
-    })
-    .catch(error => {
-      Notify.create({
-        position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
+export async function getCategories(context) {
+  try {
+    const res = await api.get("/api/categories");
+    context.commit("setCategories", res.data);
+  } catch (error) {
+    Notify.create({
+      position: "top-right",
+      type: "negative",
+      message: error.response.data.error.message
     });
+  }
 }
 
 export async function addCategory(context, payload) {
