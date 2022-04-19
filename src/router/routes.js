@@ -17,6 +17,11 @@ const routes = [
         path: "/documents/:id",
         name: "documentView",
         component: () => import("pages/DocumentView.vue")
+      },
+      {
+        path: "/reset-password",
+        name: "ResetPassword",
+        component: () => import("pages/ResetPassword.vue")
       }
     ]
   },
