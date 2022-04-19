@@ -9,13 +9,15 @@ export function setUserDetails(state, payload) {
 }
 
 export function setUsers(state, payload) {
+  state.users = payload;
+}
+
+export function addUser(state, payload) {
   if (!!payload) {
-    state.users = payload;
+    state.users.push(payload);
   }
 }
 
 export function changeLoadingMessages(state, payload) {
-  if (!!payload) {
-    state.loadingMessages = payload;
-  }
+  state.loadingMessages = payload;
 }
