@@ -1,7 +1,5 @@
 export function setCategories(state, payload) {
-  if (!!payload) {
-    state.categories = payload;
-  }
+  state.categories = payload;
 }
 
 export function addCategory(state, payload) {
