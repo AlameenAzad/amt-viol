@@ -59,11 +59,13 @@ export async function createNewProjectIdea(context, payload) {
 }
 
 export async function getSpecificProject(context, payload) {
+  context.commit("setSpecificProject", null);
   const { id } = payload;
   if (id) {
     try {
-      const res = await api.get("/api/projects/19");
+      const res = await api.get(`/api/projects/${id}`);
       context.commit("setSpecificProject", res.data);
+      this.$router.push({ path: `/user/newProjectIdea/${id}` });
     } catch (error) {
       Notify.create({
         position: "top-right",
