@@ -12,7 +12,7 @@
           <q-img
             class="radius-10"
             spinner-color="primary"
-            :src="profileImage"
+            :src="form.profileImage"
             style="height: 160px; max-width: 160px"
           />
         </div>
@@ -63,7 +63,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="name"
+            v-model="form.name"
             :rules="[]"
           />
         </div>
@@ -78,7 +78,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="administration"
+            v-model="form.administration"
             :rules="[]"
           />
         </div>
@@ -93,7 +93,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="email"
+            v-model="form.email"
             :rules="[]"
           />
         </div>
@@ -108,7 +108,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="telephone"
+            v-model="form.telephone"
             :rules="[]"
           />
         </div>
@@ -123,7 +123,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="location"
+            v-model="form.location"
             :rules="[]"
           />
         </div>
@@ -134,7 +134,7 @@
             color="primary"
             class="dataVisible font-16 q-py-sm"
             right-label
-            v-model="dataVisible"
+            v-model="form.dataVisible"
             label="Do you want your contact details to be visible to users?"
           />
         </div>
@@ -158,16 +158,25 @@ export default {
   name: "personalDataTab",
   data() {
     return {
-      profileImage: "https://placeimg.com/500/300/nature",
-      name: "",
-      administration: "",
-      email: "",
-      telephone: "",
-      location: "",
-      dataVisible: true
+      form: {
+        profileImage: "https://placeimg.com/500/300/nature",
+        name: "",
+        administration: "",
+        email: "",
+        telephone: "",
+        location: "",
+        dataVisible: false
+      }
     };
   },
   methods: {
+    setData() {
+      this.form.email = this.user.email;
+      this.form.name = this.userDetails.fullName || "";
+      this.form.telephone = this.userDetails.phone || "";
+      this.form.location = this.userDetails.location || "";
+      this.form.administration = this.userDetails.municipality.title || "";
+    },
     changeImage() {
       console.log("Clicked change image");
     },
@@ -182,6 +191,20 @@ export default {
           console.log("error");
         }
       });
+    }
+  },
+  mounted() {
+    this.setData();
+  },
+  computed: {
+    userDetails() {
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.userDetails
+      );
+    },
+    user() {
+      return this.$store.state.userCenter.user.user;
     }
   }
 };
