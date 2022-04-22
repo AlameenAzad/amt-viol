@@ -168,7 +168,6 @@ const routes = [
         meta: {
           title: "User Details"
         },
-
         component: () => import("pages/dashboard/DetailUser.vue")
       },
       {
@@ -178,8 +177,16 @@ const routes = [
           title: "New Project Ideas",
           backLink: "/user/data"
         },
-
         component: () => import("pages/dashboard/NewProjectIdea.vue")
+      },
+      {
+        path: "/user/newProjectIdea/:id",
+        name: "ViewProject",
+        meta: {
+          title: "Details of the project Idea",
+          backLink: "/user/data"
+        },
+        component: () => import("pages/dashboard/ProjectView.vue")
       },
       {
         path: "/user/newFunding",
@@ -187,7 +194,6 @@ const routes = [
         meta: {
           title: "New Funding"
         },
-
         component: () => import("pages/dashboard/NewFunding.vue")
       }
     ]
