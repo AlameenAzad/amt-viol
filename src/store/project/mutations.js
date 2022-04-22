@@ -9,7 +9,5 @@ export function addNewProjectIdea(state, payload) {
 }
 
 export function setSpecificProject(state, payload) {
-  if (!!payload) {
-    state.project = payload;
-  }
+  state.project = payload;
 }
