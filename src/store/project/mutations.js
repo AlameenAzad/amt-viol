@@ -8,6 +8,10 @@ export function addNewProjectIdea(state, payload) {
   }
 }
 
+export function editProjectIdea(state, payload) {
+  console.log("edit project idea payload", payload);
+}
+
 export function setSpecificProject(state, payload) {
   state.project = payload;
 }
