@@ -5,7 +5,7 @@
     v-model="model"
     multiple
     :options="tags"
-    options-selected-class="text-primary"
+    options-selected-class="text-primary text-weight-600"
     class="no-shadow input-radius-6"
     @input="onSelect"
   >
@@ -35,6 +35,12 @@
 <script>
 export default {
   name: "tags",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       model: null
@@ -46,13 +52,23 @@ export default {
       value.forEach(element => {
         tags.push({ id: element.id });
       });
-      this.$emit("update:tag", tags);
+      this.$emit("update:tag", tags.length > 0 ? tags : []);
     }
   },
   computed: {
     tags() {
-      return this.$store.state.tag.tags;
+      return this.$store.state.tag.tags.map(tag => {
+        return {
+          id: tag.id,
+          title: tag.title
+        };
+      });
     }
+  },
+  mounted() {
+    this.model = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.tags))
+      : null;
   }
 };
 </script>
