@@ -1,5 +1,7 @@
 <template>
-  <municipality />
+  <q-page class="q-mx-xl q-mt-lg">
+    <municipality />
+  </q-page>
 </template>
 
 <script>
