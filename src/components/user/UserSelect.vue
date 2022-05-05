@@ -11,7 +11,7 @@
                   dense
                   :value="user"
                   :options="userOptions"
-                  options-selected-class="text-primary"
+                  options-selected-class="text-primary text-weight-600"
                   class="no-shadow input-radius-6"
                   @input="onSelect($event, index)"
                 >
@@ -28,7 +28,14 @@
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                       <q-item-section>
-                        <q-item-label>{{ scope.opt.username }}</q-item-label>
+                        <q-item-label
+                          :class="
+                            scope.opt.username === user.username
+                              ? 'text-primary text-weight-600'
+                              : ''
+                          "
+                          >{{ scope.opt.username }}</q-item-label
+                        >
                       </q-item-section>
                     </q-item>
                   </template>
@@ -66,38 +73,62 @@
 <script>
 export default {
   name: "userSelect",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      users: [],
-      emittingUsers: []
+      users: []
     };
   },
   methods: {
     onSelect(value, selectedIndex) {
-      // Assing to users array
+      // Adding to users array
       this.users[selectedIndex].username = value.username;
-      this.users.forEach((user, index) => {
-        if (index === selectedIndex) {
-          this.emittingUsers.push({
-            id: value.id
-          });
-        }
-      });
-      this.$emit("update:user", this.emittingUsers);
+      this.users[selectedIndex].id = value.id;
+      // this.users.forEach((user, index) => {
+      // if (index === selectedIndex) {
+      //   this.users[selectedIndex] = {
+      //     id: value.id,
+      //     username: value.username
+      //   };
+      // }
+      // });
+      this.$emit("update:user", this.users.length > 0 ? this.users : []);
     },
     addUser() {
       this.users.push({
-        username: ""
+        username: "",
+        id: null
       });
     },
     removeUser(index) {
       this.users.splice(index, 1);
-      this.emittingUsers.splice(index, 1);
+      this.$emit("update:user", this.users.length > 0 ? this.users : []);
     }
   },
   computed: {
     userOptions() {
       return this.$store.state.userCenter.users;
+    }
+  },
+  mounted() {
+    if (this.editing) {
+      this.users = JSON.parse(
+        JSON.stringify(
+          this.$store.state.project.project.editors.map(user => {
+            return {
+              username: user.username,
+              id: user.id
+            };
+          })
+        )
+      );
+    } else {
+      this.users = [];
     }
   }
 };
