@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg q-ma-xl q-pb-md">
+  <div>
     <q-tabs
       v-if="isInPage"
       v-model="tab"
