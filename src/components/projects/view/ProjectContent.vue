@@ -320,7 +320,7 @@
         <div class="row">
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
-              <q-card-section v-if="project.uploads">
+              <q-card-section v-if="project.media">
                 <q-carousel
                   swipeable
                   animated
@@ -329,7 +329,7 @@
                   class="radius-10"
                 >
                   <q-carousel-slide
-                    v-for="(item, index) in project.uploads"
+                    v-for="(item, index) in project.media"
                     :key="index"
                     :name="index + 1"
                     :img-src="`${appUrl}${item.url}`"
@@ -351,7 +351,7 @@
                       <q-tab
                         :name="index + 1"
                         @click="slide = index + 1"
-                        v-for="(item, index) in project.uploads"
+                        v-for="(item, index) in project.media"
                         :key="index"
                         class="no-padding q-mx-sm radius-10"
                         content-class="no-padding overflow-hidden"
