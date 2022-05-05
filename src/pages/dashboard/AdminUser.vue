@@ -1,5 +1,7 @@
 <template>
-  <roles />
+  <q-page class="q-mx-xl q-mt-lg">
+    <roles />
+  </q-page>
 </template>
 
 <script>

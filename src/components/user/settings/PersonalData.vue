@@ -63,7 +63,7 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="form.name"
+            v-model="form.fullName"
             :rules="[]"
           />
         </div>
@@ -143,6 +143,7 @@
         <q-btn
           label="Save Changes"
           type="submit"
+          :loading="isLoading"
           size="16px"
           color="primary"
           no-caps
@@ -160,22 +161,23 @@ export default {
     return {
       form: {
         profileImage: "https://placeimg.com/500/300/nature",
-        name: "",
+        fullName: "",
         administration: "",
         email: "",
         telephone: "",
         location: "",
         dataVisible: false
-      }
+      },
+      isLoading: false
     };
   },
   methods: {
     setData() {
       this.form.email = this.user.email;
-      this.form.name = this.userDetails.fullName || "";
+      this.form.fullName = this.userDetails.fullName || "";
       this.form.telephone = this.userDetails.phone || "";
       this.form.location = this.userDetails.location || "";
-      this.form.administration = this.userDetails.municipality.title || "";
+      this.form.administration = this.userDetails.municipality.title;
     },
     changeImage() {
       console.log("Clicked change image");
@@ -184,9 +186,22 @@ export default {
       console.log("Clicked Delete image");
     },
     savePersonalData() {
-      this.$refs.personalDataForm.validate().then(success => {
+      this.$refs.personalDataForm.validate().then(async success => {
         if (success) {
-          console.log("success");
+          this.isLoading = true;
+          const res = await this.$store.dispatch(
+            "userCenter/updatePersonalData",
+            {
+              data: {
+                fullName: this.form.fullName,
+                phone: this.form.telephone,
+                location: this.form.location
+              }
+            }
+          );
+          this.isLoading = false;
+          if (res !== false) {
+          }
         } else {
           console.log("error");
         }
