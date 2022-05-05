@@ -8,6 +8,12 @@ export function setUserDetails(state, payload) {
   }
 }
 
+export function updatePersonalData(state, payload) {
+  if (!!payload) {
+    state.user.userDetails = { ...state.user.userDetails, ...payload };
+  }
+}
+
 export function setUsers(state, payload) {
   state.users = payload;
 }
