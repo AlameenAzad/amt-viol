@@ -180,6 +180,15 @@ const routes = [
         component: () => import("pages/dashboard/NewProjectIdea.vue")
       },
       {
+        path: "/user/newProjectIdea/edit/:id",
+        name: "EditProject",
+        meta: {
+          title: "Edit project Idea",
+          backLink: "/user/data"
+        },
+        component: () => import("pages/dashboard/NewProjectIdea.vue")
+      },
+      {
         path: "/user/newProjectIdea/:id",
         name: "ViewProject",
         meta: {
