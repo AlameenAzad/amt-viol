@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg">
+  <div class="q-mt-lg q-mb-lg">
     <q-tabs
       v-if="isInPage"
       v-model="tab"
@@ -146,7 +146,7 @@
                       ><span class="text-right font-14">
                         View
                         <q-icon
-                          v-if="!isLoading"
+                          v-if="!viewIsLoading"
                           size="sm"
                           class="text-blue"
                           name="visibility"
@@ -159,11 +159,22 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item clickable @click="editProject(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         Edit
-                        <q-icon size="sm" class="text-blue" name="edit"/></span
+                        <q-icon
+                          v-if="!editIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
@@ -290,25 +301,36 @@ export default {
         },
         { name: "fat", label: "Status", field: "fat", sortable: true }
       ],
-      isLoading: false
+      viewIsLoading: false,
+      editIsLoading: false
     };
   },
   methods: {
     async viewProject(row) {
-      this.isLoading = true;
+      this.viewIsLoading = true;
       const id = row && row.id;
-      await this.$store.dispatch("project/getSpecificProject", {
+      await this.$store.dispatch("project/viewProject", {
         id: id
       });
-      this.isLoading = false;
+      this.viewIsLoading = false;
+    },
+    async editProject(row) {
+      this.editIsLoading = true;
+      const id = row && row.id;
+      await this.$store.dispatch("project/editProject", {
+        id: id
+      });
+      this.editIsLoading = false;
     },
     goToPage(page) {
       if (page === "projectIdeas") {
+        this.$store.commit("project/setSpecificProject", null);
         this.$router.push({ path: "/user/newProjectIdea" });
       }
     },
     getData() {
       this.$store.dispatch("project/getProjectIdeas");
+      this.$store.commit("project/setSpecificProject", null);
     }
   },
   computed: {
