@@ -5,7 +5,7 @@
     v-model="model"
     multiple
     :options="categories"
-    options-selected-class="text-primary"
+    options-selected-class="text-primary text-weight-600"
     class="no-shadow input-radius-6"
     @input="onSelect"
   >
@@ -35,6 +35,12 @@
 <script>
 export default {
   name: "categories",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       model: null
@@ -46,13 +52,23 @@ export default {
       value.forEach(element => {
         categories.push({ id: element.id });
       });
-      this.$emit("update:category", categories);
+      this.$emit("update:category", categories.length > 0 ? categories : []);
     }
   },
   computed: {
     categories() {
-      return this.$store.state.category.categories;
+      return this.$store.state.category.categories.map(cat => {
+        return {
+          id: cat.id,
+          title: cat.title
+        };
+      });
     }
+  },
+  mounted() {
+    this.model = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
+      : null;
   }
 };
 </script>
