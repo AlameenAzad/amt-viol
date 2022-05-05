@@ -59,6 +59,12 @@
 <script>
 export default {
   name: "links",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       links: []
@@ -67,7 +73,7 @@ export default {
   methods: {
     onInput(index) {
       if (!!this.links[index].title && !!this.links[index].link) {
-        this.$emit("update:link", this.links);
+        this.$emit("update:link", this.links.length > 0 ? this.links : []);
       }
     },
     addLink() {
@@ -75,11 +81,16 @@ export default {
         title: "",
         link: ""
       });
-      this.$emit("update:link", this.links);
     },
     removeLink(index) {
       this.links.splice(index, 1);
+      this.$emit("update:link", this.links.length > 0 ? this.links : []);
     }
+  },
+  mounted() {
+    this.links = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.links))
+      : [];
   }
 };
 </script>
