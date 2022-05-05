@@ -43,7 +43,7 @@ export async function login(context, payload) {
 export async function getUserDetails(context) {
   try {
     const res = await api.get("/api/user-details");
-    context.commit("setUserDetails", res.data[0]);
+    context.commit("setUserDetails", res.data);
   } catch (error) {
     console.log("error :>> ", error.response);
     Notify.create({
@@ -101,6 +101,31 @@ export async function resetPassword(context, payload) {
       setTimeout(() => {
         this.$router.push({ path: "/" });
       }, 2000);
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function updatePersonalData(context, payload) {
+  const { data } = payload;
+  console.log("data :>> ", data);
+  const userId = context.state.user.user.id;
+  console.log("userId", userId);
+  if (!!data && !!userId) {
+    try {
+      const res = await api.put(`/api/user-details/${userId}`, { data });
+      Notify.create({
+        message: "User data updated successfully",
+        type: "positive"
+      });
+      console.log("res :>> ", res);
+      context.commit("updatePersonalData", res.data.data);
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({
