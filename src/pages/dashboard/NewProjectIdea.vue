@@ -126,7 +126,10 @@
             </p>
           </div>
           <div class="col-8">
-            <UserSelect @update:user="form.editors = $event" />
+            <UserSelect
+              :editing="isEdit"
+              @update:user="form.editors = $event"
+            />
           </div>
         </div>
         <div class="row items-baseline">
@@ -176,7 +179,10 @@
             <p class="font-16 no-margin">Filter Categories</p>
           </div>
           <div class="col-8">
-            <Categories @update:category="form.categories = $event" />
+            <Categories
+              :editing="isEdit"
+              @update:category="form.categories = $event"
+            />
           </div>
         </div>
         <div class="row items-center">
@@ -184,7 +190,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-8">
-            <Tags @update:tag="form.tags = $event" />
+            <Tags :editing="isEdit" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -319,7 +325,10 @@
             </p>
           </div>
           <div class="col-8">
-            <EstimatedCost @update:cost="updateEstimatedCosts" />
+            <EstimatedCost
+              :editing="isEdit"
+              @update:cost="form.estimatedCosts = $event"
+            />
           </div>
         </div>
         <div class="row">
@@ -339,7 +348,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Select funding guidlines"
-              v-model="form.fundingGuidelines"
+              v-model="form.fundingGuideline"
               :rules="[]"
             />
           </div>
@@ -439,7 +448,7 @@
             </p>
           </div>
           <div class="col-8">
-            <Links @update:link="updateLinks" />
+            <Links :editing="isEdit" @update:link="form.links = $event" />
           </div>
         </div>
         <div class="row">
@@ -447,29 +456,75 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-4">
             <p class="font-16 no-margin">
               Uploads
             </p>
           </div>
           <div class="col-8">
-            <q-file
-              flat
-              v-model="form.files"
-              class="uploadInput input-radius-6 text-white"
-              label-color="white"
-              dark
-              bg-color="primary"
-              label="Select files"
-              multiple
-              use-chips
-              style="max-width: 200px"
-            >
-              <template v-slot:prepend>
-                <q-icon color="white" class="on-right" name="upload" />
-              </template>
-            </q-file>
+            <div class="row q-col-gutter-md">
+              <div class="col-6">
+                <q-file
+                  flat
+                  v-model="form.media"
+                  class="uploadInput input-radius-6 text-white"
+                  label-color="white"
+                  dark
+                  bg-color="primary"
+                  label="Select Images"
+                  multiple
+                  append
+                  accept=".jpg, image/*"
+                  @rejected="onRejected"
+                >
+                  <template v-slot:prepend>
+                    <q-icon color="white" class="on-right" name="upload" />
+                  </template>
+                  <template v-slot:file="{ index, file }">
+                    <q-chip dense removable @remove="deleteMedia(index, file)">
+                      <div class="ellipsis relative-position">
+                        {{ file.name }}
+                      </div>
+
+                      <q-tooltip>
+                        {{ file.name }}
+                      </q-tooltip>
+                    </q-chip>
+                  </template>
+                </q-file>
+              </div>
+              <div class="col-6">
+                <q-file
+                  flat
+                  v-model="form.files"
+                  class="uploadInput input-radius-6 text-white"
+                  label-color="white"
+                  dark
+                  bg-color="primary"
+                  label="Select Files"
+                  multiple
+                  append
+                  accept=".doc, .pdf, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .zip, .rar"
+                  @rejected="onRejected"
+                >
+                  <template v-slot:prepend>
+                    <q-icon color="white" class="on-right" name="upload" />
+                  </template>
+                  <template v-slot:file="{ index, file }">
+                    <q-chip dense removable @remove="deleteFile(index, file)">
+                      <div class="ellipsis relative-position">
+                        {{ file.name }}
+                      </div>
+
+                      <q-tooltip>
+                        {{ file.name }}
+                      </q-tooltip>
+                    </q-chip>
+                  </template>
+                </q-file>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -479,8 +534,10 @@
         </div>
         <div class="row justify-center">
           <q-btn
-            label="Save Draft"
-            @click="submitNewProjectIdea(false)"
+            :label="isEdit ? 'Edit as Draft' : 'Save Draft'"
+            @click="
+              isEdit ? editProjectIdea(false) : submitNewProjectIdea(false)
+            "
             size="16px"
             outline
             color="primary"
@@ -489,8 +546,8 @@
             class="radius-6 q-px-xl q-py-xs q-mr-md"
           />
           <q-btn
-            label="Publish"
-            @click="submitNewProjectIdea(true)"
+            :label="isEdit ? 'Edit' : 'Publish'"
+            @click="isEdit ? editProjectIdea(true) : submitNewProjectIdea(true)"
             size="16px"
             color="primary"
             :loading="isLoading"
@@ -547,7 +604,8 @@ export default {
         tags: [],
         estimatedCosts: [],
         links: [],
-        fundingGuidelines: "",
+        fundingGuideline: "",
+        media: null,
         files: null
       },
       visibilityOptions: ["only for me", "all users", "listed only"],
@@ -565,6 +623,24 @@ export default {
     };
   },
   methods: {
+    deleteFile(index, file) {
+      if (file.id) {
+        console.log("file", file);
+        this.form.files.splice(index, 1);
+      }
+    },
+    deleteMedia(index, file) {
+      if (file.id) {
+        console.log("file", file);
+        this.form.media.splice(index, 1);
+      }
+    },
+    onRejected(rejectedEntries) {
+      this.$q.notify({
+        type: "negative",
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      });
+    },
     submitNewProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
@@ -602,11 +678,51 @@ export default {
         }
       });
     },
-    updateEstimatedCosts(val) {
-      this.form.estimatedCosts = val;
+    editProjectIdea(val) {
+      const published = val;
+      this.$refs.newProjectIdeaForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch("project/editProjectIdea", {
+            data: {
+              ...this.form,
+              published: published,
+              // info: {
+              //   ...this.form.info,
+              //   contactName: this.userDetails.fullName,
+              //   phone: this.userDetails.phone,
+              //   email: this.user.email,
+              //   location: this.userDetails.location,
+              //   streetNo: "",
+              //   postalCode: ""
+              // },
+              municipality: {
+                id:
+                  this.userDetails.municipality &&
+                  this.userDetails.municipality.id
+              },
+              owner: {
+                id: this.user && this.user.id
+              }
+            }
+          });
+          this.isLoading = false;
+        } else {
+          console.log("error");
+        }
+      });
     },
-    updateLinks(val) {
-      this.form.links = val;
+    setData() {
+      this.form = {
+        ...this.form,
+        ...JSON.parse(
+          JSON.stringify({
+            ...this.project,
+            files: this.project.files,
+            media: this.project.media
+          })
+        )
+      };
     }
   },
   computed: {
@@ -617,7 +733,19 @@ export default {
       );
     },
     user() {
-      return this.$store.state.userCenter.user;
+      return this.$store.state.userCenter.user.user;
+    },
+    project() {
+      return this.$store.state.project.project;
+    },
+    isEdit() {
+      return !!this.$route.params.id;
+    }
+  },
+  mounted() {
+    if (!!this.project && !!this.$route.params.id) {
+      console.log("Mounted");
+      this.setData();
     }
   }
 };
