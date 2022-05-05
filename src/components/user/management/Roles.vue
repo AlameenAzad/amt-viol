@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg q-ma-xl">
+  <div>
     <q-table
       class="radius-20 shadow-1"
       title="Current funding information"
