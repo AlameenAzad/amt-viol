@@ -44,7 +44,7 @@
     </div>
     <div class="row">
       <q-btn
-        @click="addEstimatedCost(!!estimatedCosts && estimatedCosts.length + 1)"
+        @click="addEstimatedCost()"
         outline
         class="radius-6"
         icon="add"
@@ -59,6 +59,12 @@
 <script>
 export default {
   name: "estimatedCost",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       estimatedCosts: []
@@ -70,19 +76,30 @@ export default {
         !!this.estimatedCosts[index].name &&
         !!this.estimatedCosts[index].price
       ) {
-        this.$emit("update:cost", this.estimatedCosts);
+        this.$emit(
+          "update:cost",
+          this.estimatedCosts.length > 0 ? this.estimatedCosts : []
+        );
       }
     },
-    addEstimatedCost(index) {
+    addEstimatedCost() {
       this.estimatedCosts.push({
         name: "",
         price: ""
       });
-      this.$emit("update:cost", this.estimatedCosts);
     },
     removeEstimatedCost(index) {
       this.estimatedCosts.splice(index, 1);
+      this.$emit(
+        "update:cost",
+        this.estimatedCosts.length > 0 ? this.estimatedCosts : []
+      );
     }
+  },
+  mounted() {
+    this.estimatedCosts = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.estimatedCosts))
+      : [];
   }
 };
 </script>
