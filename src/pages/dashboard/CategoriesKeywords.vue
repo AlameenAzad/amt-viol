@@ -1,5 +1,7 @@
 <template>
-  <categoriesKeyword />
+  <q-page class="q-mx-xl q-mt-lg">
+    <categoriesKeyword />
+  </q-page>
 </template>
 
 <script>
