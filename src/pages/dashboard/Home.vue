@@ -28,7 +28,12 @@
         class="mr-0 radius-6 q-mx-md text-weight-600"
         no-caps
       >
-        <p class="q-mb-none q-mx-md q-my-sm">fundings</p>
+        <p
+          @click="$router.push({ path: '/user/newFunding' })"
+          class="q-mb-none q-mx-md q-my-sm"
+        >
+          fundings
+        </p>
       </q-btn>
       <q-btn
         color="blue"
