@@ -80,6 +80,17 @@ const routes = [
         component: () => import("pages/dashboard/AdminUser.vue")
       },
       {
+        path: "/Administation/User/:id",
+        name: "AdministationUserDetails",
+        meta: {
+          title: "User Administation",
+          showInNavigation: false,
+          backLink: "/Administation/User"
+        },
+        icon: "/icons/Users.svg",
+        component: () => import("pages/dashboard/DetailUser.vue")
+      },
+      {
         path: "/network",
         name: "Network",
         meta: {
@@ -163,14 +174,6 @@ const routes = [
         component: () => import("pages/dashboard/Settings.vue")
       },
       {
-        path: "/user/detail",
-        name: "detail",
-        meta: {
-          title: "User Details"
-        },
-        component: () => import("pages/dashboard/DetailUser.vue")
-      },
-      {
         path: "/user/newProjectIdea",
         name: "NewProjectIdea",
         meta: {
@@ -201,7 +204,8 @@ const routes = [
         path: "/user/newFunding",
         name: "NewFunding",
         meta: {
-          title: "New Funding"
+          title: "New Funding",
+          backLink: "/user/data"
         },
         component: () => import("pages/dashboard/NewFunding.vue")
       }

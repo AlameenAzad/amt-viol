@@ -1,5 +1,6 @@
 import { api } from "boot/axios";
 import { Notify } from "quasar";
+import router from "src/router";
 
 export async function login(context, payload) {
   const { identifier } = payload;
@@ -43,6 +44,7 @@ export async function login(context, payload) {
 export async function getUserDetails(context) {
   try {
     const res = await api.get("/api/user-details");
+    console.log("res", res);
     context.commit("setUserDetails", res.data);
   } catch (error) {
     console.log("error :>> ", error.response);
@@ -126,6 +128,30 @@ export async function updatePersonalData(context, payload) {
       });
       console.log("res :>> ", res);
       context.commit("updatePersonalData", res.data.data);
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function updateUser(context, payload) {
+  const data = payload;
+  console.log("data :>> ", data);
+
+  if (!!data.id && !!data.data) {
+    try {
+      const res = await api.put(`/api/users/${data.id}`, data.data);
+      Notify.create({
+        message: "User data updated successfully",
+        type: "positive"
+      });
+      console.log("res :>> ", res);
+      this.$router.push({ path: "/Administation/User/" });
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({

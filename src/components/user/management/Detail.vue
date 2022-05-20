@@ -1,102 +1,101 @@
 <template>
-  <q-page class="column items-center q-mt-xl  ">
+  <q-page class="column items-center q-mt-xl">
     <h3 class="text-center  q-mt-md">User Details</h3>
     <q-card class="q-pa-lg radius-10">
-      <div>
-        <q-form
-          @submit.prevent="saveGeneralData"
-          class="q-gutter-lg q-px-md q-mb-md "
-        >
-          <div class="row items-center ">
-            <div class="col-3">
-              <p class="font-14 no-margin">
-                Name
-              </p>
-            </div>
-            <div class="col-9">
-              <q-input
-                outlined
-                class="no-shadow input-radius-6"
-                v-model="email"
-                :rules="[]"
-                label="E-Mail"
-              />
-            </div>
+      <q-form
+        @submit.prevent="updateUserInformation"
+        ref="updateUserForm"
+        class="q-gutter-lg q-px-md q-mb-md "
+      >
+        <div class="row items-center ">
+          <div class="col-3">
+            <p class="font-14 no-margin">
+              Name
+            </p>
           </div>
-          <div class="row items-center ">
-            <div class="col-3 ">
-              <p class="font-14 no-margin ">
-                Administration
-              </p>
-            </div>
-            <div class="col-9">
-              <q-select
-                outlined
-                :options="options"
-                class="no-shadow input-radius-6"
-                v-model="role"
-                :rules="[]"
-                label="Municipality Name"
-              />
-            </div>
+          <div class="col-9">
+            <q-input
+              outlined
+              dense
+              class="no-shadow input-radius-6"
+              v-model="form.username"
+              :rules="[]"
+              placeholder="Name"
+            />
           </div>
-          <div class="row items-center">
-            <div class="col-3">
-              <p class="font-14 no-margin">
-                E-mail
-              </p>
-            </div>
-            <div class="col-9">
-              <q-input
-                outlined
-                class="no-shadow input-radius-6"
-                v-model="administration"
-                :rules="[]"
-                label="wilson.culhane@mail.com"
-              />
-            </div>
+        </div>
+        <div class="row items-center ">
+          <div class="col-3 ">
+            <p class="font-14 no-margin ">
+              Administration
+            </p>
           </div>
-          <div class="row items-center justify-evenly">
-            <div class="col-3">
-              <p class="font-14 no-margin">
-                Role
-              </p>
-            </div>
-            <div class="col-9">
-              <q-select
-                outlined
-                :options="options"
-                class="no-shadow input-radius-6"
-                v-model="role"
-                :rules="[]"
-                label="Project coordinator"
-              />
-            </div>
+          <div class="col-9">
+            <MunicipalitySelect
+              v-if="form.municipality.title !== ''"
+              :currentMunicipality="form.municipality"
+              @update:municipality="form.municipality = $event"
+            />
           </div>
+        </div>
+        <div class="row items-center">
+          <div class="col-3">
+            <p class="font-14 no-margin">
+              E-mail
+            </p>
+          </div>
+          <div class="col-9">
+            <q-input
+              outlined
+              dense
+              class="no-shadow input-radius-6"
+              v-model="form.email"
+              :rules="[]"
+              placeholder="wilson.culhane@mail.com"
+            />
+          </div>
+        </div>
+        <div class="row items-center justify-evenly">
+          <div class="col-3">
+            <p class="font-14 no-margin">
+              Role
+            </p>
+          </div>
+          <div class="col-9">
+            <q-select
+              outlined
+              dense
+              :options="options"
+              class="no-shadow input-radius-6"
+              v-model="form.role"
+              :rules="[]"
+              placeholder="Project coordinator"
+            />
+          </div>
+        </div>
 
-          <div class="row justify-center q-ml-lg ">
-            <q-btn
-              label="Save Changes"
-              type="submit"
-              size="16px"
-              color="primary"
-              no-caps
-              unelevated
-              class="  no-shadow	 radius-6 q-px-xl  q-mr-sm  "
-            />
-            <q-btn
-              label="Delete User"
-              outline
-              @click="showDialog = true"
-              type="submit"
-              size="16px"
-              color="red"
-              no-caps
-              class="no-shadow radius-6 q-px-xl   "
-            />
-          </div>
-        </q-form>
-      </div>
+        <div class="row justify-center q-ml-lg ">
+          <q-btn
+            label="Save Changes"
+            type="submit"
+            size="16px"
+            color="primary"
+            no-caps
+            unelevated
+            class="  no-shadow	 radius-6 q-px-xl  q-mr-sm  "
+          />
+          <q-btn
+            label="Delete User"
+            outline
+            @click="showDialog = true"
+            type="submit"
+            size="16px"
+            color="red"
+            no-caps
+            class="no-shadow radius-6 q-px-xl   "
+          />
+        </div>
+      </q-form>
     </q-card>
     <q-dialog v-model="showDialog">
       <q-card class="q-pa-lg radius-10 column  justify-center">
@@ -126,12 +125,13 @@
           <q-btn
             label="Cancel"
             outline
-            @click="showDialog = true"
+            v-close-popup
             type="submit"
             size="16px"
             color="primary"
             no-caps
-            class="no-shadow radius-6 q-px-xl q-mr-sm   "
+            class="no-shadow radius-6 q-px-xl q-mr-sm"
+            :loading="isLoading"
           />
           <q-btn
             label="Confirm"
@@ -139,7 +139,8 @@
             size="16px"
             color="red"
             no-caps
-            class="  no-shadow	 radius-6 q-px-xl    "
+            class="no-shadow radius-6 q-px-xl"
+            :loading="isLoading"
           />
         </div>
       </q-card>
@@ -148,28 +149,68 @@
 </template>
 
 <script>
+import MunicipalitySelect from "components/Municipality/MunicipalitySelect.vue";
 export default {
   data() {
     return {
-      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
+      options: [4],
       showDialog: false,
-
-      email: "",
-      role: "",
-      administration: "",
+      isLoading: false,
+      form: {
+        username: "",
+        email: "",
+        role: "",
+        municipality: { id: null, title: "" }
+      },
       dataRight: ""
     };
   },
+  components: {
+    MunicipalitySelect
+  },
   methods: {
-    saveGeneralData() {
-      this.$refs.generalDataForm.validate().then(success => {
+    getUserData() {
+      const { id } = this.$route.params;
+      if (id) {
+        let currentUser = this.$store.state.userCenter.users.find(user => {
+          return user.id == this.$route.params.id;
+        });
+        this.form.username = currentUser.username;
+        this.form.email = currentUser.email;
+        this.form.municipality.id = currentUser.user_detail.municipality.id;
+        this.form.municipality.title =
+          currentUser.user_detail.municipality.title;
+        this.form.role = currentUser.role.id;
+        // this.form.municipality = {
+        //   id: currentUser.user_detail.municipality.id,
+        //   title: currentUser.user_detail.municipality.title
+        // };
+        console.log("currentUser", currentUser);
+      } else {
+        this.$router.push("/Administation/User");
+      }
+    },
+    updateUserInformation() {
+      this.$refs.updateUserForm.validate().then(async success => {
         if (success) {
-          console.log("success");
+          this.isLoading = true;
+          const res = await this.$store.dispatch("userCenter/updateUser", {
+            id: this.$route.params.id,
+            data: {
+              ...this.form,
+              municipality: { id: this.form.municipality.id },
+              message: "Welcome to amt viol"
+            }
+          });
+          this.isLoading = false;
         } else {
           console.log("error");
         }
       });
     }
+  },
+  mounted() {
+    this.getUserData();
   }
 };
 </script>

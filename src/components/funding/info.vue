@@ -7,6 +7,9 @@
       :columns="columns"
       row-key="name"
       hide-bottom
+      :pagination="{
+        rowsPerPage: 0
+      }"
     >
       <template v-slot:top>
         <p class="font-24">Current funding information</p>

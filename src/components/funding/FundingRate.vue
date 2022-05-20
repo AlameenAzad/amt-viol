@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row q-col-gutter-y-lg q-mb-lg">
-      <div v-for="(cost, index) in fundingRates" :key="index" class="col-12">
+      <div v-for="(funding, index) in fundingRates" :key="index" class="col-12">
         <div class="row items-center q-col-gutter-x-md">
           <div class="col-11">
             <div class="row q-col-gutter-x-md ">
@@ -10,8 +10,8 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="content"
-                  v-model="cost.name"
+                  placeholder="Content"
+                  v-model="funding.content"
                   :rules="[]"
                   @input="onInput(index)"
                 />
@@ -21,17 +21,18 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Cost amount"
-                  v-model.number="cost.price"
+                  placeholder="Amount"
+                  v-model.number="funding.amount"
                   :rules="[]"
                   @input="onInput(index)"
+                  suffix="%"
                 />
               </div>
             </div>
           </div>
           <div class="col-1">
             <q-btn
-              @click="removeFundingRates(index)"
+              @click="removeFundingRate(index)"
               icon="delete"
               flat
               round
@@ -44,13 +45,13 @@
     </div>
     <div class="row">
       <q-btn
-        @click="addFundingRates(!!fundingRates && fundingRates.length + 1)"
+        @click="addFundingRate()"
         outline
         class="radius-6"
         icon="add"
         size="md"
         color="primary"
-        label="Add Costs"
+        label="Add funding rate"
       />
     </div>
   </div>
@@ -59,6 +60,12 @@
 <script>
 export default {
   name: "fundingRates",
+  props: {
+    editing: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       fundingRates: []
@@ -66,21 +73,36 @@ export default {
   },
   methods: {
     onInput(index) {
-      if (!!this.fundingRates[index].name && !!this.fundingRates[index].price) {
-        this.$emit("update:cost", this.fundingRates);
+      if (
+        !!this.fundingRates[index].content &&
+        !!this.fundingRates[index].amount
+      ) {
+        this.$emit(
+          "update:fundingRate",
+          this.fundingRates.length > 0 ? this.fundingRates : []
+        );
       }
     },
-    addFundingRates(index) {
+    addFundingRate() {
       this.fundingRates.push({
-        id: index.toString(),
-        name: "",
-        price: ""
+        content: "",
+        amount: ""
       });
-      this.$emit("update:cost", this.fundingRates);
     },
-    removeFundingRates(index) {
+    removeFundingRate(index) {
       this.fundingRates.splice(index, 1);
+      this.$emit(
+        "update:fundingRate",
+        this.fundingRates.length > 0 ? this.fundingRates : []
+      );
     }
+  },
+  mounted() {
+    this.fundingRates = this.editing
+      ? JSON.parse(
+          JSON.stringify(this.$store.state.project.project.estimatedCosts)
+        )
+      : [];
   }
 };
 </script>

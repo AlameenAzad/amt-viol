@@ -97,7 +97,14 @@ export default {
       //   };
       // }
       // });
-      this.$emit("update:user", this.users.length > 0 ? this.users : []);
+      this.$emit(
+        "update:user",
+        this.users.length > 0
+          ? this.users.map(user => {
+              return { id: user.id };
+            })
+          : []
+      );
     },
     addUser() {
       this.users.push({
@@ -107,7 +114,14 @@ export default {
     },
     removeUser(index) {
       this.users.splice(index, 1);
-      this.$emit("update:user", this.users.length > 0 ? this.users : []);
+      this.$emit(
+        "update:user",
+        this.users.length > 0
+          ? this.users.map(user => {
+              return { id: user.id };
+            })
+          : []
+      );
     }
   },
   computed: {

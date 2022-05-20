@@ -28,7 +28,9 @@
                     {{ project.info.contactName || "Contact not found" }}
                   </p>
                   <p class="q-mb-sm">
-                    {{ project.info.location || "Location not found" }}
+                    {{
+                      project.municipality.location || "Municipality not found"
+                    }}
                   </p>
                 </div>
               </q-card-section>
@@ -59,7 +61,7 @@
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
-                    {{ project.municipality.location || "Location not found" }}
+                    {{ project.info.location || "Project Location not found" }}
                   </p>
                 </div>
               </q-card-section>

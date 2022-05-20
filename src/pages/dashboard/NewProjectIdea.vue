@@ -37,8 +37,9 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Name, Surname"
-                  v-model="form.info.contactName"
+                  :value="!!userDetails && userDetails.fullName"
                   :rules="[]"
+                  disable
                 />
               </div>
               <div class="col-6">
@@ -48,7 +49,7 @@
                   disable
                   class="no-shadow input-radius-6"
                   placeholder="Administration"
-                  :value="!!userDetails && userDetails.municipality.location"
+                  :value="!!userDetails && userDetails.municipality.title"
                   :rules="[]"
                 />
               </div>
@@ -89,8 +90,9 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
-                  v-model="form.info.phone"
+                  :value="!!userDetails && userDetails.phone"
                   :rules="[]"
+                  disable
                 />
               </div>
               <div class="col-6">
@@ -99,8 +101,9 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
-                  v-model="form.info.email"
+                  :value="!!user && user.email"
                   :rules="[]"
+                  disable
                 />
               </div>
               <div class="col-12">
@@ -198,7 +201,7 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-start">
           <div class="col-4">
             <p class="font-16 no-margin">
               Project content*
@@ -207,7 +210,8 @@
           <div class="col-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Describe the project"
               v-model="form.details.content"
@@ -224,7 +228,8 @@
           <div class="col-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Project goals"
               v-model="form.details.goals"
@@ -303,6 +308,7 @@
               v-model="form.details.status"
               spread
               no-caps
+              clearable
               toggle-color="yellow"
               padding="12px 10px"
               color="transparent"
@@ -472,27 +478,52 @@
                   label-color="white"
                   dark
                   bg-color="primary"
-                  label="Select Images"
+                  :label="
+                    !!form.media && form.media.length > 0
+                      ? 'Add Images'
+                      : 'Select Images'
+                  "
                   multiple
+                  display-value=""
                   append
-                  accept=".jpg, image/*"
-                  @rejected="onRejected"
                 >
                   <template v-slot:prepend>
                     <q-icon color="white" class="on-right" name="upload" />
                   </template>
-                  <template v-slot:file="{ index, file }">
-                    <q-chip dense removable @remove="deleteMedia(index, file)">
-                      <div class="ellipsis relative-position">
-                        {{ file.name }}
-                      </div>
-
-                      <q-tooltip>
-                        {{ file.name }}
-                      </q-tooltip>
-                    </q-chip>
-                  </template>
                 </q-file>
+                <div class="q-mt-sm" v-if="form.media && form.media.length > 0">
+                  <q-item
+                    v-for="(image, index) in form.media"
+                    :key="index"
+                    clickable
+                  >
+                    <q-item-section side>
+                      <q-avatar rounded size="48px">
+                        <q-img
+                          :ratio="1"
+                          contain
+                          :src="imgPreview(image).url"
+                        />
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="ellipsis" caption>{{
+                        imgPreview(image).name
+                      }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="delete"
+                        @click.prevent.stop="removeImg(index)"
+                        size="sm"
+                        round
+                        text-color="red"
+                        dense
+                      >
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </div>
               </div>
               <div class="col-6">
                 <q-file
@@ -502,27 +533,48 @@
                   label-color="white"
                   dark
                   bg-color="primary"
-                  label="Select Files"
+                  :label="
+                    !!form.files && form.files.length > 0
+                      ? 'Add Files'
+                      : 'Select Files'
+                  "
                   multiple
+                  display-value=""
                   append
-                  accept=".doc, .pdf, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .zip, .rar"
-                  @rejected="onRejected"
                 >
                   <template v-slot:prepend>
                     <q-icon color="white" class="on-right" name="upload" />
                   </template>
-                  <template v-slot:file="{ index, file }">
-                    <q-chip dense removable @remove="deleteFile(index, file)">
-                      <div class="ellipsis relative-position">
-                        {{ file.name }}
-                      </div>
-
-                      <q-tooltip>
-                        {{ file.name }}
-                      </q-tooltip>
-                    </q-chip>
-                  </template>
                 </q-file>
+                <div class="q-mt-sm" v-if="form.files && form.files.length > 0">
+                  <q-item
+                    v-for="(file, index) in form.files"
+                    :key="index"
+                    clickable
+                  >
+                    <q-item-section side>
+                      <q-avatar rounded size="48px">
+                        <small>{{ imgPreview(file).name.split(".")[1] }}</small>
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="ellipsis" caption>{{
+                        imgPreview(file).name
+                      }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="delete"
+                        @click.prevent.stop="removeFile(index)"
+                        size="sm"
+                        round
+                        text-color="red"
+                        dense
+                      >
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </div>
               </div>
             </div>
           </div>
@@ -595,8 +647,8 @@ export default {
           goals: "",
           valuesAndBenefits: "",
           partner: "",
-          investive: null,
-          status: "Development"
+          investive: true,
+          status: ""
         },
         municipality: "",
         editors: [],
@@ -616,35 +668,30 @@ export default {
       projectStatuses: [
         { label: "Idea", value: "Idea" },
         { label: "Development", value: "Development" },
-        { label: "Pre-Planing", value: "Pre-planning" },
-        { label: "Detailed-Planning", value: "Detailed-planning" }
+        { label: "Pre-Planning", value: "Pre-Planning" },
+        { label: "Detailed-Planning", value: "Detailed-Planning" }
       ],
       isLoading: false
     };
   },
   methods: {
-    deleteFile(index, file) {
-      if (file.id) {
-        console.log("file", file);
-        this.form.files.splice(index, 1);
-      }
+    imgPreview(val) {
+      return {
+        url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
+        name: val.name
+      };
     },
-    deleteMedia(index, file) {
-      if (file.id) {
-        console.log("file", file);
-        this.form.media.splice(index, 1);
-      }
+    removeImg(index) {
+      this.form.media.splice(index, 1);
     },
-    onRejected(rejectedEntries) {
-      this.$q.notify({
-        type: "negative",
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      });
+    removeFile(index) {
+      this.form.files.splice(index, 1);
     },
     submitNewProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
         if (success) {
+          console.log("success", success);
           this.isLoading = true;
           const res = await this.$store.dispatch(
             "project/createNewProjectIdea",
@@ -652,15 +699,13 @@ export default {
               data: {
                 ...this.form,
                 published: published,
-                // info: {
-                //   ...this.form.info,
-                //   contactName: this.userDetails.fullName,
-                //   phone: this.userDetails.phone,
-                //   email: this.user.email,
-                //   location: this.userDetails.location,
-                //   streetNo: "",
-                //   postalCode: ""
-                // },
+                info: {
+                  ...this.form.info,
+                  contactName: this.userDetails.fullName,
+                  phone: this.userDetails.phone,
+                  email: this.user.email,
+                  location: this.userDetails.location
+                },
                 municipality: {
                   id:
                     this.userDetails.municipality &&
@@ -686,7 +731,7 @@ export default {
           const res = await this.$store.dispatch("project/editProjectIdea", {
             data: {
               ...this.form,
-              published: published,
+              published: published
               // info: {
               //   ...this.form.info,
               //   contactName: this.userDetails.fullName,
@@ -696,14 +741,14 @@ export default {
               //   streetNo: "",
               //   postalCode: ""
               // },
-              municipality: {
-                id:
-                  this.userDetails.municipality &&
-                  this.userDetails.municipality.id
-              },
-              owner: {
-                id: this.user && this.user.id
-              }
+              // municipality: {
+              //   id:
+              //     this.userDetails.municipality &&
+              //     this.userDetails.municipality.id
+              // },
+              // owner: {
+              //   id: this.user && this.user.id
+              // }
             }
           });
           this.isLoading = false;
@@ -726,6 +771,9 @@ export default {
     }
   },
   computed: {
+    appUrl() {
+      return process.env.VUE_APP_MAIN_URL;
+    },
     userDetails() {
       return (
         this.$store.state.userCenter.user &&

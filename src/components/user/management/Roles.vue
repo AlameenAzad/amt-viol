@@ -71,7 +71,11 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup to="/user/detail">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="$router.push('/Administation/User/' + props.row.id)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         Edit

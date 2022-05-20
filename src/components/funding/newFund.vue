@@ -4,11 +4,7 @@
       Fundings
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
-      <q-form
-        ref="newProjectIdeaForm"
-        @submit.prevent="submitNewProjectIdea"
-        class="q-gutter-lg q-px-md q-mb-md"
-      >
+      <q-form ref="newFundingForm" class="q-gutter-lg q-px-md q-mb-md">
         <div class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -21,8 +17,8 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="official title"
-              v-model="form.FundingGuidelines"
-              :rules="[]"
+              v-model="form.title"
+              :rules="[val => !!val || 'Title is required']"
             />
           </div>
         </div>
@@ -40,7 +36,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="funding provider"
-                  v-model="form.fundingProvider"
+                  v-model="form.provider"
                   :rules="[]"
                 />
               </div>
@@ -61,7 +57,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Name, Surname"
-                  v-model="form.NameSurname"
+                  v-model="form.info.contactName"
                   :rules="[]"
                 />
               </div>
@@ -82,7 +78,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Street, Nr."
-                  v-model="form.streetAndNr"
+                  v-model="form.info.streetNo"
                   :rules="[]"
                 />
               </div>
@@ -92,7 +88,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
-                  v-model="form.postalCodeAndCity"
+                  v-model="form.info.postalCode"
                   :rules="[]"
                 />
               </div>
@@ -102,7 +98,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
-                  v-model="form.telephone"
+                  v-model="form.info.phone"
                   :rules="[]"
                 />
               </div>
@@ -112,58 +108,24 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
-                  v-model="form.email"
+                  v-model="form.info.email"
                   :rules="[]"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="row"
-          :class="
-            form.editorsInvited.length > 0 ? 'items-baseline' : 'items-center'
-          "
-        >
+        <div class="row">
           <div class="col-4">
             <p class="font-16 no-margin">
               Invite Editor
             </p>
           </div>
           <div class="col-8">
-            <div
-              v-for="(editor, index) in form.editorsInvited"
-              :key="index + 1"
-              class="row q-col-gutter-x-md q-col-gutter-y-lg items-center q-mb-lg"
-            >
-              <div class="col-11">
-                <UserSelect
-                  :editor="editor"
-                  @update:editor="updateEditor(index, $event)"
-                />
-              </div>
-              <div class="col-1">
-                <q-btn
-                  @click="removeEditor(index)"
-                  icon="delete"
-                  flat
-                  round
-                  color="red"
-                  size="md"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <q-btn
-                @click="addEditor"
-                outline
-                class="radius-6"
-                icon="add"
-                size="md"
-                color="primary"
-                label="Add Editor"
-              />
-            </div>
+            <UserSelect
+              :editing="isEdit"
+              @update:user="form.editors = $event"
+            />
           </div>
         </div>
 
@@ -185,7 +147,7 @@
                   {{ form.visibility }}
                 </template>
                 <template v-else>
-                  <span class="text-grey"> Auf Anfrage </span>
+                  <span class="text-grey">Auf Anfrage</span>
                 </template>
               </template></q-select
             >
@@ -207,7 +169,10 @@
             <p class="font-16 no-margin">Filter Categories</p>
           </div>
           <div class="col-8">
-            <Categories @update:category="form.categories = $event" />
+            <Categories
+              :editing="isEdit"
+              @update:category="form.categories = $event"
+            />
           </div>
         </div>
         <div class="row items-center">
@@ -215,7 +180,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-8">
-            <Tags @update:tag="form.tags = $event" />
+            <Tags :editing="isEdit" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -235,7 +200,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Förderziel"
-              v-model="form.Förderziel"
+              v-model="form.details.goal"
               :rules="[]"
             />
           </div>
@@ -252,7 +217,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Was wird gefördert"
-              v-model="form.whatFunded"
+              v-model="form.details.funded"
               :rules="[]"
             />
           </div>
@@ -268,8 +233,25 @@
               outlined
               dense
               class="no-shadow input-radius-6"
+              placeholder="Was wird nicht gefördert"
+              v-model="form.details.notFunded"
+              :rules="[]"
+            />
+          </div>
+        </div>
+        <div class="row items-center">
+          <div class="col-4">
+            <p class="font-16 no-margin">
+              Who will be funded?
+            </p>
+          </div>
+          <div class="col-8">
+            <q-input
+              outlined
+              dense
+              class="no-shadow input-radius-6"
               placeholder="Kooperationspartner"
-              v-model="form.notFunded"
+              v-model="form.details.willBeFunded"
               :rules="[]"
             />
           </div>
@@ -286,7 +268,7 @@
               dense
               class="no-shadow input-radius-6"
               placeholder="Rahmenbedingungen für Antragsteller"
-              v-model="form.ConditionsApplicants"
+              v-model="form.details.condition"
               :rules="[]"
             />
           </div>
@@ -297,19 +279,17 @@
           </div>
         </div>
 
-        <div
-          class="row"
-          :class="
-            form.fundingRates.length > 0 ? 'items-baseline' : 'items-center'
-          "
-        >
+        <div class="row">
           <div class="col-4">
             <p class="font-16 no-margin">
               funding rates
             </p>
           </div>
           <div class="col-8">
-            <FundingRate @update:cost="updateFundingRates" />
+            <FundingRate
+              :editing="isEdit"
+              @update:fundingRate="form.rates = $event"
+            />
           </div>
         </div>
 
@@ -323,9 +303,11 @@
             <q-input
               outlined
               dense
-              class="no-shadow input-radius-6"
-              placeholder="Select funding guidlines"
-              v-model="form.ownContribution"
+              class="no-shadow input-radius-6 removeArrow"
+              suffix="%"
+              placeholder="Own Contribution"
+              v-model.number="form.ownContribution"
+              type="number"
               :rules="[]"
             />
           </div>
@@ -337,30 +319,54 @@
             </p>
           </div>
           <div class="col-8">
-            <q-select
-              outlined
-              :options="options"
-              class="no-shadow input-radius-6"
-              v-model="accumulability"
-              :rules="[]"
-              label="Kumulierbarkeit"
+            <p class="text-red">Default value is test1 for now ~Bilend</p>
+
+            <q-btn-toggle
+              v-model="form.accumulability"
+              spread
+              no-caps
+              toggle-color="yellow"
+              padding="12px 10px"
+              color="transparent"
+              toggle-text-color="black"
+              text-color="black"
+              class="no-shadow toggleGap"
+              :options="accumulabilityOptions"
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div v-if="form.accumulability" class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
               Link to fundings
             </p>
           </div>
           <div class="col-8">
-            <q-select
+            <Fundings
+              :editing="isEdit"
+              @update:linkToFunding="form.fundingsLinkedTo = $event"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <q-separator class="bg-blue opacity-10" />
+          </div>
+        </div>
+        <div class="row items-center">
+          <div class="col-4">
+            <p class="font-16 no-margin">
+              Basis for assessment
+            </p>
+          </div>
+          <div class="col-8">
+            <q-input
               outlined
-              :options="options"
+              dense
               class="no-shadow input-radius-6"
-              v-model="fundingLink"
+              placeholder="Was wird nicht gefördert"
+              v-model="form.assessment"
               :rules="[]"
-              label="Fördermittel auswählen"
             />
           </div>
         </div>
@@ -382,10 +388,10 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.startDate"
+                  v-model="form.plannedStart"
                   color="primary"
                   bg-color="white"
-                  placeholder="Start"
+                  placeholder="Planned"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -394,7 +400,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.startDate" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedStart" mask="YYYY-MM-DD">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -415,7 +421,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.endDate"
+                  v-model="form.plannedEnd"
                   color="primary"
                   bg-color="white"
                   placeholder="End"
@@ -427,7 +433,7 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.endDate" mask="DD.MM.YYYY">
+                        <q-date v-model="form.plannedEnd" mask="YYYY-MM-DD">
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -458,10 +464,10 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.fundNote"
+                  v-model="form.notes"
                   color="primary"
                   bg-color="white"
-                  label="Hinweise zum Förderzeitraum"
+                  placeholder="Hinweise zum Förderzeitraum"
                 >
                 </q-input>
               </div>
@@ -474,19 +480,14 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div
-          class="row"
-          :class="
-            form.fundingRates.length > 0 ? 'items-baseline' : 'items-center'
-          "
-        >
+        <div class="row">
           <div class="col-4">
             <p class="font-16 no-margin">
               Links
             </p>
           </div>
           <div class="col-8">
-            <Links @update:link="updateFundingRates" />
+            <Links :editing="isEdit" @update:link="form.links = $event" />
           </div>
         </div>
         <div class="row">
@@ -500,18 +501,80 @@
               Uploads
             </p>
           </div>
-          <div class="col-4">
-            <div class="row q-col-gutter-x-md">
-              <div class="col-12">
-                <q-btn
-                  color="blue"
-                  icon="upload"
-                  unelevated
-                  class="no-shadow radius-6 text-weight-600 "
-                  no-caps
+          <div class="col-8">
+            <div class="row q-col-gutter-md">
+              <div class="col-6">
+                <q-file
+                  flat
+                  v-model="form.media"
+                  class="uploadInput input-radius-6 text-white"
+                  label-color="white"
+                  dark
+                  bg-color="primary"
+                  label="Select Images"
+                  multiple
+                  use-chips
+                  append
+                  accept=".jpg, image/*"
+                  @rejected="onRejected"
                 >
-                  <p class="q-mb-none q-mx-md q-my-sm">Select Files</p>
-                </q-btn>
+                  <template v-slot:prepend>
+                    <q-icon color="white" class="on-right" name="upload" />
+                  </template>
+                </q-file>
+                <div class="q-mt-sm" v-if="form.media">
+                  <q-item
+                    v-for="(image, index) in form.media"
+                    :key="index"
+                    clickable
+                  >
+                    <q-item-section side>
+                      <q-avatar rounded size="48px">
+                        <q-img
+                          :ratio="1"
+                          contain
+                          :src="imgPreview(image).url"
+                        />
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="ellipsis" caption>{{
+                        imgPreview(image).name
+                      }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="delete"
+                        @click.prevent.stop="removeImg(index)"
+                        size="sm"
+                        round
+                        text-color="red"
+                        dense
+                      >
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </div>
+              </div>
+              <div class="col-6">
+                <q-file
+                  flat
+                  v-model="form.files"
+                  class="uploadInput input-radius-6 text-white"
+                  label-color="white"
+                  dark
+                  bg-color="primary"
+                  label="Select Files"
+                  multiple
+                  use-chips
+                  append
+                  accept=".doc, .pdf, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .zip, .rar"
+                  @rejected="onRejected"
+                >
+                  <template v-slot:prepend>
+                    <q-icon color="white" class="on-right" name="upload" />
+                  </template>
+                </q-file>
               </div>
             </div>
           </div>
@@ -528,13 +591,9 @@
             </p>
           </div>
           <div class="col-8">
-            <q-select
-              outlined
-              :options="options"
-              class="no-shadow input-radius-6"
-              v-model="linkToProject"
-              :rules="[]"
-              label="Select project"
+            <ProjectIdeas
+              :editing="isEdit"
+              @update:linkToProject="form.projects = $event"
             />
           </div>
         </div>
@@ -545,39 +604,38 @@
         </div>
         <div class="row items-center">
           <div class="col-4">
-            <p class="font-16 no-margin">
+            <p
+              class="font-16 no-margin"
+              :class="$q.screen.gt.md ? 'q-pr-xl' : ''"
+            >
               Link to implementation checklist (optional)
             </p>
           </div>
           <div class="col-8">
-            <q-select
-              outlined
-              :options="options"
-              class="no-shadow input-radius-6"
-              v-model="linkImplementationChecklist"
-              :rules="[]"
-              label="Select Implementation checklist"
+            <ImplementationChecklists
+              :editing="isEdit"
+              @update:linkToImplementationChecklist="form.checklist = $event"
             />
           </div>
         </div>
-        <div class="row justify-center q-ml-lg ">
+        <div class="row justify-center q-ml-lg">
           <q-btn
             label="Save Draft"
+            @click="isEdit ? editFunding(false) : submitNewFunding(false)"
             outline
-            type="submit"
             size="16px"
             color="primary"
             no-caps
-            class="no-shadow radius-6 q-px-lg  q-mr-sm "
+            class="no-shadow radius-6 q-px-lg q-mr-sm"
           />
           <q-btn
             label="Publish"
-            type="submit"
+            @click="isEdit ? editFunding(true) : submitNewFunding(true)"
             unelevated
             size="16px"
             color="primary"
             no-caps
-            class="  no-shadow q-px-lg	 radius-6 q-px-xl   "
+            class="no-shadow q-px-lg radius-6 q-px-xl"
           />
         </div>
       </q-form>
@@ -590,84 +648,161 @@ import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import FundingRate from "src/components/funding/FundingRate.vue";
-import Links from "src/components/funding/Links.vue";
+import Links from "src/components/projects/create/Links.vue";
+import ProjectIdeas from "components/funding/ProjectIdeas.vue";
+import ImplementationChecklists from "components/funding/ImplementationChecklists.vue";
+import Fundings from "components/funding/Fundings.vue";
 export default {
-  name: "newProjectIdea",
+  name: "newFund",
   components: {
     UserSelect,
     Categories,
     Tags,
     FundingRate,
-    Links
+    Links,
+    ProjectIdeas,
+    ImplementationChecklists,
+    Fundings
   },
   data() {
     return {
-      componentKey: 0,
-      accumulability: "",
-      fundingLink: "",
-      linkToProject: "",
-      linkImplementationChecklist: "",
-      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
-
       form: {
-        FundingGuidelines: "",
-        fundingProvider: "",
-        NameSurname: "",
-        streetAndNr: "",
-        PostalCodeCity: "",
-        telephone: "",
-        email: "",
-        editorsInvited: [],
-        visibility: "",
-        Förderziel: "",
-        whatFunded: "",
-        notFunded: "",
-        ownContribution: "",
-        fundNote: "",
-
+        title: "",
+        visibility: "only for me",
+        provider: "",
+        assessment: "",
+        info: {
+          contactName: "",
+          phone: "",
+          email: "",
+          streetNo: "",
+          postalCode: ""
+        },
+        details: {
+          goal: "",
+          funded: "",
+          notFunded: "",
+          willBeFunded: "",
+          condition: ""
+        },
+        ownContribution: null,
+        accumulability: "test",
+        plannedStart: "",
+        plannedEnd: "",
+        notes: "",
+        editors: [],
+        rates: [],
+        links: [],
         categories: [],
         tags: [],
-        projectContent: "",
-        projectGoals: "",
-        projectValuesAndBenefits: "",
-        coorperationPartners: "",
-        investiveNoninvestive: "",
-        projectStatus: "",
-        fundingRates: [],
-        fundingGuidelines: "",
-        startDate: "",
-        endDate: ""
+        projects: [],
+        checklist: {},
+        media: null,
+        files: null,
+        fundingsLinkedTo: []
       },
-      visibilityOptions: ["Google", "Facebook"],
-      investiveNoninvestiveOptions: [
-        { label: "Investive", value: "investive" },
-        { label: "Nicht-investiv", value: "nonInvestive" }
-      ],
-      projectStatuses: [
-        { label: "Idea", value: "idea" },
-        { label: "Development", value: "development" },
-        { label: "Pre-Planing", value: "pre-planning" },
-        { label: "Detailed-Planning", value: "detailed-planning" }
+      visibilityOptions: ["only for me", "all users", "listed only"],
+      accumulabilityOptions: [
+        { label: "test", value: "test" },
+        { label: "test", value: "test" }
       ]
+      // accumulabilityOptions: [
+      //   { label: "Yes", value: true },
+      //   { label: "No", value: false }
+      // ]
     };
   },
   methods: {
-    forceRerender() {
-      this.componentKey += 1;
+    imgPreview(val) {
+      console.log("this.form.media", val);
+      return { url: URL.createObjectURL(val), name: val.name };
     },
-    addEditor() {
-      this.form.editorsInvited.push("");
+    removeImg(index) {
+      this.form.media.splice(index, 1);
     },
-    removeEditor(index) {
-      this.form.editorsInvited.splice(index, 1);
-      this.forceRerender();
+    onRejected(rejectedEntries) {
+      this.$q.notify({
+        type: "negative",
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      });
     },
-    updateEditor(index, value) {
-      this.form.editorsInvited[index] = value;
-      this.forceRerender();
+    submitNewFunding(val) {
+      const published = val;
+      this.$refs.newFundingForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch("funding/createNewFunding", {
+            data: {
+              ...this.form,
+              published: published,
+              // info: {
+              //   ...this.form.info,
+              //   contactName: this.userDetails.fullName,
+              //   phone: this.userDetails.phone,
+              //   email: this.user.email,
+              //   location: this.userDetails.location,
+              //   streetNo: "",
+              //   postalCode: ""
+              // },
+              owner: {
+                id: this.user && this.user.id
+              }
+            }
+          });
+          if (res !== false) {
+            console.log("RES WASN'T FALSE");
+          }
+          this.isLoading = false;
+        } else {
+          console.log("error");
+        }
+      });
     },
-    updateFundingRates(val) {
-      this.form.fundingRates = val;
+    editFunding(val) {
+      const published = val;
+      this.$refs.newFundingForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch("project/editProjectIdea", {
+            data: {
+              ...this.form,
+              published: published,
+              // info: {
+              //   ...this.form.info,
+              //   contactName: this.userDetails.fullName,
+              //   phone: this.userDetails.phone,
+              //   email: this.user.email,
+              //   location: this.userDetails.location,
+              //   streetNo: "",
+              //   postalCode: ""
+              // },
+              owner: {
+                id: this.user && this.user.id
+              }
+            }
+          });
+          this.isLoading = false;
+        } else {
+          console.log("error");
+        }
+      });
+    }
+  },
+  computed: {
+    userDetails() {
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.userDetails
+      );
+    },
+    user() {
+      return this.$store.state.userCenter.user.user;
+    },
+    project() {
+      return this.$store.state.project.project;
+    },
+    isEdit() {
+      return !!this.$route.params.id;
     }
   }
 };
@@ -680,5 +815,14 @@ export default {
     border-radius: 10px !important;
     border: 1px solid $yellow;
   }
+}
+.removeArrow input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.removeArrow input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>

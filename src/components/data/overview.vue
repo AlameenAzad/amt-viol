@@ -197,11 +197,26 @@
                           name="inventory"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="deleteProject(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14 text-red">
                         Delete
-                        <q-icon size="sm" name="delete"/></span
+                        <q-icon
+                          v-if="!deleteIsLoading"
+                          size="sm"
+                          class="text-red"
+                          name="delete"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
                 </q-list>
@@ -302,7 +317,8 @@ export default {
         { name: "fat", label: "Status", field: "fat", sortable: true }
       ],
       viewIsLoading: false,
-      editIsLoading: false
+      editIsLoading: false,
+      deleteIsLoading: false
     };
   },
   methods: {
@@ -322,15 +338,47 @@ export default {
       });
       this.editIsLoading = false;
     },
+    async deleteProject(row) {
+      this.deleteIsLoading = true;
+      const id = row && row.id;
+      await this.$store.dispatch("project/deleteProject", {
+        id: id
+      });
+      this.deleteIsLoading = false;
+    },
     goToPage(page) {
       if (page === "projectIdeas") {
         this.$store.commit("project/setSpecificProject", null);
         this.$router.push({ path: "/user/newProjectIdea" });
+      } else if (page === "fundings") {
+        this.$store.commit("project/setSpecificProject", null);
+        this.$router.push({ path: "/user/newFunding" });
       }
     },
-    getData() {
-      this.$store.dispatch("project/getProjectIdeas");
-      this.$store.commit("project/setSpecificProject", null);
+    getData(tab) {
+      if (tab === "projectIdeas") {
+        this.$store.dispatch("project/getProjectIdeas");
+        this.$store.commit("project/setSpecificProject", null);
+      } else if (tab == "fundings") {
+        this.$store.dispatch("funding/getFundings");
+        this.$store.commit("project/setSpecificProject", null);
+      } else {
+        // TODO change this
+        this.$store.dispatch("project/getProjectIdeas");
+        this.$store.commit("project/setSpecificProject", null);
+      }
+    }
+  },
+  watch: {
+    tab(val) {
+      if (val === "projectIdeas") {
+        this.getData("projectIdeas");
+      } else if (val === "fundings") {
+        this.getData("fundings");
+      } else {
+        // TODO change this
+        this.getData("projectIdeas");
+      }
     }
   },
   computed: {
@@ -345,11 +393,15 @@ export default {
         : this.checklistCols;
     },
     apiData() {
-      return this.$store.state.project.projects;
+      return this.tab == "projectIdeas"
+        ? this.$store.state.project.projects
+        : this.tab == "fundings"
+        ? this.$store.state.funding.fundings
+        : this.$store.state.implementationChecklist.implementationChecklists;
     }
   },
   mounted() {
-    this.getData();
+    this.getData(this.tab);
   }
 };
 </script>
