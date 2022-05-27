@@ -95,14 +95,14 @@ export default {
         this.estimatedCosts.length > 0 ? this.estimatedCosts : []
       );
     }
-  },
-  mounted() {
-    this.estimatedCosts = this.editing
-      ? JSON.parse(
-          JSON.stringify(this.$store.state.project.project.estimatedCosts)
-        )
-      : [];
   }
+  // mounted() {
+  //   this.estimatedCosts = this.editing
+  //     ? JSON.parse(
+  //         JSON.stringify(this.$store.state.project.project.estimatedCosts)
+  //       )
+  //     : [];
+  // }
 };
 </script>
 
