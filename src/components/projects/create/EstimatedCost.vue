@@ -61,8 +61,8 @@ export default {
   name: "estimatedCost",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -98,7 +98,9 @@ export default {
   },
   mounted() {
     this.estimatedCosts = this.editing
-      ? JSON.parse(JSON.stringify(this.$store.state.project.project.estimatedCosts))
+      ? JSON.parse(
+          JSON.stringify(this.$store.state.project.project.estimatedCosts)
+        )
       : [];
   }
 };
