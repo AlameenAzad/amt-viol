@@ -12,7 +12,7 @@ export function editProjectIdea(state, payload) {
   console.log("edit project idea payload", payload);
 }
 
-export function deleteProject(state, payload) {
+export function deleteProjectIdea(state, payload) {
   if (!!payload) {
     state.projects = state.projects.filter(project => project.id !== payload);
   }

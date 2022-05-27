@@ -167,7 +167,6 @@ export async function editProjectIdea(context, payload) {
               )
           );
         }
-
         let deleted = [];
         if (context.state.project.media !== null) {
           deleted = context.state.project.media.filter(
@@ -175,7 +174,6 @@ export async function editProjectIdea(context, payload) {
               !data.media.find(newMedia => newMedia.id === oldMedia.id)
           );
         }
-
         if (added.length > 0) {
           const addNewFilesRes = await context.dispatch("uploadMedia", {
             media: added,
@@ -226,7 +224,6 @@ export async function editProjectIdea(context, payload) {
           console.log("deleteFilesRes", deleteFilesRes);
         }
       }
-
       Notify.create({
         message: "Project Idea edited successfully",
         type: "positive"
@@ -277,12 +274,12 @@ export async function editProject(context, payload) {
   this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
 }
 
-export async function deleteProject(context, payload) {
+export async function deleteProjectIdea(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
       const res = await api.delete(`/api/projects/${id}`);
-      context.commit("deleteProject", res.data.data && res.data.data.id);
+      context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
       Notify.create({
         message: "Project Idea deleted successfully",
         type: "positive"

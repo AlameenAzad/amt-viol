@@ -141,7 +141,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable @click="viewProject(props.row)">
+                  <q-item clickable @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         View
@@ -159,7 +159,7 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="editProject(props.row)">
+                  <q-item clickable @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         Edit
@@ -200,7 +200,7 @@
                   <q-item
                     clickable
                     v-close-popup
-                    @click="deleteProject(props.row)"
+                    @click="deleteItem(props.row)"
                   >
                     <q-item-section
                       ><span class="text-right font-14 text-red">
@@ -280,6 +280,7 @@ export default {
           align: "left",
           label: "Categories",
           field: row =>
+            !!row.categories &&
             row.categories.map(category => category.title).join(", "),
           sortable: true
         },
@@ -322,36 +323,65 @@ export default {
     };
   },
   methods: {
-    async viewProject(row) {
-      this.viewIsLoading = true;
-      const id = row && row.id;
-      await this.$store.dispatch("project/viewProject", {
-        id: id
-      });
-      this.viewIsLoading = false;
+    async view(row) {
+      if (this.tab === "projectIdeas") {
+        this.viewIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/viewProject", {
+          id: id
+        });
+        this.viewIsLoading = false;
+      } else if (this.tab === "fundings") {
+        this.viewIsLoading = true;
+        const id = JSON.parse(JSON.stringify(row && row.id));
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: id
+        });
+        this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newFunding/${id}` });
+      }
     },
-    async editProject(row) {
-      this.editIsLoading = true;
-      const id = row && row.id;
-      await this.$store.dispatch("project/editProject", {
-        id: id
-      });
-      this.editIsLoading = false;
+    async editItem(row) {
+      if (this.tab === "projectIdeas") {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/editProject", {
+          id: id
+        });
+        this.editIsLoading = false;
+      } else if (this.tab === "fundings") {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: id
+        });
+        this.editIsLoading = false;
+        this.$router.push({ path: `/user/newFunding/edit/${id}` });
+      }
     },
-    async deleteProject(row) {
-      this.deleteIsLoading = true;
-      const id = row && row.id;
-      await this.$store.dispatch("project/deleteProject", {
-        id: id
-      });
-      this.deleteIsLoading = false;
+    async deleteItem(row) {
+      if (this.tab === "projectIdeas") {
+        this.deleteIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/deleteProjectIdea", {
+          id: id
+        });
+        this.deleteIsLoading = false;
+      } else if (this.tab === "fundings") {
+        this.deleteIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("funding/deleteFunding", {
+          id: id
+        });
+        this.deleteIsLoading = false;
+      }
     },
     goToPage(page) {
       if (page === "projectIdeas") {
         this.$store.commit("project/setSpecificProject", null);
         this.$router.push({ path: "/user/newProjectIdea" });
       } else if (page === "fundings") {
-        this.$store.commit("project/setSpecificProject", null);
+        this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
       }
     },
@@ -361,7 +391,7 @@ export default {
         this.$store.commit("project/setSpecificProject", null);
       } else if (tab == "fundings") {
         this.$store.dispatch("funding/getFundings");
-        this.$store.commit("project/setSpecificProject", null);
+        this.$store.commit("funding/setSpecificFunding", null);
       } else {
         // TODO change this
         this.$store.dispatch("project/getProjectIdeas");
@@ -394,10 +424,14 @@ export default {
     },
     apiData() {
       return this.tab == "projectIdeas"
-        ? this.$store.state.project.projects
+        ? !!this.$store.state.project.projects &&
+            this.$store.state.project.projects
         : this.tab == "fundings"
-        ? this.$store.state.funding.fundings
-        : this.$store.state.implementationChecklist.implementationChecklists;
+        ? !!this.$store.state.funding.fundings &&
+          this.$store.state.funding.fundings
+        : !!this.$store.state.implementationChecklist
+            .implementationChecklists &&
+          this.$store.state.implementationChecklist.implementationChecklists;
     }
   },
   mounted() {

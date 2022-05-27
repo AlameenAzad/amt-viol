@@ -61,13 +61,13 @@ export default {
   name: "links",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      links: []
+      links: this.editing
     };
   },
   methods: {
@@ -86,12 +86,12 @@ export default {
       this.links.splice(index, 1);
       this.$emit("update:link", this.links.length > 0 ? this.links : []);
     }
-  },
-  mounted() {
-    this.links = this.editing
-      ? JSON.parse(JSON.stringify(this.$store.state.project.project.links))
-      : [];
   }
+  // mounted() {
+  //   this.links = this.editing
+  //     ? JSON.parse(JSON.stringify(this.$store.state.project.project.links))
+  //     : [];
+  // }
 };
 </script>
 

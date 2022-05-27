@@ -130,7 +130,7 @@
           </div>
           <div class="col-8">
             <UserSelect
-              :editing="isEdit"
+              :editing="isEdit.editors"
               @update:user="form.editors = $event"
             />
           </div>
@@ -183,7 +183,7 @@
           </div>
           <div class="col-8">
             <Categories
-              :editing="isEdit"
+              :editing="isEdit.categories"
               @update:category="form.categories = $event"
             />
           </div>
@@ -193,7 +193,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-8">
-            <Tags :editing="isEdit" @update:tag="form.tags = $event" />
+            <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -332,7 +332,7 @@
           </div>
           <div class="col-8">
             <EstimatedCost
-              :editing="isEdit"
+              :editing="isEdit.estimatedCosts"
               @update:cost="form.estimatedCosts = $event"
             />
           </div>
@@ -349,13 +349,9 @@
             </p>
           </div>
           <div class="col-8">
-            <q-input
-              outlined
-              dense
-              class="no-shadow input-radius-6"
-              placeholder="Select funding guidlines"
-              v-model="form.fundingGuideline"
-              :rules="[]"
+            <Fundings
+              :editing="isEdit.fundingGuideline"
+              @update:linkToFunding="form.fundingGuideline = $event"
             />
           </div>
         </div>
@@ -454,7 +450,7 @@
             </p>
           </div>
           <div class="col-8">
-            <Links :editing="isEdit" @update:link="form.links = $event" />
+            <Links :editing="isEdit.links" @update:link="form.links = $event" />
           </div>
         </div>
         <div class="row">
@@ -618,6 +614,7 @@ import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import EstimatedCost from "src/components/projects/create/EstimatedCost.vue";
 import Links from "components/projects/create/Links.vue";
+import Fundings from "components/funding/Fundings.vue";
 export default {
   name: "newProjectIdea",
   components: {
@@ -625,7 +622,8 @@ export default {
     Categories,
     Tags,
     EstimatedCost,
-    Links
+    Links,
+    Fundings
   },
   data() {
     return {
@@ -650,13 +648,13 @@ export default {
           investive: true,
           status: ""
         },
+        fundingGuideline: [],
         municipality: "",
         editors: [],
         categories: [],
         tags: [],
         estimatedCosts: [],
         links: [],
-        fundingGuideline: "",
         media: null,
         files: null
       },
@@ -674,6 +672,7 @@ export default {
       isLoading: false
     };
   },
+  //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
     imgPreview(val) {
       return {
@@ -787,12 +786,14 @@ export default {
       return this.$store.state.project.project;
     },
     isEdit() {
-      return !!this.$route.params.id;
+      return (
+        !!this.$route.params.id &&
+        JSON.parse(JSON.stringify(this.$store.state.project.project))
+      );
     }
   },
   mounted() {
     if (!!this.project && !!this.$route.params.id) {
-      console.log("Mounted");
       this.setData();
     }
   }

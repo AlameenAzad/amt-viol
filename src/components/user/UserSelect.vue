@@ -75,13 +75,13 @@ export default {
   name: "userSelect",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      users: []
+      users: this.editing
     };
   },
   methods: {
@@ -128,23 +128,23 @@ export default {
     userOptions() {
       return this.$store.state.userCenter.users;
     }
-  },
-  mounted() {
-    if (this.editing) {
-      this.users = JSON.parse(
-        JSON.stringify(
-          this.$store.state.project.project.editors.map(user => {
-            return {
-              username: user.username,
-              id: user.id
-            };
-          })
-        )
-      );
-    } else {
-      this.users = [];
-    }
   }
+  // mounted() {
+  //   if (this.editing) {
+  //     this.users = JSON.parse(
+  //       JSON.stringify(
+  //         this.$store.state.project.project.editors.map(user => {
+  //           return {
+  //             username: user.username,
+  //             id: user.id
+  //           };
+  //         })
+  //       )
+  //     );
+  //   } else {
+  //     this.users = [];
+  //   }
+  // }
 };
 </script>
 

@@ -12,6 +12,12 @@ export function addNewFunding(state, payload) {
 //   console.log("edit project idea payload", payload);
 // }
 
-// export function setSpecificProject(state, payload) {
-//   state.project = payload;
-// }
+export function deleteFunding(state, payload) {
+  if (!!payload) {
+    state.fundings = state.fundings.filter(funding => funding.id !== payload);
+  }
+}
+
+export function setSpecificFunding(state, payload) {
+  state.funding = payload;
+}

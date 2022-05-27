@@ -1,5 +1,10 @@
 export default function() {
   return {
-    implementationChecklists: []
+    implementationChecklists: [
+      {
+        id: 1,
+        title: "checklist 1"
+      }
+    ]
   };
 }

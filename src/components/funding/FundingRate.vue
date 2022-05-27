@@ -62,13 +62,13 @@ export default {
   name: "fundingRates",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      fundingRates: []
+      fundingRates: this.editing
     };
   },
   methods: {
@@ -96,14 +96,14 @@ export default {
         this.fundingRates.length > 0 ? this.fundingRates : []
       );
     }
-  },
-  mounted() {
-    this.fundingRates = this.editing
-      ? JSON.parse(
-          JSON.stringify(this.$store.state.project.project.estimatedCosts)
-        )
-      : [];
   }
+  // mounted() {
+  //   this.fundingRates = this.editing
+  //     ? JSON.parse(
+  //         JSON.stringify(this.$store.state.project.project.estimatedCosts)
+  //       )
+  //     : [];
+  // }
 };
 </script>
 

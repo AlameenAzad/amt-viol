@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'" class="q-mt-lg">
     <p class="text-center font-36 text-weight-regular q-my-lg">
       Fundings
     </p>
@@ -123,7 +123,7 @@
           </div>
           <div class="col-8">
             <UserSelect
-              :editing="isEdit"
+              :editing="isEdit.editors"
               @update:user="form.editors = $event"
             />
           </div>
@@ -170,7 +170,7 @@
           </div>
           <div class="col-8">
             <Categories
-              :editing="isEdit"
+              :editing="isEdit.categories"
               @update:category="form.categories = $event"
             />
           </div>
@@ -180,7 +180,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-8">
-            <Tags :editing="isEdit" @update:tag="form.tags = $event" />
+            <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -287,7 +287,7 @@
           </div>
           <div class="col-8">
             <FundingRate
-              :editing="isEdit"
+              :editing="isEdit.rates"
               @update:fundingRate="form.rates = $event"
             />
           </div>
@@ -343,7 +343,7 @@
           </div>
           <div class="col-8">
             <Fundings
-              :editing="isEdit"
+              :editing="isEdit.fundingsLinkedTo"
               @update:linkToFunding="form.fundingsLinkedTo = $event"
             />
           </div>
@@ -487,7 +487,7 @@
             </p>
           </div>
           <div class="col-8">
-            <Links :editing="isEdit" @update:link="form.links = $event" />
+            <Links :editing="isEdit.links" @update:link="form.links = $event" />
           </div>
         </div>
         <div class="row">
@@ -511,18 +511,20 @@
                   label-color="white"
                   dark
                   bg-color="primary"
-                  label="Select Images"
+                  :label="
+                    !!form.media && form.media.length > 0
+                      ? 'Add Images'
+                      : 'Select Images'
+                  "
                   multiple
-                  use-chips
+                  display-value=""
                   append
-                  accept=".jpg, image/*"
-                  @rejected="onRejected"
                 >
                   <template v-slot:prepend>
                     <q-icon color="white" class="on-right" name="upload" />
                   </template>
                 </q-file>
-                <div class="q-mt-sm" v-if="form.media">
+                <div class="q-mt-sm" v-if="form.media && form.media.length > 0">
                   <q-item
                     v-for="(image, index) in form.media"
                     :key="index"
@@ -564,17 +566,48 @@
                   label-color="white"
                   dark
                   bg-color="primary"
-                  label="Select Files"
+                  :label="
+                    !!form.files && form.files.length > 0
+                      ? 'Add Files'
+                      : 'Select Files'
+                  "
                   multiple
-                  use-chips
+                  display-value=""
                   append
-                  accept=".doc, .pdf, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .zip, .rar"
-                  @rejected="onRejected"
                 >
                   <template v-slot:prepend>
                     <q-icon color="white" class="on-right" name="upload" />
                   </template>
                 </q-file>
+                <div class="q-mt-sm" v-if="form.files && form.files.length > 0">
+                  <q-item
+                    v-for="(file, index) in form.files"
+                    :key="index"
+                    clickable
+                  >
+                    <q-item-section side>
+                      <q-avatar rounded size="48px">
+                        <small>{{ imgPreview(file).name.split(".")[1] }}</small>
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="ellipsis" caption>{{
+                        imgPreview(file).name
+                      }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="delete"
+                        @click.prevent.stop="removeFile(index)"
+                        size="sm"
+                        round
+                        text-color="red"
+                        dense
+                      >
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </div>
               </div>
             </div>
           </div>
@@ -592,7 +625,7 @@
           </div>
           <div class="col-8">
             <ProjectIdeas
-              :editing="isEdit"
+              :editing="isEdit.projects"
               @update:linkToProject="form.projects = $event"
             />
           </div>
@@ -613,7 +646,7 @@
           </div>
           <div class="col-8">
             <ImplementationChecklists
-              :editing="isEdit"
+              :editing="isEdit.checklist"
               @update:linkToImplementationChecklist="form.checklist = $event"
             />
           </div>
@@ -714,17 +747,16 @@ export default {
   },
   methods: {
     imgPreview(val) {
-      console.log("this.form.media", val);
-      return { url: URL.createObjectURL(val), name: val.name };
+      return {
+        url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
+        name: val.name
+      };
     },
     removeImg(index) {
       this.form.media.splice(index, 1);
     },
-    onRejected(rejectedEntries) {
-      this.$q.notify({
-        type: "negative",
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      });
+    removeFile(index) {
+      this.form.files.splice(index, 1);
     },
     submitNewFunding(val) {
       const published = val;
@@ -763,7 +795,7 @@ export default {
       this.$refs.newFundingForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
-          const res = await this.$store.dispatch("project/editProjectIdea", {
+          const res = await this.$store.dispatch("funding/editFunding", {
             data: {
               ...this.form,
               published: published,
@@ -776,6 +808,11 @@ export default {
               //   streetNo: "",
               //   postalCode: ""
               // },
+              municipality: {
+                id:
+                  this.userDetails.municipality &&
+                  this.userDetails.municipality.id
+              },
               owner: {
                 id: this.user && this.user.id
               }
@@ -786,9 +823,24 @@ export default {
           console.log("error");
         }
       });
+    },
+    setData() {
+      this.form = {
+        ...this.form,
+        ...JSON.parse(
+          JSON.stringify({
+            ...this.funding,
+            files: this.funding.files,
+            media: this.funding.media
+          })
+        )
+      };
     }
   },
   computed: {
+    appUrl() {
+      return process.env.VUE_APP_MAIN_URL;
+    },
     userDetails() {
       return (
         this.$store.state.userCenter.user &&
@@ -798,11 +850,19 @@ export default {
     user() {
       return this.$store.state.userCenter.user.user;
     },
-    project() {
-      return this.$store.state.project.project;
+    funding() {
+      return this.$store.state.funding.funding;
     },
     isEdit() {
-      return !!this.$route.params.id;
+      return (
+        !!this.$route.params.id &&
+        JSON.parse(JSON.stringify(this.$store.state.funding.funding))
+      );
+    }
+  },
+  mounted() {
+    if (!!this.funding && !!this.$route.params.id) {
+      this.setData();
     }
   }
 };

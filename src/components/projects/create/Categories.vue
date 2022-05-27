@@ -37,13 +37,13 @@ export default {
   name: "categories",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      model: null
+      model: this.editing
     };
   },
   methods: {
@@ -64,12 +64,12 @@ export default {
         };
       });
     }
-  },
-  mounted() {
-    this.model = this.editing
-      ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
-      : null;
   }
+  // mounted() {
+  //   this.model = this.editing
+  //     ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
+  //     : null;
+  // }
 };
 </script>
 

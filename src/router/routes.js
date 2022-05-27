@@ -208,6 +208,24 @@ const routes = [
           backLink: "/user/data"
         },
         component: () => import("pages/dashboard/NewFunding.vue")
+      },
+      {
+        path: "/user/newFunding/edit/:id",
+        name: "EditFunding",
+        meta: {
+          title: "Edit Funding",
+          backLink: "/user/data"
+        },
+        component: () => import("pages/dashboard/NewFunding.vue")
+      },
+      {
+        path: "/user/newFunding/:id",
+        name: "ViewFunding",
+        meta: {
+          title: "Details of the Funding",
+          backLink: "/user/data"
+        },
+        component: () => import("pages/dashboard/FundingView.vue")
       }
     ]
   },

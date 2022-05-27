@@ -3,17 +3,15 @@
     outlined
     dense
     v-model="model"
-    multiple
     :options="implementationChecklists"
     options-selected-class="text-primary text-weight-600"
     class="no-shadow input-radius-6"
     @input="onSelect"
   >
     <template v-slot:selected>
-      <template v-if="model && model.length > 0">
-        <span v-for="(implementationChecklist, index) in model" :key="index">
-          {{ index > 0 ? ", " : "" }}
-          {{ implementationChecklist.title }}
+      <template v-if="model">
+        <span>
+          {{ model.title }}
         </span>
       </template>
       <template v-else>
@@ -37,24 +35,24 @@ export default {
   name: "implementationChecklists",
   props: {
     editing: {
-      type: Boolean,
-      default: false
+      type: Object,
+      default: null
     }
   },
   data() {
     return {
-      model: null
+      model: this.editing
     };
   },
   methods: {
     onSelect(value) {
-      const implementationChecklists = [];
-      value.forEach(element => {
-        implementationChecklists.push({ id: element.id });
-      });
+      // const implementationChecklists = [];
+      // value.forEach(element => {
+      //   implementationChecklists.push({ id: element.id });
+      // });
       this.$emit(
         "update:linkToImplementationChecklist",
-        implementationChecklists.length > 0 ? implementationChecklists : []
+        !!value ? value : null
       );
     }
   },
@@ -69,11 +67,6 @@ export default {
         }
       );
     }
-  },
-  mounted() {
-    this.model = this.editing
-      ? JSON.parse(JSON.stringify(this.$store.state.project.project.projects))
-      : null;
   }
 };
 </script>
