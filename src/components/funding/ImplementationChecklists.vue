@@ -58,14 +58,24 @@ export default {
   },
   computed: {
     implementationChecklists() {
-      return this.$store.state.implementationChecklist.implementationChecklists.map(
-        checklist => {
-          return {
-            id: checklist.id,
-            title: checklist.title
-          };
+      return [
+        {
+          id: 1,
+          title: "checklist 1",
+          ideaProvider: "volunteering",
+          visibility: "all users",
+          createdAt: "2022-05-18T07:52:15.362Z",
+          updatedAt: "2022-05-18T07:52:15.362Z"
         }
-      );
+      ];
+      // return this.$store.state.implementationChecklist.implementationChecklists.map(
+      //   checklist => {
+      //     return {
+      //       id: checklist.id,
+      //       title: checklist.title
+      //     };
+      //   }
+      // );
     }
   }
 };
