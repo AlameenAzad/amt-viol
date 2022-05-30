@@ -252,7 +252,10 @@
                   </div>
                   <div class="col-6 text-right">
                     <p class="q-mb-sm">
-                      {{ project.plannedStart || "No start date found" }}
+                      {{
+                        dateFormatter(project.plannedStart) ||
+                          "No start date found"
+                      }}
                     </p>
                   </div>
                   <div class="col-6 text-left">
@@ -260,7 +263,9 @@
                   </div>
                   <div class="col-6 text-right">
                     <p class="q-mb-sm">
-                      {{ project.plannedEnd || "No end date found" }}
+                      {{
+                        dateFormatter(project.plannedEnd) || "No end date found"
+                      }}
                     </p>
                   </div>
                 </div>
@@ -487,6 +492,7 @@
 </template>
 
 <script>
+import { date } from "quasar";
 export default {
   name: "documentView",
   data() {
@@ -496,6 +502,13 @@ export default {
     };
   },
   methods: {
+    dateFormatter(val) {
+      if (!!val) {
+        return date.formatDate(new Date(val), "DD.MM.YYYY");
+      } else {
+        return "No Date";
+      }
+    },
     async viewFunding(index, id) {
       if (!!id) {
         if (!!this.loading[index]) {
