@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      model: null
+      model: this.currentMunicipality
     };
   },
   methods: {
@@ -64,14 +64,14 @@ export default {
         };
       });
     }
-  },
-  mounted() {
-    console.log("this.currentMunicipality", this.currentMunicipality.title);
-    this.model = this.currentMunicipality.title
-      ? this.currentMunicipality
-      : null;
-    console.log("modell", this.model);
   }
+  // mounted() {
+  //   console.log("this.currentMunicipality", this.currentMunicipality.title);
+  //   this.model = this.currentMunicipality.title
+  //     ? this.currentMunicipality
+  //     : null;
+  //   console.log("modell", this.model);
+  // }
 };
 </script>
 

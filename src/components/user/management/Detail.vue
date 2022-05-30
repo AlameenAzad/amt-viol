@@ -32,7 +32,6 @@
           </div>
           <div class="col-9">
             <MunicipalitySelect
-              v-if="form.municipality.title !== ''"
               :currentMunicipality="form.municipality"
               @update:municipality="form.municipality = $event"
             />
@@ -66,23 +65,24 @@
               outlined
               dense
               :options="options"
+              options-selected-class="text-primary text-weight-600"
               class="no-shadow input-radius-6"
               v-model="form.role"
               :rules="[]"
-              placeholder="Project coordinator"
+              placeholder="Role"
             />
           </div>
         </div>
 
         <div class="row justify-center q-ml-lg ">
           <q-btn
+            @click="updateUserInformation"
             label="Save Changes"
-            type="submit"
             size="16px"
             color="primary"
             no-caps
             unelevated
-            class="  no-shadow	 radius-6 q-px-xl  q-mr-sm  "
+            class="no-shadow radius-6 q-px-xl q-mr-sm  "
           />
           <q-btn
             label="Delete User"
@@ -151,9 +151,12 @@
 <script>
 import MunicipalitySelect from "components/Municipality/MunicipalitySelect.vue";
 export default {
+  components: {
+    MunicipalitySelect
+  },
   data() {
     return {
-      options: [4],
+      options: ["admin", "user"],
       showDialog: false,
       isLoading: false,
       form: {
@@ -164,9 +167,6 @@ export default {
       },
       dataRight: ""
     };
-  },
-  components: {
-    MunicipalitySelect
   },
   methods: {
     getUserData() {
@@ -180,7 +180,7 @@ export default {
         this.form.municipality.id = currentUser.user_detail.municipality.id;
         this.form.municipality.title =
           currentUser.user_detail.municipality.title;
-        this.form.role = currentUser.role.id;
+        this.form.role = currentUser.role.type;
         // this.form.municipality = {
         //   id: currentUser.user_detail.municipality.id,
         //   title: currentUser.user_detail.municipality.title
@@ -198,8 +198,7 @@ export default {
             id: this.$route.params.id,
             data: {
               ...this.form,
-              municipality: { id: this.form.municipality.id },
-              message: "Welcome to amt viol"
+              municipality: { id: this.form.municipality.id }
             }
           });
           this.isLoading = false;

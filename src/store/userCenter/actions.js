@@ -1,6 +1,5 @@
 import { api } from "boot/axios";
 import { Notify } from "quasar";
-import router from "src/router";
 
 export async function login(context, payload) {
   const { identifier } = payload;
@@ -22,6 +21,17 @@ export async function login(context, payload) {
       });
       context.commit("changeLoadingMessages", "Getting users");
       await context.dispatch("getUsers");
+
+      context.commit("changeLoadingMessages", "Getting Fundings");
+      await context.dispatch("funding/getFundings", null, {
+        root: true
+      });
+
+      context.commit("changeLoadingMessages", "Getting Checklists");
+      await context.dispatch("implementationChecklist/getChecklists", null, {
+        root: true
+      });
+
       context.commit("changeLoadingMessages", "");
       this.$router.push({ path: "/dashboard" });
       return true;
@@ -145,7 +155,7 @@ export async function updateUser(context, payload) {
 
   if (!!data.id && !!data.data) {
     try {
-      const res = await api.put(`/api/users/${data.id}`, data.data);
+      const res = await api.put(`/api/users/${data.id}`, { data: data.data });
       Notify.create({
         message: "User data updated successfully",
         type: "positive"
@@ -170,6 +180,7 @@ export async function logout(context) {
   context.commit("tag/setTags", [], { root: true });
   context.commit("municipality/setMunicipalities", [], { root: true });
   context.commit("category/setCategories", [], { root: true });
-  context.commit("project/setProjectIdeas", [], { root: true });
+  context.commit("funding/setFundings", [], { root: true });
+  context.commit("implementationChecklist/setChecklists", [], { root: true });
   this.$router.push({ path: "/" });
 }

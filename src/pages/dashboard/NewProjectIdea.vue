@@ -373,15 +373,17 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.plannedStart"
+                  :value="dateFormatter(form.plannedStart)"
+                  readonly
                   color="primary"
                   bg-color="white"
-                  placeholder="Start"
+                  placeholder="Planned Start"
+                  @click="$refs.qPlannedStartDateProxy.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedStartDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
@@ -405,15 +407,17 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.plannedEnd"
+                  :value="dateFormatter(form.plannedEnd)"
                   color="primary"
+                  readonly
                   bg-color="white"
-                  placeholder="End"
+                  placeholder="Planned End"
+                  @click="$refs.qPlannedEndDateProxy.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedEndDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
@@ -615,6 +619,8 @@ import Tags from "components/projects/create/Tags.vue";
 import EstimatedCost from "src/components/projects/create/EstimatedCost.vue";
 import Links from "components/projects/create/Links.vue";
 import Fundings from "components/funding/Fundings.vue";
+import { date } from "quasar";
+
 export default {
   name: "newProjectIdea",
   components: {
@@ -674,6 +680,13 @@ export default {
   },
   //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
+    dateFormatter(val) {
+      if (!!val) {
+        return date.formatDate(new Date(val), "DD.MM.YYYY");
+      } else {
+        return;
+      }
+    },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
@@ -690,8 +703,8 @@ export default {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
         if (success) {
-          console.log("success", success);
           this.isLoading = true;
+          await this.checkOptionalParameters();
           const res = await this.$store.dispatch(
             "project/createNewProjectIdea",
             {
@@ -702,8 +715,9 @@ export default {
                   ...this.form.info,
                   contactName: this.userDetails.fullName,
                   phone: this.userDetails.phone,
-                  email: this.user.email,
-                  location: this.userDetails.location
+                  email: this.user.email
+                  // location: this.userDetails.location
+                  // TODO add some more required details
                 },
                 municipality: {
                   id:
@@ -722,11 +736,23 @@ export default {
         }
       });
     },
+    async checkOptionalParameters() {
+      if (
+        !!this.form.fundingGuideline &&
+        this.form.fundingGuideline.length < 1
+      ) {
+        delete this.form.fundingGuideline;
+      }
+      if (!this.form.details.status) {
+        delete this.form.details.status;
+      }
+    },
     editProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
+          await this.checkOptionalParameters();
           const res = await this.$store.dispatch("project/editProjectIdea", {
             data: {
               ...this.form,
@@ -745,9 +771,6 @@ export default {
               //     this.userDetails.municipality &&
               //     this.userDetails.municipality.id
               // },
-              // owner: {
-              //   id: this.user && this.user.id
-              // }
             }
           });
           this.isLoading = false;

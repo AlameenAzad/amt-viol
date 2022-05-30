@@ -150,7 +150,7 @@ export async function editFunding(context, payload) {
   console.log("dataWithoutFiles", dataWithoutFiles);
   if (!!data) {
     try {
-      const res = await api.put(`/api/fungings/${data.id}`, {
+      const res = await api.put(`/api/fundings/${data.id}`, {
         data: dataWithoutFiles
       });
       console.log("res :>> ", res);

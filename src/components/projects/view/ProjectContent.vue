@@ -61,7 +61,7 @@
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
-                    {{ project.info.location || "Project Location not found" }}
+                    {{ project.info.location || "Project Location not set" }}
                   </p>
                 </div>
               </q-card-section>

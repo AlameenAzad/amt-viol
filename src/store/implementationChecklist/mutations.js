@@ -1,4 +1,3 @@
-/*
-export function someMutation (state) {
+export function setChecklists(state, payload) {
+  state.checklists = payload;
 }
-*/

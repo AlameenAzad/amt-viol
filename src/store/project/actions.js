@@ -7,7 +7,7 @@ export async function getProjectIdeas(context) {
     context.commit("setProjectIdeas", res.data);
   } catch (error) {
     Notify.create({
-      position: "top-right",
+      // position: "top-right",
       type: "negative",
       message: error.response.data.error.message
     });
@@ -48,7 +48,7 @@ export async function createNewProjectIdea(context, payload) {
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -80,7 +80,7 @@ export async function uploadFiles(context, payload) {
     } catch (error) {
       console.log("files error.response", error.response);
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -112,7 +112,7 @@ export async function uploadMedia(context, payload) {
     } catch (error) {
       console.log("media error.response", error.response);
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -131,7 +131,7 @@ export async function deleteFilesAndMedia(context, payload) {
       } catch (error) {
         console.log("files error.response", error.response);
         Notify.create({
-          position: "top-right",
+          // position: "top-right",
           type: "negative",
           message: error.response.data.error.message
         });
@@ -235,7 +235,7 @@ export async function editProjectIdea(context, payload) {
     } catch (error) {
       console.error("error", error);
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -254,7 +254,7 @@ export async function getSpecificProject(context, payload) {
       return res.data.id;
     } catch (error) {
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -287,7 +287,7 @@ export async function deleteProjectIdea(context, payload) {
       context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
-        position: "top-right",
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });

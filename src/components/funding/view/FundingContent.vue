@@ -125,6 +125,7 @@
                   class="radius-10"
                 >
                   <q-carousel-slide
+                    class="imageStyling"
                     v-for="(item, index) in funding.media"
                     :key="index"
                     :name="index + 1"
@@ -158,6 +159,7 @@
                         >
                           <q-card-section class="no-padding">
                             <q-img
+                              class="tabStyling"
                               :src="`${appUrl}${item.url}`"
                               height="100px"
                               width="100px"
@@ -521,7 +523,8 @@
                         <div class="col-6 col-md-6">
                           <p class="q-mt-sm q-mb-sm inline-block">
                             {{
-                              funding.plannedStart || "Planned Start not set"
+                              dateFormatter(funding.plannedStart) ||
+                                "Planned Start not set"
                             }}
                           </p>
                         </div>
@@ -534,7 +537,10 @@
                         </div>
                         <div class="col-6 col-md-6">
                           <p class="q-mt-sm q-mb-sm inline-block">
-                            {{ funding.plannedEnd || "Planned End not set" }}
+                            {{
+                              dateFormatter(funding.plannedEnd) ||
+                                "Planned End not set"
+                            }}
                           </p>
                         </div>
                       </div>
@@ -659,12 +665,62 @@
                 <div class="col-8">
                   <div class="q-ml-xs">
                     <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
-                          funding.determination ||
-                            "Determination base is not set"
-                        }}
-                      </p>
+                      <div class="row">
+                        <p class="q-mt-sm q-mb-xs">
+                          Project Ideas
+                        </p>
+                      </div>
+                      <div
+                        v-if="funding.projects && funding.projects.length > 0"
+                      >
+                        <div
+                          class="row"
+                          v-for="(project, index) in funding.projects"
+                          :key="index"
+                        >
+                          <div class="col-auto">
+                            <a
+                              class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              @click.prevent="viewProject(project.id)"
+                              >{{ project.title }}</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <p class="q-mt-xs q-mb-sm">
+                          No Linked Projects
+                        </p>
+                      </div>
+                    </div>
+                    <div class="q-ml-md font-16">
+                      <div class="row">
+                        <p class="q-mt-sm q-mb-xs">
+                          Implementation Checklist
+                        </p>
+                      </div>
+                      <div v-if="!!funding.checklist && !!funding.checklist.id">
+                        <div class="row">
+                          <div class="col-auto">
+                            <a
+                              class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              @click.prevent="
+                                viewChecklist(funding.checklist.id)
+                              "
+                              >{{ funding.checklist.title }}</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <p class="q-mt-xs q-mb-sm">
+                          No Linked Implementation Checklist
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -678,6 +734,7 @@
 </template>
 
 <script>
+import { date } from "quasar";
 export default {
   name: "FundingView",
   data() {
@@ -708,22 +765,26 @@ export default {
         this.$router.push({ path: `/user/newFunding/${id}` });
       }
     },
-    // handlePan({ evt, ...info }) {
-    //   // this.info = info;
-    //   // console.log(info);
-    //   this.$refs.thumbnails.setScrollPosition("horizontal", info.position.left);
-    //   console.log(
-    //     "sadasdsad",
-    //     this.$refs.thumbnails.getScrollPosition("horizontal")
-    //   );
-    //   // native Javascript event
-    //   // console.log(evt)
-    //   if (info.isFirst) {
-    //     this.panning = true;
-    //   } else if (info.isFinal) {
-    //     this.panning = false;
-    //   }
-    // }
+    async viewProject(id) {
+      if (!!id) {
+        //  this.viewIsLoading = true;
+        // const id = row && row.id;
+        await this.$store.dispatch("project/viewProject", {
+          id: id
+        });
+        // this.viewIsLoading = false;
+      }
+    },
+    async viewChecklist() {
+      console.log("Not yet implemented");
+    },
+    dateFormatter(val) {
+      if (!!val) {
+        return date.formatDate(new Date(val), "DD.MM.YYYY");
+      } else {
+        return "No Date";
+      }
+    },
     async getNewData(id) {
       console.log("url id", this.$route.params.id);
       console.log("funding Id", this.$store.state.funding.funding.id);
@@ -761,5 +822,13 @@ export default {
 .carouselThumbnails .q-tabs__arrow--start {
   left: -70px;
   color: $blue;
+}
+.imageStyling {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.tabStyling div.q-img__image {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
 }
 </style>

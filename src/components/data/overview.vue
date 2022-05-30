@@ -230,13 +230,21 @@
 </template>
 
 <script>
+import { date } from "quasar";
 export default {
   name: "dataOverview",
   data() {
     return {
       tab: "projectIdeas",
       filter: "",
-      visibleColumns: ["title", "categories", "status", "carbs"],
+      visibleColumns: [
+        "title",
+        "categories",
+        "status",
+        "carbs",
+        "plannedStart",
+        "plannedEnd"
+      ],
       projectCols: [
         {
           name: "title",
@@ -250,8 +258,9 @@ export default {
           align: "left",
           label: "Categories",
           field: row =>
-            !!row.categories &&
-            row.categories.map(category => category.title).join(", "),
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
           sortable: true
         },
         {
@@ -280,8 +289,23 @@ export default {
           align: "left",
           label: "Categories",
           field: row =>
-            !!row.categories &&
-            row.categories.map(category => category.title).join(", "),
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "plannedStart",
+          label: "Planned Start",
+          align: "left",
+          field: row => this.dateFormatter(row.plannedStart),
+          sortable: true
+        },
+        {
+          name: "plannedEnd",
+          label: "Planned End",
+          align: "left",
+          field: row => this.dateFormatter(row.plannedEnd),
           sortable: true
         },
         {
@@ -299,23 +323,34 @@ export default {
       ],
       checklistCols: [
         {
-          name: "name",
-          required: true,
+          name: "title",
           label: "Title",
-          required: true,
           align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
+          field: row => row.title,
           sortable: true
         },
         {
-          name: "calories",
-          align: "center",
+          name: "categories",
+          align: "left",
           label: "Categories",
-          field: "calories",
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
           sortable: true
         },
-        { name: "fat", label: "Status", field: "fat", sortable: true }
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
       ],
       viewIsLoading: false,
       editIsLoading: false,
@@ -323,6 +358,13 @@ export default {
     };
   },
   methods: {
+    dateFormatter(val) {
+      if (!!val) {
+        return date.formatDate(new Date(val), "DD.MM.YYYY");
+      } else {
+        return "No Date";
+      }
+    },
     async view(row) {
       if (this.tab === "projectIdeas") {
         this.viewIsLoading = true;
@@ -393,9 +435,9 @@ export default {
         this.$store.dispatch("funding/getFundings");
         this.$store.commit("funding/setSpecificFunding", null);
       } else {
+        this.$store.dispatch("implementationChecklist/getChecklists");
         // TODO change this
-        this.$store.dispatch("project/getProjectIdeas");
-        this.$store.commit("project/setSpecificProject", null);
+        // this.$store.commit("project/setSpecificProject", null);
       }
     }
   },
@@ -407,7 +449,7 @@ export default {
         this.getData("fundings");
       } else {
         // TODO change this
-        this.getData("projectIdeas");
+        this.getData("implementationChecklist");
       }
     }
   },
@@ -429,9 +471,8 @@ export default {
         : this.tab == "fundings"
         ? !!this.$store.state.funding.fundings &&
           this.$store.state.funding.fundings
-        : !!this.$store.state.implementationChecklist
-            .implementationChecklists &&
-          this.$store.state.implementationChecklist.implementationChecklists;
+        : !!this.$store.state.implementationChecklist.checklists &&
+          this.$store.state.implementationChecklist.checklists;
     }
   },
   mounted() {

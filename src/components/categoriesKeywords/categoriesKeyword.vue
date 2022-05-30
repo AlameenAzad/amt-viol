@@ -155,70 +155,35 @@ export default {
       deleteDialog: false,
       itemId: null,
       filter: "",
-      visibleColumns: ["id", "title", "projectsCount", "fat"],
-      categoriesCol: [
+      visibleColumns: ["title", "projectIdeas", "fundings", "checklists"],
+      columns: [
         {
           name: "title",
           label: "Title",
-          field: "title",
+          field: row => row.title,
           sortable: true,
           align: "left"
         },
         {
-          name: "id",
-          required: true,
-          label: "ID",
-          align: "left",
-          field: row => row.id,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "projectsCount",
+          name: "projectIdeas",
           align: "left",
           label: "Project ideas",
-          field: "projectsCount",
+          field: row => (!!row.dataSet.projects && row.dataSet.projects) || 0,
           sortable: true
         },
         {
-          name: "fat",
-          label: "Implementation checklist",
-          field: "fat",
-          sortable: true,
-          align: "left"
-        }
-      ],
-      keywordCol: [
-        {
-          name: "title",
-          label: "Title",
-          field: "title",
-          sortable: true,
-          align: "left"
-        },
-        {
-          name: "id",
-          required: true,
-          label: "ID",
+          name: "fundings",
           align: "left",
-          field: row => row.id,
-          format: val => `${val}`,
+          label: "Fundings",
+          field: row => (!!row.dataSet.fundings && row.dataSet.fundings) || 0,
           sortable: true
         },
         {
-          name: "projectsCount",
+          name: "checklists",
           align: "left",
-          label: "Project ideas",
-          field: "projectsCount",
+          label: "Implementation Checklist",
+          field: row => (!!row.dataSet.checklist && row.dataSet.checklist) || 0,
           sortable: true
-        },
-
-        {
-          name: "fat",
-          label: "Implementation checklist",
-          field: "fat",
-          sortable: true,
-          align: "left"
         }
       ]
     };
@@ -257,10 +222,10 @@ export default {
     },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/catkeytags";
-    },
-    columns() {
-      return this.tab == "categories" ? this.categoriesCol : this.keywordCol;
     }
+    // columns() {
+    //   return this.tab == "categories" ? this.categoriesCol : this.keywordCol;
+    // }
   },
   mounted() {
     this.getData(this.tab);
