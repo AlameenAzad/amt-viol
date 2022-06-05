@@ -1,17 +1,17 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <p class="text-center font-36 text-weight-regular q-my-lg">
       Project Ideas
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
       <q-form ref="newProjectIdeaForm" class="q-gutter-lg q-px-md q-mb-md">
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Project Name
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-input
               outlined
               dense
@@ -23,15 +23,15 @@
           </div>
         </div>
         <p class="text-red">Please fill these manually for now :) ~Bilend</p>
-        <div class="row items-center">
-          <div class="col-4">
+        <div class="row items-center ">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Contact Person
             </p>
           </div>
-          <div class="col-8">
-            <div class="row q-col-gutter-x-md">
-              <div class="col-6">
+          <div class="col-12 col-md-8">
+            <div class="row q-col-gutter-md">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -42,7 +42,7 @@
                   disable
                 />
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -57,14 +57,19 @@
           </div>
         </div>
         <div class="row items-baseline">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Contact Details (optional)
             </p>
           </div>
-          <div class="col-8">
-            <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
-              <div class="col-6">
+          <div class="col-12 col-md-8">
+            <div
+              class="row q-col-gutter-x-md"
+              :class="
+                $q.screen.gt.sm ? 'q-col-gutter-y-lg' : 'q-col-gutter-y-md'
+              "
+            >
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -74,7 +79,7 @@
                   :rules="[]"
                 />
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -84,7 +89,7 @@
                   :rules="[]"
                 />
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -95,7 +100,7 @@
                   disable
                 />
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -123,12 +128,12 @@
           class="row"
           :class="form.editors.length > 0 ? 'items-baseline' : 'items-center'"
         >
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Invite Editor
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <UserSelect
               :editing="isEdit.editors"
               @update:user="form.editors = $event"
@@ -136,10 +141,10 @@
           </div>
         </div>
         <div class="row items-baseline">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">Visibility</p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-select
               outlined
               dense
@@ -178,10 +183,10 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">Filter Categories</p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <Categories
               :editing="isEdit.categories"
               @update:category="form.categories = $event"
@@ -189,10 +194,10 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">Tags*</p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
@@ -202,12 +207,12 @@
           </div>
         </div>
         <div class="row items-start">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Project content*
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-input
               outlined
               type="textarea"
@@ -220,12 +225,12 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Project goals*
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-input
               outlined
               type="textarea"
@@ -235,15 +240,22 @@
               v-model="form.details.goals"
               :rules="[]"
             />
+            <!-- <q-editor
+              v-model="form.details.goals"
+              min-height="12rem"
+              paragraph-tag="p"
+              content-class=""
+              class="no-shadow input-radius-6"
+            /> -->
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               project values &amp; benefits*
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-input
               outlined
               dense
@@ -255,12 +267,12 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               cooperation partners (optional)
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-input
               outlined
               dense
@@ -277,12 +289,12 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Investive/ non-investive*
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-btn-toggle
               v-model="form.details.investive"
               spread
@@ -298,15 +310,15 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               project status (optional)
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <q-btn-toggle
               v-model="form.details.status"
-              spread
+              :spread="$q.screen.gt.sm"
               no-caps
               clearable
               toggle-color="yellow"
@@ -315,6 +327,7 @@
               toggle-text-color="black"
               text-color="black"
               class="no-shadow toggleGap"
+              :class="{ flexWrap: $q.screen.lt.md }"
               :options="projectStatuses"
             />
           </div>
@@ -325,12 +338,12 @@
             form.estimatedCosts.length > 0 ? 'items-baseline' : 'items-center'
           "
         >
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Estimated Costs (optional)
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <EstimatedCost
               :editing="isEdit.estimatedCosts"
               @update:cost="form.estimatedCosts = $event"
@@ -343,12 +356,12 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               funding guidlines (optional)
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <Fundings
               :editing="isEdit.fundingGuideline"
               @update:linkToFunding="form.fundingGuideline = $event"
@@ -361,14 +374,14 @@
           </div>
         </div>
         <div class="row items-center">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Planned Period
             </p>
           </div>
-          <div class="col-8">
-            <div class="row q-col-gutter-x-md">
-              <div class="col-6">
+          <div class="col-12 col-md-8">
+            <div class="row q-col-gutter-md">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -402,7 +415,7 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-input
                   outlined
                   dense
@@ -448,12 +461,12 @@
           class="row"
           :class="form.links.length > 0 ? 'items-baseline' : 'items-center'"
         >
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Links
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <Links :editing="isEdit.links" @update:link="form.links = $event" />
           </div>
         </div>
@@ -463,14 +476,14 @@
           </div>
         </div>
         <div class="row items-baseline">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Uploads
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-12 col-md-8">
             <div class="row q-col-gutter-md">
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-file
                   flat
                   v-model="form.media"
@@ -525,7 +538,7 @@
                   </q-item>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <q-file
                   flat
                   v-model="form.files"
@@ -584,7 +597,10 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row justify-center">
+        <div
+          class="row"
+          :class="$q.screen.gt.sm ? 'justify-center' : 'justify-between'"
+        >
           <q-btn
             :label="isEdit ? 'Edit as Draft' : 'Save Draft'"
             @click="
@@ -595,7 +611,8 @@
             color="primary"
             :loading="isLoading"
             no-caps
-            class="radius-6 q-px-xl q-py-xs q-mr-md"
+            class="radius-6 q-py-xs"
+            :class="$q.screen.gt.sm ? 'q-mr-md q-px-xl' : 'q-px-sm'"
           />
           <q-btn
             :label="isEdit ? 'Edit' : 'Publish'"
@@ -604,7 +621,8 @@
             color="primary"
             :loading="isLoading"
             no-caps
-            class="radius-6 q-px-xl q-py-xs q-ml-md"
+            class="radius-6 q-py-xs"
+            :class="$q.screen.gt.sm ? 'q-ml-md q-px-xl' : 'q-px-md'"
           />
         </div>
       </q-form>
@@ -619,7 +637,7 @@ import Tags from "components/projects/create/Tags.vue";
 import EstimatedCost from "src/components/projects/create/EstimatedCost.vue";
 import Links from "components/projects/create/Links.vue";
 import Fundings from "components/funding/Fundings.vue";
-import { date } from "quasar";
+import { dateFormatter } from "src/boot/dateFormatter";
 
 export default {
   name: "newProjectIdea",
@@ -680,13 +698,7 @@ export default {
   },
   //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
-    dateFormatter(val) {
-      if (!!val) {
-        return date.formatDate(new Date(val), "DD.MM.YYYY");
-      } else {
-        return;
-      }
-    },
+    dateFormatter,
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
@@ -831,6 +843,7 @@ export default {
     border: 1px solid $yellow;
   }
 }
-.uploadInput {
+.flexWrap {
+  flex-wrap: wrap !important;
 }
 </style>
