@@ -1,5 +1,8 @@
 <template>
-  <q-page class=" q-mx-xl q-mt-lg bg-blue-1">
+  <q-page
+    class="q-mt-lg bg-blue-1"
+    :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'"
+  >
     <ProjectContent />
   </q-page>
 </template>
