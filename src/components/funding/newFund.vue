@@ -680,6 +680,8 @@
 </template>
 
 <script>
+import { dateFormatter } from "src/boot/dateFormatter";
+
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
@@ -688,7 +690,6 @@ import Links from "src/components/projects/create/Links.vue";
 import ProjectIdeas from "components/funding/ProjectIdeas.vue";
 import ImplementationChecklists from "components/funding/ImplementationChecklists.vue";
 import Fundings from "components/funding/Fundings.vue";
-import { date } from "quasar";
 export default {
   name: "newFund",
   components: {
@@ -747,13 +748,14 @@ export default {
     };
   },
   methods: {
-    dateFormatter(val) {
-      if (!!val) {
-        return date.formatDate(new Date(val), "DD.MM.YYYY");
-      } else {
-        return;
-      }
-    },
+    dateFormatter,
+    // dateFormatter(val) {
+    //   if (!!val) {
+    //     return date.formatDate(new Date(val), "DD.MM.YYYY");
+    //   } else {
+    //     return;
+    //   }
+    // },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),

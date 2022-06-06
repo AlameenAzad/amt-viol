@@ -734,7 +734,8 @@
 </template>
 
 <script>
-import { date } from "quasar";
+import { dateFormatter } from "src/boot/dateFormatter";
+
 export default {
   name: "FundingView",
   data() {
@@ -755,6 +756,7 @@ export default {
     }
   },
   methods: {
+    dateFormatter,
     async viewFunding(id) {
       if (!!id) {
         // await this.getNewData(id);
@@ -777,13 +779,6 @@ export default {
     },
     async viewChecklist() {
       console.log("Not yet implemented");
-    },
-    dateFormatter(val) {
-      if (!!val) {
-        return date.formatDate(new Date(val), "DD.MM.YYYY");
-      } else {
-        return "No Date";
-      }
     },
     async getNewData(id) {
       console.log("url id", this.$route.params.id);
