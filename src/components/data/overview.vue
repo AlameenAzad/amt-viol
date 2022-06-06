@@ -9,14 +9,23 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="projectIdeas">
+      <q-tab
+        class="q-py-xs q-mr-lg radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="projectIdeas"
+      >
         <p class="font-20 no-margin">Project Ideas</p>
       </q-tab>
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="fundings">
+      <q-tab
+        class="q-mr-lg radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="fundings"
+      >
         <p class="font-20 no-margin">Fundings</p>
       </q-tab>
       <q-tab
-        class="q-pa-lg radius-10 customBorder"
+        class=" radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="implementationChecklist"
       >
         <p class="font-20 no-margin">Implementation Checklist</p>
@@ -32,15 +41,32 @@
       :visible-columns="isInPage ? visibleColumns : ['title']"
       :filter="filter"
       :pagination="{
-        rowsPerPage: 0
+        rowsPerPage: isInPage ? 0 : 5
       }"
     >
-      <template v-slot:top-left>
-        <!-- Remove tableSearchInput -->
+      <!-- <template v-slot:top>
+      <div class="col-12 col-md-3">
         <q-input
           borderless
           outlined
-          class="no-shadow tableSearchInput"
+          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+          v-model="query"
+          placeholder="Search"
+          dense
+        >
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+    </template> -->
+
+      <!-- <template v-slot:top-left>
+       
+        <q-input
+          borderless
+          outlined
+          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
           debounce="300"
           v-model="filter"
           dense
@@ -71,9 +97,10 @@
             }}
           </p>
         </q-btn>
-      </template>
-      <template v-slot:top v-if="!isInPage">
-        <div class="row full-width">
+      </template> -->
+
+      <template v-slot:top>
+        <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
             <p class="font-24">
               My Data
@@ -95,14 +122,16 @@
               no-caps
               dense
             >
-              <q-tab class="q-mr-lg radius-6 customBorder" name="projectIdeas">
-                <p class="font-14 text-weight-600 no-margin">Project Ideas</p>
+              <q-tab class="q-mr-lg radius-6 border-yellow" name="projectIdeas">
+                <p class="font-14 text-weight-600 no-margin">
+                  Project Ideas
+                </p>
               </q-tab>
-              <q-tab class="q-mr-lg radius-6 customBorder" name="fundings">
+              <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
                 <p class="font-14 text-weight-600 no-margin">Fundings</p>
               </q-tab>
               <q-tab
-                class="q-mr-lg radius-6 customBorder"
+                class="q-mr-lg radius-6 border-yellow"
                 name="implementationChecklist"
               >
                 <p class="font-14 text-weight-600 no-margin">
@@ -110,6 +139,48 @@
                 </p>
               </q-tab>
             </q-tabs>
+          </div>
+        </div>
+        <div
+          v-if="isInPage"
+          class="row full-width justify-between items-center"
+        >
+          <div class="col-8 col-md-4">
+            <q-input
+              borderless
+              outlined
+              class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+              v-model="filter"
+              placeholder="Search"
+              dense
+            >
+              <template v-slot:prepend>
+                <q-icon color="blue-5" name="search" />
+              </template>
+            </q-input>
+          </div>
+          <div class="col-4 col-md-4 text-right">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              :round="$q.screen.lt.md"
+              filled
+              class="mr-0 text-weight-600 q-mb-sm q-mt-sm"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''"
+              no-caps
+              @click="goToPage(tab)"
+            >
+              <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
+                {{
+                  tab == "projectIdeas"
+                    ? "Create project ideas"
+                    : tab == "fundings"
+                    ? "Create fundings"
+                    : "Create Implementation checklist"
+                }}
+              </p>
+            </q-btn>
           </div>
         </div>
       </template>
@@ -230,7 +301,7 @@
 </template>
 
 <script>
-import { date } from "quasar";
+import { dateFormatter } from "src/boot/dateFormatter";
 export default {
   name: "dataOverview",
   data() {
@@ -298,14 +369,14 @@ export default {
           name: "plannedStart",
           label: "Planned Start",
           align: "left",
-          field: row => this.dateFormatter(row.plannedStart),
+          field: row => dateFormatter(row.plannedStart),
           sortable: true
         },
         {
           name: "plannedEnd",
           label: "Planned End",
           align: "left",
-          field: row => this.dateFormatter(row.plannedEnd),
+          field: row => dateFormatter(row.plannedEnd),
           sortable: true
         },
         {
@@ -358,13 +429,14 @@ export default {
     };
   },
   methods: {
-    dateFormatter(val) {
-      if (!!val) {
-        return date.formatDate(new Date(val), "DD.MM.YYYY");
-      } else {
-        return "No Date";
-      }
-    },
+    dateFormatter,
+    // dateFormatter(val) {
+    //   if (!!val) {
+    //     return date.formatDate(new Date(val), "DD.MM.YYYY");
+    //   } else {
+    //     return "No Date";
+    //   }
+    // },
     async view(row) {
       if (this.tab === "projectIdeas") {
         this.viewIsLoading = true;
