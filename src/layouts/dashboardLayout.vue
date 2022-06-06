@@ -1,7 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black text-white">
-      <q-toolbar class="q-my-sm q-px-xl">
+      <q-toolbar
+        class="q-my-sm "
+        :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-sm'"
+      >
+        <q-btn
+          class="lt-md"
+          flat
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          round
+          dense
+          color="primary"
+          icon="menu"
+        />
         <q-toolbar-title
           class="text-weight-600"
           :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
@@ -17,6 +29,16 @@
           {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
         <div>
+          <q-btn
+            flat
+            round
+            dark
+            no-caps
+            color="blue"
+            @click="switchLang"
+            class="mr-0 text-weight-bold"
+            >{{ $i18n.locale === "en-us" ? "EN" : "DE" }}
+          </q-btn>
           <q-btn
             :icon="themeIcon"
             flat
@@ -58,6 +80,7 @@
           >
           </q-btn>
           <q-btn
+            v-if="$q.screen.gt.sm"
             icon="logout"
             flat
             round
@@ -111,7 +134,7 @@ export default {
   },
   data() {
     return {
-      leftDrawerOpen: true,
+      leftDrawerOpen: this.$q.screen.gt.sm,
       themeIcon: isDarkReaderEnabled()
         ? "mdi-weather-night"
         : "mdi-white-balance-sunny",
@@ -119,6 +142,13 @@ export default {
     };
   },
   methods: {
+    switchLang() {
+      if (this.$i18n.locale === "en-us") {
+        this.$i18n.locale = "de";
+      } else {
+        this.$i18n.locale = "en-us";
+      }
+    },
     toggleDarkMode() {
       if (isDarkReaderEnabled()) disableDarkMode();
       else

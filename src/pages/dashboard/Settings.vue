@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <q-tabs
       v-model="tab"
       align="justify"
@@ -8,14 +8,17 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="generalData">
+      <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="generalData">
         <p class="font-20 no-margin">General Data</p>
       </q-tab>
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="personalData">
+      <q-tab
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
+        name="personalData"
+      >
         <p class="font-20 no-margin">Personal Data</p>
       </q-tab>
       <q-tab
-        class="q-pa-lg q-mr-lg radius-10 customBorder"
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="notifications"
       >
         <p class="font-20 no-margin">Notifications</p>
@@ -67,7 +70,7 @@ export default {
 </script>
 
 <style lang="scss">
-.customBorder {
+.border-yellow {
   border: 2px solid $yellow;
 }
 </style>

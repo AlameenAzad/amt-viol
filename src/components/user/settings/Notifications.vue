@@ -1,11 +1,7 @@
 <template>
   <div>
     <h6 class="text-center font-24 q-mt-md">Notifications</h6>
-    <q-form
-      ref="notificationsDataForn"
-      @submit.prevent="saveNotificationsData"
-      class="q-gutter-lg q-px-md q-mb-md"
-    >
+    <q-form ref="notificationsDataForn" class="q-gutter-lg q-px-md q-mb-md">
       <h2 class="text-left font-16 text-weight-bold q-mb-none text-grey">
         IN THE APP
       </h2>
@@ -14,16 +10,15 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Anfragen zur Daten
+            {{ $t("notifications.updateRequest") }}
           </p>
         </div>
         <div class="col-2 text-right">
           <q-toggle
-            @input="changeSomething($event)"
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appAnfragenZurDaten"
+            v-model="form.notifications.app.dataRequests"
           />
         </div>
       </div>
@@ -32,7 +27,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Anfrage
+            {{ $t("notifications.invitations") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -40,7 +35,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appAnfrage"
+            v-model="form.notifications.app.inquiry"
           />
         </div>
       </div>
@@ -48,7 +43,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Neue Projekte
+            {{ $t("notifications.newProjects") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -56,7 +51,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appNeueProjekte"
+            v-model="form.notifications.app.newProjects"
           />
         </div>
       </div>
@@ -72,7 +67,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appFordermoglichkeitLauftAus"
+            v-model="form.notifications.app.fundingExpiry"
           />
         </div>
       </div>
@@ -88,7 +83,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appNeueUmsetzungschecklisten"
+            v-model="form.notifications.app.newChecklists"
           />
         </div>
       </div>
@@ -104,7 +99,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="appWennMichJemandAlsKontaktHinzufugenMochte"
+            v-model="form.notifications.app.networkRequest"
           />
         </div>
       </div>
@@ -127,7 +122,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailAnfragenZurDaten"
+            v-model="form.notifications.email.dataRequests"
           />
         </div>
       </div>
@@ -144,7 +139,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailAnfrage"
+            v-model="form.notifications.email.inquiry"
           />
         </div>
       </div>
@@ -160,7 +155,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailNeueProjekte"
+            v-model="form.notifications.email.newProjects"
           />
         </div>
       </div>
@@ -176,7 +171,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailFordermoglichkeitLauftAus"
+            v-model="form.notifications.email.fundingExpiry"
           />
         </div>
       </div>
@@ -192,7 +187,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailNeueUmsetzungschecklisten"
+            v-model="form.notifications.email.newChecklists"
           />
         </div>
       </div>
@@ -208,7 +203,7 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailWennMichJemandAlsKontaktHinzufugenMochte"
+            v-model="form.notifications.email.networkRequests"
           />
         </div>
       </div>
@@ -224,11 +219,22 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="emailSichereEmails"
+            v-model="form.notifications.email.secureEmails"
           />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
+      <div class="row justify-center">
+        <q-btn
+          label="Save Changes"
+          @click="saveNotificationsData"
+          :loading="isLoading"
+          size="16px"
+          color="primary"
+          no-caps
+          class="radius-6 q-px-xl q-py-sm"
+        />
+      </div>
     </q-form>
   </div>
 </template>
@@ -238,24 +244,75 @@ export default {
   name: "NotificationsTab",
   data() {
     return {
-      appAnfragenZurDaten: true,
-      appAnfrage: false,
-      appNeueProjekte: true,
-      appFordermoglichkeitLauftAus: true,
-      appNeueUmsetzungschecklisten: true,
-      appWennMichJemandAlsKontaktHinzufugenMochte: true,
-      emailAnfragenZurDaten: true,
-      emailAnfrage: true,
-      emailNeueProjekte: false,
-      emailFordermoglichkeitLauftAus: true,
-      emailNeueUmsetzungschecklisten: true,
-      emailWennMichJemandAlsKontaktHinzufugenMochte: true,
-      emailSichereEmails: true
+      isLoading: false,
+      form: {
+        notifications: {
+          app: {
+            dataRequests: true,
+            inquiry: true,
+            newProjects: true,
+            fundingExpiry: true,
+            newChecklists: true,
+            networkRequest: true
+          },
+          email: {
+            dataRequests: true,
+            inquiry: true,
+            newProjects: true,
+            fundingExpiry: true,
+            newChecklists: true,
+            networkRequests: true,
+            secureEmails: true
+          }
+        }
+      }
     };
   },
   methods: {
-    changeSomething(value) {
-      console.log(value);
+    saveNotificationsData() {
+      this.$refs.notificationsDataForn.validate().then(async success => {
+        if (success) {
+          console.log("Success");
+          // this.isLoading = true;
+          // const res = await this.$store.dispatch(
+          //   "userCenter/updatePersonalData",
+          //   {
+          //     data: {
+          //       fullName: this.form.fullName,
+          //       phone: this.form.telephone,
+          //       location: this.form.location
+          //     }
+          //   }
+          // );
+          // this.isLoading = false;
+          // if (res !== false) {
+          //   // TODO do something
+          // }
+        } else {
+          console.log("error");
+        }
+      });
+    },
+    setData() {
+      this.form.notifications = {
+        ...this.form.notifications,
+        ...JSON.parse(
+          JSON.stringify(
+            this.$store.state.userCenter.user.userDetails.notifications
+          )
+        )
+      };
+    }
+  },
+  mounted() {
+    this.setData();
+  },
+  computed: {
+    userDetails() {
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.userDetails
+      );
     }
   }
 };

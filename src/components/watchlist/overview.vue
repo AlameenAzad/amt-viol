@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg">
+  <div class="q-mt-lg q-mb-lg">
     <q-tabs
       v-if="isInPage"
       v-model="tab"
@@ -9,14 +9,17 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="projectIdeas">
+      <q-tab
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
+        name="projectIdeas"
+      >
         <p class="font-20 no-margin">Project Ideas</p>
       </q-tab>
-      <q-tab class="q-pa-lg q-mr-lg radius-10 customBorder" name="fundings">
+      <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="fundings">
         <p class="font-20 no-margin">Fundings</p>
       </q-tab>
       <q-tab
-        class="q-pa-lg q-mr-lg radius-10 customBorder"
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="implementationChecklist"
       >
         <p class="font-20 no-margin">Implementation Checklist</p>
@@ -90,14 +93,14 @@
               no-caps
               dense
             >
-              <q-tab class="q-mr-lg radius-6 customBorder" name="projectIdeas">
+              <q-tab class="q-mr-lg radius-6 border-yellow" name="projectIdeas">
                 <p class="font-14 text-weight-600 no-margin">Project Ideas</p>
               </q-tab>
-              <q-tab class="q-mr-lg radius-6 customBorder" name="fundings">
+              <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
                 <p class="font-14 text-weight-600 no-margin">Fundings</p>
               </q-tab>
               <q-tab
-                class="q-mr-lg radius-6 customBorder"
+                class="q-mr-lg radius-6 border-yellow"
                 name="implementationChecklist"
               >
                 <p class="font-14 text-weight-600 no-margin">

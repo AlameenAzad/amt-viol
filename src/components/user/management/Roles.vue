@@ -153,7 +153,7 @@ export default {
           required: true,
           label: "role",
           align: "left",
-          field: row => row.role.type || "Role Unavailable",
+          field: row => (!!row.role && row.role.type) || "Role Unavailable",
           format: val => `${val}`,
           sortable: true
         }

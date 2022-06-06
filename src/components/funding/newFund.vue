@@ -319,8 +319,6 @@
             </p>
           </div>
           <div class="col-8">
-            <p class="text-red">Default value is test1 for now ~Bilend</p>
-
             <q-btn-toggle
               v-model="form.accumulability"
               spread
@@ -388,15 +386,17 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.plannedStart"
+                  :value="dateFormatter(form.plannedStart)"
+                  readonly
                   color="primary"
                   bg-color="white"
-                  placeholder="Planned"
+                  placeholder="Planned Start"
+                  @click="$refs.qPlannedStartDateProxy.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedStartDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
@@ -415,21 +415,22 @@
                   </template>
                 </q-input>
               </div>
-
               <div class="col-6">
                 <q-input
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  v-model="form.plannedEnd"
+                  :value="dateFormatter(form.plannedEnd)"
                   color="primary"
+                  readonly
                   bg-color="white"
-                  placeholder="End"
+                  placeholder="Planned End"
+                  @click="$refs.qPlannedEndDateProxy.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedEndDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
@@ -653,22 +654,24 @@
         </div>
         <div class="row justify-center q-ml-lg">
           <q-btn
-            label="Save Draft"
+            :label="isEdit ? 'Edit as Draft' : 'Save Draft'"
             @click="isEdit ? editFunding(false) : submitNewFunding(false)"
             outline
             size="16px"
             color="primary"
             no-caps
             class="no-shadow radius-6 q-px-lg q-mr-sm"
+            :loading="isLoading"
           />
           <q-btn
-            label="Publish"
+            :label="isEdit ? 'Edit' : 'Publish'"
             @click="isEdit ? editFunding(true) : submitNewFunding(true)"
             unelevated
             size="16px"
             color="primary"
             no-caps
             class="no-shadow q-px-lg radius-6 q-px-xl"
+            :loading="isLoading"
           />
         </div>
       </q-form>
@@ -677,6 +680,8 @@
 </template>
 
 <script>
+import { dateFormatter } from "src/boot/dateFormatter";
+
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
@@ -719,7 +724,7 @@ export default {
           condition: ""
         },
         ownContribution: null,
-        accumulability: "test",
+        accumulability: false,
         plannedStart: "",
         plannedEnd: "",
         notes: "",
@@ -729,23 +734,28 @@ export default {
         categories: [],
         tags: [],
         projects: [],
-        checklist: {},
+        checklist: null,
         media: null,
         files: null,
         fundingsLinkedTo: []
       },
       visibilityOptions: ["only for me", "all users", "listed only"],
       accumulabilityOptions: [
-        { label: "test", value: "test" },
-        { label: "test", value: "test" }
-      ]
-      // accumulabilityOptions: [
-      //   { label: "Yes", value: true },
-      //   { label: "No", value: false }
-      // ]
+        { label: "Yes", value: true },
+        { label: "No", value: false }
+      ],
+      isLoading: false
     };
   },
   methods: {
+    dateFormatter,
+    // dateFormatter(val) {
+    //   if (!!val) {
+    //     return date.formatDate(new Date(val), "DD.MM.YYYY");
+    //   } else {
+    //     return;
+    //   }
+    // },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
@@ -763,39 +773,8 @@ export default {
       this.$refs.newFundingForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
+          await this.checkOptionalParameters();
           const res = await this.$store.dispatch("funding/createNewFunding", {
-            data: {
-              ...this.form,
-              published: published,
-              // info: {
-              //   ...this.form.info,
-              //   contactName: this.userDetails.fullName,
-              //   phone: this.userDetails.phone,
-              //   email: this.user.email,
-              //   location: this.userDetails.location,
-              //   streetNo: "",
-              //   postalCode: ""
-              // },
-              owner: {
-                id: this.user && this.user.id
-              }
-            }
-          });
-          if (res !== false) {
-            console.log("RES WASN'T FALSE");
-          }
-          this.isLoading = false;
-        } else {
-          console.log("error");
-        }
-      });
-    },
-    editFunding(val) {
-      const published = val;
-      this.$refs.newFundingForm.validate().then(async success => {
-        if (success) {
-          this.isLoading = true;
-          const res = await this.$store.dispatch("funding/editFunding", {
             data: {
               ...this.form,
               published: published,
@@ -816,6 +795,55 @@ export default {
               owner: {
                 id: this.user && this.user.id
               }
+            }
+          });
+          if (res !== false) {
+            console.log("RES WASN'T FALSE");
+          }
+          this.isLoading = false;
+        } else {
+          console.log("error");
+        }
+      });
+    },
+    checkOptionalParameters() {
+      if (this.form.accumulability === false) {
+        delete this.form.fundingsLinkedTo;
+      }
+      if (!this.form.checklist) {
+        delete this.form.checklist;
+      }
+      if (!!this.form.projects && this.form.projects.length < 1) {
+        delete this.form.projects;
+      }
+    },
+    editFunding(val) {
+      const published = val;
+      this.$refs.newFundingForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          await this.checkOptionalParameters();
+          const res = await this.$store.dispatch("funding/editFunding", {
+            data: {
+              ...this.form,
+              published: published,
+              // info: {
+              //   ...this.form.info,
+              //   contactName: this.userDetails.fullName,
+              //   phone: this.userDetails.phone,
+              //   email: this.user.email,
+              //   location: this.userDetails.location,
+              //   streetNo: "",
+              //   postalCode: ""
+              // },
+              municipality: {
+                id:
+                  this.userDetails.municipality &&
+                  this.userDetails.municipality.id
+              }
+              // owner: {
+              //   id: this.user && this.user.id
+              // }
             }
           });
           this.isLoading = false;

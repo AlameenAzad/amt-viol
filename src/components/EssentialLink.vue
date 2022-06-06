@@ -19,6 +19,20 @@
           {{ link.meta.title }}
         </q-item-section>
       </q-item>
+      <q-item
+        v-if="$q.screen.lt.md"
+        clickable
+        @click="$store.dispatch('userCenter/logout')"
+        v-ripple
+        class="q-px-lg"
+      >
+        <q-item-section avatar>
+          <q-icon name="logout" />
+        </q-item-section>
+        <q-item-section>
+          Logout
+        </q-item-section>
+      </q-item>
     </q-list>
   </div>
 </template>

@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="row q-col-gutter-lg">
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <div class="row">
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
@@ -61,7 +61,7 @@
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
-                    {{ project.info.location || "Project Location not found" }}
+                    {{ project.info.location || "Project Location not set" }}
                   </p>
                 </div>
               </q-card-section>
@@ -252,7 +252,10 @@
                   </div>
                   <div class="col-6 text-right">
                     <p class="q-mb-sm">
-                      {{ project.plannedStart || "No start date found" }}
+                      {{
+                        dateFormatter(project.plannedStart) ||
+                          "No start date found"
+                      }}
                     </p>
                   </div>
                   <div class="col-6 text-left">
@@ -260,7 +263,9 @@
                   </div>
                   <div class="col-6 text-right">
                     <p class="q-mb-sm">
-                      {{ project.plannedEnd || "No end date found" }}
+                      {{
+                        dateFormatter(project.plannedEnd) || "No end date found"
+                      }}
                     </p>
                   </div>
                 </div>
@@ -353,7 +358,7 @@
           </div>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-12 col-md-8">
         <div class="row">
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
@@ -430,8 +435,15 @@
                   Project Goals
                 </h4>
                 <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ project.details.goals || "No Project Goals found" }}
+                  <p
+                    class="q-mb-sm text-block"
+                    v-html="
+                      !!project.details.goals
+                        ? project.details.goals
+                        : 'No Project Goals found'
+                    "
+                  >
+                    <!-- {{ project.details.goals || "No Project Goals found" }} -->
                   </p>
                 </div>
               </q-card-section>
@@ -472,10 +484,17 @@
                   project content
                 </h4>
                 <div class="q-ml-md font-16">
-                  <!-- TODO may need to convert this to html renderer -->
-                  <p class="q-mb-sm">
+                  <p
+                    class="q-mb-sm text-block"
+                    v-html="
+                      !!project.details.content
+                        ? project.details.content
+                        : 'No Project Content found'
+                    "
+                  ></p>
+                  <!-- <p class="q-mb-sm">
                     {{ project.details.content || "No Project Content found" }}
-                  </p>
+                  </p> -->
                 </div>
               </q-card-section>
             </q-card>
@@ -487,6 +506,7 @@
 </template>
 
 <script>
+import { dateFormatter } from "src/boot/dateFormatter";
 export default {
   name: "documentView",
   data() {
@@ -496,6 +516,7 @@ export default {
     };
   },
   methods: {
+    dateFormatter,
     async viewFunding(index, id) {
       if (!!id) {
         if (!!this.loading[index]) {
@@ -557,5 +578,8 @@ export default {
 .tabStyling div.q-img__image {
   background-size: contain !important;
   background-repeat: no-repeat !important;
+}
+.text-block {
+  white-space: pre;
 }
 </style>
