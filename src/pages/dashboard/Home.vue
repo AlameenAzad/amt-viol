@@ -1,64 +1,77 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
-    <q-btn
-      color="blue"
-      icon="search"
-      unelevated
-      class="mr-0 radius-6 text-weight-600 float-left"
-      no-caps
-    >
-      <p class="q-mb-none q-mx-md q-my-sm">Search documents</p>
-    </q-btn>
-    <div class="text-right">
-      <q-btn
-        color="blue"
-        icon="add"
-        unelevated
-        outline
-        class="mr-0 radius-6 text-weight-600"
-        no-caps
-      >
-        <p class="q-mb-none q-mx-md q-my-sm">Implementation checklist</p>
-      </q-btn>
-      <q-btn
-        color="blue"
-        icon="add"
-        unelevated
-        outline
-        class="mr-0 radius-6 q-mx-md text-weight-600"
-        no-caps
-      >
-        <p
-          @click="$router.push({ path: '/user/newFunding' })"
-          class="q-mb-none q-mx-md q-my-sm"
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
+    <div class="row q-col-gutter-md">
+      <div class="col-12 col-md-3">
+        <q-btn
+          color="blue"
+          icon="search"
+          unelevated
+          class="mr-0 radius-6 text-weight-600"
+          no-caps
         >
-          fundings
-        </p>
-      </q-btn>
-      <q-btn
-        color="blue"
-        icon="add"
-        unelevated
-        outline
-        class="mr-0 radius-6 text-weight-600"
-        no-caps
-      >
-        <p
-          @click="$router.push({ path: '/user/newProjectIdea' })"
-          class="q-mb-none q-mx-md q-my-sm"
-        >
-          Project ideas
-        </p>
-      </q-btn>
+          <p class="q-mb-none q-mx-md q-my-sm">Search documents</p>
+        </q-btn>
+      </div>
+      <div class="col-12 col-md-9">
+        <div class="row q-col-gutter-md justify-end">
+          <div class="col-12 col-md-auto">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              outline
+              class="mr-0 radius-6 text-weight-600"
+              no-caps
+            >
+              <p
+                @click="$router.push({ path: '/user/newProjectIdea' })"
+                class="q-mb-none q-mx-md q-my-sm"
+              >
+                Project ideas
+              </p>
+            </q-btn>
+          </div>
+          <div class="col-12 col-md-auto">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              outline
+              class="mr-0 radius-6  text-weight-600"
+              no-caps
+            >
+              <p
+                @click="$router.push({ path: '/user/newFunding' })"
+                class="q-mb-none q-mx-md q-my-sm"
+              >
+                fundings
+              </p>
+            </q-btn>
+          </div>
+          <div class="col-12 col-md-auto">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              outline
+              class="mr-0 radius-6 text-weight-600"
+              no-caps
+            >
+              <p class="q-mb-none q-mx-md q-my-sm">Implementation checklist</p>
+            </q-btn>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div>
       <fundingInfo />
     </div>
-    <div class="row q-gutter-md q-mb-lg">
-      <div class="col">
+    <div class="row q-col-gutter-md ">
+      <div class="col-12 col-md-6">
         <dataOverview />
       </div>
-      <div class="col">
+      <div class="col-12 col-md-6">
         <watchlist />
       </div>
     </div>
