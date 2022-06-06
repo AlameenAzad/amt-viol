@@ -14,7 +14,7 @@ Vue.use(VueRouter);
  * with the Router instance.
  */
 
-export default function(/* { store, ssrContext } */) {
+export default function({ store } /* { ssrContext } */) {
   const Router = new VueRouter({
     //TODO scroll is not happening on route change
     scrollBehavior: () => ({ x: 0, y: 0, behavior: "smooth" }),
@@ -31,17 +31,21 @@ export default function(/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   });
 
-  // Router.beforeEach(async (to, from, next) => {
-  // if (from.fullPath === "/" && to.fullPath === "/dashboard") {
-  // console.log("from :>> ", from);
-  // console.log("to :>> ", to);
-  // const res = await store.dispatch("tag/getTags");
-  // console.log("res :>> ", res);
-  // Loading.show();
-  // next();
-  // }
-  // next();
-  // });
+  Router.beforeEach((to, from, next) => {
+    console.log("to", to);
+    console.log("from", from);
+    console.log("next", next);
+    console.log("store", store);
+    if (
+      to.matched.some(record => record.meta.requireAuth) &&
+      !store.getters["userCenter/isSignedIn"]
+    ) {
+      console.error("You need to be signed in");
+      next({ path: "/" });
+    } else {
+      next();
+    }
+  });
 
   return Router;
 }
