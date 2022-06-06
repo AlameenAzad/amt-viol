@@ -55,7 +55,12 @@ export async function getUserDetails(context) {
   try {
     const res = await api.get("/api/user-details");
     console.log("res", res);
-    context.commit("setUserDetails", res.data);
+    // Delete the IDs from the response as they are not needed.
+    const userDetails = res.data;
+    delete userDetails.notifications.id;
+    delete userDetails.notifications.app.id;
+    delete userDetails.notifications.email.id;
+    context.commit("setUserDetails", userDetails);
   } catch (error) {
     console.log("error :>> ", error.response);
     Notify.create({
