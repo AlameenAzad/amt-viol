@@ -226,6 +226,15 @@ const routes = [
           backLink: "/user/data"
         },
         component: () => import("pages/dashboard/FundingView.vue")
+      },
+      {
+        path: "/user/newCheckList",
+        name: "newCheckList",
+        meta: {
+          title: "New Implementation checklist",
+          backLink: "/user/data"
+        },
+        component: () => import("pages/dashboard/ImplementationChecklist.vue")
       }
     ]
   },
