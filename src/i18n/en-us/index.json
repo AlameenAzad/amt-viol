@@ -1,1 +1,12 @@
-{}
+{
+  "hello": "Hello in English",
+  "notifications" : {
+    "updateRequest": "Request to update documents",
+    "invitations": "invitations",
+    "newProjects": "New Projects"
+
+
+
+  }
+
+}

@@ -1,1 +1,11 @@
-{}
+{
+  "hello": "hello in German",
+  "notifications": {
+    "updateRequest": "Anfragen zur Daten",
+    "invitations": "Anfrage",
+    "newProjects": "Neue Projekte"
+
+  }
+
+  
+}
