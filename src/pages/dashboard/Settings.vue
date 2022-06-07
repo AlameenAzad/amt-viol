@@ -9,19 +9,19 @@
       no-caps
     >
       <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="generalData">
-        <p class="font-20 no-margin">General Data</p>
+        <p class="font-20 no-margin">{{ $t("settingsTab.generalData") }}</p>
       </q-tab>
       <q-tab
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="personalData"
       >
-        <p class="font-20 no-margin">Personal Data</p>
+        <p class="font-20 no-margin">{{ $t("settingsTab.personalData") }}</p>
       </q-tab>
       <q-tab
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="notifications"
       >
-        <p class="font-20 no-margin">Notifications</p>
+        <p class="font-20 no-margin">{{ $t("settingsTab.notifications") }}</p>
       </q-tab>
     </q-tabs>
 

@@ -1,5 +1,10 @@
 {
   "hello": "hello in German",
+  "settingsTab": {
+    "generalData": "Allgemeine Daten",
+    "personalData": "Persönliche Daten",
+    "notifications": "Benachrichtigungen"
+  },
   "notifications": {
     "notifications": "Benachrichtigungen",
     "inTheApp": "IN DER APP",
@@ -12,6 +17,11 @@
     "viaEmail": "PER EMAIL",
     "saveEmails": "Sichere E-Mails",
     "saveChanges": "Änderungen speichern"
+  },
+  "notificationsUser": {
+    "viewBtn": "Ansehen",
+    "acceptBtn": "Annehmen",
+    "declineBtn": "Ablehnen"
   },
   "personalData": {
     "personalData": "Persönliche Daten",
