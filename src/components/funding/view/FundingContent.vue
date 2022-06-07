@@ -496,8 +496,7 @@
                     <div class="q-ml-md font-16">
                       <p class="q-mt-sm q-mb-sm">
                         {{
-                          funding.determination ||
-                            "Determination base is not set"
+                          funding.assessment || "Determination base is not set"
                         }}
                       </p>
                     </div>
