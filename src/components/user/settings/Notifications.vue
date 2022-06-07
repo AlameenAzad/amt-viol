@@ -1,9 +1,11 @@
 <template>
   <div>
-    <h6 class="text-center font-24 q-mt-md">Notifications</h6>
+    <h6 class="text-center font-24 q-mt-md">
+      {{ $t("notifications.notifications") }}
+    </h6>
     <q-form ref="notificationsDataForn" class="q-gutter-lg q-px-md q-mb-md">
       <h2 class="text-left font-16 text-weight-bold q-mb-none text-grey">
-        IN THE APP
+        {{ $t("notifications.inTheApp") }}
       </h2>
       <q-separator inset class="bg-blue-5 q-mt-none" />
 
@@ -59,7 +61,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Fördermöglichkeit läuft aus
+            {{ $t("notifications.FundingOpportunityExpires") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -75,7 +77,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Neue Umsetzungschecklisten
+            {{ $t("notifications.newChecklists") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -91,7 +93,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Wenn mich jemand als Kontakt hinzufügen möchte
+            {{ $t("notifications.IfSomeoneWantsToAddMeAsAContact") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -107,14 +109,14 @@
       <h2
         class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey"
       >
-        VIA EMAIL
+        {{ $t("notifications.viaEmail") }}
       </h2>
       <q-separator inset class="bg-blue-5 q-mt-none" />
 
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Anfragen zur Daten
+            {{ $t("notifications.updateRequest") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -131,7 +133,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Anfrage
+            {{ $t("notifications.invitations") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -147,7 +149,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Neue Projekte
+            {{ $t("notifications.newProjects") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -163,7 +165,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Fördermöglichkeit läuft aus
+            {{ $t("notifications.FundingOpportunityExpires") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -179,7 +181,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Neue Umsetzungschecklisten
+            {{ $t("notifications.newChecklists") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -195,7 +197,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Wenn mich jemand als Kontakt hinzufügen möchte
+            {{ $t("notifications.IfSomeoneWantsToAddMeAsAContact") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -211,7 +213,7 @@
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            Sichere E-Mails
+            {{ $t("notifications.saveEmails") }}
           </p>
         </div>
         <div class="col-2 text-right">
@@ -219,21 +221,21 @@
             size="lg"
             color="primary"
             class="customToggle"
-            v-model="form.notifications.email.secureEmails"
+            v-model="form.notifications.email.saveEmails"
           />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
       <div class="row justify-center">
         <q-btn
-          label="Save Changes"
           @click="saveNotificationsData"
           :loading="isLoading"
           size="16px"
           color="primary"
           no-caps
           class="radius-6 q-px-xl q-py-sm"
-        />
+          >{{ $t("notifications.saveChanges") }}</q-btn
+        >
       </div>
     </q-form>
   </div>
@@ -262,7 +264,7 @@ export default {
             fundingExpiry: true,
             newChecklists: true,
             networkRequests: true,
-            secureEmails: true
+            saveEmails: true
           }
         }
       }

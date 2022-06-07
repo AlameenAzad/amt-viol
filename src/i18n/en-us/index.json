@@ -1,12 +1,56 @@
 {
   "hello": "Hello in English",
-  "notifications" : {
+  "notifications": {
+    "notifications": "Notifications",
+    "inTheApp": "IN THE APP",
     "updateRequest": "Request to update documents",
-    "invitations": "invitations",
-    "newProjects": "New Projects"
-
-
-
+    "invitations": "Invitations",
+    "newProjects": "New Projects",
+    "FundingOpportunityExpires": "Funding opportunity expires",
+    "newChecklists": "New checklists",
+    "IfSomeoneWantsToAddMeAsAContact": "If someone wants to add me as a contact",
+    "viaEmail": "VIA EMAIL",
+    "saveEmails": "Save E-Mails",
+    "saveChanges": "Save Changes"
+  },
+  "personalData": {
+    "personalData": "Personal Data",
+    "change": "Change",
+    "delete": "Delete",
+    "administration": "Administration",
+    "telephone": "Telephone",
+    "location": "Location",
+    "contactUser": "Do you want your contact details to be visible to users?",
+    "saveChanges": "Save Changes"
+  },
+  "generalData": {
+    "generalData": "General Data",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "repeatPassword": "Repeat Password",
+    "transferData": "Transfer Data",
+    "deleteGeneralData": "Delete General Data",
+    "selectUser": "Select User ",
+    "saveChanges": "Save Changes"
+  },
+  "myData": {
+    "projectIdeas": "Project Ideas",
+    "fundings": "Fundings",
+    "implementationChecklist": "Implementation Checklist",
+    "createProjectIdea": "Create project Ideas",
+    "title": "Title",
+    "categories": "Categories"
+  },
+  "fundingsCol": {
+    "title": "Title",
+    "categories": "Categories",
+    "start": "Planned Start",
+    "end": "Planned End",
+    "createFunding": "Create Funding"
+  },
+  "checkListCols": {
+    "title": "Title",
+    "categories": "Categories",
+    "createImplementationChecklist": "Create Implementation Checklist"
   }
-
 }

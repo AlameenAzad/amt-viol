@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h6 class="text-center font-24 q-mt-md">Personal Data</h6>
+    <h6 class="text-center font-24 q-mt-md">
+      {{ $t("personalData.personalData") }}
+    </h6>
     <q-form
       ref="personalDataForm"
       @submit.prevent="savePersonalData"
@@ -25,13 +27,13 @@
           <a
             @click.prevent="changeImage()"
             class="font-16 text-primary text-weight-600 cursor-pointer text-underline"
-            >Change</a
+            >{{ $t("personalData.change") }}</a
           >
           <a
             @click.prevent="deleteImage()"
             class="font-16 text-red text-weight-600 cursor-pointer text-underline"
           >
-            Delete</a
+            {{ $t("personalData.delete") }}</a
           >
           <!-- <q-btn
                 label="Delete"
@@ -71,7 +73,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Administration
+            {{ $t("personalData.administration") }}
           </p>
         </div>
         <div class="col-9">
@@ -101,7 +103,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Telephone
+            {{ $t("personalData.telephone") }}
           </p>
         </div>
         <div class="col-9">
@@ -116,7 +118,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Location
+            {{ $t("personalData.location") }}
           </p>
         </div>
         <div class="col-9">
@@ -135,20 +137,22 @@
             class="dataVisible font-16 q-py-sm"
             right-label
             v-model="form.dataVisible"
-            label="Do you want your contact details to be visible to users?"
-          />
+          >
+            {{ $t("personalData.contactUser") }}
+          </q-checkbox>
         </div>
       </div>
       <div class="row justify-center">
         <q-btn
-          label="Save Changes"
           type="submit"
           :loading="isLoading"
           size="16px"
           color="primary"
           no-caps
           class="radius-6 q-px-xl q-py-sm"
-        />
+        >
+          {{ $t("personalData.saveChanges") }}
+        </q-btn>
       </div>
     </q-form>
   </div>

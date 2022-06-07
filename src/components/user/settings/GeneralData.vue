@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h6 class="text-center font-24 q-mt-md">General Data</h6>
+    <h6 class="text-center font-24 q-mt-md">
+      {{ $t("generalData.generalData") }}
+    </h6>
     <q-form
       ref="generalDataForm"
       @submit.prevent="saveGeneralData"
@@ -24,7 +26,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Current Password
+            {{ $t("generalData.currentPassword") }}
           </p>
         </div>
         <div class="col-9">
@@ -39,7 +41,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            New Password
+            {{ $t("generalData.newPassword") }}
           </p>
         </div>
         <div class="col-9">
@@ -54,7 +56,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Repeat New Password
+            {{ $t("generalData.repeatPassword") }}
           </p>
         </div>
         <div class="col-9">
@@ -70,7 +72,7 @@
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Transfer Data
+            {{ $t("generalData.transferData") }}
           </p>
         </div>
         <div class="col-9">
@@ -81,7 +83,9 @@
             color="primary"
             class="text-weight-600 q-py-xs"
             label="Select User"
-          />
+          >
+            {{ $t("generalData.selectUser") }}
+          </q-btn>
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10" />
@@ -94,21 +98,22 @@
             size="16px"
             color="red"
             class="text-red q-py-xs"
-            label="Delete General Data"
           >
+            {{ $t("generalData.deleteGeneralData") }}
           </q-btn>
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10" />
       <div class="row justify-center">
         <q-btn
-          label="Save Changes"
           type="submit"
           size="16px"
           color="primary"
           no-caps
           class="radius-6 q-px-xl q-py-sm"
-        />
+        >
+          {{ $t("generalData.saveChanges") }}
+        </q-btn>
       </div>
     </q-form>
   </div>

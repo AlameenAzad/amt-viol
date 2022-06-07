@@ -1,11 +1,57 @@
 {
   "hello": "hello in German",
   "notifications": {
+    "notifications": "Benachrichtigungen",
+    "inTheApp": "IN DER APP",
     "updateRequest": "Anfragen zur Daten",
     "invitations": "Anfrage",
-    "newProjects": "Neue Projekte"
+    "newProjects": "Neue Projekte",
+    "FundingOpportunityExpires": "Fördermöglichkeit läuft aus",
+    "newChecklists": "Neue Umsetzungschecklisten",
+    "IfSomeoneWantsToAddMeAsAContact": "Wenn mich jemand als Kontakt hinzufügen möchte",
+    "viaEmail": "PER EMAIL",
+    "saveEmails": "Sichere E-Mails",
+    "saveChanges": "Änderungen speichern"
+  },
+  "personalData": {
+    "personalData": "Persönliche Daten",
+    "change": "Ändern",
+    "delete": "Löschen",
+    "administration": "Verwaltung",
+    "telephone": "Telefon",
+    "location": "Ort",
+    "contactUser": "Möchten Sie, dass Ihre Kontaktdaten für Benutzer sichtbar sind?",
+    "saveChanges": "Änderungen speichern"
+  },
+  "generalData": {
+    "generalData": "Allgemeine Daten",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "repeatPassword": "Neues Passwort wiederholen",
+    "transferData": "Übertragen von Daten",
+    "deleteGeneralData": "Allgemeine Daten löschen",
+    "selectUser": "Benutzer*in auswählen ",
 
+    "saveChanges": "Änderungen speichern"
+  },
+  "myData": {
+    "projectIdeas": "Projektideen",
+    "fundings": "Fördermittel",
+    "implementationChecklist": "Umsetzungscheckliste",
+    "createProjectIdea": "Projektideen erstellen",
+    "title": "Titel",
+    "categories": "Kategorien"
+  },
+  "fundingsCol": {
+    "title": "Titel",
+    "categories": "Kategorien",
+    "start": "Datum Veröffentlichung",
+    "end": "Datum Ende",
+    "createFunding": "Fördermittel erstellen"
+  },
+  "checkListCols": {
+    "title": "Titel",
+    "categories": "Kategorien",
+    "createImplementationChecklist": "Umsetzungscheckliste erstellen"
   }
-
-  
 }
