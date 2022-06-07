@@ -253,25 +253,31 @@ export async function getSpecificProject(context, payload) {
       context.commit("setSpecificProject", res.data);
       return res.data.id;
     } catch (error) {
+      console.log("error", error.response.status);
       Notify.create({
         // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
+      return false;
     }
   }
 }
 
 export async function viewProject(context, payload) {
   const { id } = payload;
-  await context.dispatch("getSpecificProject", { id });
-  this.$router.push({ path: `/user/newProjectIdea/${id}` });
+  const project = await context.dispatch("getSpecificProject", { id });
+  if (!!project) {
+    this.$router.push({ path: `/user/newProjectIdea/${id}` });
+  }
 }
 
 export async function editProject(context, payload) {
   const { id } = payload;
-  await context.dispatch("getSpecificProject", { id });
-  this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+  const project = await context.dispatch("getSpecificProject", { id });
+  if (!!project) {
+    this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+  }
 }
 
 export async function deleteProjectIdea(context, payload) {
