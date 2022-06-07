@@ -580,6 +580,6 @@ export default {
   background-repeat: no-repeat !important;
 }
 .text-block {
-  white-space: pre;
+  white-space: pre-line;
 }
 </style>
