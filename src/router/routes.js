@@ -1,3 +1,7 @@
+// This does not update when you switch the language
+// import { i18n } from "src/boot/i18n";
+// const { t } = i18n;
+
 const routes = [
   {
     path: "/",
@@ -34,6 +38,7 @@ const routes = [
         name: "Home",
         meta: {
           title: "Home",
+          // title: i18n.t("notifications.updateRequest"),
           showInNavigation: true,
           requireAuth: true
         },
