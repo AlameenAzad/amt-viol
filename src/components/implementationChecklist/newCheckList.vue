@@ -210,7 +210,7 @@
           </div>
         </div>
         <q-card style="background:#16428B1A" class="q-pa-md">
-          <q-card-title>project activity</q-card-title>
+          <q-card-section>project activity</q-card-section>
         </q-card>
         <div class="row items-start position-fixed">
           <div class="col-4 ">
@@ -292,7 +292,7 @@
           </div>
           <div class="col-8">
             <q-card class="q-pa-md" style="background:#16428B1A">
-              <q-card-title class="flex items-center justify-between">
+              <q-card-section class="flex items-center justify-between">
                 <div class="row items-center ">
                   <q-icon size="sm" class="text-blue q-mr-md" name="list" />
                   <p class="no-margin ">Capture project idea</p>
@@ -304,7 +304,7 @@
                   class="customToggle"
                   v-model="projectIdea"
                 />
-              </q-card-title>
+              </q-card-section>
               <q-card-section class="q-gutter-md  ">
                 <div class="row">
                   <div class="col-12">
@@ -398,7 +398,7 @@
             </q-card>
             <q-card class="q-mt-sm p">
               <q-card-section style="background:#FDD50033">
-                <q-card-title class="flex items-center justify-between">
+                <q-card-section class="flex items-center justify-between">
                   <div class="row items-center ">
                     <q-icon size="sm" class="text-blue q-mr-md" name="list" />
                     <p class="no-margin ">Projektidee-Quellen nutzen</p>
@@ -410,7 +410,7 @@
                     class="customToggle"
                     v-model="projectIdea"
                   />
-                </q-card-title>
+                </q-card-section>
               </q-card-section>
               <q-card-section
                 v-for="element in projectQuellen"
@@ -418,12 +418,14 @@
                 :key="element.id"
               >
                 <div class="row items-center justify-between">
-                  <q-card-title class="  justify-between q-ml-sm">
+                  <q-card-section class="  justify-between q-ml-sm">
                     <div class="row items-center   ">
                       <q-icon size="sm" class="text-blue q-mr-md" name="list" />
-                      <p class=" flex-1 no-margin font-12 ">{{ element.name }}</p>
+                      <p class=" flex-1 no-margin font-12 ">
+                        {{ element.name }}
+                      </p>
                     </div>
-                  </q-card-title>
+                  </q-card-section>
                   <q-toggle
                     @input="changeSomething($event)"
                     size="lg"
@@ -435,7 +437,7 @@
               </q-card-section>
             </q-card>
           </div>
-          <!-- <draggble
+          <draggable
             class="col-8"
             v-model="myArray"
             ghost-class="ghost"
@@ -449,7 +451,7 @@
                 class="q-pa-md sortable"
                 style="background:#16428B1A"
               >
-                <q-card-title class="flex items-center justify-between">
+                <q-card-section class="flex items-center justify-between">
                   <div class="row items-center ">
                     <q-icon size="sm" class="text-blue q-mr-md" name="list" />
                     <p class="no-margin ">{{ element.name }}</p>
@@ -461,7 +463,7 @@
                     class="customToggle"
                     v-model="projectIdea"
                   />
-                </q-card-title>
+                </q-card-section>
                 <q-card-section class="q-gutter-md  ">
                   <div class="row">
                     <div class="col-12">
@@ -558,7 +560,7 @@
                 </q-card-section>
               </q-card>
             </transition-group>
-          </draggble> -->
+          </draggable>
         </div>
       </q-form>
     </div>
@@ -570,12 +572,12 @@ import Projects from "components/implementationChecklist/Projects.vue";
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
-import draggble from "vuedraggable";
+import draggable from "vuedraggable";
 
 export default {
   name: "newCheckList",
   components: {
-    // draggble,
+    draggable,
     Projects,
     UserSelect,
     Categories,
@@ -638,7 +640,7 @@ export default {
       isLoading: false,
       myArray: [
         { name: "Capture project idea", id: 0 },
-        { name: "Capture project ideaaa", id: 0 }
+        { name: "Capture project ideaaa", id: 1 }
       ],
       oldIndex: "",
       newIndex: "",
@@ -715,6 +717,7 @@ export default {
     border: 1px solid $yellow;
   }
 }
-.uploadInput {
+.flip-list-move {
+  transition: transform 0.5s;
 }
 </style>
