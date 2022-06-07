@@ -27,7 +27,9 @@
               class="radius-6 text-weight-600"
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">View</p>
+              <p class="q-mb-none q-mx-xl q-my-sm">
+                {{ $t("notificationsUser.viewBtn") }}
+              </p>
             </q-btn>
             <q-btn
               color="blue"
@@ -35,7 +37,9 @@
               class="radius-6 q-ml-md text-weight-600"
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">Accept</p>
+              <p class="q-mb-none q-mx-xl q-my-sm">
+                {{ $t("notificationsUser.acceptBtn") }}
+              </p>
             </q-btn>
             <q-btn
               color="red"
@@ -43,7 +47,9 @@
               class="radius-6 q-ml-md text-weight-600"
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">Decline</p>
+              <p class="q-mb-none q-mx-xl q-my-sm">
+                {{ $t("notificationsUser.declineBtn") }}
+              </p>
             </q-btn>
           </div>
         </q-card-section>

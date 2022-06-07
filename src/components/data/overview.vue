@@ -14,21 +14,23 @@
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="projectIdeas"
       >
-        <p class="font-20 no-margin">Project Ideas</p>
+        <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
       </q-tab>
       <q-tab
         class="q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="fundings"
       >
-        <p class="font-20 no-margin">Fundings</p>
+        <p class="font-20 no-margin">{{ $t("myData.fundings") }}</p>
       </q-tab>
       <q-tab
         class=" radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="implementationChecklist"
       >
-        <p class="font-20 no-margin">Implementation Checklist</p>
+        <p class="font-20 no-margin">
+          {{ $t("myData.implementationChecklist") }}
+        </p>
       </q-tab>
     </q-tabs>
     <q-table
@@ -44,61 +46,6 @@
         rowsPerPage: isInPage ? 0 : 5
       }"
     >
-      <!-- <template v-slot:top>
-      <div class="col-12 col-md-3">
-        <q-input
-          borderless
-          outlined
-          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
-          v-model="query"
-          placeholder="Search"
-          dense
-        >
-          <template v-slot:prepend>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </div>
-    </template> -->
-
-      <!-- <template v-slot:top-left>
-       
-        <q-input
-          borderless
-          outlined
-          class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
-          debounce="300"
-          v-model="filter"
-          dense
-          placeholder="Search"
-        >
-          <template v-slot:prepend>
-            <q-icon color="blue-5" name="search" />
-          </template>
-        </q-input>
-      </template>
-      <template v-slot:top-right>
-        <q-btn
-          color="blue"
-          icon="add"
-          unelevated
-          filled
-          class="mr-0 radius-6 text-weight-600"
-          no-caps
-          @click="goToPage(tab)"
-        >
-          <p class="q-mb-none q-mx-md q-my-sm">
-            {{
-              tab == "projectIdeas"
-                ? "Create project ideas"
-                : tab == "fundings"
-                ? "Create fundings"
-                : "Create Implementation checklist"
-            }}
-          </p>
-        </q-btn>
-      </template> -->
-
       <template v-slot:top>
         <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
@@ -174,10 +121,10 @@
               <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
                 {{
                   tab == "projectIdeas"
-                    ? "Create project ideas"
+                    ? $t("myData.createProjectIdea")
                     : tab == "fundings"
-                    ? "Create fundings"
-                    : "Create Implementation checklist"
+                    ? $t("fundingsCol.createFunding")
+                    : $t("checkListCols.createImplementationChecklist")
                 }}
               </p>
             </q-btn>
@@ -316,113 +263,83 @@ export default {
         "plannedStart",
         "plannedEnd"
       ],
-      projectCols: [
-        {
-          name: "title",
-          label: "Title",
-          align: "left",
-          field: row => row.title,
-          sortable: true
-        },
-        {
-          name: "categories",
-          align: "left",
-          label: "Categories",
-          field: row =>
-            (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
-            "No Categories",
-          sortable: true
-        },
-        {
-          name: "status",
-          label: "Status",
-          align: "left",
-          field: row =>
-            row.published === true
-              ? "Published"
-              : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
-          sortable: true
-        }
-      ],
-      fundingCols: [
-        {
-          name: "title",
-          label: "Title",
-          align: "left",
-          field: row => row.title,
-          sortable: true
-        },
-        {
-          name: "categories",
-          align: "left",
-          label: "Categories",
-          field: row =>
-            (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
-            "No Categories",
-          sortable: true
-        },
-        {
-          name: "plannedStart",
-          label: "Planned Start",
-          align: "left",
-          field: row => dateFormatter(row.plannedStart),
-          sortable: true
-        },
-        {
-          name: "plannedEnd",
-          label: "Planned End",
-          align: "left",
-          field: row => dateFormatter(row.plannedEnd),
-          sortable: true
-        },
-        {
-          name: "status",
-          label: "Status",
-          align: "left",
-          field: row =>
-            row.published === true
-              ? "Published"
-              : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
-          sortable: true
-        }
-      ],
-      checklistCols: [
-        {
-          name: "title",
-          label: "Title",
-          align: "left",
-          field: row => row.title,
-          sortable: true
-        },
-        {
-          name: "categories",
-          align: "left",
-          label: "Categories",
-          field: row =>
-            (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
-            "No Categories",
-          sortable: true
-        },
-        {
-          name: "status",
-          label: "Status",
-          align: "left",
-          field: row =>
-            row.published === true
-              ? "Published"
-              : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
-          sortable: true
-        }
-      ],
+      // projectCols: [
+      //   {
+      //     name: "title",
+      //     label: this.$t("myData.title"),
+      //     align: "left",
+      //     field: row => row.title,
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "categories",
+      //     align: "left",
+      //     label: this.$t("myData.categories"),
+      //     field: row =>
+      //       (!!row.categories &&
+      //         row.categories.map(category => category.title).join(", ")) ||
+      //       "No Categories",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "status",
+      //     label: "Status",
+      //     align: "left",
+      //     field: row =>
+      //       row.published === true
+      //         ? "Published"
+      //         : row.published === false
+      //         ? "Draft"
+      //         : "Status Unavailable",
+      //     sortable: true
+      //   }
+      // ],
+      // fundingCols: [
+      //   {
+      //     name: "title",
+      //     label: "Title",
+      //     align: "left",
+      //     field: row => row.title,
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "categories",
+      //     align: "left",
+      //     label: "Categories",
+      //     field: row =>
+      //       (!!row.categories &&
+      //         row.categories.map(category => category.title).join(", ")) ||
+      //       "No Categories",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "plannedStart",
+      //     label: "Planned Start",
+      //     align: "left",
+      //     field: row => dateFormatter(row.plannedStart),
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "plannedEnd",
+      //     label: "Planned End",
+      //     align: "left",
+      //     field: row => dateFormatter(row.plannedEnd),
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "status",
+      //     label: "Status",
+      //     align: "left",
+      //     field: row =>
+      //       row.published === true
+      //         ? "Published"
+      //         : row.published === false
+      //         ? "Draft"
+      //         : "Status Unavailable",
+      //     sortable: true
+      //   }
+      // ],
+
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false
@@ -545,8 +462,122 @@ export default {
           this.$store.state.funding.fundings
         : !!this.$store.state.implementationChecklist.checklists &&
           this.$store.state.implementationChecklist.checklists;
+    },
+    projectCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("myData.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("myData.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
+    },
+    fundingCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("fundingsCol.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("fundingsCol.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "plannedStart",
+          label: this.$t("fundingsCol.start"),
+          align: "left",
+          field: row => dateFormatter(row.plannedStart),
+          sortable: true
+        },
+        {
+          name: "plannedEnd",
+          label: this.$t("fundingsCol.end"),
+          align: "left",
+          field: row => dateFormatter(row.plannedEnd),
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
+    },
+    checklistCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("checkListCols.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("checkListCols.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
     }
   },
+
   mounted() {
     this.getData(this.tab);
   }
