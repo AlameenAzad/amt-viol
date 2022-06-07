@@ -118,5 +118,25 @@
     "showMy": "Show My Network",
     "viewOption": "View",
     "unfollowOption": "UnFollow"
+  },
+  "projectContent": {
+    "contactPerson": "Contact Person",
+    "contactDetails": "Contact Details",
+    "locationOfProject": "Location of Project",
+    "inviteEditors": "Invite Editors",
+    "categories": "Categories",
+    "tags": "Tags",
+    "investive/non-investive": "Investive/Non-Investive",
+    "projectStatus": "Project Status",
+    "estimatedCost": "Estimated Cost",
+    "fundingGuidelines": "Funding Guidelines",
+    "plannedPeriod": "Planned Period",
+    "links": "Links",
+    "uploads": "Uploads",
+    "relevantDocuments": "Relevant Documents",
+    "projectGoals": "Project Goals",
+    "projectValue&Benefits": "Project Value & Benefits",
+    "CooperationPartner": "Cooperation Partner",
+    "projectContent": "Project Content"
   }
 }

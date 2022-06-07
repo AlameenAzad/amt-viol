@@ -119,5 +119,25 @@
     "showMy": "Mein Netzwerk anzeigen",
     "viewOption": "Ansehen",
     "unfollowOption": "Entfolgen"
+  },
+  "projectContent": {
+    "contactPerson": "Ansprechpartner",
+    "contactDetails": "Kontaktdaten",
+    "locationOfProject": "Ort des Projektes",
+    "inviteEditors": "Bearbeiter*in einladen",
+    "categories": "Kategorien",
+    "tags": "Schlagwörter",
+    "investive/non-investive": "Investiv/ Nicht-investiv",
+    "projectStatus": "Projektstatus",
+    "estimatedCost": "Kostenschätzung",
+    "fundingGuidelines": "Förderrichtlinien",
+    "plannedPeriod": "Geplanter Zeitraum",
+    "links": "Links",
+    "uploads": "Uploads",
+    "relevantDocuments": "Zugehörige Dokumente",
+    "projectGoals": "Projektziele",
+    "projectValue&Benefits": "Projektmehrwert & -nutzen",
+    "CooperationPartner": "Kooperationspartner",
+    "projectContent": "Projektinhalt"
   }
 }

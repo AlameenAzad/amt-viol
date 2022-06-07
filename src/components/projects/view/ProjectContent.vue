@@ -21,7 +21,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Contact Person
+                  {{ $t("projectContent.contactPerson") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -37,7 +37,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Contact details
+                  {{ $t("projectContent.contactDetails") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -57,7 +57,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Location of the project
+                  {{ $t("projectContent.locationOfProject") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -68,7 +68,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Invite Editor
+                  {{ $t("projectContent.inviteEditors") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <div v-if="project.editors && project.editors.length > 0">
@@ -91,7 +91,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Categories
+                  {{ $t("projectContent.categories") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <div
@@ -116,7 +116,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Tags
+                  {{ $t("projectContent.tags") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <div v-if="project.tags && project.tags.length > 0">
@@ -140,7 +140,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Investive/ non-investive
+                  {{ $t("projectContent.investive/non-investive") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -157,7 +157,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Project Status
+                  {{ $t("projectContent.projectStatus") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -172,7 +172,7 @@
               <q-separator inset class="bg-blue opacity-10" />
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Estimated costs
+                  {{ $t("projectContent.estimatedCost") }}
                 </h4>
                 <div
                   v-if="
@@ -210,7 +210,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Funding Guidelines
+                  {{ $t("projectContent.fundingGuidelines") }}
                 </h4>
                 <div
                   v-if="project.fundings && project.fundings.length > 0"
@@ -244,7 +244,7 @@
 
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Planned period
+                  {{ $t("projectContent.plannedPeriod") }}
                 </h4>
                 <div class="q-ml-md font-16 row">
                   <div class="col-6 text-left">
@@ -337,7 +337,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Relevant documents
+                  {{ $t("projectContent.relevantDocuments") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-none">Förderinfo</p>
@@ -432,7 +432,7 @@
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Project Goals
+                  {{ $t("projectContent.projectGoals") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p
@@ -452,7 +452,7 @@
 
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Project value &amp; benefits
+                  {{ $t("projectContent.projectValue&Benefits") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -468,7 +468,7 @@
 
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Cooperation partner
+                  {{ $t("projectContent.CooperationPartner") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p class="q-mb-sm">
@@ -481,7 +481,7 @@
 
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  project content
+                  {{ $t("projectContent.projectContent") }}
                 </h4>
                 <div class="q-ml-md font-16">
                   <p
