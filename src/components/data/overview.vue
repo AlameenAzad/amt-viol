@@ -50,12 +50,12 @@
         <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
             <p class="font-24">
-              My Data
+              {{ $t("myDataHome.myData") }}
               <span
                 class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
                 @click="$router.push({ path: '/user/data' })"
               >
-                Show my Documents
+                {{ $t("myDataHome.showMy") }}
               </span>
             </p>
           </div>
@@ -71,18 +71,20 @@
             >
               <q-tab class="q-mr-lg radius-6 border-yellow" name="projectIdeas">
                 <p class="font-14 text-weight-600 no-margin">
-                  Project Ideas
+                  {{ $t("myDataHome.projectIdeaBtn") }}
                 </p>
               </q-tab>
               <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
-                <p class="font-14 text-weight-600 no-margin">Fundings</p>
+                <p class="font-14 text-weight-600 no-margin">
+                  {{ $t("myDataHome.fundingsBtn") }}
+                </p>
               </q-tab>
               <q-tab
                 class="q-mr-lg radius-6 border-yellow"
                 name="implementationChecklist"
               >
                 <p class="font-14 text-weight-600 no-margin">
-                  Implementation Checklist
+                  {{ $t("myDataHome.implementationChecklistBtn") }}
                 </p>
               </q-tab>
             </q-tabs>
@@ -162,7 +164,7 @@
                   <q-item clickable @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
-                        View
+                        {{ $t("myDataTableOptions.view") }}
                         <q-icon
                           v-if="!viewIsLoading"
                           size="sm"
@@ -180,7 +182,8 @@
                   <q-item clickable @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("myDataTableOptions.edit") }}
+
                         <q-icon
                           v-if="!editIsLoading"
                           size="sm"
@@ -198,7 +201,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Bookmark
+                        {{ $t("myDataTableOptions.bookmark") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -208,7 +212,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Archive
+                        {{ $t("myDataTableOptions.archive") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -222,7 +227,8 @@
                   >
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("myDataTableOptions.delete") }}
+
                         <q-icon
                           v-if="!deleteIsLoading"
                           size="sm"

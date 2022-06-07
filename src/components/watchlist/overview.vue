@@ -13,16 +13,18 @@
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="projectIdeas"
       >
-        <p class="font-20 no-margin">Project Ideas</p>
+        <p class="font-20 no-margin">{{ $t("myDataHome.projectIdeaBtn") }}</p>
       </q-tab>
       <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="fundings">
-        <p class="font-20 no-margin">Fundings</p>
+        <p class="font-20 no-margin">{{ $t("myDataHome.fundingsBtn") }}</p>
       </q-tab>
       <q-tab
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="implementationChecklist"
       >
-        <p class="font-20 no-margin">Implementation Checklist</p>
+        <p class="font-20 no-margin">
+          {{ $t("myDataHome.implementationChecklistBtn") }}
+        </p>
       </q-tab>
     </q-tabs>
     <q-table
@@ -62,10 +64,10 @@
           <p class="q-mb-none q-mx-md q-my-sm">
             {{
               tab == "projectIdeas"
-                ? "Create project ideas"
+                ? $t("myData.createProjectIdea")
                 : tab == "fundings"
-                ? "Create fundings"
-                : "Create Implementation checklist"
+                ? $t("fundingsCol.createFunding")
+                : $t("checkListCols.createImplementationChecklist")
             }}
           </p>
         </q-btn>
@@ -74,12 +76,12 @@
         <div class="row full-width">
           <div class="col-12">
             <p class="font-24">
-              My Watchlist
+              {{ $t("watchListHome.myWatchList") }}
               <span
                 class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
                 @click="$router.push({ path: '/watchlist' })"
               >
-                Show my Watchlist
+                {{ $t("watchListHome.showMy") }}
               </span>
             </p>
           </div>
@@ -94,17 +96,21 @@
               dense
             >
               <q-tab class="q-mr-lg radius-6 border-yellow" name="projectIdeas">
-                <p class="font-14 text-weight-600 no-margin">Project Ideas</p>
+                <p class="font-14 text-weight-600 no-margin">
+                  {{ $t("watchListHome.projectIdeaBtn") }}
+                </p>
               </q-tab>
               <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
-                <p class="font-14 text-weight-600 no-margin">Fundings</p>
+                <p class="font-14 text-weight-600 no-margin">
+                  {{ $t("watchListHome.fundingsBtn") }}
+                </p>
               </q-tab>
               <q-tab
                 class="q-mr-lg radius-6 border-yellow"
                 name="implementationChecklist"
               >
                 <p class="font-14 text-weight-600 no-margin">
-                  Implementation Checklist
+                  {{ $t("watchListHome.implementationChecklistBtn") }}
                 </p>
               </q-tab>
             </q-tabs>
@@ -142,7 +148,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        View
+                        {{ $t("myWatchListTableOptions.view") }}
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -152,14 +158,16 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("myWatchListTableOptions.edit") }}
+
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Bookmark
+                        {{ $t("myWatchListTableOptions.bookmark") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -169,7 +177,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Archive
+                        {{ $t("myWatchListTableOptions.archive") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -179,7 +188,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("myWatchListTableOptions.delete") }}
+
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -201,68 +211,7 @@ export default {
       tab: "projectIdeas",
       filter: "",
       visibleColumns: ["name", "calories", "fat", "carbs"],
-      projectCols: [
-        {
-          name: "name",
-          required: true,
-          label: "Title",
-          required: true,
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "calories",
-          align: "center",
-          label: "Categories",
-          field: "calories",
-          sortable: true
-        },
-        { name: "fat", label: "Status", field: "fat", sortable: true }
-      ],
-      fundingCols: [
-        {
-          name: "name",
-          required: true,
-          label: "Title",
-          required: true,
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "calories",
-          align: "center",
-          label: "Categories",
-          field: "calories",
-          sortable: true
-        },
-        { name: "fat", label: "Publish Date", field: "fat", sortable: true },
-        { name: "fat", label: "End Date", field: "fat", sortable: true },
-        { name: "fat", label: "Status", field: "fat", sortable: true }
-      ],
-      checklistCols: [
-        {
-          name: "name",
-          required: true,
-          label: "Title",
-          required: true,
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "calories",
-          align: "center",
-          label: "Categories",
-          field: "calories",
-          sortable: true
-        },
-        { name: "fat", label: "Status", field: "fat", sortable: true }
-      ],
+
       data: [
         {
           name: "Frozen Yogurt",
@@ -377,6 +326,141 @@ export default {
         : this.tab == "fundings"
         ? this.fundingCols
         : this.checklistCols;
+    },
+    computed: {
+      isInPage() {
+        return this.$router.currentRoute.fullPath == "/user/data";
+      },
+      columns() {
+        return this.tab == "projectIdeas"
+          ? this.projectCols
+          : this.tab == "fundings"
+          ? this.fundingCols
+          : this.checklistCols;
+      },
+      apiData() {
+        return this.tab == "projectIdeas"
+          ? !!this.$store.state.project.projects &&
+              this.$store.state.project.projects
+          : this.tab == "fundings"
+          ? !!this.$store.state.funding.fundings &&
+            this.$store.state.funding.fundings
+          : !!this.$store.state.implementationChecklist.checklists &&
+            this.$store.state.implementationChecklist.checklists;
+      },
+      projectCols() {
+        return [
+          {
+            name: "title",
+            label: this.$t("myData.title"),
+            align: "left",
+            field: row => row.title,
+            sortable: true
+          },
+          {
+            name: "categories",
+            align: "left",
+            label: this.$t("myData.categories"),
+            field: row =>
+              (!!row.categories &&
+                row.categories.map(category => category.title).join(", ")) ||
+              "No Categories",
+            sortable: true
+          },
+          {
+            name: "status",
+            label: "Status",
+            align: "left",
+            field: row =>
+              row.published === true
+                ? "Published"
+                : row.published === false
+                ? "Draft"
+                : "Status Unavailable",
+            sortable: true
+          }
+        ];
+      },
+      fundingCols() {
+        return [
+          {
+            name: "title",
+            label: this.$t("fundingsCol.title"),
+            align: "left",
+            field: row => row.title,
+            sortable: true
+          },
+          {
+            name: "categories",
+            align: "left",
+            label: this.$t("fundingsCol.categories"),
+            field: row =>
+              (!!row.categories &&
+                row.categories.map(category => category.title).join(", ")) ||
+              "No Categories",
+            sortable: true
+          },
+          {
+            name: "plannedStart",
+            label: this.$t("fundingsCol.start"),
+            align: "left",
+            field: row => dateFormatter(row.plannedStart),
+            sortable: true
+          },
+          {
+            name: "plannedEnd",
+            label: this.$t("fundingsCol.end"),
+            align: "left",
+            field: row => dateFormatter(row.plannedEnd),
+            sortable: true
+          },
+          {
+            name: "status",
+            label: "Status",
+            align: "left",
+            field: row =>
+              row.published === true
+                ? "Published"
+                : row.published === false
+                ? "Draft"
+                : "Status Unavailable",
+            sortable: true
+          }
+        ];
+      },
+      checklistCols() {
+        return [
+          {
+            name: "title",
+            label: this.$t("checkListCols.title"),
+            align: "left",
+            field: row => row.title,
+            sortable: true
+          },
+          {
+            name: "categories",
+            align: "left",
+            label: this.$t("checkListCols.categories"),
+            field: row =>
+              (!!row.categories &&
+                row.categories.map(category => category.title).join(", ")) ||
+              "No Categories",
+            sortable: true
+          },
+          {
+            name: "status",
+            label: "Status",
+            align: "left",
+            field: row =>
+              row.published === true
+                ? "Published"
+                : row.published === false
+                ? "Draft"
+                : "Status Unavailable",
+            sortable: true
+          }
+        ];
+      }
     }
   }
 };

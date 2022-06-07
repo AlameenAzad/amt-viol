@@ -63,5 +63,61 @@
     "title": "Titel",
     "categories": "Kategorien",
     "createImplementationChecklist": "Umsetzungscheckliste erstellen"
+  },
+  "homeBtns": {
+    "SearchBtn": "Dokumentensuche",
+    "projectBtn": "Projektideen",
+    "fundingsBtn": "Fördermittel",
+    "checkListBtn": "Umsetzungscheckliste"
+  },
+  "fundingsInfo": {
+    "current": "Aktuelle Förderinfos",
+    "showAll": "Alle Förderinfos anzeigen"
+  },
+  "fundingsColsHome": {
+    "fundInfo": "Förderinfo",
+    "title": "Titel",
+    "categories": "Kategorien"
+  },
+  "fundingTableOptions": {
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "bookmark": "Merken",
+    "archive": "Archivieren",
+    "delete": "Löschen"
+  },
+  "myDataHome": {
+    "myData": "Meine Daten",
+    "showMy": "Meine Dokumente anzeigen",
+    "projectIdeaBtn": "Projektideen",
+    "fundingsBtn": "Fördermittel",
+    "implementationChecklistBtn": "Umsetzungschecklisten"
+  },
+  "myDataTableOptions": {
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "bookmark": "Merken",
+    "archive": "Archivieren",
+    "delete": "Löschen"
+  },
+  "watchListHome": {
+    "myWatchList": "Meine Merklisten",
+    "showMy": "Meine Merklisten anzeigen",
+    "projectIdeaBtn": "Projektideen",
+    "fundingsBtn": "Fördermittel",
+    "implementationChecklistBtn": "Umsetzungschecklisten"
+  },
+  "myWatchListTableOptions": {
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "bookmark": "Merken",
+    "archive": "Archivieren",
+    "delete": "Löschen"
+  },
+  "myNetworkHome": {
+    "myNetwork": "Mein Netzwerk",
+    "showMy": "Mein Netzwerk anzeigen",
+    "viewOption": "Ansehen",
+    "unfollowOption": "Entfolgen"
   }
 }
