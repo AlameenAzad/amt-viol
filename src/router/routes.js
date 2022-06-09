@@ -136,10 +136,11 @@ const routes = [
         component: () => import("pages/dashboard/Municipality.vue")
       },
       {
-        path: "/Administation/Areas/details",
+        path: "/Administation/Areas/:id",
         name: "AdministationAreasDetails",
         meta: {
           title: "Details for the Administration",
+          backLink: "/Administation/Areas",
           requireAuth: true
         },
         icon: "/icons/Municipality.svg",
