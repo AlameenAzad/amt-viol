@@ -143,6 +143,7 @@ export async function updatePersonalData(context, payload) {
       });
       console.log("res :>> ", res);
       context.commit("updatePersonalData", res.data.data);
+      context.dispatch("getUserDetails");
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({
