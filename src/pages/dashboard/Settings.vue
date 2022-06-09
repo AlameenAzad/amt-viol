@@ -65,6 +65,14 @@ export default {
     return {
       tab: "generalData"
     };
+  },
+  methods: {
+    getData() {
+      this.$store.dispatch("userCenter/getUserDetails");
+    }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
