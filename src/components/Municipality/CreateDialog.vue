@@ -134,17 +134,15 @@ export default {
     },
     async getMunicipalityInfo() {
       if (!!this.editingId) {
-        this.isLoading = true;
-        try {
-          const res = await this.$api.get(
-            `/api/municipalities/${this.editingId}`
-          );
-          this.municipality = res.data.data;
-          this.form.title = res.data.data && res.data.data.title;
-          this.form.location = res.data.data && res.data.data.location;
-          this.isLoading = false;
-        } catch (error) {
-          this.isLoading = false;
+        const municipality = this.$store.state.municipality.municipalities.find(
+          mun => {
+            return mun.id === this.editingId;
+          }
+        );
+        if (!!municipality) {
+          this.municipality = municipality;
+          this.form.title = municipality.title;
+          this.form.location = municipality.location;
         }
       }
     }

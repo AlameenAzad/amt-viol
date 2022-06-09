@@ -3,7 +3,7 @@
     <div class="bg-primary">
       <div class="container">
         <div class="row justify-center q-pb-xl">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <div class="col-12">
               <h1 class="font-50 text-white text-weight-600 q-mb-none">
                 Funding Manager
@@ -41,7 +41,7 @@
     </div>
     <div class="container">
       <div class="row q-col-gutter-lg q-mt-lg">
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="my-card radius-10 shadow-0">
             <q-card-section>
               <div class="row">
@@ -64,7 +64,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="my-card radius-10 shadow-0">
             <q-card-section>
               <div class="row">
@@ -87,7 +87,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <q-card class="my-card radius-10 shadow-0">
             <q-card-section>
               <div class="row">
@@ -117,7 +117,7 @@
         <div class="col-12 text-center">
           <h3 class="font-36 text-weight-600">About Platform</h3>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <p class="font-18 font-weight-regular text-left">
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque

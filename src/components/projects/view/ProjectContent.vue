@@ -213,12 +213,15 @@
                   {{ $t("projectContent.fundingGuidelines") }}
                 </h4>
                 <div
-                  v-if="project.fundings && project.fundings.length > 0"
+                  v-if="
+                    project.fundingGuideline &&
+                      project.fundingGuideline.length > 0
+                  "
                   class="font-16"
                 >
                   <div
                     class="row"
-                    v-for="(funding, index) in project.fundings"
+                    v-for="(funding, index) in project.fundingGuideline"
                     :key="index"
                   >
                     <div class="col-auto">
@@ -533,8 +536,11 @@ export default {
       }
     },
     setLoadingData() {
-      if (!!this.project.fundings && this.project.fundings.length > 0) {
-        return this.project.fundings.map(item => {
+      if (
+        !!this.project.fundingGuideline &&
+        this.project.fundingGuideline.length > 0
+      ) {
+        return this.project.fundingGuideline.map(item => {
           this.loading.push({ loading: false });
         });
       } else {

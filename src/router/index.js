@@ -32,10 +32,10 @@ export default function({ store } /* { ssrContext } */) {
   });
 
   Router.beforeEach((to, from, next) => {
-    console.log("to", to);
-    console.log("from", from);
-    console.log("next", next);
-    console.log("store", store);
+    // console.log("to", to);
+    // console.log("from", from);
+    // console.log("next", next);
+    // console.log("store", store);
     if (
       to.matched.some(record => record.meta.requireAuth) &&
       !store.getters["userCenter/isSignedIn"]

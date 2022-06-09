@@ -173,7 +173,7 @@ export default {
       const { id } = this.$route.params;
       if (id) {
         let currentUser = this.$store.state.userCenter.users.find(user => {
-          return user.id == this.$route.params.id;
+          return user.id == id;
         });
         this.form.username = currentUser.username;
         this.form.email = currentUser.email;

@@ -4,7 +4,10 @@ export function setCategories(state, payload) {
 
 export function addCategory(state, payload) {
   if (!!payload) {
-    state.categories.push({ ...payload, projectsCount: 0 });
+    state.categories.push({
+      ...payload,
+      dataSet: { projects: 0, fundings: 0, checklist: 0 }
+    });
   }
 }
 

@@ -4,7 +4,10 @@ export function setTags(state, payload) {
 
 export function addTag(state, payload) {
   if (!!payload) {
-    state.tags.push({ ...payload, projectsCount: 0 });
+    state.tags.push({
+      ...payload,
+      dataSet: { projects: 0, fundings: 0, checklist: 0 }
+    });
   }
 }
 

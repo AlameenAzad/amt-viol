@@ -31,7 +31,7 @@
           </div>
           <p class="no-margin text-red text-center">{{ errorMsg }}</p>
           <div class="row justify-center">
-            <div class="col-5 text-center">
+            <div class="col-12 col-md-5 text-center">
               <q-btn
                 type="submit"
                 class="radius-10 full-width"
