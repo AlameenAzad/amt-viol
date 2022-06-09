@@ -22,7 +22,6 @@
             />
           </div>
         </div>
-        <p class="text-red">Please fill these manually for now :) ~Bilend</p>
         <div class="row items-center ">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
@@ -75,8 +74,9 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
-                  v-model="form.info.streetNo"
+                  :value="!!userDetails && userDetails.streetNo"
                   :rules="[]"
+                  disable
                 />
               </div>
               <div class="col-12 col-md-6">
@@ -85,8 +85,9 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
-                  v-model="form.info.postalCode"
+                  :value="!!userDetails && userDetails.postalCode"
                   :rules="[]"
+                  disable
                 />
               </div>
               <div class="col-12 col-md-6">
@@ -727,9 +728,9 @@ export default {
                   ...this.form.info,
                   contactName: this.userDetails.fullName,
                   phone: this.userDetails.phone,
-                  email: this.user.email
-                  // location: this.userDetails.location
-                  // TODO add some more required details
+                  email: this.user.email,
+                  streetNo: this.userDetails.streetNo,
+                  postalCode: this.userDetails.postalCode
                 },
                 municipality: {
                   id:
