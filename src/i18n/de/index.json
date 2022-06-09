@@ -93,6 +93,12 @@
     "fundingsBtn": "Fördermittel",
     "implementationChecklistBtn": "Umsetzungschecklisten"
   },
+    "categoriesKeywords": {
+    "newCategory": "Neue Kategorie",
+    "editCategory": "Edit Category in German",
+    "newKeywordTags": "Neue Schlagwörter",
+    "editKeywordTags": "Edit Keywords/Tags in German"
+  },
   "myDataTableOptions": {
     "view": "Ansehen",
     "edit": "Bearbeiten",

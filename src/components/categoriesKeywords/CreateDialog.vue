@@ -6,12 +6,12 @@
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
               !!editingId
-                ? tab == "Edit categories"
-                  ? "New categories"
-                  : "Edit Keywords/Tags"
-                : tab == "New categories"
-                ? "New categories"
-                : "New Keywords/Tags"
+                ? tab == "New categories"
+                  ? $t("categoriesKeywords.editCategory")
+                  : $t("categoriesKeywords.editKeywordTags")
+                : tab == "New Keywords/Tags"
+                ? $t("categoriesKeywords.newKeywordTags")
+                : $t("categoriesKeywords.newCategory")
             }}
           </h6>
         </q-card-section>

@@ -92,6 +92,12 @@
     "fundingsBtn": "Fundings",
     "implementationChecklistBtn": "Implementation Checklist"
   },
+  "categoriesKeywords": {
+    "newCategory": "New Category",
+    "editCategory": "Edit Category",
+    "newKeywordTags": "New Keywords/Tags",
+    "editKeywordTags": "Edit Keywords/Tags"
+  },
   "myDataTableOptions": {
     "view": "View",
     "edit": "Edit",
