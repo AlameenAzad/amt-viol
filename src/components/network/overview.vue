@@ -29,12 +29,12 @@
       </div>
       <div v-if="!isInPage" class="col-12 q-mt-sm">
         <p class="font-24 q-mb-none">
-          My Network
+          {{ $t("myNetworkHome.myNewtwork") }}
           <span
             class="font-16 float-right q-mb-md q-pt-sm text-blue text-underline text-weight-600 cursor-pointer"
             @click="$router.push({ path: '/network' })"
           >
-            Show my Network
+            {{ $t("myNetworkHome.showMy") }}
           </span>
         </p>
       </div>
@@ -82,7 +82,8 @@
                         >
                           <q-item-section
                             ><span class="text-right font-14">
-                              Ansehen
+                              {{ $t("myNetworkHome.viewOption") }}
+
                               <q-icon
                                 size="sm"
                                 class="text-blue"
@@ -92,7 +93,8 @@
                         <q-item clickable v-close-popup>
                           <q-item-section
                             ><span class="text-right font-14">
-                              Entfolgen
+                              {{ $t("myNetworkHome.unfollowOption") }}
+
                               <!-- TODO need to add the icon from Figma. Not sure how to do this -->
                               <q-icon
                                 size="sm"

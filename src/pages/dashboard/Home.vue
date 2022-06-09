@@ -9,7 +9,9 @@
           class="mr-0 radius-6 text-weight-600"
           no-caps
         >
-          <p class="q-mb-none q-mx-md q-my-sm">Search documents</p>
+          <p class="q-mb-none q-mx-md q-my-sm">
+            {{ $t("homeBtns.SearchBtn") }}
+          </p>
         </q-btn>
       </div>
       <div class="col-12 col-md-9">
@@ -27,7 +29,7 @@
                 @click="$router.push({ path: '/user/newProjectIdea' })"
                 class="q-mb-none q-mx-md q-my-sm"
               >
-                Project ideas
+                {{ $t("homeBtns.projectBtn") }}
               </p>
             </q-btn>
           </div>
@@ -44,7 +46,7 @@
                 @click="$router.push({ path: '/user/newFunding' })"
                 class="q-mb-none q-mx-md q-my-sm"
               >
-                fundings
+                {{ $t("homeBtns.fundingsBtn") }}
               </p>
             </q-btn>
           </div>
@@ -57,7 +59,9 @@
               class="mr-0 radius-6 text-weight-600"
               no-caps
             >
-              <p class="q-mb-none q-mx-md q-my-sm">Implementation checklist</p>
+              <p class="q-mb-none q-mx-md q-my-sm">
+                {{ $t("homeBtns.checkListBtn") }}
+              </p>
             </q-btn>
           </div>
         </div>

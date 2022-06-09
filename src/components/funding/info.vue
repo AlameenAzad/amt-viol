@@ -2,7 +2,7 @@
   <div class="q-mt-lg">
     <q-table
       class="radius-20 shadow-1"
-      title="Current funding information"
+      :title="$t('fundingsInfo.current')"
       :data="data"
       :columns="columns"
       row-key="name"
@@ -12,10 +12,10 @@
       }"
     >
       <template v-slot:top>
-        <p class="font-24">Current funding information</p>
+        <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
         <q-space />
         <p class="font-16 text-blue text-underline text-weight-600">
-          Show all funding information
+          {{ $t("fundingsInfo.showAll") }}
         </p>
       </template>
       <template v-slot:header="props">
@@ -49,7 +49,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        View
+                        {{ $t("fundingTableOptions.view") }}
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -59,14 +59,16 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("fundingTableOptions.edit") }}
+
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Bookmark
+                        {{ $t("fundingTableOptions.bookmark") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -76,7 +78,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Archive
+                        {{ $t("fundingTableOptions.archive") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -86,7 +89,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("fundingTableOptions.delete") }}
+
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -105,26 +109,6 @@ export default {
   name: "fundingInfo",
   data() {
     return {
-      columns: [
-        {
-          name: "name",
-          required: true,
-          label: "funding information",
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "calories",
-          align: "center",
-          label: "title",
-          field: "calories",
-          sortable: true
-        },
-        { name: "fat", label: "categories", field: "fat", sortable: true },
-        { name: "carbs", label: "author", field: "carbs" }
-      ],
       data: [
         {
           name: "Frozen Yogurt",
@@ -228,6 +212,35 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    columns() {
+      return [
+        {
+          name: "name",
+          required: true,
+          label: this.$t("fundingsColsHome.fundInfo"),
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "calories",
+          align: "center",
+          label: this.$t("fundingsColsHome.title"),
+          field: "calories",
+          sortable: true
+        },
+        {
+          name: "fat",
+          label: this.$t("fundingsColsHome.categories"),
+          field: "fat",
+          sortable: true
+        },
+        { name: "carbs", label: "Author", field: "carbs" }
+      ];
+    }
   }
 };
 </script>

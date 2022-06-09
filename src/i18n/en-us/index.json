@@ -62,5 +62,81 @@
     "title": "Title",
     "categories": "Categories",
     "createImplementationChecklist": "Create Implementation Checklist"
+  },
+  "homeBtns": {
+    "SearchBtn": "Search Documents",
+    "projectBtn": "Project Ideas",
+    "fundingsBtn": "Fundings",
+    "checkListBtn": "Implementation Checklist"
+  },
+  "fundingsInfo": {
+    "current": "Current funding information",
+    "showAll": "Show all funding information"
+  },
+  "fundingsColsHome": {
+    "fundInfo": "Funding Info",
+    "title": "Title",
+    "categories": "Categories"
+  },
+  "fundingTableOptions": {
+    "view": "View",
+    "edit": "Edit",
+    "bookmark": "Bookmark",
+    "archive": "Archive",
+    "delete": "Delete"
+  },
+  "myDataHome": {
+    "myData": "My Data",
+    "showMy": "Show My Documents",
+    "projectIdeaBtn": "Project Ideas",
+    "fundingsBtn": "Fundings",
+    "implementationChecklistBtn": "Implementation Checklist"
+  },
+  "myDataTableOptions": {
+    "view": "View",
+    "edit": "Edit",
+    "bookmark": "Bookmark",
+    "archive": "Archive",
+    "delete": "Delete"
+  },
+  "watchListHome": {
+    "myWatchList": "My Watch List",
+    "showMy": "Show My Watch List",
+    "projectIdeaBtn": "Project Idea",
+    "fundingsBtn": "Fundings",
+    "implementationChecklistBtn": "Implementation Checklist"
+  },
+  "myWatchListTableOptions": {
+    "view": "View",
+    "edit": "Edit",
+    "bookmark": "Delete",
+    "archive": "Archive",
+    "delete": "Delete"
+  },
+  "myNetworkHome": {
+    "myNetwork": "My Network",
+    "showMy": "Show My Network",
+    "viewOption": "View",
+    "unfollowOption": "UnFollow"
+  },
+  "projectContent": {
+    "contactPerson": "Contact Person",
+    "contactDetails": "Contact Details",
+    "locationOfProject": "Location of Project",
+    "inviteEditors": "Invite Editors",
+    "categories": "Categories",
+    "tags": "Tags",
+    "investive/non-investive": "Investive/Non-Investive",
+    "projectStatus": "Project Status",
+    "estimatedCost": "Estimated Cost",
+    "fundingGuidelines": "Funding Guidelines",
+    "plannedPeriod": "Planned Period",
+    "links": "Links",
+    "uploads": "Uploads",
+    "relevantDocuments": "Relevant Documents",
+    "projectGoals": "Project Goals",
+    "projectValue&Benefits": "Project Value & Benefits",
+    "CooperationPartner": "Cooperation Partner",
+    "projectContent": "Project Content"
   }
 }
