@@ -274,22 +274,16 @@ export default {
     saveNotificationsData() {
       this.$refs.notificationsDataForn.validate().then(async success => {
         if (success) {
-          console.log("Success");
-          // this.isLoading = true;
-          // const res = await this.$store.dispatch(
-          //   "userCenter/updatePersonalData",
-          //   {
-          //     data: {
-          //       fullName: this.form.fullName,
-          //       phone: this.form.telephone,
-          //       location: this.form.location
-          //     }
-          //   }
-          // );
-          // this.isLoading = false;
-          // if (res !== false) {
-          //   // TODO do something
-          // }
+          this.isLoading = true;
+          const res = await this.$store.dispatch(
+            "userCenter/updatePersonalData",
+            {
+              data: this.form
+            }
+          );
+          this.isLoading = false;
+          if (res !== false) {
+          }
         } else {
           console.log("error");
         }
