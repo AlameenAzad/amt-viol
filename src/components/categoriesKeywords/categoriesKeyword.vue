@@ -10,10 +10,12 @@
       no-caps
     >
       <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="categories">
-        <p class="font-20 no-margin">Categories</p>
+        <p class="font-20 no-margin">{{ $t("category&Keyword.category") }}</p>
       </q-tab>
       <q-tab class="q-pa-lg radius-10 border-yellow" name="keywords/Tags">
-        <p class="font-20 no-margin">Keywords/Tags</p>
+        <p class="font-20 no-margin">
+          {{ $t("category&Keyword.keyword/Tags") }}
+        </p>
       </q-tab>
     </q-tabs>
     <q-table
@@ -32,7 +34,11 @@
       <template v-slot:top-left>
         <div class="row justify-between items-center">
           <div class=" font-24 q-mr-lg">
-            {{ tab == "categories" ? "Categories" : "Tags" }}
+            {{
+              tab == "categories"
+                ? $t("category&Keyword.category")
+                : $t("category&Keyword.keyword/Tags")
+            }}
           </div>
           <q-input
             borderless
@@ -62,10 +68,10 @@
           <p class="q-mb-none q-mx-md q-my-sm">
             {{
               tab == "categories"
-                ? "Create Categories"
+                ? $t("category&Keyword.createCategoryBtn")
                 : tab == "keywords/Tags"
-                ? "Create Tags/Keywords"
-                : "Create categories"
+                ? $t("category&Keyword.createKeywordBtn")
+                : $t("category&Keyword.createCategoryBtn")
             }}
           </p>
         </q-btn>
@@ -102,7 +108,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section @click="prepEditDialog(props.row)"
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("category&Keyword.edit") }}
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
@@ -113,7 +119,7 @@
                         class="text-right font-14 text-red"
                         @click="prepDeleteDialog(props.row)"
                       >
-                        Delete
+                        {{ $t("category&Keyword.delete") }}
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -126,13 +132,21 @@
     </q-table>
     <CreateDialog
       :editingId="itemId"
-      :tab="tab === 'categories' ? 'New categories' : 'New Keywords/Tags'"
+      :tab="
+        tab === 'categories'
+          ? $t('category&Keyword.titleOfCategory')
+          : $t('category&Keyword.titleOfKeyword')
+      "
       :dialogState="createDialog"
       @update="(createDialog = $event), (itemId = null)"
     />
     <DeleteDialog
       :id="itemId"
-      :tab="tab === 'categories' ? 'Delete category' : 'Delete Keyword/Tag'"
+      :tab="
+        tab === 'categories'
+          ? $t('category&Keyword.deleteCategorey')
+          : $t('category&Keyword.deleteKeyword')
+      "
       :dialogState="deleteDialog"
       @update="(deleteDialog = $event), (itemId = null)"
     />

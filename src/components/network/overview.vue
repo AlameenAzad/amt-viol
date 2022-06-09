@@ -29,7 +29,7 @@
       </div>
       <div v-if="!isInPage" class="col-12 q-mt-sm">
         <p class="font-24 q-mb-none">
-          {{ $t("myNetworkHome.myNewtwork") }}
+          {{ $t("myNetworkHome.myNetwork") }}
           <span
             class="font-16 float-right q-mb-md q-pt-sm text-blue text-underline text-weight-600 cursor-pointer"
             @click="$router.push({ path: '/network' })"

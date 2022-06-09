@@ -138,5 +138,32 @@
     "projectValue&Benefits": "Project Value & Benefits",
     "CooperationPartner": "Cooperation Partner",
     "projectContent": "Project Content"
+  },
+  "category&Keyword": {
+    "category": "Category",
+    "keyword/Tags": "Keyword/Tags",
+    "categories": "Categories",
+    "createCategoryBtn": "Create Category",
+    "createKeywordBtn": "Create Keyword/Tags",
+    "projectIdeas": "Project Ideas",
+    "fundings": "Fundings",
+    "implementationChecklist": "Implementation Checklist",
+    "titleOfCategory": "New Category",
+    "titleOfKeyword": "New Keyword/Tag",
+    "categoryInputLabel": "Title of Category",
+    "keywordInputLabel": "Title of Keyword/Tag",
+    "save": "Save ",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteCPopupTitle": "Delete category",
+    "deleteCPopupText": "Do you really want to delete the category? It will be removed from all documents.",
+    "deletePopupButton": "Confirm",
+    "cancelPopupButton": "Cancel",
+    "deleteKPopupTitle": "Delete Keyword/Tag",
+    "deleteKPopupText": "Do you really want to delete the tag? It will be removed from all documents.",
+    "deleteCategorey": "Delete Category",
+    "deleteKeyword": "Delete Keyword/Tag",
+    "editKeyword/Tag": "Edit Keyword/Tag"
   }
 }

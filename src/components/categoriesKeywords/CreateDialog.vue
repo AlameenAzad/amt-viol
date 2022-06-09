@@ -21,8 +21,8 @@
               <p class="font-14 no-margin">
                 {{
                   tab == "New categories"
-                    ? "Title of the category"
-                    : "Title of the keyword/Tag"
+                    ? $t("category&Keyword.categoryInputLabel")
+                    : $t("category&Keyword.keywordInputLabel")
                 }}
               </p>
             </div>

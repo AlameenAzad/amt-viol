@@ -139,5 +139,33 @@
     "projectValue&Benefits": "Projektmehrwert & -nutzen",
     "CooperationPartner": "Kooperationspartner",
     "projectContent": "Projektinhalt"
+  },
+  "category&Keyword": {
+    "category": "Kategorien",
+    "keyword/Tags": "Schlagwörter",
+    "categories": "Kategorien",
+    "tags": "Tags",
+    "createCategoryBtn": "Kategorien erstellen",
+    "createKeywordBtn": "Schlagwort erstellen",
+    "projectIdeas": "Projektideen",
+    "fundings": "Fördermittel",
+    "implementationChecklist": "Umsetzungscheckliste",
+    "titleOfCategory": "Neue Kategorie",
+    "titleOfKeyword": "Neue Schlagwörter",
+    "categoryInputLabel": "Titel der Kategorie",
+    "keywordInputLabel": "Titel des Schlagwortes",
+    "save": "Speichern ",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "deleteCPopupTitle": "Kategorie löschen",
+    "deleteCPopupText": "Möchten Sie diese Kategorien wirklich löschen? Es wird aus allen Dokumenten entfernt.",
+    "deletePopupButton": "Bestätigen",
+    "cancelPopupButton": "Abbrechen",
+    "deleteKPopupTitle": "Schlagwörter löschen",
+    "deleteKPopupText": "Möchten Sie dieses Tag wirklich löschen? Es wird aus allen Dokumenten entfernt.",
+    "deleteCategorey": "Kategorie löschen",
+    "deleteKeyword": "Schlagwörter löschen",
+    "editKeyword/Tag": "Bearbeiten Keyword/Tag"
   }
 }
