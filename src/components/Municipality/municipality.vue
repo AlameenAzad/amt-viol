@@ -3,10 +3,10 @@
     <q-table
       class="radius-20 shadow-1"
       title="Current funding information"
-      :data="apiData"
+      :data="data"
       row-key="name"
       :columns="columns"
-      :hide-bottom="apiData.length > 0"
+      :hide-bottom="data.length > 0"
       :filter="filter"
       :visible-columns="visibleColumns"
       :pagination="{
@@ -64,7 +64,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14 cursor-pointer	"
+            class="font-14"
           >
             {{ col.value }}
           </q-td>
@@ -75,7 +75,9 @@
                   <q-item
                     clickable
                     v-close-popup
-                    to="/Administation/Areas/details"
+                    @click="
+                      $router.push(`/Administation/Areas/${props.row.id}`)
+                    "
                   >
                     <q-item-section>
                       <span class="text-right font-14">
@@ -195,7 +197,7 @@ export default {
     }
   },
   computed: {
-    apiData() {
+    data() {
       return this.$store.state.municipality.municipalities;
     }
   },
