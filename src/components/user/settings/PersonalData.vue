@@ -12,9 +12,9 @@
         <div class="col-12 text-center">
           <!-- TODO add a placeholder image when no image is chosen -->
           <q-img
-            class="radius-10"
+            class="radius-10 profileImage"
             spinner-color="primary"
-            :src="form.profileImage"
+            :src="profileImage"
             style="height: 160px; max-width: 160px"
           />
         </div>
@@ -78,6 +78,7 @@
         </div>
         <div class="col-9">
           <q-input
+            disable
             outlined
             class="no-shadow input-radius-6"
             v-model="form.administration"
@@ -93,6 +94,7 @@
         </div>
         <div class="col-9">
           <q-input
+            disable
             outlined
             class="no-shadow input-radius-6"
             v-model="form.email"
@@ -131,12 +133,44 @@
         </div>
       </div>
       <div class="row items-center">
+        <div class="col-3">
+          <p class="font-16 no-margin">
+            Street No
+            <!-- TODO translate this {{ $t("personalData.location") }} -->
+          </p>
+        </div>
+        <div class="col-9">
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.streetNo"
+            :rules="[]"
+          />
+        </div>
+      </div>
+      <div class="row items-center">
+        <div class="col-3">
+          <p class="font-16 no-margin">
+            PostalCode
+            <!-- TODO translate this {{ $t("personalData.location") }} -->
+          </p>
+        </div>
+        <div class="col-9">
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.postalCode"
+            :rules="[]"
+          />
+        </div>
+      </div>
+      <div class="row items-center">
         <div class="col-12 bg-yellow-10 radius-6">
           <q-checkbox
             color="primary"
             class="dataVisible font-16 q-py-sm"
             right-label
-            v-model="form.dataVisible"
+            v-model="form.contactPrivacy"
           >
             {{ $t("personalData.contactUser") }}
           </q-checkbox>
@@ -163,25 +197,31 @@ export default {
   name: "personalDataTab",
   data() {
     return {
+      profileImage: "https://placeimg.com/500/300/nature",
       form: {
-        profileImage: "https://placeimg.com/500/300/nature",
         fullName: "",
         administration: "",
         email: "",
         telephone: "",
         location: "",
-        dataVisible: false
+        streetNo: "",
+        postalCode: "",
+        contactPrivacy: false
       },
       isLoading: false
     };
   },
   methods: {
     setData() {
+      this.profileImage = `${this.appUrl}${this.userDetails.profile.url}`;
       this.form.email = this.user.email;
       this.form.fullName = this.userDetails.fullName || "";
       this.form.telephone = this.userDetails.phone || "";
       this.form.location = this.userDetails.location || "";
       this.form.administration = this.userDetails.municipality.title;
+      this.form.streetNo = this.userDetails.streetNo || "";
+      this.form.postalCode = this.userDetails.postalCode || "";
+      this.form.contactPrivacy = this.userDetails.contactPrivacy || false;
     },
     changeImage() {
       console.log("Clicked change image");
@@ -199,7 +239,10 @@ export default {
               data: {
                 fullName: this.form.fullName,
                 phone: this.form.telephone,
-                location: this.form.location
+                location: this.form.location,
+                streetNo: this.form.streetNo,
+                postalCode: this.form.postalCode,
+                contactPrivacy: this.form.contactPrivacy
               }
             }
           );
@@ -216,6 +259,9 @@ export default {
     this.setData();
   },
   computed: {
+    appUrl() {
+      return process.env.VUE_APP_MAIN_URL;
+    },
     userDetails() {
       return (
         this.$store.state.userCenter.user &&
@@ -236,5 +282,9 @@ export default {
 .dataVisible .q-checkbox__bg svg {
   color: $primary;
   padding: 2px;
+}
+.profileImage div.q-img__image {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
 }
 </style>
