@@ -197,5 +197,29 @@
     "delete": "Löschen",
     "bookmark": "Merken",
     "archive": "Archivieren"
+  },
+  "Statistics": {
+    "currentFunding": "Aktuelle Förderinfos",
+    "projectIdeas": "Projektideen",
+    "implementationChecklist": "Umsetzungschecklisten",
+    "administration/user": "Verwaltungen/ Benutzer*innen",
+    "fundinginfoArchive": "Förderinfos-Archiv",
+    "enquiries": "Anfragen",
+    "watchList": "Merklisten",
+    "adminNetwork": "Verwaltungsnetzwerke"
+  },
+  "statsTable": {
+    "title": "Titel",
+    "type": "Typ",
+    "categories": "Kategorien",
+    "publishDate": "Datum Veröffentlichung",
+    "tags/keywords": "Kategorien & Schlagwörter",
+    "projectCoordinator": "Projektkoordinator*innen",
+    "endDate": "Datum Ende",
+    "owners": "Besitzer*in",
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "publish": "Veröffentlichen",
+    "delete": "Löschen"
   }
 }

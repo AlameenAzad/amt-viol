@@ -19,43 +19,43 @@ export default {
   components: {
     StatsTable
   },
-  data() {
-    return {
-      statistics: [
+  computed: {
+    statistics() {
+      return [
         {
-          title: "current funding information",
+          title: this.$t("Statistics.currentFunding"),
           value: "1894"
         },
         {
-          title: "project ideas",
+          title: this.$t("Statistics.projectIdeas"),
           value: "2836"
         },
         {
-          title: "Implementation checklist",
+          title: this.$t("Statistics.implementationChecklist"),
           value: "2361"
         },
         {
-          title: "Administrations / Users",
+          title: this.$t("Statistics.administration/user"),
           value: "48"
         },
         {
-          title: "Funding informations - Archive",
+          title: this.$t("Statistics.fundinginfoArchive"),
           value: "789"
         },
         {
-          title: "Enquiries",
+          title: this.$t("Statistics.enquiries"),
           value: "836"
         },
         {
-          title: "Watchlists",
+          title: this.$t("Statistics.watchList"),
           value: "632"
         },
         {
-          title: "Administration network",
+          title: this.$t("Statistics.adminNetwork"),
           value: "438"
         }
-      ]
-    };
+      ];
+    }
   }
 };
 </script>

@@ -51,7 +51,9 @@
             </template>
             <div class="row q-px-xs q-mt-md q-col-gutter-x-lg">
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">Type</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.type") }}
+                </p>
                 <q-select
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
@@ -64,7 +66,9 @@
                 </q-select>
               </div>
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">Categories</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.categories") }}
+                </p>
                 <q-select
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
@@ -77,7 +81,9 @@
                 </q-select>
               </div>
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">Tags/Keywords</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.tags/keywords") }}
+                </p>
                 <q-select
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
@@ -90,7 +96,9 @@
                 </q-select>
               </div>
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">Project Coordinator</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.projectCoordinator") }}
+                </p>
                 <q-select
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
@@ -103,7 +111,9 @@
                 </q-select>
               </div>
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">Publish Date</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.publishDate") }}
+                </p>
                 <q-input
                   filled
                   v-model="publishDateStart"
@@ -167,7 +177,9 @@
                 </q-input>
               </div>
               <div class="col-3">
-                <p class="text-black q-mb-xs font-16">End Date</p>
+                <p class="text-black q-mb-xs font-16">
+                  {{ $t("statsTable.endDate") }}
+                </p>
                 <q-input
                   filled
                   v-model="endDateStart"
@@ -265,7 +277,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        View
+                        {{ $t("statsTable.view") }}
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -275,14 +287,16 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("statsTable.edit") }}
+
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Publish
+                        {{ $t("statsTable.publish") }}
+
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -292,7 +306,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("statsTable.delete") }}
+
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -337,51 +352,51 @@ export default {
       publishDateEnd: "",
       endDateStart: "",
       endDateEnd: "",
-      columns: [
-        {
-          name: "title",
-          required: true,
-          label: "Title",
-          align: "left",
-          field: row => row.name,
-          sortable: true
-        },
-        {
-          name: "type",
-          align: "left",
-          label: "Type",
-          field: "type",
-          sortable: true
-        },
-        {
-          name: "categories",
-          align: "left",
-          label: "Categories",
-          field: "category",
-          sortable: true
-        },
-        {
-          name: "publishDate",
-          align: "left",
-          label: "Publish Date",
-          field: "publishDate",
-          sortable: true
-        },
-        {
-          name: "endDate",
-          align: "left",
-          label: "End Date",
-          field: "endDate",
-          sortable: true
-        },
-        {
-          name: "owners",
-          align: "left",
-          label: "Owners",
-          field: "owners",
-          sortable: true
-        }
-      ],
+      // columns: [
+      //   {
+      //     name: "title",
+      //     required: true,
+      //     label: "Title",
+      //     align: "left",
+      //     field: row => row.name,
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "type",
+      //     align: "left",
+      //     label: "Type",
+      //     field: "type",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "categories",
+      //     align: "left",
+      //     label: "Categories",
+      //     field: "category",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "publishDate",
+      //     align: "left",
+      //     label: "Publish Date",
+      //     field: "publishDate",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "endDate",
+      //     align: "left",
+      //     label: "End Date",
+      //     field: "endDate",
+      //     sortable: true
+      //   },
+      //   {
+      //     name: "owners",
+      //     align: "left",
+      //     label: "Owners",
+      //     field: "owners",
+      //     sortable: true
+      //   }
+      // ],
       data: [
         {
           name: "Frozen Yogurt",
@@ -616,6 +631,53 @@ export default {
         endDateStart: this.endDateStart,
         endDateEnd: this.endDateEnd
       };
+    },
+    columns() {
+      return [
+        {
+          name: "title",
+          required: true,
+          label: this.$t("statsTable.title"),
+          align: "left",
+          field: row => row.name,
+          sortable: true
+        },
+        {
+          name: "type",
+          align: "left",
+          label: this.$t("statsTable.type"),
+          field: "type",
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("statsTable.categories"),
+          field: "category",
+          sortable: true
+        },
+        {
+          name: "publishDate",
+          align: "left",
+          label: this.$t("statsTable.publishDate"),
+          field: "publishDate",
+          sortable: true
+        },
+        {
+          name: "endDate",
+          align: "left",
+          label: this.$t("statsTable.endDate"),
+          field: "endDate",
+          sortable: true
+        },
+        {
+          name: "owners",
+          align: "left",
+          label: this.$t("statsTable.owners"),
+          field: "owners",
+          sortable: true
+        }
+      ];
     }
   }
 };

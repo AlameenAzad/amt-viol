@@ -195,5 +195,29 @@
     "delete": "Delete",
     "bookmark": "Bookmark",
     "archive": "Archive"
+  },
+  "Statistics": {
+    "currentFunding": "Current Funding information",
+    "projectIdeas": "Project Ideas",
+    "implementationChecklist": "Implementation Checklists",
+    "administration/user": "Administration/ Users",
+    "fundinginfoArchive": "Funding Information Archive",
+    "enquiries": "Enquiries",
+    "watchList": "Watch Lists",
+    "adminNetwork": "Administration Network"
+  },
+  "statsTable": {
+    "title": "Title",
+    "type": "Type",
+    "categories": "Categories",
+    "publishDate": "Publish Date",
+    "tags/keywords": "Tags/Keywords",
+    "projectCoordinator": "Project Coordinator",
+    "endDate": "End Date",
+    "owners": "Owners",
+    "view": "View",
+    "edit": "Edit",
+    "publish": "Publish",
+    "delete": "Delete"
   }
 }
