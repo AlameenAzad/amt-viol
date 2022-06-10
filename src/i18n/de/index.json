@@ -93,7 +93,7 @@
     "fundingsBtn": "Fördermittel",
     "implementationChecklistBtn": "Umsetzungschecklisten"
   },
-    "categoriesKeywords": {
+  "categoriesKeywords": {
     "newCategory": "Neue Kategorie",
     "editCategory": "Edit Category in German",
     "newKeywordTags": "Neue Schlagwörter",
@@ -173,5 +173,29 @@
     "deleteCategorey": "Kategorie löschen",
     "deleteKeyword": "Schlagwörter löschen",
     "editKeyword/Tag": "Bearbeiten Keyword/Tag"
+  },
+  "administrativeAreas": {
+    "createAdministration": "Verwaltung anlegen",
+    "administrationName": "Verwaltung",
+    "federalState": "Bundesland",
+    "dataSets": "Datensätze",
+    "projectCoordinator": "Projektkoordinator*innen",
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
+  },
+  "DetailsAdministration": {
+    "location": "Ort",
+    "users": "Benutzer:",
+    "data": "Daten",
+    "title": "Titel",
+    "type": "Typ",
+    "categories": "Kategorien",
+    "user": "Besitzer*in",
+    "view": "Ansehen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "bookmark": "Merken",
+    "archive": "Archivieren"
   }
 }

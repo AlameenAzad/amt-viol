@@ -39,7 +39,9 @@
               no-caps
               @click="createDialog = true"
             >
-              <p class="q-mb-none q-mx-md q-my-sm">Create Administration</p>
+              <p class="q-mb-none q-mx-md q-my-sm">
+                {{ $t("administrativeAreas.createAdministration") }}
+              </p>
             </q-btn>
           </div>
         </div>
@@ -81,7 +83,7 @@
                   >
                     <q-item-section>
                       <span class="text-right font-14">
-                        View
+                        {{ $t("administrativeAreas.view") }}
                         <q-icon size="sm" class="text-blue" name="visibility"
                       /></span>
                     </q-item-section>
@@ -89,7 +91,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section @click="prepEditDialog(props.row)">
                       <span class="text-right font-14">
-                        Edit
+                        {{ $t("administrativeAreas.edit") }}
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
@@ -97,7 +99,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section @click="prepDeleteDialog(props.row)"
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("administrativeAreas.delete") }}
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -141,45 +143,6 @@ export default {
         "federal state",
         "data sets",
         "project coordinators"
-      ],
-      columns: [
-        {
-          name: "id",
-          required: false,
-          label: "id",
-          align: "left",
-          field: row => row.id,
-          sortable: true
-        },
-        {
-          name: "administration",
-          label: "Administration",
-          field: "title",
-          sortable: true,
-          align: "left"
-        },
-        {
-          name: "federal state",
-          label: "Federal State",
-          field: "location",
-          sortable: true,
-          align: "left"
-        },
-
-        {
-          name: "data sets",
-          align: "left",
-          label: "Data sets",
-          field: "projectsCount",
-          sortable: true
-        },
-        {
-          name: "project coordinators",
-          label: "Project coordinators",
-          field: "fat",
-          sortable: true,
-          align: "left"
-        }
       ]
     };
   },
@@ -199,6 +162,47 @@ export default {
   computed: {
     data() {
       return this.$store.state.municipality.municipalities;
+    },
+    columns() {
+      return [
+        {
+          name: "id",
+          required: false,
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
+        {
+          name: "administration",
+          label: this.$t("administrativeAreas.administrationName"),
+          field: "title",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "federal state",
+          label: this.$t("administrativeAreas.federalState"),
+          field: "location",
+          sortable: true,
+          align: "left"
+        },
+
+        {
+          name: "data sets",
+          align: "left",
+          label: this.$t("administrativeAreas.dataSets"),
+          field: "projectsCount",
+          sortable: true
+        },
+        {
+          name: "project coordinators",
+          label: this.$t("administrativeAreas.projectCoordinator"),
+          field: "fat",
+          sortable: true,
+          align: "left"
+        }
+      ];
     }
   },
   mounted() {

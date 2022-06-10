@@ -171,5 +171,29 @@
     "deleteCategorey": "Delete Category",
     "deleteKeyword": "Delete Keyword/Tag",
     "editKeyword/Tag": "Edit Keyword/Tag"
+  },
+  "administrativeAreas": {
+    "createAdministration": "Create Administration",
+    "administrationName": "Administration ",
+    "federalState": "Federal State",
+    "dataSets": "Data Sets",
+    "projectCoordinator": "Project Coordinators",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "DetailsAdministration": {
+    "location": "Location",
+    "users": "Users",
+    "data": "Data",
+    "title": "Title",
+    "type": "Type",
+    "categories": "Categories",
+    "user": "User",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "bookmark": "Bookmark",
+    "archive": "Archive"
   }
 }

@@ -16,13 +16,13 @@
               {{ !!municipality && municipality.title }}
             </h6>
             <div class="row">
-              <p class="label">Location:</p>
+              <p class="label">{{ $t("DetailsAdministration.location") }}:</p>
               <p class="q-ml-lg">
                 {{ !!municipality && municipality.location }}
               </p>
             </div>
             <div class="row">
-              <p class="label">User:</p>
+              <p class="label">{{ $t("DetailsAdministration.user") }}</p>
               <div
                 v-if="
                   !!municipality &&
@@ -50,7 +50,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("DetailsAdministration.edit") }}
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
@@ -58,7 +58,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right text-red font-14">
-                        Delete
+                        {{ $t("DetailsAdministration.delete") }}
                         <q-icon size="sm" class="text-red" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -71,7 +71,7 @@
     </div>
     <q-table
       class="radius-20 shadow-1 q-mt-md"
-      title="Data"
+      :title="$t('DetailsAdministration.data')"
       :data="!!municipality && municipality.data"
       :columns="columns"
       row-key="name"
@@ -112,7 +112,7 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        View
+                        {{ $t("DetailsAdministration.view") }}
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -123,21 +123,23 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("DetailsAdministration.edit") }}
+
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Bookmark
+                        {{ $t("DetailsAdministration.bookmark") }}
+
                         <q-icon size="sm" class="text-blue" name="star"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
-                        Archive
+                        {{ $t("DetailsAdministration.archive") }}
                         <q-icon
                           size="sm"
                           class="text-blue"
@@ -148,7 +150,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("DetailsAdministration.delete") }}
+
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -166,40 +169,7 @@
 export default {
   data() {
     return {
-      municipality: {},
-      columns: [
-        {
-          name: "title",
-          required: true,
-          label: "Title",
-          align: "left",
-          field: row => row.title,
-          sortable: true
-        },
-        {
-          name: "type",
-          align: "left",
-          label: "Type",
-          field: row => row.type,
-          sortable: true
-        },
-        {
-          name: "fat",
-          label: "Categories",
-          field: row =>
-            (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
-            "No Categories",
-          sortable: true,
-          align: "left"
-        },
-        {
-          name: "carbs",
-          label: "User",
-          field: "carbs",
-          align: "left"
-        }
-      ]
+      municipality: {}
     };
   },
   methods: {
@@ -230,6 +200,43 @@ export default {
   },
   mounted() {
     this.getMunicipalityData();
+  },
+  computed: {
+    columns() {
+      return [
+        {
+          name: "title",
+          required: true,
+          label: this.$t("DetailsAdministration.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "type",
+          align: "left",
+          label: this.$t("DetailsAdministration.type"),
+          field: row => row.type,
+          sortable: true
+        },
+        {
+          name: "fat",
+          label: this.$t("DetailsAdministration.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "carbs",
+          label: this.$t("DetailsAdministration.user"),
+          field: "carbs",
+          align: "left"
+        }
+      ];
+    }
   }
 };
 </script>
