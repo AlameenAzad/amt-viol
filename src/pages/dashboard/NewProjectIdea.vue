@@ -1,14 +1,14 @@
 <template>
   <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <p class="text-center font-36 text-weight-regular q-my-lg">
-      Project Ideas
+      {{ $t("newProjectIdeaForm.title") }}
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
       <q-form ref="newProjectIdeaForm" class="q-gutter-lg q-px-md q-mb-md">
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Project Name
+              {{ $t("newProjectIdeaForm.projectName") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -25,7 +25,7 @@
         <div class="row items-center ">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Contact Person
+              {{ $t("newProjectIdeaForm.contactPerson") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -58,7 +58,7 @@
         <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Contact Details (optional)
+              {{ $t("newProjectIdeaForm.contactDetails") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -131,7 +131,7 @@
         >
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Invite Editor
+              {{ $t("newProjectIdeaForm.inviteEditors") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -143,7 +143,9 @@
         </div>
         <div class="row items-baseline">
           <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">Visibility</p>
+            <p class="font-16 no-margin">
+              {{ $t("newProjectIdeaForm.visibility") }}
+            </p>
           </div>
           <div class="col-12 col-md-8">
             <q-select
@@ -185,7 +187,9 @@
         </div>
         <div class="row items-center">
           <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">Filter Categories</p>
+            <p class="font-16 no-margin">
+              {{ $t("newProjectIdeaForm.filterCategories") }}
+            </p>
           </div>
           <div class="col-12 col-md-8">
             <Categories
@@ -210,7 +214,7 @@
         <div class="row items-start">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Project content*
+              {{ $t("newProjectIdeaForm.projectContent") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -228,7 +232,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Project goals*
+              {{ $t("newProjectIdeaForm.projectGoals") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -253,7 +257,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              project values &amp; benefits*
+              {{ $t("newProjectIdeaForm.projectValue&Benefits") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -270,7 +274,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              cooperation partners (optional)
+              {{ $t("newProjectIdeaForm.CooperationPartner") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -292,7 +296,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Investive/ non-investive*
+              {{ $t("newProjectIdeaForm.investive/non-investive") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -313,7 +317,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              project status (optional)
+              {{ $t("newProjectIdeaForm.projectStatus") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -341,7 +345,7 @@
         >
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Estimated Costs (optional)
+              {{ $t("newProjectIdeaForm.estimatedCost") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -359,7 +363,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              funding guidlines (optional)
+              {{ $t("newProjectIdeaForm.fundingGuidelines") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -377,7 +381,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Planned Period
+              {{ $t("newProjectIdeaForm.fundingGuidelines") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
