@@ -166,7 +166,7 @@ export async function updateUser(context, payload) {
         message: "User data updated successfully",
         type: "positive"
       });
-      console.log("res :>> ", res);
+      context.dispatch("getUserDetails");
       this.$router.push({ path: "/Administation/User/" });
     } catch (error) {
       console.log("error :>> ", error.response);
