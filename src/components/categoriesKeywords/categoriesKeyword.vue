@@ -39,50 +39,55 @@
         rowsPerPage: 0
       }"
     >
-      <template v-slot:top-left>
-        <div class="row justify-between items-center">
-          <div class=" font-24 q-mr-lg">
-            {{
-              tab == "categories"
-                ? $t("category&Keyword.category")
-                : $t("category&Keyword.keyword/Tags")
-            }}
+      <template v-slot:top>
+        <div class="row full-width justify-between items-center">
+          <div class="col-8 col-md-6">
+            <q-input
+              borderless
+              outlined
+              class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+              v-model="filter"
+              placeholder="Search"
+              dense
+            >
+              <template v-slot:before v-if="$q.screen.gt.sm">
+                <div class="font-24 q-mr-lg text-black">
+                  {{
+                    tab == "categories"
+                      ? $t("category&Keyword.category")
+                      : $t("projectContent.tags")
+                  }}
+                </div>
+              </template>
+              <template v-slot:prepend>
+                <q-icon color="blue-5" name="search" />
+              </template>
+            </q-input>
           </div>
-          <q-input
-            borderless
-            outlined
-            class="no-shadow tableSearchInput"
-            debounce="300"
-            v-model="filter"
-            dense
-            placeholder="Search"
-          >
-            <template v-slot:prepend>
-              <q-icon color="blue-5" name="search" />
-            </template>
-          </q-input>
+          <div class="col-2 col-md-4 text-right">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              filled
+              :round="$q.screen.lt.md"
+              class="mr-0 text-weight-600"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''"
+              no-caps
+              @click="createDialog = true"
+            >
+              <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
+                {{
+                  tab == "categories"
+                    ? $t("category&Keyword.createCategoryBtn")
+                    : tab == "keywords/Tags"
+                    ? $t("category&Keyword.createKeywordBtn")
+                    : $t("category&Keyword.createCategoryBtn")
+                }}
+              </p>
+            </q-btn>
+          </div>
         </div>
-      </template>
-      <template v-slot:top-right>
-        <q-btn
-          color="blue"
-          icon="add"
-          unelevated
-          filled
-          class="mr-0 radius-6 text-weight-600"
-          no-caps
-          @click="createDialog = true"
-        >
-          <p class="q-mb-none q-mx-md q-my-sm">
-            {{
-              tab == "categories"
-                ? $t("category&Keyword.createCategoryBtn")
-                : tab == "keywords/Tags"
-                ? $t("category&Keyword.createKeywordBtn")
-                : $t("category&Keyword.createCategoryBtn")
-            }}
-          </p>
-        </q-btn>
       </template>
 
       <template v-slot:header="props">
@@ -140,21 +145,13 @@
     </q-table>
     <CreateDialog
       :editingId="itemId"
-      :tab="
-        tab === 'categories'
-          ? $t('category&Keyword.titleOfCategory')
-          : $t('category&Keyword.titleOfKeyword')
-      "
+      :tab="tab === 'categories' ? 'New categories' : 'New Keywords/Tags'"
       :dialogState="createDialog"
       @update="(createDialog = $event), (itemId = null)"
     />
     <DeleteDialog
       :id="itemId"
-      :tab="
-        tab === 'categories'
-          ? $t('category&Keyword.deleteCategorey')
-          : $t('category&Keyword.deleteKeyword')
-      "
+      :tab="tab === 'categories' ? 'Delete category' : 'Delete Keyword/Tag'"
       :dialogState="deleteDialog"
       @update="(deleteDialog = $event), (itemId = null)"
     />

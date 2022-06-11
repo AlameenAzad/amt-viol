@@ -1,6 +1,9 @@
 <template>
   <q-dialog @before-show="getItemInfo" v-model="$_options">
-    <q-card class="q-px-xl radius-10  column ">
+    <q-card
+      class="radius-10 column"
+      :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-md'"
+    >
       <q-form @submit.prevent="!!editingId ? editItem() : addItem()">
         <q-card-section align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
@@ -17,7 +20,7 @@
         </q-card-section>
         <q-card-section align="left">
           <div class=" items-center ">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 {{
                   tab == "New categories"
@@ -26,7 +29,7 @@
                 }}
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -38,7 +41,7 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="row justify-center">
+          <div class="row justify-center q-mx-lg">
             <q-btn
               label="Cancel"
               v-close-popup
@@ -46,7 +49,8 @@
               size="14px"
               color="primary"
               no-caps
-              class="no-shadow radius-6 q-px-xl q-mr-sm"
+              class="no-shadow radius-6 q-mr-sm"
+              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-md'"
             />
             <q-btn
               :label="!!editingId ? 'Edit' : 'Save'"
@@ -56,7 +60,8 @@
               size="14px"
               color="primary"
               no-caps
-              class="no-shadow radius-6 q-px-xl q-py-sm"
+              class="no-shadow radius-6 q-py-sm"
+              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-lg'"
             />
           </div>
         </q-card-section>
