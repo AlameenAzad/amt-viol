@@ -210,9 +210,12 @@ export default {
     return {
       tab: "projectIdeas",
       filter: "",
-      visibleColumns: ["name", "calories", "fat", "carbs"],
-
-      data: [
+      visibleColumns: ["title", "categories", "status", "carbs"]
+    };
+  },
+  computed: {
+    data() {
+      return [
         {
           name: "Frozen Yogurt",
           calories: 159,
@@ -313,10 +316,8 @@ export default {
           calcium: "12%",
           iron: "6%"
         }
-      ]
-    };
-  },
-  computed: {
+      ];
+    },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/watchlist";
     },
@@ -327,140 +328,128 @@ export default {
         ? this.fundingCols
         : this.checklistCols;
     },
-    computed: {
-      isInPage() {
-        return this.$router.currentRoute.fullPath == "/user/data";
-      },
-      columns() {
-        return this.tab == "projectIdeas"
-          ? this.projectCols
-          : this.tab == "fundings"
-          ? this.fundingCols
-          : this.checklistCols;
-      },
-      apiData() {
-        return this.tab == "projectIdeas"
-          ? !!this.$store.state.project.projects &&
-              this.$store.state.project.projects
-          : this.tab == "fundings"
-          ? !!this.$store.state.funding.fundings &&
-            this.$store.state.funding.fundings
-          : !!this.$store.state.implementationChecklist.checklists &&
-            this.$store.state.implementationChecklist.checklists;
-      },
-      projectCols() {
-        return [
-          {
-            name: "title",
-            label: this.$t("myData.title"),
-            align: "left",
-            field: row => row.title,
-            sortable: true
-          },
-          {
-            name: "categories",
-            align: "left",
-            label: this.$t("myData.categories"),
-            field: row =>
-              (!!row.categories &&
-                row.categories.map(category => category.title).join(", ")) ||
-              "No Categories",
-            sortable: true
-          },
-          {
-            name: "status",
-            label: "Status",
-            align: "left",
-            field: row =>
-              row.published === true
-                ? "Published"
-                : row.published === false
-                ? "Draft"
-                : "Status Unavailable",
-            sortable: true
-          }
-        ];
-      },
-      fundingCols() {
-        return [
-          {
-            name: "title",
-            label: this.$t("fundingsCol.title"),
-            align: "left",
-            field: row => row.title,
-            sortable: true
-          },
-          {
-            name: "categories",
-            align: "left",
-            label: this.$t("fundingsCol.categories"),
-            field: row =>
-              (!!row.categories &&
-                row.categories.map(category => category.title).join(", ")) ||
-              "No Categories",
-            sortable: true
-          },
-          {
-            name: "plannedStart",
-            label: this.$t("fundingsCol.start"),
-            align: "left",
-            field: row => dateFormatter(row.plannedStart),
-            sortable: true
-          },
-          {
-            name: "plannedEnd",
-            label: this.$t("fundingsCol.end"),
-            align: "left",
-            field: row => dateFormatter(row.plannedEnd),
-            sortable: true
-          },
-          {
-            name: "status",
-            label: "Status",
-            align: "left",
-            field: row =>
-              row.published === true
-                ? "Published"
-                : row.published === false
-                ? "Draft"
-                : "Status Unavailable",
-            sortable: true
-          }
-        ];
-      },
-      checklistCols() {
-        return [
-          {
-            name: "title",
-            label: this.$t("checkListCols.title"),
-            align: "left",
-            field: row => row.title,
-            sortable: true
-          },
-          {
-            name: "categories",
-            align: "left",
-            label: this.$t("checkListCols.categories"),
-            field: row =>
-              (!!row.categories &&
-                row.categories.map(category => category.title).join(", ")) ||
-              "No Categories",
-            sortable: true
-          },
-          {
-            name: "status",
-            label: "Status",
-            align: "left",
-            field: row =>
-              row.published === true
-                ? "Published"
-                : row.published === false
-                ? "Draft"
-                : "Status Unavailable",
-            sortable: true
-          }
-        ];
-      }
+    apiData() {
+      return this.tab == "projectIdeas"
+        ? !!this.$store.state.project.projects &&
+            this.$store.state.project.projects
+        : this.tab == "fundings"
+        ? !!this.$store.state.funding.fundings &&
+          this.$store.state.funding.fundings
+        : !!this.$store.state.implementationChecklist.checklists &&
+          this.$store.state.implementationChecklist.checklists;
+    },
+    projectCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("myData.title"),
+          align: "left",
+          field: row => row.name,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("myData.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
+    },
+    fundingCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("fundingsCol.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("fundingsCol.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "plannedStart",
+          label: this.$t("fundingsCol.start"),
+          align: "left",
+          field: row => dateFormatter(row.plannedStart),
+          sortable: true
+        },
+        {
+          name: "plannedEnd",
+          label: this.$t("fundingsCol.end"),
+          align: "left",
+          field: row => dateFormatter(row.plannedEnd),
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
+    },
+    checklistCols() {
+      return [
+        {
+          name: "title",
+          label: this.$t("checkListCols.title"),
+          align: "left",
+          field: row => row.title,
+          sortable: true
+        },
+        {
+          name: "categories",
+          align: "left",
+          label: this.$t("checkListCols.categories"),
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
+          sortable: true
+        },
+        {
+          name: "status",
+          label: "Status",
+          align: "left",
+          field: row =>
+            row.published === true
+              ? "Published"
+              : row.published === false
+              ? "Draft"
+              : "Status Unavailable",
+          sortable: true
+        }
+      ];
     }
   }
 };
