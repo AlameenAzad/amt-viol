@@ -9,10 +9,18 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="categories">
+      <q-tab
+        class="q-py-xs q-mr-lg radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="categories"
+      >
         <p class="font-20 no-margin">{{ $t("category&Keyword.category") }}</p>
       </q-tab>
-      <q-tab class="q-pa-lg radius-10 border-yellow" name="keywords/Tags">
+      <q-tab
+        class="q-py-xs radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="keywords/Tags"
+      >
         <p class="font-20 no-margin">
           {{ $t("category&Keyword.keyword/Tags") }}
         </p>
