@@ -9,15 +9,15 @@
           @submit.prevent="
             !!editingId ? editMunicipality() : createMunicipality()
           "
-          class="q-gutter-sm q-px-md q-mb-md "
+          class="q-gutter-sm q-px-md q-mb-md"
         >
-          <div class="items-center ">
-            <div class="col-3">
+          <div class="items-center">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 Title
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -27,13 +27,13 @@
               />
             </div>
           </div>
-          <div class=" items-center ">
-            <div class="col-3 ">
+          <div class="items-center">
+            <div class="col-12 col-md-3 ">
               <p class="font-14 no-margin ">
                 Location
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -43,26 +43,34 @@
               />
             </div>
           </div>
-          <div class="row justify-center">
-            <q-btn
-              label="Cancel"
-              outline
-              v-close-popup
-              size="16px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-px-xl q-mr-sm "
-            />
-            <q-btn
-              :label="!!editingId ? 'Edit' : 'Save'"
-              type="submit"
-              unelevated
-              size="16px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-px-xl"
-              :loading="isLoading"
-            />
+          <div class="items-center">
+            <div class="row q-col-gutter-x-md">
+              <div class="col-6">
+                <q-btn
+                  label="Cancel"
+                  outline
+                  v-close-popup
+                  size="16px"
+                  color="primary"
+                  no-caps
+                  class="no-shadow radius-6"
+                  :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg full-width'"
+                />
+              </div>
+              <div class="col-6">
+                <q-btn
+                  :label="!!editingId ? 'Edit' : 'Save'"
+                  type="submit"
+                  unelevated
+                  size="16px"
+                  color="primary"
+                  no-caps
+                  class="no-shadow radius-6"
+                  :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg full-width'"
+                  :loading="isLoading"
+                />
+              </div>
+            </div>
           </div>
         </q-form>
       </div>

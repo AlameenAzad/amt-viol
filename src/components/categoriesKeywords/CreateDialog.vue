@@ -2,7 +2,7 @@
   <q-dialog @before-show="getItemInfo" v-model="$_options">
     <q-card
       class="radius-10 column"
-      :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-md'"
+      :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg'"
     >
       <q-form @submit.prevent="!!editingId ? editItem() : addItem()">
         <q-card-section align="center">
@@ -41,7 +41,7 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="row justify-center q-mx-lg">
+          <div class="row justify-center ">
             <q-btn
               label="Cancel"
               v-close-popup
@@ -50,7 +50,7 @@
               color="primary"
               no-caps
               class="no-shadow radius-6 q-mr-sm"
-              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-md'"
+              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-lg'"
             />
             <q-btn
               :label="!!editingId ? 'Edit' : 'Save'"

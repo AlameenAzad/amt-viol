@@ -9,12 +9,12 @@
           class="q-gutter-md q-px-md q-mb-md "
         >
           <div class="row items-baseline">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 Username*
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -25,12 +25,12 @@
             </div>
           </div>
           <div class="row items-baseline ">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 Email*
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -41,12 +41,12 @@
             </div>
           </div>
           <div class="row items-baseline ">
-            <div class="col-3 ">
+            <div class="col-12 col-md-3 ">
               <p class="font-14 no-margin ">
                 Role*
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-select
                 outlined
                 :options="roleOptions"
@@ -74,22 +74,22 @@
             </div>
           </div>
           <div class="row items-baseline">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 Administration
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <Municipality @update:municipality="form.municipality = $event" />
             </div>
           </div>
           <div class="row items-baseline justify-evenly">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 Message
               </p>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <q-input
                 outlined
                 class="no-shadow input-radius-6"
@@ -101,7 +101,7 @@
             </div>
           </div>
 
-          <div class="row justify-center q-ml-lg ">
+          <div class="row justify-center q-ml-lg">
             <q-btn
               label="Cancel"
               outline
@@ -109,7 +109,8 @@
               size="16px"
               color="primary"
               no-caps
-              class="no-shadow radius-6 q-px-xl  q-mr-sm "
+              class="no-shadow radius-6 q-mr-sm"
+              :class="$q.screen.gt.sm ? 'q-px-xl ' : 'q-px-xs'"
             />
             <q-btn
               label="Send Invitation"
@@ -119,7 +120,8 @@
               color="primary"
               no-caps
               :loading="isLoading"
-              class="no-shadow radius-6 q-px-xl"
+              class="no-shadow radius-6"
+              :class="$q.screen.gt.sm ? 'q-px-xl ' : 'q-px-xs'"
             />
           </div>
         </q-form>
