@@ -166,24 +166,16 @@ export default {
     columns() {
       return [
         {
-          name: "id",
-          required: false,
-          label: "id",
-          align: "left",
-          field: row => row.id,
-          sortable: true
-        },
-        {
           name: "administration",
           label: this.$t("administrativeAreas.administrationName"),
-          field: "title",
+          field: row => row.title,
           sortable: true,
           align: "left"
         },
         {
           name: "federal state",
           label: this.$t("administrativeAreas.federalState"),
-          field: "location",
+          field: row => row.location,
           sortable: true,
           align: "left"
         },
@@ -192,13 +184,13 @@ export default {
           name: "data sets",
           align: "left",
           label: this.$t("administrativeAreas.dataSets"),
-          field: "projectsCount",
+          field: row => row.dataSet?.total,
           sortable: true
         },
         {
           name: "project coordinators",
           label: this.$t("administrativeAreas.projectCoordinator"),
-          field: "fat",
+          field: row => (!!row.users && row.users) || "No Users",
           sortable: true,
           align: "left"
         }
