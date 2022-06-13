@@ -14,32 +14,33 @@
       }"
     >
       <template v-slot:top>
-        <div class="row full-width justify-between ">
-          <div class="col-auto">
+        <div class="row full-width justify-between items-center">
+          <div class="col-8 col-md-4">
             <q-input
               borderless
               outlined
-              class="no-shadow tableSearchInput"
-              debounce="300"
+              class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
               v-model="filter"
-              dense
               placeholder="Search"
+              dense
             >
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />
               </template>
             </q-input>
           </div>
-          <div class="col-auto  ">
+          <div class="col-4 col-md-4 text-right">
             <q-btn
               color="blue"
               icon="add"
               unelevated
-              class="no-shadow radius-6 text-weight-600 "
+              :round="$q.screen.lt.md"
+              class="no-shadow text-weight-600"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''"
               no-caps
               @click="createDialog = true"
             >
-              <p class="q-mb-none q-mx-md q-my-sm">
+              <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("administrativeAreas.createAdministration") }}
               </p>
             </q-btn>
@@ -166,24 +167,16 @@ export default {
     columns() {
       return [
         {
-          name: "id",
-          required: false,
-          label: "id",
-          align: "left",
-          field: row => row.id,
-          sortable: true
-        },
-        {
           name: "administration",
           label: this.$t("administrativeAreas.administrationName"),
-          field: "title",
+          field: row => row.title,
           sortable: true,
           align: "left"
         },
         {
           name: "federal state",
           label: this.$t("administrativeAreas.federalState"),
-          field: "location",
+          field: row => row.location,
           sortable: true,
           align: "left"
         },
@@ -192,13 +185,13 @@ export default {
           name: "data sets",
           align: "left",
           label: this.$t("administrativeAreas.dataSets"),
-          field: "projectsCount",
+          field: row => row.dataSet?.total,
           sortable: true
         },
         {
           name: "project coordinators",
           label: this.$t("administrativeAreas.projectCoordinator"),
-          field: "fat",
+          field: row => (!!row.users && row.users) || "No Users",
           sortable: true,
           align: "left"
         }

@@ -13,8 +13,8 @@
       }"
     >
       <template v-slot:top>
-        <div class="row full-width justify-between ">
-          <div class="col-auto  ">
+        <div class="row full-width justify-between items-center">
+          <div class="col-8 col-md-auto">
             <q-input
               borderless
               outlined
@@ -29,16 +29,20 @@
               </template>
             </q-input>
           </div>
-          <div class="col-auto  ">
+          <div class="col-4 col-md-auto text-right">
             <q-btn
               color="blue"
               icon="person_add"
               unelevated
-              class="no-shadow radius-6 text-weight-600 "
+              :round="$q.screen.lt.md"
+              class="no-shadow text-weight-600"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''"
               no-caps
               @click="inviteUserDialog = true"
             >
-              <p class="q-mb-none q-mx-md q-my-sm">Invite User</p>
+              <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
+                Invite User
+              </p>
             </q-btn>
           </div>
         </div>

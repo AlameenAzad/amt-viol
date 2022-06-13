@@ -82,7 +82,6 @@
             size="16px"
             color="primary"
             class="text-weight-600 q-py-xs"
-            label="Select User"
           >
             {{ $t("generalData.selectUser") }}
           </q-btn>

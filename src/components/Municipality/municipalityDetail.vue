@@ -1,15 +1,15 @@
 <template>
-  <div class="q-mt-lg q-ma-xl">
+  <div class="q-my-lg " :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <div class="row q-col-gutter-md">
-      <div class="col-auto">
-        <q-card class="left-card radius-20">
+      <div class="col-12 col-md-auto">
+        <q-card class="left-card radius-20 flex flex-center">
           <q-card-section>
             <!-- TODO make this q-img -->
             <img class="logo" al src="../../assets/Wappen.png" />
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-grow">
+      <div class="col-12 col-md-grow">
         <q-card class="radius-20 bg-blue-1 right-card">
           <q-card-section>
             <h6 class="q-mt-none q-mb-sm">
@@ -25,15 +25,22 @@
               <p class="label">{{ $t("DetailsAdministration.user") }}</p>
               <div
                 v-if="
-                  !!municipality &&
-                    municipality.users.length > 0 &&
-                    municipality.users
+                  !!municipality.users &&
+                    municipality.users.split(', ').length > 0
                 "
                 class="q-ml-xl"
               >
-                <p>Phillip Westervelt</p>
-                <p>James Stanton</p>
-                <p>Jaxson Carder</p>
+                <p
+                  v-for="(user, index) in municipality.users.split(', ')"
+                  :key="index"
+                >
+                  {{ user }}
+                </p>
+              </div>
+              <div v-else class="q-ml-xl">
+                <p>
+                  No Users
+                </p>
               </div>
             </div>
             <q-btn
@@ -220,7 +227,7 @@ export default {
           sortable: true
         },
         {
-          name: "fat",
+          name: "categories",
           label: this.$t("DetailsAdministration.categories"),
           field: row =>
             (!!row.categories &&
@@ -230,9 +237,10 @@ export default {
           align: "left"
         },
         {
-          name: "carbs",
+          name: "users",
           label: this.$t("DetailsAdministration.user"),
-          field: "carbs",
+          field: row => (!!row.owner && row.owner.username) || "No Owner Found",
+          sortable: true,
           align: "left"
         }
       ];
