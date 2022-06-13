@@ -18,7 +18,7 @@
       </template>
       <template v-else>
         <span class="text-grey">
-          Select Fundings
+          {{ $t("fundingSelector.title") }}
         </span>
       </template>
     </template>

@@ -247,6 +247,26 @@
     "editDraft": "Entwurf bearbeiten",
     "publish": "Veröffentlichen"
   },
+  "userSelector": {
+    "title": "User auswählen"
+  },
+  "categorySelector": {
+    "title": "Kategorien auswählen"
+  },
+  "tagsSelector": {
+    "title": "Tags auswählen"
+  },
+  "estimatedCost": {
+    "costName": "Kostenpositionen",
+    "costAmount": "Kostenschätzung (in €)",
+    "addCost": "Kosten hinzufügen"
+  },
+  "fundingSelector": {
+    "title": "Förderrichtlinien auswählen"
+  },
+  "linkSelector": {
+    "linkAdd": "Link hinzufügen"
+  },
   "projectIdeaPlaceholder": {
     "title": "Title",
     "nameSurname": "Name, Nachname",
@@ -257,6 +277,7 @@
     "email": "E-Mail",
     "location": "Ort(e) mit Geokoordinaten",
     "selectUser": "Bearbeiter*in hinzufügen",
+    "visibility": "Dieses Dokument steht allen Benutzern zur Ansicht zur Verfügung.",
     "selectCategories": "Kategorien auswählen",
     "selectTags": "Tags auswählen",
     "descripeProject": "Beschreiben Sie Ihr Projekt",
@@ -264,6 +285,30 @@
     "costPosition": "Kostenpositionen",
     "esitimatedCost": "Kostenschätzung (in €) ",
     "selectGuidelines": "Förderrichtlinien auswählen",
-    "link": "Link hinzufügen"
+    "link": "Link hinzufügen",
+    "plannedStartDate": "Beginn",
+    "plannedEndDate": "Ende"
+  },
+  "visibility": {
+    "onlyMe": "Nur für mich",
+    "docOnlyMe": "Dieses Dokument ist nur für Sie sichtbar",
+    "allUsers": "Für alle Benutzer",
+    "docAllUsers": "Dieses Dokument ist für alle Benutzer sichtbar",
+    "listedOnly": "Nur aufgelistet",
+    "docListedOnly": "Dieses Dokument ist nur für gelistete Benutzer sichtbar"
+  },
+  "draftButton": {
+    "editAsDraft": "Entwurf bearbeiten",
+    "saveAsDraft": "Entwurf speichern"
+  },
+  "publishButton": {
+    "publish": "Veröffentlichen",
+    "edit": "Bearbeiten"
+  },
+  "projectStatusesOptions": {
+    "idea": "Idee",
+    "development": "Entwicklung",
+    "pre-planning": "Vorplanung",
+    "detailedPlanning": "Feinplanung"
   }
 }

@@ -16,7 +16,7 @@
               outlined
               dense
               class="no-shadow input-radius-6"
-              placeholder="Title"
+              :placeholder="$t('projectIdeaPlaceholder.title')"
               v-model="form.title"
               :rules="[]"
             />
@@ -35,7 +35,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Name, Surname"
+                  :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                   :value="!!userDetails && userDetails.fullName"
                   :rules="[]"
                   disable
@@ -117,7 +117,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Location with geoinformation"
+                  :placeholder="$t('projectIdeaPlaceholder.location')"
                   v-model="form.info.location"
                   :rules="[]"
                 />
@@ -169,12 +169,12 @@
             >
             <p class="font-16 q-mb-none q-mt-md text-grey">
               {{
-                form.visibility === "only for me"
-                  ? "This Document is visible only for you"
-                  : form.visibility === "all users"
-                  ? "This Document is visible for all Users"
-                  : form.visibility === "listed only"
-                  ? "This document is listed only"
+                form.visibility === "$t('visibility.onlyMe')"
+                  ? "$t('visibility.docOnlyMe')"
+                  : form.visibility === "$t('visibility.allUsers')"
+                  ? "$t('visibility.docAllUsers')"
+                  : form.visibility === "$t('visibility.listedOnly')"
+                  ? "$t('visibility.docListedOnly')"
                   : ""
               }}
             </p>
@@ -223,7 +223,7 @@
               type="textarea"
               rows="10"
               class="no-shadow input-radius-6"
-              placeholder="Describe the project"
+              :placeholder="$t('projectIdeaPlaceholder.descripeProject')"
               v-model="form.details.content"
               :rules="[]"
             />
@@ -241,7 +241,7 @@
               type="textarea"
               rows="10"
               class="no-shadow input-radius-6"
-              placeholder="Project goals"
+              :placeholder="$t('projectIdeaPlaceholder.describeProjectGoals')"
               v-model="form.details.goals"
               :rules="[]"
             />
@@ -265,7 +265,7 @@
               outlined
               dense
               class="no-shadow input-radius-6"
-              placeholder="project value &amp; benefits"
+              :placeholder="$t('newProjectIdeaForm.projectValue&Benefits')"
               v-model="form.details.valuesAndBenefits"
               :rules="[]"
             />
@@ -282,7 +282,7 @@
               outlined
               dense
               class="no-shadow input-radius-6"
-              placeholder="cooperation partners (optional)"
+              :placeholder="$t('newProjectIdeaForm.CooperationPartner')"
               v-model="form.details.partner"
               :rules="[]"
             />
@@ -395,7 +395,7 @@
                   readonly
                   color="primary"
                   bg-color="white"
-                  placeholder="Planned Start"
+                  :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
                   @click="$refs.qPlannedStartDateProxy.show()"
                 >
                   <template v-slot:append>
@@ -429,7 +429,7 @@
                   color="primary"
                   readonly
                   bg-color="white"
-                  placeholder="Planned End"
+                  :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
                   @click="$refs.qPlannedEndDateProxy.show()"
                 >
                   <template v-slot:append>
@@ -607,7 +607,11 @@
           :class="$q.screen.gt.sm ? 'justify-center' : 'justify-between'"
         >
           <q-btn
-            :label="isEdit ? 'Edit as Draft' : 'Save Draft'"
+            :label="
+              isEdit
+                ? $t('draftButton.editAsDraft')
+                : $t('draftButton.saveAsDraft')
+            "
             @click="
               isEdit ? editProjectIdea(false) : submitNewProjectIdea(false)
             "
@@ -620,7 +624,9 @@
             :class="$q.screen.gt.sm ? 'q-mr-md q-px-xl' : 'q-px-sm'"
           />
           <q-btn
-            :label="isEdit ? 'Edit' : 'Publish'"
+            :label="
+              isEdit ? $t('publishButton.edit') : $t('publishButton.publish')
+            "
             @click="isEdit ? editProjectIdea(true) : submitNewProjectIdea(true)"
             size="16px"
             color="primary"
@@ -687,17 +693,12 @@ export default {
         media: null,
         files: null
       },
-      visibilityOptions: ["only for me", "all users", "listed only"],
+
       investiveNoninvestiveOptions: [
         { label: "Investive", value: true },
         { label: "Nicht-investiv", value: false }
       ],
-      projectStatuses: [
-        { label: "Idea", value: "Idea" },
-        { label: "Development", value: "Development" },
-        { label: "Pre-Planning", value: "Pre-Planning" },
-        { label: "Detailed-Planning", value: "Detailed-Planning" }
-      ],
+
       isLoading: false
     };
   },
@@ -830,6 +831,30 @@ export default {
         !!this.$route.params.id &&
         JSON.parse(JSON.stringify(this.$store.state.project.project))
       );
+    },
+    visibilityOptions() {
+      return [
+        this.$t("visibility.onlyMe"),
+        this.$t("visibility.allUsers"),
+        this.$t("visibility.listedOnly")
+      ];
+    },
+    projectStatuses() {
+      return [
+        { label: this.$t("projectStatusesOptions.idea"), value: "Idea" },
+        {
+          label: this.$t("projectStatusesOptions.development"),
+          value: "Development"
+        },
+        {
+          label: this.$t("projectStatusesOptions.pre-planning"),
+          value: "Pre-Planning"
+        },
+        {
+          label: this.$t("projectStatusesOptions.detailedPlanning"),
+          value: "Detailed-Planning"
+        }
+      ];
     }
   },
   mounted() {

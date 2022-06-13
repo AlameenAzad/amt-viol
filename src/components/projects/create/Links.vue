@@ -53,7 +53,7 @@
         icon="add"
         size="md"
         color="primary"
-        label="Add Link"
+        :label="$t('linkSelector.linkAdd')"
       />
     </div>
   </div>
