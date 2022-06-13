@@ -310,5 +310,15 @@
     "development": "Entwicklung",
     "pre-planning": "Vorplanung",
     "detailedPlanning": "Feinplanung"
+  },
+  "userAdministration": {
+    "inviteUser": "Benutzer*in einladen",
+    "administration": "Verwaltung",
+    "role": "Rolle",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "message": "Nachricht",
+    "sendInvitation": "Einladung senden",
+    "cancel": "Abbrechen"
   }
 }

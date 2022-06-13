@@ -41,7 +41,7 @@
               @click="inviteUserDialog = true"
             >
               <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
-                Invite User
+                {{ $t("userAdministration.inviteUser") }}
               </p>
             </q-btn>
           </div>
@@ -82,7 +82,8 @@
                   >
                     <q-item-section
                       ><span class="text-right font-14">
-                        Edit
+                        {{ $t("userAdministration.edit") }}
+
                         <q-icon size="sm" class="text-blue" name="edit" />
                       </span>
                     </q-item-section>
@@ -90,7 +91,8 @@
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14 text-red">
-                        Delete
+                        {{ $t("userAdministration.delete") }}
+
                         <q-icon size="sm" name="delete" />
                       </span>
                     </q-item-section>
@@ -119,8 +121,20 @@ export default {
   data() {
     return {
       inviteUserDialog: false,
-      filter: "",
-      columns: [
+      filter: ""
+    };
+  },
+  methods: {
+    getData() {
+      this.$store.dispatch("userCenter/getUsers");
+    }
+  },
+  computed: {
+    data() {
+      return this.$store.state.userCenter.users;
+    },
+    columns() {
+      return [
         {
           name: "name",
           required: true,
@@ -142,7 +156,7 @@ export default {
         {
           name: "administration",
           required: true,
-          label: "Administration",
+          label: this.$t("userAdministration.administration"),
           align: "left",
           field: row =>
             (row["user_detail"] &&
@@ -155,23 +169,13 @@ export default {
         {
           name: "role",
           required: true,
-          label: "role",
+          label: this.$t("userAdministration.role"),
           align: "left",
           field: row => (!!row.role && row.role.type) || "Role Unavailable",
           format: val => `${val}`,
           sortable: true
         }
-      ]
-    };
-  },
-  methods: {
-    getData() {
-      this.$store.dispatch("userCenter/getUsers");
-    }
-  },
-  computed: {
-    data() {
-      return this.$store.state.userCenter.users;
+      ];
     }
   },
   mounted() {

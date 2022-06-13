@@ -1,8 +1,10 @@
 <template>
   <q-dialog v-model="$_options">
-    <q-card class="q-pa-lg radius-10">
+    <q-card class="q-pa-md radius-10">
       <div>
-        <h6 class="text-center font-24 q-mt-md">Invite User</h6>
+        <h6 class="text-center font-24 q-mt-md">
+          {{ $t("userAdministration.inviteUser") }}
+        </h6>
         <q-form
           @submit.prevent.stop="inviteUser"
           ref="userInviteForm"
@@ -43,7 +45,7 @@
           <div class="row items-baseline ">
             <div class="col-12 col-md-3 ">
               <p class="font-14 no-margin ">
-                Role*
+                {{ $t("userAdministration.role") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
@@ -76,7 +78,7 @@
           <div class="row items-baseline">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                Administration
+                {{ $t("userAdministration.administration") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
@@ -86,7 +88,7 @@
           <div class="row items-baseline justify-evenly">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                Message
+                {{ $t("userAdministration.message") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
@@ -103,7 +105,7 @@
 
           <div class="row justify-center q-ml-lg">
             <q-btn
-              label="Cancel"
+              :label="$t('userAdministration.cancel')"
               outline
               v-close-popup
               size="16px"
@@ -113,7 +115,7 @@
               :class="$q.screen.gt.sm ? 'q-px-xl ' : 'q-px-xs'"
             />
             <q-btn
-              label="Send Invitation"
+              :label="$t('userAdministration.sendInvitation')"
               type="submit"
               unelevated
               size="16px"

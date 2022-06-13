@@ -308,5 +308,15 @@
     "development": "Development",
     "pre-planning": "Pre-planning",
     "detailedPlanning": "Detailed Planning"
+  },
+  "userAdministration": {
+    "inviteUser": "Invite User",
+    "administration": "Administration",
+    "role": "Role",
+    "edit": "Edit",
+    "delete": "Delete",
+    "message": "Message",
+    "sendInvitation": "Send Invitation",
+    "cancel": "Cancel"
   }
 }
