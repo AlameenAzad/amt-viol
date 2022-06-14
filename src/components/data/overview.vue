@@ -1,5 +1,5 @@
 <template>
-  <div class="q-my-lg ">
+  <div class="q-my-lg">
     <q-tabs
       v-if="isInPage"
       v-model="tab"
@@ -17,6 +17,7 @@
         <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
       </q-tab>
       <q-tab
+        v-if="isAdmin"
         class="q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="fundings"
@@ -267,7 +268,9 @@ export default {
         "status",
         "carbs",
         "plannedStart",
-        "plannedEnd"
+        "plannedEnd",
+        "owner",
+        "visibility"
       ],
       // projectCols: [
       //   {
@@ -449,6 +452,9 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/user/data";
     },
@@ -498,6 +504,20 @@ export default {
               : row.published === false
               ? "Draft"
               : "Status Unavailable",
+          sortable: true
+        },
+        {
+          name: "owner",
+          label: "Owner (Dev purposes)",
+          align: "left",
+          field: row => row.owner?.username,
+          sortable: true
+        },
+        {
+          name: "visibility",
+          label: "Visibility (Dev purposes)",
+          align: "left",
+          field: row => row?.visibility,
           sortable: true
         }
       ];
