@@ -11,6 +11,7 @@ export async function login(context, payload) {
       context.commit("setUser", res.data);
       context.commit("changeLoadingMessages", "Getting user details");
       await context.dispatch("getUserDetails");
+      await context.dispatch("getUserInfo");
       context.commit("changeLoadingMessages", "Getting Categories");
       await context.dispatch("category/getCategories", null, { root: true });
       context.commit("changeLoadingMessages", "Getting Tags");
@@ -22,10 +23,12 @@ export async function login(context, payload) {
       context.commit("changeLoadingMessages", "Getting users");
       await context.dispatch("getUsers");
 
-      context.commit("changeLoadingMessages", "Getting Fundings");
-      await context.dispatch("funding/getFundings", null, {
-        root: true
-      });
+      if (context.getters.isAdmin === true) {
+        context.commit("changeLoadingMessages", "Getting Fundings");
+        await context.dispatch("funding/getFundings", null, {
+          root: true
+        });
+      }
 
       context.commit("changeLoadingMessages", "Getting Checklists");
       await context.dispatch("implementationChecklist/getChecklists", null, {
@@ -61,6 +64,20 @@ export async function getUserDetails(context) {
     delete userDetails.notifications.app.id;
     delete userDetails.notifications.email.id;
     context.commit("setUserDetails", userDetails);
+  } catch (error) {
+    console.log("error :>> ", error.response);
+    Notify.create({
+      type: "negative",
+      message: error.response.data.error.message
+    });
+  }
+}
+
+export async function getUserInfo(context) {
+  try {
+    const res = await api.get("/api/users/me");
+    console.log("USER INFO res", res);
+    context.commit("setUserInfo", res.data);
   } catch (error) {
     console.log("error :>> ", error.response);
     Notify.create({
@@ -167,6 +184,7 @@ export async function updateUser(context, payload) {
         type: "positive"
       });
       context.dispatch("getUserDetails");
+      context.dispatch("getUserInfo");
       this.$router.push({ path: "/Administation/User/" });
     } catch (error) {
       console.log("error :>> ", error.response);
@@ -179,7 +197,38 @@ export async function updateUser(context, payload) {
   }
 }
 
+export async function transferData(context, payload) {
+  const id = payload.selectedUser;
+  const { data } = payload;
+  console.log("id :>> ", id);
+  console.log("data :>> ", data);
+
+  const dataString = data.toString();
+  console.log("dataString", dataString);
+
+  if (!!id && data.length > 0) {
+    try {
+      const res = await api.get(`/api/user/transfer/${id}/?data=${dataString}`);
+      Notify.create({
+        message: "User data transferred successfully",
+        type: "positive"
+      });
+      console.log("res", res);
+      // context.dispatch("getUserDetails");
+      // this.$router.push({ path: "/Administation/User/" });
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function logout(context) {
+  this.$router.push({ path: "/" });
   context.commit("setUser", null);
   context.commit("setUsers", []);
   context.commit("project/setProjectIdeas", [], { root: true });
@@ -188,5 +237,4 @@ export async function logout(context) {
   context.commit("category/setCategories", [], { root: true });
   context.commit("funding/setFundings", [], { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
-  this.$router.push({ path: "/" });
 }
