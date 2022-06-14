@@ -29,6 +29,10 @@
           {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
         <div>
+          <div class="inline-block ">
+            <small class="q-mr-xs">Logged in as:</small>
+            <span class="text-caption">{{ user || "" }}</span>
+          </div>
           <q-btn
             flat
             round
@@ -161,6 +165,11 @@ export default {
     goBack() {
       this.$router.currentRoute.meta.backLink &&
         this.$router.push(this.$router.currentRoute.meta.backLink);
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.userCenter.user?.user.username;
     }
   },
   mounted() {
