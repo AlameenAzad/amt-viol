@@ -18,7 +18,7 @@
       </template>
       <template v-else>
         <span class="text-grey">
-          Select tags
+          {{ $t("tagsSelector.title") }}
         </span>
       </template>
     </template>

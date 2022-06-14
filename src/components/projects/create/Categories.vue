@@ -18,7 +18,7 @@
       </template>
       <template v-else>
         <span class="text-grey">
-          Select Categories
+          {{ $t("categorySelector.title") }}
         </span>
       </template>
     </template>

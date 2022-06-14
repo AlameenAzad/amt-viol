@@ -13,7 +13,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Cost name"
+                  :placeholder="$t('estimatedCost.costName')"
                   v-model="cost.name"
                   :rules="[]"
                   @input="onInput(index)"
@@ -24,7 +24,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Cost amount"
+                  :placeholder="$t('estimatedCost.costAmount')"
                   v-model.number="cost.price"
                   :rules="[]"
                   @input="onInput(index)"
@@ -53,7 +53,7 @@
         icon="add"
         size="md"
         color="primary"
-        label="Add Costs"
+        :label="$t('estimatedCost.addCost')"
       />
     </div>
   </div>

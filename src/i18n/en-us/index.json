@@ -243,6 +243,26 @@
     "saveDraft": "Save Draft",
     "publish": "Publish"
   },
+  "userSelector": {
+    "title": "Select User"
+  },
+  "categorySelector": {
+    "title": "Select Categories"
+  },
+  "tagsSelector": {
+    "title": "Select Tag"
+  },
+  "fundingSelector": {
+    "title": "Select Funding"
+  },
+  "estimatedCost": {
+    "costName": "Cost name",
+    "costAmount": "Cost amount",
+    "addCost": "Add cost"
+  },
+  "links": {
+    "linkAdd": "Add link"
+  },
   "projectIdeaPlaceholder": {
     "title": "Title",
     "nameSurname": "Name, Surname",
@@ -253,13 +273,50 @@
     "email": "Email",
     "location": "Location/s with geo-coordinates",
     "selectUser": "Select User",
+
     "selectCategories": "Select Categories",
     "selectTags": "Select Tags",
     "descripeProject": "Describe Project",
+    "describeProjectGoals": "Describe Project Goals",
+
     "costPosition": "Cost Position",
     "esitimatedCost": "Estimated Cost (in €) ",
     "selectGuidelines": "Select Funding Guidelines",
     "link": "Add Link",
+    "plannedStartDate": "Start date",
+    "plannedEndDate": "End date",
     "selectFiles": "Select Files"
+  },
+  "visibility": {
+    "onlyMe": "Only for me",
+    "docOnlyMe": "This Document is visible only for you",
+    "allUsers": "For all users",
+    "docAllUsers": "This Document is visible for all users",
+    "listedOnly": "Listed only",
+    "docListedOnly": "This Document is visible only for listed users"
+  },
+  "draftButton": {
+    "editAsDraft": "Edit as Draft",
+    "saveAsDraft": "Save as Draft"
+  },
+  "publishButton": {
+    "publish": "Publish",
+    "edit": "Edit"
+  },
+  "projectStatusesOptions": {
+    "idea": "Idea",
+    "development": "Development",
+    "pre-planning": "Pre-planning",
+    "detailedPlanning": "Detailed Planning"
+  },
+  "userAdministration": {
+    "inviteUser": "Invite User",
+    "administration": "Administration",
+    "role": "Role",
+    "edit": "Edit",
+    "delete": "Delete",
+    "message": "Message",
+    "sendInvitation": "Send Invitation",
+    "cancel": "Cancel"
   }
 }

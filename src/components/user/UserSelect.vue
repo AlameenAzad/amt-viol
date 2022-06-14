@@ -24,7 +24,7 @@
                     </template>
                     <template v-else>
                       <span class="text-grey">
-                        Select user
+                        {{ $t("userSelector.title") }}
                       </span>
                     </template>
                   </template>
