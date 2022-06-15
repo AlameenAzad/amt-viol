@@ -423,6 +423,8 @@ export default {
       } else if (page === "fundings") {
         this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
+      } else {
+        this.$router.push({ path: "/user/newChecklist" });
       }
     },
     getData(tab) {
