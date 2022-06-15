@@ -114,7 +114,7 @@ export default {
     async editMunicipality() {
       if (!!this.form.title && this.form.location && !!this.editingId) {
         if (
-          this.form.title !== this.municipality.title &&
+          this.form.title !== this.municipality.title ||
           this.form.location !== this.municipality.location
         ) {
           this.isLoading = true;
