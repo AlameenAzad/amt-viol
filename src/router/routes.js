@@ -65,6 +65,17 @@ const routes = [
           requireAuth: true
         },
         icon: "/icons/Favorite.svg",
+        children: [
+          {
+            path: "/watchlist/projectIdeas",
+            name: "projectIdeas",
+            meta: {
+              title: "projectIdeas",
+              requireAuth: true
+            },
+            icon: "/icons/Home.svg"
+          }
+        ],
         component: () => import("pages/dashboard/Watchlist.vue")
       },
       {

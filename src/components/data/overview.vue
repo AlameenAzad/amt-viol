@@ -9,21 +9,25 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab
+      <q-route-tab
+        :to="{ query: { tab: 'projectIdeas' } }"
+        exact
         class="q-py-xs q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="projectIdeas"
       >
         <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'fundings' } }"
         class="q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="fundings"
       >
         <p class="font-20 no-margin">{{ $t("myData.fundings") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'implementationChecklist' } }"
         class=" radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="implementationChecklist"
@@ -31,7 +35,7 @@
         <p class="font-20 no-margin">
           {{ $t("myData.implementationChecklist") }}
         </p>
-      </q-tab>
+      </q-route-tab>
     </q-tabs>
     <q-table
       class="radius-20 shadow-1"
@@ -450,7 +454,7 @@ export default {
   },
   computed: {
     isInPage() {
-      return this.$router.currentRoute.fullPath == "/user/data";
+      return true;
     },
     columns() {
       return this.tab == "projectIdeas"
