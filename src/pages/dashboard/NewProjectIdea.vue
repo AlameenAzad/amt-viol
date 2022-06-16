@@ -4,7 +4,11 @@
       {{ $t("newProjectIdeaForm.title") }}
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
-      <q-form ref="newProjectIdeaForm" class="q-gutter-lg q-px-md q-mb-md">
+      <q-form
+        @validation-error="scrollToInvalidElement"
+        ref="newProjectIdeaForm"
+        class="q-gutter-lg q-px-md q-mb-md"
+      >
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
@@ -18,7 +22,7 @@
               class="no-shadow input-radius-6"
               :placeholder="$t('projectIdeaPlaceholder.title')"
               v-model="form.title"
-              :rules="[]"
+              :rules="[val => !!val || 'Required']"
             />
           </div>
         </div>
@@ -225,7 +229,7 @@
               class="no-shadow input-radius-6"
               :placeholder="$t('projectIdeaPlaceholder.descripeProject')"
               v-model="form.details.content"
-              :rules="[]"
+              :rules="[val => !!val || 'Required']"
             />
           </div>
         </div>
@@ -243,7 +247,7 @@
               class="no-shadow input-radius-6"
               :placeholder="$t('projectIdeaPlaceholder.describeProjectGoals')"
               v-model="form.details.goals"
-              :rules="[]"
+              :rules="[val => !!val || 'Required']"
             />
             <!-- <q-editor
               v-model="form.details.goals"
@@ -650,6 +654,8 @@
 </template>
 
 <script>
+import { scroll } from "quasar";
+const { getScrollTarget, setScrollPosition } = scroll;
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
@@ -725,6 +731,13 @@ export default {
     removeFile(index) {
       this.form.files.splice(index, 1);
     },
+    scrollToInvalidElement(ref) {
+      const el = ref.$el;
+      const target = getScrollTarget(el);
+      const offset = el.offsetTop;
+      const duration = 500;
+      setScrollPosition(target, offset, duration);
+    },
     submitNewProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
@@ -758,6 +771,7 @@ export default {
           );
           this.isLoading = false;
         } else {
+          // this.$refs.newProjectIdeaForm.focus();
           console.log("error");
         }
       });

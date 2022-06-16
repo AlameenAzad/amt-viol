@@ -8,6 +8,13 @@ export function setUserDetails(state, payload) {
   }
 }
 
+export function setUserInfo(state, payload) {
+  if (!!payload) {
+    state.user.user.username = payload.username;
+    state.user.user.role = payload.role;
+  }
+}
+
 export function updatePersonalData(state, payload) {
   if (!!payload) {
     state.user.userDetails = { ...state.user.userDetails, ...payload };

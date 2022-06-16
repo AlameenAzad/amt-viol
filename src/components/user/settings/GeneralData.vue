@@ -77,6 +77,7 @@
         </div>
         <div class="col-9">
           <q-btn
+            @click="transferDialog = true"
             outline
             no-caps
             size="16px"
@@ -115,14 +116,23 @@
         </q-btn>
       </div>
     </q-form>
+    <TransferDialog
+      :dialogState="transferDialog"
+      @update="transferDialog = $event"
+    />
   </div>
 </template>
 
 <script>
+import TransferDialog from "components/user/settings/TransferDialog.vue";
 export default {
   name: "generalDataTab",
+  components: {
+    TransferDialog
+  },
   data() {
     return {
+      transferDialog: false,
       email: "",
       currentPassword: "",
       newPassword: "",

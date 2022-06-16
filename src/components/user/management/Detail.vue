@@ -76,23 +76,22 @@
 
         <div class="row justify-center q-ml-lg ">
           <q-btn
-            @click="updateUserInformation"
+            type="submit"
             label="Save Changes"
             size="16px"
             color="primary"
             no-caps
             unelevated
-            class="no-shadow radius-6 q-px-xl q-mr-sm  "
+            class="no-shadow radius-6 q-px-xl q-mr-sm"
           />
           <q-btn
             label="Delete User"
             outline
             @click="showDialog = true"
-            type="submit"
             size="16px"
             color="red"
             no-caps
-            class="no-shadow radius-6 q-px-xl   "
+            class="no-shadow radius-6 q-px-xl"
           />
         </div>
       </q-form>
@@ -108,9 +107,9 @@
           transferred to another user.
         </p>
         <div class="q-mt-sm q-ml-lg">
-          <q-label class="font-16"
-            >Select account to transfer the data and rights.
-          </q-label>
+          <p class="q-mb-none font-16">
+            Select account to transfer the data and rights.
+          </p>
           <q-select
             outlined
             :options="options"

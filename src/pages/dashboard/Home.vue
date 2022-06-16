@@ -24,28 +24,25 @@
               outline
               class="mr-0 radius-6 text-weight-600"
               no-caps
+              @click="$router.push({ path: '/user/newProjectIdea' })"
             >
-              <p
-                @click="$router.push({ path: '/user/newProjectIdea' })"
-                class="q-mb-none q-mx-md q-my-sm"
-              >
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("homeBtns.projectBtn") }}
               </p>
             </q-btn>
           </div>
           <div class="col-12 col-md-auto">
             <q-btn
+              v-if="isAdmin"
               color="blue"
               icon="add"
               unelevated
               outline
               class="mr-0 radius-6  text-weight-600"
               no-caps
+              @click="$router.push({ path: '/user/newFunding' })"
             >
-              <p
-                @click="$router.push({ path: '/user/newFunding' })"
-                class="q-mb-none q-mx-md q-my-sm"
-              >
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("homeBtns.fundingsBtn") }}
               </p>
             </q-btn>
@@ -100,6 +97,11 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    }
   }
 };
 </script>

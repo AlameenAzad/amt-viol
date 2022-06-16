@@ -1,5 +1,5 @@
 <template>
-  <div class="q-my-lg ">
+  <div class="q-my-lg">
     <q-tabs
       v-if="isInPage"
       v-model="tab"
@@ -271,7 +271,9 @@ export default {
         "status",
         "carbs",
         "plannedStart",
-        "plannedEnd"
+        "plannedEnd",
+        "owner",
+        "visibility"
       ],
       // projectCols: [
       //   {
@@ -424,6 +426,8 @@ export default {
       } else if (page === "fundings") {
         this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
+      } else {
+        this.$router.push({ path: "/user/newChecklist" });
       }
     },
     getData(tab) {
@@ -453,6 +457,9 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     isInPage() {
       return true;
     },
@@ -502,6 +509,20 @@ export default {
               : row.published === false
               ? "Draft"
               : "Status Unavailable",
+          sortable: true
+        },
+        {
+          name: "owner",
+          label: "Owner (Dev purposes)",
+          align: "left",
+          field: row => row.owner?.username,
+          sortable: true
+        },
+        {
+          name: "visibility",
+          label: "Visibility (Dev purposes)",
+          align: "left",
+          field: row => row?.visibility,
           sortable: true
         }
       ];

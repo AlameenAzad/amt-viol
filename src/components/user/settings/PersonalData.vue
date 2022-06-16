@@ -10,13 +10,16 @@
     >
       <div class="row justify-center">
         <div class="col-12 text-center">
-          <!-- TODO add a placeholder image when no image is chosen -->
           <q-img
+            v-if="profileImage"
             class="radius-10 profileImage"
             spinner-color="primary"
-            :src="profileImage"
+            :src="`${appUrl}${profileImage}`"
             style="height: 160px; max-width: 160px"
           />
+          <div class="flex flex-center" v-else style="height: 160px">
+            <h6 class="text-grey">No Profile Image</h6>
+          </div>
         </div>
       </div>
       <div class="row justify-center q-mt-sm">
@@ -197,7 +200,7 @@ export default {
   name: "personalDataTab",
   data() {
     return {
-      profileImage: "https://placeimg.com/500/300/nature",
+      profileImage: null,
       form: {
         fullName: "",
         administration: "",
@@ -213,7 +216,7 @@ export default {
   },
   methods: {
     setData() {
-      this.profileImage = `${this.appUrl}${this.userDetails.profile.url}`;
+      this.profileImage = this.userDetails.profile?.url || null;
       this.form.email = this.user.email;
       this.form.fullName = this.userDetails.fullName || "";
       this.form.telephone = this.userDetails.phone || "";
