@@ -479,30 +479,6 @@
                       </q-card>
                     </transition-group>
                   </draggable>
-
-                  <!-- <q-card-section>
-                    <div class="row items-center justify-between">
-                      <q-card-section class="  justify-between q-ml-sm">
-                        <div class="row items-center   ">
-                          <q-icon
-                            size="sm"
-                            class="text-blue q-mr-md"
-                            name="reorder"
-                          />
-                          <p class=" flex-1 no-margin font-12 ">
-                            {{ element.name }}
-                          </p>
-                        </div>
-                      </q-card-section>
-                      <q-toggle
-                        @input="changeSomething($event)"
-                        size="lg"
-                        color="primary"
-                        class="customToggle flex-end"
-                        v-model="projectIdea"
-                      />
-                    </div>
-                  </q-card-section> -->
                 </q-card>
               </transition-group>
             </draggable>
@@ -721,71 +697,77 @@ export default {
       newIndex: "",
       bilend: [
         {
-          name: "Parent 1",
+          name: "Capture project idea",
           order: 1,
-          active: true,
           children: [
             {
-              name: "Child 1",
+              name: "Parent 1",
               order: 1,
-              active: true
+              active: true,
+              children: [
+                {
+                  name: "Child 1",
+                  order: 1,
+                  active: true
+                },
+                {
+                  name: "Child 2",
+                  order: 2,
+                  active: false
+                },
+                {
+                  name: "Child 3",
+                  order: 3,
+                  active: true
+                },
+                {
+                  name: "Child 4",
+                  order: 4,
+                  active: true
+                },
+                {
+                  name: "Child 5",
+                  order: 5,
+                  active: false
+                },
+                {
+                  name: "Child 6",
+                  order: 6,
+                  active: false
+                },
+                {
+                  name: "Child 7",
+                  order: 7,
+                  active: true
+                }
+              ]
             },
             {
-              name: "Child 2",
+              name: "Parent 2",
               order: 2,
-              active: false
-            },
-            {
-              name: "Child 3",
-              order: 3,
-              active: true
-            },
-            {
-              name: "Child 4",
-              order: 4,
-              active: true
-            },
-            {
-              name: "Child 5",
-              order: 5,
-              active: false
-            },
-            {
-              name: "Child 6",
-              order: 6,
-              active: false
-            },
-            {
-              name: "Child 7",
-              order: 7,
-              active: true
-            }
-          ]
-        },
-        {
-          name: "Parent 2",
-          order: 2,
-          active: true,
-          children: [
-            {
-              name: "Child 1",
-              order: 1,
-              active: true
-            },
-            {
-              name: "Child 2",
-              order: 2,
-              active: false
-            },
-            {
-              name: "Child 3",
-              order: 3,
-              active: true
-            },
-            {
-              name: "Child 4",
-              order: 4,
-              active: true
+              active: true,
+              children: [
+                {
+                  name: "Child 1",
+                  order: 1,
+                  active: true
+                },
+                {
+                  name: "Child 2",
+                  order: 2,
+                  active: false
+                },
+                {
+                  name: "Child 3",
+                  order: 3,
+                  active: true
+                },
+                {
+                  name: "Child 4",
+                  order: 4,
+                  active: true
+                }
+              ]
             }
           ]
         }
