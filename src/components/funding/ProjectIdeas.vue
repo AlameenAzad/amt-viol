@@ -1,6 +1,7 @@
 <template>
   <q-select
     outlined
+    :bg-color="isInChecklist ? 'white' : ''"
     dense
     v-model="model"
     multiple
@@ -36,6 +37,10 @@
 export default {
   name: "projectIdeas",
   props: {
+    isInChecklist: {
+      type: Boolean,
+      default: false
+    },
     editing: {
       type: Array,
       default: null

@@ -136,7 +136,7 @@
             </p>
           </div>
           <div class="col-8">
-            <Projects
+            <ProjectIdeas
               :editing="isEdit.projects"
               @update:linkToProject="form.projects = $event"
             />
@@ -209,11 +209,11 @@
             <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
-        <q-card style="background:#16428B1A" class="q-pa-md">
-          <q-card-section>project activity</q-card-section>
+        <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
+          <q-card-section class="q-pa-md">project activity</q-card-section>
         </q-card>
-        <div class="row items-start position-fixed">
-          <div class="col-4 ">
+        <div class="row items-start">
+          <div class="col-4">
             <p class="font-16 no-margin">Initial contact with the politics</p>
             <div class="flex items-center row q-mt-md  ">
               <div class="col-2">
@@ -291,11 +291,19 @@
             </div>
           </div>
           <div class="col-8">
-            <q-card class="q-pa-md" style="background:#16428B1A">
-              <q-card-section class="flex items-center justify-between">
-                <div class="row items-center ">
-                  <q-icon size="sm" class="text-blue q-mr-md" name="list" />
-                  <p class="no-margin ">Capture project idea</p>
+            <!-- Work HEREEE -->
+            <q-card class="q-pa-none shadow-0" style="background:#16428B1A">
+              <q-card-section class="row items-center justify-between">
+                <div class="row items-center">
+                  <q-icon
+                    size="sm"
+                    color="blue-5"
+                    class="q-mr-md q-py-sm bg-white radius-6"
+                    name="reorder"
+                  />
+                  <p class="no-margin font-18 text-blue text-weight-600">
+                    Capture project idea
+                  </p>
                 </div>
                 <q-toggle
                   @input="changeSomething($event)"
@@ -305,60 +313,60 @@
                   v-model="projectIdea"
                 />
               </q-card-section>
-              <q-card-section class="q-gutter-md  ">
-                <div class="row">
+              <q-card-section>
+                <div class="row q-col-gutter-md">
                   <div class="col-12">
                     <q-input
                       outlined
+                      bg-color="white"
                       dense
                       class="no-shadow input-radius-6"
                       placeholder="Name"
                     />
                   </div>
-                </div>
-                <div class="row">
                   <div class="col-12">
-                    <q-select
-                      outlined
-                      dense
-                      :options="options"
-                      class="no-shadow input-radius-6"
-                      v-model="form.projectIdea.role"
-                      :rules="[]"
-                      placeholder="Select Project"
+                    <ProjectIdeas
+                      :isInChecklist="true"
+                      :editing="isEdit.projects"
+                      @update:linkToProject="form.projects = $event"
                     />
                   </div>
-                </div>
-                <div class="row">
                   <div class="col-12">
                     <q-input
                       outlined
+                      bg-color="white"
                       dense
                       class="no-shadow input-radius-6"
                       placeholder="text"
                     />
                   </div>
+                  <div class="col-4">
+                    <q-file
+                      outlined
+                      bg-color="transparent"
+                      v-model="form.files"
+                      class="uploadInput input-radius-6"
+                      label-color="primary"
+                      :label="
+                        !!form.files && form.files.length > 0
+                          ? 'Add Files'
+                          : 'Upload File'
+                      "
+                      multiple
+                      display-value=""
+                      append
+                    >
+                      <template v-slot:prepend>
+                        <q-icon
+                          color="primary"
+                          class="on-right"
+                          name="upload"
+                        />
+                      </template>
+                    </q-file>
+                  </div>
                 </div>
                 <div class="row">
-                  <q-file
-                    flat
-                    v-model="form.files"
-                    class="uploadInput input-radius-6 text-white"
-                    label-color="primary"
-                    outline
-                    :label="
-                      !!form.files && form.files.length > 0
-                        ? 'Add Files'
-                        : 'Upload File'
-                    "
-                    multiple
-                    display-value=""
-                    append
-                  >
-                    <template v-slot:prepend>
-                      <q-icon color="primary" class="on-right" name="upload" />
-                    </template>
-                  </q-file>
                   <div
                     class="q-mt-sm"
                     v-if="form.files && form.files.length > 0"
@@ -396,46 +404,108 @@
                 </div>
               </q-card-section>
             </q-card>
-            <q-card class="q-mt-sm p">
-              <q-card-section style="background:#FDD50033">
-                <q-card-section class="flex items-center justify-between">
-                  <div class="row items-center ">
-                    <q-icon size="sm" class="text-blue q-mr-md" name="list" />
-                    <p class="no-margin ">Projektidee-Quellen nutzen</p>
-                  </div>
-                  <q-toggle
-                    @input="changeSomething($event)"
-                    size="lg"
-                    color="primary"
-                    class="customToggle"
-                    v-model="projectIdea"
-                  />
-                </q-card-section>
-              </q-card-section>
-              <q-card-section
-                v-for="element in projectQuellen"
-                :id="element.id"
-                :key="element.id"
-              >
-                <div class="row items-center justify-between">
-                  <q-card-section class="  justify-between q-ml-sm">
-                    <div class="row items-center   ">
-                      <q-icon size="sm" class="text-blue q-mr-md" name="list" />
-                      <p class=" flex-1 no-margin font-12 ">
-                        {{ element.name }}
-                      </p>
+
+            <!-- WORK FROM HERE -->
+            <draggable
+              handle=".handle"
+              class="col-8"
+              v-model="bilend"
+              ghost-class="ghost"
+              @end="onEnd"
+              @sort="onSort"
+            >
+              <transition-group type="transition" name="flip-list">
+                <q-card
+                  v-for="element in bilend"
+                  :id="element.order"
+                  :key="element.order"
+                  class="q-mt-sm shadow-0"
+                >
+                  <q-card-section
+                    style="background:#FDD50033"
+                    class="flex items-center justify-between q-pa-sm"
+                  >
+                    <div class="row items-center ">
+                      <q-icon
+                        size="sm"
+                        color="blue-5"
+                        class="handle q-mr-md q-py-sm bg-white radius-6"
+                        name="reorder"
+                      />
+                      <p class="no-margin ">{{ element.name }}</p>
                     </div>
+                    <q-toggle
+                      size="lg"
+                      color="primary"
+                      class="customToggle"
+                      v-model="element.active"
+                    />
                   </q-card-section>
-                  <q-toggle
-                    @input="changeSomething($event)"
-                    size="lg"
-                    color="primary"
-                    class="customToggle flex-end"
-                    v-model="projectIdea"
-                  />
-                </div>
-              </q-card-section>
-            </q-card>
+                  <draggable
+                    handle=".handle"
+                    class="col-8 q-ml-lg"
+                    v-model="element.children"
+                    ghost-class="movingClass"
+                    @end="onEnd"
+                    @change="horse"
+                    @update="onUpdate"
+                    :force-fallback="true"
+                  >
+                    <transition-group type="transition" name="flip-list">
+                      <q-card
+                        v-for="child in element.children"
+                        :key="child.order"
+                        class="q-mt-sm shadow-0"
+                      >
+                        <q-card-section
+                          class="flex items-center justify-between q-pa-sm"
+                        >
+                          <div class="row items-center ">
+                            <q-icon
+                              size="sm"
+                              color="blue-5"
+                              class="handle q-mr-md q-py-sm bg-white radius-6"
+                              name="reorder"
+                            />
+                            <p class="no-margin ">{{ child.name }}</p>
+                          </div>
+                          <q-toggle
+                            size="lg"
+                            color="primary"
+                            class="customToggle"
+                            v-model="child.active"
+                          />
+                        </q-card-section>
+                      </q-card>
+                    </transition-group>
+                  </draggable>
+
+                  <!-- <q-card-section>
+                    <div class="row items-center justify-between">
+                      <q-card-section class="  justify-between q-ml-sm">
+                        <div class="row items-center   ">
+                          <q-icon
+                            size="sm"
+                            class="text-blue q-mr-md"
+                            name="reorder"
+                          />
+                          <p class=" flex-1 no-margin font-12 ">
+                            {{ element.name }}
+                          </p>
+                        </div>
+                      </q-card-section>
+                      <q-toggle
+                        @input="changeSomething($event)"
+                        size="lg"
+                        color="primary"
+                        class="customToggle flex-end"
+                        v-model="projectIdea"
+                      />
+                    </div>
+                  </q-card-section> -->
+                </q-card>
+              </transition-group>
+            </draggable>
           </div>
           <draggable
             class="col-8"
@@ -445,15 +515,20 @@
           >
             <transition-group type="transition" name="flip-list">
               <q-card
-                :id="element.id"
+                :id="element.order"
                 v-for="element in myArray"
-                :key="element.id"
+                :key="element.order"
                 class="q-pa-md sortable"
                 style="background:#16428B1A"
               >
                 <q-card-section class="flex items-center justify-between">
                   <div class="row items-center ">
-                    <q-icon size="sm" class="text-blue q-mr-md" name="list" />
+                    <q-icon
+                      size="sm"
+                      color="blue-5"
+                      class="q-mr-md q-py-sm bg-white radius-6"
+                      name="reorder"
+                    />
                     <p class="no-margin ">{{ element.name }}</p>
                   </div>
                   <q-toggle
@@ -568,7 +643,7 @@
 </template>
 
 <script>
-import Projects from "components/implementationChecklist/Projects.vue";
+import ProjectIdeas from "components/funding/ProjectIdeas.vue";
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
@@ -578,7 +653,7 @@ export default {
   name: "newCheckList",
   components: {
     draggable,
-    Projects,
+    ProjectIdeas,
     UserSelect,
     Categories,
     Tags
@@ -639,38 +714,160 @@ export default {
       ],
       isLoading: false,
       myArray: [
-        { name: "Capture project idea", id: 0 },
-        { name: "Capture project ideaaa", id: 1 }
+        { name: "Capture project idea", order: 1 },
+        { name: "Capture project ideaaa", order: 2 }
       ],
       oldIndex: "",
       newIndex: "",
-      projectQuellen: [
+      bilend: [
         {
-          name:
-            "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen"
+          name: "Parent 1",
+          order: 1,
+          active: true,
+          children: [
+            {
+              name: "Child 1",
+              order: 1,
+              active: true
+            },
+            {
+              name: "Child 2",
+              order: 2,
+              active: false
+            },
+            {
+              name: "Child 3",
+              order: 3,
+              active: true
+            },
+            {
+              name: "Child 4",
+              order: 4,
+              active: true
+            },
+            {
+              name: "Child 5",
+              order: 5,
+              active: false
+            },
+            {
+              name: "Child 6",
+              order: 6,
+              active: false
+            },
+            {
+              name: "Child 7",
+              order: 7,
+              active: true
+            }
+          ]
         },
         {
-          name: "Projektidee aus Antragder Politik entnommen"
-        },
-        {
-          name: "Projektidee aus lokalem Arbeitskreis entnommen"
-        },
-        {
-          name:
-            "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt"
-        },
-        {
-          name:
-            "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen"
-        },
-        {
-          name:
-            "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht"
-        },
-        {
-          name: "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee"
+          name: "Parent 2",
+          order: 2,
+          active: true,
+          children: [
+            {
+              name: "Child 1",
+              order: 1,
+              active: true
+            },
+            {
+              name: "Child 2",
+              order: 2,
+              active: false
+            },
+            {
+              name: "Child 3",
+              order: 3,
+              active: true
+            },
+            {
+              name: "Child 4",
+              order: 4,
+              active: true
+            }
+          ]
         }
       ]
+      // bilend: [
+      //   {
+      //     name: "Projektidee-Quellen nutzen",
+      //     order: 1,
+      //     active: true,
+      //     children: [
+      //       {
+      //         name:
+      //           "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen",
+      //         order: 1,
+      //         active: true
+      //       },
+      //       {
+      //         name: "Projektidee aus Antragder Politik entnommen",
+      //         order: 2,
+      //         active: false
+      //       },
+      //       {
+      //         name: "Projektidee aus lokalem Arbeitskreis entnommen",
+      //         order: 3,
+      //         active: true
+      //       },
+      //       {
+      //         name:
+      //           "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt",
+      //         order: 4,
+      //         active: true
+      //       },
+      //       {
+      //         name:
+      //           "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen",
+      //         order: 5,
+      //         active: false
+      //       },
+      //       {
+      //         name:
+      //           "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht",
+      //         order: 6,
+      //         active: false
+      //       },
+      //       {
+      //         name:
+      //           "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee",
+      //         order: 7,
+      //         active: true
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     name: "Allgemeine Rahmenbedingungen ermitteln",
+      //     order: 2,
+      //     active: true,
+      //     children: [
+      //       {
+      //         name: "ZielundNutzenderProjektideedefinieren",
+      //         order: 1,
+      //         active: true
+      //       },
+      //       {
+      //         name:
+      //           "BedarfederBürger*innenermitteln(z.B.überAbfrageüberderHomepage)",
+      //         order: 2,
+      //         active: false
+      //       },
+      //       {
+      //         name: "Projektinitiator*innenfestlegen",
+      //         order: 3,
+      //         active: true
+      //       },
+      //       {
+      //         name:
+      //           "Finanzielle Rahmenbedingungenim Bauamt und der Kämmereiprüfen (u.a. Kostenschätzung und Liquidität der Kommune)",
+      //         order: 4,
+      //         active: true
+      //       }
+      //     ]
+      //   }
+      // ]
     };
   },
   computed: {
@@ -697,13 +894,30 @@ export default {
     }
   },
   methods: {
+    horse(event) {
+      console.log("event", event);
+    },
     changeSomething(value) {
       console.log(value);
     },
     onEnd: function(event) {
-      console.log(event);
-      this.oldIndex = event.oldIndex;
-      this.newIndex = event.newIndex;
+      console.log("ON END", event);
+      // TODO Not sure if the below are needed
+      // this.oldIndex = event.oldIndex;
+      // this.newIndex = event.newIndex;
+    },
+    onSort(event) {
+      console.log("yes", event);
+    },
+    onUpdate(event) {
+      console.log("On Update Event", event);
+      // const newIndex = event.newIndex;
+      // const oldIndex = event.oldIndex;
+      // this.list.splice(newIndex, 0, this.list.splice(oldIndex, 1)[0]);
+      // // update order property based on position in array
+      // this.list.forEach(function(item, index){
+      //   item.order = index;
+      // });
     }
   }
 };
@@ -719,5 +933,21 @@ export default {
 }
 .flip-list-move {
   transition: transform 0.5s;
+}
+.customToggle .q-toggle__track {
+  height: 0.4em;
+  border-radius: 0.2em;
+}
+.customToggle .q-toggle__inner--truthy .q-toggle__track {
+  background: $primary;
+  opacity: 1;
+}
+.customToggle .q-toggle__thumb {
+  color: white;
+  transform: scale(0.64);
+  top: 0.27em;
+}
+.movingClass {
+  background: $blue-1;
 }
 </style>
