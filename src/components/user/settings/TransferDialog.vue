@@ -178,8 +178,16 @@ export default {
     }
   },
   computed: {
+    currentUser() {
+      return this.$store.state.userCenter.user.user;
+    },
     users() {
-      return this.$store.state.userCenter.users;
+      return this.$store.state.userCenter.users.filter(
+        user =>
+          !user.username.includes(
+            !!this.currentUser && this.currentUser.username
+          )
+      );
     },
     filteredUsers() {
       return this.users.filter(user => {
