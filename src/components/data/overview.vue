@@ -7,11 +7,7 @@
       indicator-color="transparent"
       class="q-mb-lg text-black"
       active-bg-color="yellow"
-      :class="
-        $router.currentRoute.fullPath == '/dashboard'
-          ? 'hidden'
-          : 'q-mb-lg text-black'
-      "
+      :class="$router.currentRoute.fullPath == '/dashboard' ? 'hidden' : ''"
       no-caps
     >
       <q-tab
@@ -51,6 +47,7 @@
       <q-route-tab
         :to="{ query: { tab: 'projectIdeas' } }"
         exact
+        replace
         class="q-py-xs q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="projectIdeas"
@@ -59,6 +56,8 @@
       </q-route-tab>
       <q-route-tab
         :to="{ query: { tab: 'fundings' } }"
+        exact
+        replace
         class="q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="fundings"
@@ -67,6 +66,8 @@
       </q-route-tab>
       <q-route-tab
         :to="{ query: { tab: 'implementationChecklist' } }"
+        exact
+        replace
         class=" radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="implementationChecklist"
@@ -96,7 +97,7 @@
               {{ $t("myDataHome.myData") }}
               <span
                 class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
-                @click="$router.push({ path: '/user/data' })"
+                @click="$router.push({ path: '/user/data?tab=projectIdeas' })"
               >
                 {{ $t("myDataHome.showMy") }}
               </span>
@@ -302,7 +303,7 @@ export default {
   name: "dataOverview",
   data() {
     return {
-      tab: "projectIdeas",
+      tab: this.$router.currentRoute.query.tab || "projectIdeas",
       filter: "",
       visibleColumns: [
         "title",
@@ -463,6 +464,8 @@ export default {
       } else if (page === "fundings") {
         this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
+      } else {
+        this.$router.push({ path: "/user/newChecklist" });
       }
     },
     getData(tab) {
@@ -628,6 +631,7 @@ export default {
   },
 
   mounted() {
+    console.log("this.$router.currentRoute", this.$router.currentRoute);
     this.getData(this.tab);
   }
 };
