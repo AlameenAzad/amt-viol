@@ -41,7 +41,6 @@
                   class="no-shadow input-radius-6"
                   :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                   :value="!!userDetails && userDetails.fullName"
-                  :rules="[]"
                   disable
                 />
               </div>
@@ -52,7 +51,6 @@
                   disable
                   class="no-shadow input-radius-6"
                   placeholder="Administration"
-                  :value="!!userDetails && userDetails.municipality.title"
                   :rules="[]"
                 />
               </div>
@@ -78,8 +76,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
-                  :value="!!userDetails && userDetails.streetNo"
-                  :rules="[]"
+                  :rules="[val => !!val || 'Required']"
                   disable
                 />
               </div>
@@ -89,8 +86,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
-                  :value="!!userDetails && userDetails.postalCode"
-                  :rules="[]"
+                  :rules="[val => !!val || 'Required']"
                   disable
                 />
               </div>
@@ -101,7 +97,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
                   :value="!!userDetails && userDetails.phone"
-                  :rules="[]"
                   disable
                 />
               </div>
@@ -112,7 +107,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
                   :value="!!user && user.email"
-                  :rules="[]"
                   disable
                 />
               </div>
@@ -123,7 +117,6 @@
                   class="no-shadow input-radius-6"
                   :placeholder="$t('projectIdeaPlaceholder.location')"
                   v-model="form.info.location"
-                  :rules="[]"
                 />
               </div>
             </div>
@@ -157,6 +150,7 @@
               dense
               v-model="form.visibility"
               :options="visibilityOptions"
+              :rules="[val => !!val || 'Required']"
               class="no-shadow input-radius-6"
               options-selected-class="text-primary"
             >
@@ -197,6 +191,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
+              lazy-rules
               :editing="isEdit.categories"
               @update:category="form.categories = $event"
             />
@@ -271,7 +266,7 @@
               class="no-shadow input-radius-6"
               :placeholder="$t('newProjectIdeaForm.projectValue&Benefits')"
               v-model="form.details.valuesAndBenefits"
-              :rules="[]"
+              :rules="[val => !!val || 'Required']"
             />
           </div>
         </div>
@@ -308,6 +303,7 @@
               v-model="form.details.investive"
               spread
               no-caps
+              :rules="[val => !!val || 'Required']"
               toggle-color="yellow"
               padding="12px 10px"
               color="transparent"
@@ -329,6 +325,7 @@
               v-model="form.details.status"
               :spread="$q.screen.gt.sm"
               no-caps
+              :rules="[val => !!val || 'Required']"
               clearable
               toggle-color="yellow"
               padding="12px 10px"
@@ -503,6 +500,7 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
+                  :rules="[val => !!val || 'Required']"
                   v-model="form.media"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -558,6 +556,7 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
+                  :rules="[val => !!val || 'Required']"
                   v-model="form.files"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -699,7 +698,12 @@ export default {
         },
         fundingGuideline: [],
         municipality: "",
-        editors: [],
+        editors: [
+          {
+            id: null,
+            username: ""
+          }
+        ],
         categories: [],
         tags: [],
         estimatedCosts: [],
@@ -727,6 +731,11 @@ export default {
     },
     removeImg(index) {
       this.form.media.splice(index, 1);
+    },
+    myRule(val) {
+      if (val === null) {
+        return "required";
+      }
     },
     removeFile(index) {
       this.form.files.splice(index, 1);
