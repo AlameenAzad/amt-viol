@@ -409,7 +409,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.plannedStart" mask="YYYY-MM-DD">
+                        <q-date
+                          v-model="form.plannedStart"
+                          mask="YYYY-MM-DD"
+                          @input="$refs.qPlannedStartDateProxy.hide()"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -443,7 +447,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="form.plannedEnd" mask="YYYY-MM-DD">
+                        <q-date
+                          v-model="form.plannedEnd"
+                          mask="YYYY-MM-DD"
+                          @input="$refs.qPlannedEndDateProxy.hide()"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup

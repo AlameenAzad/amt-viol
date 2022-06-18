@@ -17,7 +17,7 @@
         <q-toolbar-title
           class="text-weight-600"
           :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
-          @click="goBack()"
+          @click="$router.go(-1)"
         >
           <q-icon
             v-if="$router.currentRoute.meta.backLink"

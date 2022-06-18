@@ -9,24 +9,32 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab
+      <q-route-tab
+        :to="{ query: { tab: 'projectIdeas' } }"
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="projectIdeas"
+        exact
       >
         <p class="font-20 no-margin">{{ $t("myDataHome.projectIdeaBtn") }}</p>
-      </q-tab>
-      <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="fundings">
+      </q-route-tab>
+      <q-route-tab
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
+        name="fundings"
+        :to="{ query: { tab: 'fundings' } }"
+      >
         <p class="font-20 no-margin">{{ $t("myDataHome.fundingsBtn") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'implementationChecklist' } }"
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="implementationChecklist"
       >
         <p class="font-20 no-margin">
           {{ $t("myDataHome.implementationChecklistBtn") }}
         </p>
-      </q-tab>
+      </q-route-tab>
     </q-tabs>
+
     <q-table
       class="radius-20 shadow-1"
       :data="data"

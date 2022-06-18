@@ -1,15 +1,21 @@
 <template>
-  <div class="q-my-lg">
+  <div class="q-my-lg ">
     <q-tabs
-      v-if="isInPage"
+      v-if="!isInPage"
       v-model="tab"
       align="justify"
       indicator-color="transparent"
       class="q-mb-lg text-black"
       active-bg-color="yellow"
+      :class="
+        $router.currentRoute.fullPath == '/dashboard'
+          ? 'hidden'
+          : 'q-mb-lg text-black'
+      "
       no-caps
     >
       <q-tab
+        exact
         class="q-py-xs q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="projectIdeas"
@@ -17,7 +23,6 @@
         <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
       </q-tab>
       <q-tab
-        v-if="isAdmin"
         class="q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="fundings"
@@ -33,6 +38,43 @@
           {{ $t("myData.implementationChecklist") }}
         </p>
       </q-tab>
+    </q-tabs>
+    <q-tabs
+      v-if="isInPage"
+      v-model="tab"
+      align="justify"
+      indicator-color="transparent"
+      class="q-mb-lg text-black"
+      active-bg-color="yellow"
+      no-caps
+    >
+      <q-route-tab
+        :to="{ query: { tab: 'projectIdeas' } }"
+        exact
+        class="q-py-xs q-mr-lg radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="projectIdeas"
+      >
+        <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'fundings' } }"
+        class="q-mr-lg radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="fundings"
+      >
+        <p class="font-20 no-margin">{{ $t("myData.fundings") }}</p>
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'implementationChecklist' } }"
+        class=" radius-10 border-yellow"
+        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
+        name="implementationChecklist"
+      >
+        <p class="font-20 no-margin">
+          {{ $t("myData.implementationChecklist") }}
+        </p>
+      </q-route-tab>
     </q-tabs>
     <q-table
       class="radius-20 shadow-1"
@@ -268,9 +310,7 @@ export default {
         "status",
         "carbs",
         "plannedStart",
-        "plannedEnd",
-        "owner",
-        "visibility"
+        "plannedEnd"
       ],
       // projectCols: [
       //   {
@@ -423,8 +463,6 @@ export default {
       } else if (page === "fundings") {
         this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
-      } else {
-        this.$router.push({ path: "/user/newChecklist" });
       }
     },
     getData(tab) {
@@ -454,9 +492,6 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      return this.$store.getters["userCenter/isAdmin"];
-    },
     isInPage() {
       return this.$router.currentRoute.fullPath == "/user/data";
     },
@@ -506,20 +541,6 @@ export default {
               : row.published === false
               ? "Draft"
               : "Status Unavailable",
-          sortable: true
-        },
-        {
-          name: "owner",
-          label: "Owner (Dev purposes)",
-          align: "left",
-          field: row => row.owner?.username,
-          sortable: true
-        },
-        {
-          name: "visibility",
-          label: "Visibility (Dev purposes)",
-          align: "left",
-          field: row => row?.visibility,
           sortable: true
         }
       ];
