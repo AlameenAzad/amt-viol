@@ -150,6 +150,7 @@
               dense
               v-model="form.visibility"
               :options="visibilityOptions"
+              emit-value
               :rules="[val => !!val || 'Required']"
               class="no-shadow input-radius-6"
               options-selected-class="text-primary"
@@ -167,12 +168,12 @@
             >
             <p class="font-16 q-mb-none q-mt-md text-grey">
               {{
-                form.visibility === "$t('visibility.onlyMe')"
-                  ? "$t('visibility.docOnlyMe')"
-                  : form.visibility === "$t('visibility.allUsers')"
-                  ? "$t('visibility.docAllUsers')"
-                  : form.visibility === "$t('visibility.listedOnly')"
-                  ? "$t('visibility.docListedOnly')"
+                form.visibility === "only for me"
+                  ? $t("visibility.docOnlyMe")
+                  : form.visibility === "all users"
+                  ? $t("visibility.docAllUsers")
+                  : form.visibility === "listed only"
+                  ? $t("visibility.docListedOnly")
                   : ""
               }}
             </p>
@@ -711,7 +712,6 @@ export default {
         media: null,
         files: null
       },
-
       investiveNoninvestiveOptions: [
         { label: "Investive", value: true },
         { label: "Nicht-investiv", value: false }
@@ -865,9 +865,18 @@ export default {
     },
     visibilityOptions() {
       return [
-        this.$t("visibility.onlyMe"),
-        this.$t("visibility.allUsers"),
-        this.$t("visibility.listedOnly")
+        {
+          value: "only for me",
+          label: this.$t("visibility.onlyMe")
+        },
+        {
+          value: "all users",
+          label: this.$t("visibility.allUsers")
+        },
+        {
+          value: "listed only",
+          label: this.$t("visibility.listedOnly")
+        }
       ];
     },
     projectStatuses() {
