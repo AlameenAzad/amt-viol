@@ -507,7 +507,7 @@
               </transition-group>
             </draggable>
           </div>
-          <draggable
+          <!-- <draggable
             class="col-8"
             v-model="myArray"
             ghost-class="ghost"
@@ -635,7 +635,7 @@
                 </q-card-section>
               </q-card>
             </transition-group>
-          </draggable>
+          </draggable> -->
         </div>
       </q-form>
     </div>
