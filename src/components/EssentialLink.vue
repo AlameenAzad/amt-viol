@@ -46,6 +46,9 @@ export default {
   computed: {
     dashboardRoutes() {
       return this.$router.options.routes[1].children;
+    },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
     }
   }
 };
