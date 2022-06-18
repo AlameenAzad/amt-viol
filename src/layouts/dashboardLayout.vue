@@ -65,7 +65,7 @@
           </q-btn>
           <q-btn
             icon="person"
-            to="/user/data"
+            to="/user/data?tab=projectIdeas"
             flat
             round
             dark
