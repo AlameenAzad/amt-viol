@@ -2,6 +2,7 @@
   <q-select
     outlined
     dense
+    :rules="[val => (!!val && val.length > 0) || 'Required']"
     v-model="model"
     multiple
     :options="tags"

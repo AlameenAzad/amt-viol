@@ -3,6 +3,8 @@
     outlined
     dense
     v-model="model"
+    lazy-rules
+    :rules="[val => (!!val && val.length > 0) || 'Required']"
     multiple
     :options="categories"
     options-selected-class="text-primary text-weight-600"

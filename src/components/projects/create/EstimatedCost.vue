@@ -10,23 +10,22 @@
             <div class="row q-col-gutter-x-md ">
               <div class="col-6">
                 <q-input
+                  :rules="[val => !!val || 'Required']"
                   outlined
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costName')"
-                  v-model="cost.name"
-                  :rules="[]"
                   @input="onInput(index)"
                 />
               </div>
               <div class="col-6">
                 <q-input
                   outlined
+                  :rules="[val => !!val || 'Required']"
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costAmount')"
                   v-model.number="cost.price"
-                  :rules="[]"
                   @input="onInput(index)"
                 />
               </div>

@@ -10,12 +10,12 @@
             <div class="row q-col-gutter-x-md">
               <div class="col-6">
                 <q-input
+                  :rules="[val => !!val || 'Required']"
                   outlined
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Link name"
                   v-model="link.title"
-                  :rules="[]"
                   @input="onInput(index)"
                 />
               </div>
@@ -26,7 +26,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Link URL"
                   v-model.number="link.link"
-                  :rules="[]"
+                  :rules="[val => !!val || 'Required']"
                   @input="onInput(index)"
                 />
               </div>

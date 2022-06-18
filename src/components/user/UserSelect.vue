@@ -12,6 +12,7 @@
                 <q-select
                   outlined
                   dense
+                  :rules="[val => (!!val && val.length > 0) || 'Required']"
                   :value="user"
                   :options="userOptions"
                   options-selected-class="text-primary text-weight-600"
@@ -67,7 +68,7 @@
         icon="add"
         size="md"
         color="primary"
-        label="Add Editor"
+        label="Add More Editors"
       />
     </div>
   </div>

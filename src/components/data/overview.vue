@@ -493,7 +493,7 @@ export default {
   },
   computed: {
     isInPage() {
-      return this.$router.currentRoute.fullPath == "/user/data";
+      return this.$router.currentRoute.path == "/user/data";
     },
     columns() {
       return this.tab == "projectIdeas"
