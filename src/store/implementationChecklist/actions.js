@@ -4,7 +4,6 @@ import { Notify } from "quasar";
 export async function getChecklists(context) {
   try {
     const res = await api.get("/api/checklists");
-    console.log("res :>> ", res);
     context.commit("setChecklists", res.data);
   } catch (error) {
     Notify.create({
