@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <p class="text-center font-36 text-weight-regular q-my-lg">
       Umsetzungscheckliste
     </p>
@@ -30,7 +30,7 @@
           </div>
           <div class="col-8">
             <q-btn-toggle
-              v-model="form.details.investive"
+              v-model="form.ideaProvider"
               spread
               no-caps
               toggle-color="yellow"
@@ -39,7 +39,7 @@
               toggle-text-color="black"
               text-color="black"
               class="no-shadow toggleGap"
-              :options="IdeengeberOptions"
+              :options="ideaProviderOptions"
             />
           </div>
         </div>
@@ -132,13 +132,13 @@
         <div class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
-              Link to project
+              Link for Project Idea
             </p>
           </div>
           <div class="col-8">
             <ProjectIdeas
               :editing="isEdit.projects"
-              @update:linkToProject="form.projects = $event"
+              @update:linkToProject="form.project = $event"
             />
           </div>
         </div>
@@ -157,7 +157,7 @@
         </div>
         <div class="row items-baseline">
           <div class="col-4">
-            <p class="font-16 no-margin">Sichtbarkeit</p>
+            <p class="font-16 no-margin">Visibility</p>
           </div>
           <div class="col-8">
             <q-select
@@ -225,22 +225,28 @@
               </div>
               <div>
                 <q-input
-                  filled
+                  outlined
                   dense
-                  v-model="startDate"
-                  class="no-shadow  input-radius-4"
+                  class="no-shadow input-radius-6"
+                  :value="dateFormatter(form.initialContact.start)"
+                  readonly
                   color="primary"
                   bg-color="white"
-                  placeholder="01.08.2021"
+                  :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
+                  @click="$refs.qPlannedStartDateProxy.show()"
                 >
                   <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
+                    <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedStartDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="startDate" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="form.initialContact.start"
+                          mask="YYYY-MM-DD"
+                          @input="$refs.qPlannedStartDateProxy.hide()"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -262,22 +268,28 @@
               </div>
               <div>
                 <q-input
-                  filled
+                  outlined
                   dense
-                  v-model="endDate"
-                  class="no-shadow  input-radius-4"
+                  class="no-shadow input-radius-6"
+                  :value="dateFormatter(form.initialContact.end)"
                   color="primary"
+                  readonly
                   bg-color="white"
-                  placeholder="01.08.2021"
+                  :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
+                  @click="$refs.qPlannedEndDateProxy.show()"
                 >
                   <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
+                    <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="qPlannedEndDateProxy"
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="endDate" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="form.initialContact.end"
+                          mask="YYYY-MM-DD"
+                          @input="$refs.qPlannedEndDateProxy.hide()"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -298,18 +310,16 @@
             <draggable
               handle=".handle"
               class="col-8"
-              v-model="bilend"
-              ghost-class="ghost"
-              @end="onEnd"
-              @sort="onSort"
+              :value="form.initialContact.items"
+              ghost-class="movingClass"
+              @update="onUpdate"
               :force-fallback="true"
             >
               <transition-group type="transition" tag="div" name="flip-list">
                 <q-card
+                  v-for="element in form.initialContact.items"
+                  :key="element.sortPosition"
                   class="q-pa-none shadow-0"
-                  v-for="element in bilend"
-                  :id="element.order"
-                  :key="element.order"
                 >
                   <div style="background:#16428B1A">
                     <q-card-section class="row items-center justify-between">
@@ -321,7 +331,7 @@
                           name="reorder"
                         />
                         <p class="no-margin font-18 text-blue text-weight-600">
-                          {{ element.title }}
+                          {{ element.objectTitle }}
                         </p>
                       </div>
                       <q-toggle
@@ -340,13 +350,17 @@
                             dense
                             class="no-shadow input-radius-6"
                             placeholder="Name"
+                            v-model="element.name"
                           />
                         </div>
-                        <div class="col-12">
+                        <div
+                          v-if="element.hasOwnProperty('project')"
+                          class="col-12"
+                        >
                           <ProjectIdeas
                             :isInChecklist="true"
                             :editing="isEdit.projects"
-                            @update:linkToProject="form.projects = $event"
+                            @update:linkToProject="element.project = $event"
                           />
                         </div>
                         <div class="col-12">
@@ -356,6 +370,7 @@
                             dense
                             class="no-shadow input-radius-6"
                             placeholder="text"
+                            v-model="element.text"
                           />
                         </div>
                         <div class="col-4">
@@ -425,8 +440,8 @@
                   <draggable
                     handle=".handle"
                     class="col-8"
-                    v-model="element.children"
-                    ghost-class="ghost"
+                    v-model="element.tasks"
+                    ghost-class="movingClass"
                     @end="onEnd"
                     @sort="onSort"
                     :force-fallback="true"
@@ -437,7 +452,7 @@
                       name="flip-list"
                     >
                       <q-card
-                        v-for="item in element.children"
+                        v-for="item in element.tasks"
                         :id="item.order"
                         :key="item.order"
                         class="shadow-0 q-mt-xs"
@@ -470,9 +485,9 @@
                           v-model="item.children"
                           ghost-class="movingClass"
                           @end="onEnd"
-                          @change="horse"
                           @update="onUpdate"
                           :force-fallback="true"
+                          :move="onMove"
                         >
                           <transition-group
                             type="transition"
@@ -515,6 +530,9 @@
               </transition-group>
             </draggable>
           </div>
+          <div class="col-12">
+            <q-separator class="bg-blue q-mt-md opacity-10" />
+          </div>
         </div>
       </q-form>
     </div>
@@ -527,6 +545,7 @@ import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import draggable from "vuedraggable";
+import { dateFormatter } from "src/boot/dateFormatter";
 
 export default {
   name: "newCheckList",
@@ -541,13 +560,110 @@ export default {
     return {
       options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
       projectIdea: true,
-      startDate: "",
-      endDate: "",
       form: {
         title: "",
-        plannedStart: "",
-        plannedEnd: "",
+        ideaProvider: "",
+        project: "",
         visibility: "only for me",
+        editors: [],
+        initialContact: {
+          start: "",
+          end: "",
+          items: [
+            // captureIdea
+            {
+              objectName: "captureIdea",
+              objectTitle: "capture Project Idea",
+              name: "",
+              text: "",
+              sortPosition: 0,
+              active: false,
+              project: null,
+              tasks: [
+                {
+                  name: "Parent 1",
+                  order: 1,
+                  active: true,
+                  children: [
+                    {
+                      name: "Child 1",
+                      order: 1,
+                      active: true,
+                      fixed: true
+                    },
+                    {
+                      name: "Child 2",
+                      order: 2,
+                      active: false
+                    },
+                    {
+                      name: "Child 3",
+                      order: 3,
+                      active: true
+                    },
+                    {
+                      name: "Child 4",
+                      order: 4,
+                      active: true
+                    },
+                    {
+                      name: "Child 5",
+                      order: 5,
+                      active: false
+                    },
+                    {
+                      name: "Child 6",
+                      order: 6,
+                      active: false
+                    },
+                    {
+                      name: "Child 7",
+                      order: 7,
+                      active: true
+                    }
+                  ]
+                },
+                {
+                  name: "Parent 2",
+                  order: 2,
+                  active: true,
+                  children: [
+                    {
+                      name: "Child 1",
+                      order: 1,
+                      active: true
+                    },
+                    {
+                      name: "Child 2",
+                      order: 2,
+                      active: false
+                    },
+                    {
+                      name: "Child 3",
+                      order: 3,
+                      active: true
+                    },
+                    {
+                      name: "Child 4",
+                      order: 4,
+                      active: true
+                    }
+                  ]
+                }
+              ]
+            },
+            // caputreContect
+            {
+              objectName: "caputreContect",
+              objectTitle: "Caputre contect",
+              name: "",
+              text: "",
+              active: true,
+              tasks: null,
+              sortPosition: 1
+            }
+          ]
+        },
         info: {
           contactName: "",
           phone: "",
@@ -555,12 +671,6 @@ export default {
           location: "",
           streetNo: "",
           postalCode: ""
-        },
-        projectIdea: {
-          name: "",
-          role: "",
-
-          text: ""
         },
         details: {
           content: "",
@@ -572,7 +682,6 @@ export default {
         },
         fundingGuideline: [],
         municipality: "",
-        editors: [],
         categories: [],
         tags: [],
         estimatedCosts: [],
@@ -581,21 +690,12 @@ export default {
         files: null
       },
       visibilityOptions: ["only for me", "all users", "listed only"],
-      IdeengeberOptions: [
-        { label: "Ehrenamt", value: true },
-        { label: "Hauptamt", value: false }
+      ideaProviderOptions: [
+        { label: "Volunteering", value: "volunteering" },
+        { label: "Main Office", value: "main office" }
       ],
-      projectStatuses: [
-        { label: "Idea", value: "Idea" },
-        { label: "Development", value: "Development" },
-        { label: "Pre-Planning", value: "Pre-Planning" },
-        { label: "Detailed-Planning", value: "Detailed-Planning" }
-      ],
+
       isLoading: false,
-      myArray: [
-        { name: "Capture project idea", order: 1 },
-        { name: "Capture project ideaaa", order: 2 }
-      ],
       oldIndex: "",
       newIndex: "",
       bilend: [
@@ -605,7 +705,14 @@ export default {
           name: "",
           project: null,
           text: "",
-          order: 1,
+          order: 1
+        },
+        {
+          title: "Caputre contect",
+          active: false,
+          name: "",
+          text: "",
+          order: 2,
           children: [
             {
               name: "Parent 1",
@@ -626,26 +733,6 @@ export default {
                   name: "Child 3",
                   order: 3,
                   active: true
-                },
-                {
-                  name: "Child 4",
-                  order: 4,
-                  active: true
-                },
-                {
-                  name: "Child 5",
-                  order: 5,
-                  active: false
-                },
-                {
-                  name: "Child 6",
-                  order: 6,
-                  active: false
-                },
-                {
-                  name: "Child 7",
-                  order: 7,
-                  active: true
                 }
               ]
             },
@@ -663,27 +750,10 @@ export default {
                   name: "Child 2",
                   order: 2,
                   active: false
-                },
-                {
-                  name: "Child 3",
-                  order: 3,
-                  active: true
-                },
-                {
-                  name: "Child 4",
-                  order: 4,
-                  active: true
                 }
               ]
             }
           ]
-        },
-        {
-          title: "Caputre contect",
-          active: false,
-          name: "",
-          text: "",
-          order: 2
         }
       ]
       // bilend: [
@@ -790,6 +860,14 @@ export default {
     }
   },
   methods: {
+    dateFormatter,
+    onMove({ relatedContext, draggedContext }) {
+      const relatedElement = relatedContext.element;
+      const draggedElement = draggedContext.element;
+      return (
+        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      );
+    },
     toggleActive(item) {
       console.log("item", item);
     },
@@ -806,17 +884,26 @@ export default {
       // this.newIndex = event.newIndex;
     },
     onSort(event) {
-      console.log("yes", event);
+      console.log("on SORT", event);
     },
     onUpdate(event) {
       console.log("On Update Event", event);
-      // const newIndex = event.newIndex;
-      // const oldIndex = event.oldIndex;
-      // this.list.splice(newIndex, 0, this.list.splice(oldIndex, 1)[0]);
-      // // update order property based on position in array
-      // this.list.forEach(function(item, index){
-      //   item.order = index;
-      // });
+      const newIndex = event.newIndex;
+      const oldIndex = event.oldIndex;
+      this.form.initialContact.items.splice(
+        newIndex,
+        0,
+        this.form.initialContact.items.splice(oldIndex, 1)[0]
+      );
+      // update order property based on position in array
+      this.form.initialContact.items.forEach(function(item, index) {
+        console.log("item", item);
+        item.sortPosition = index;
+      });
+    },
+    onChange(event) {
+      console.log("on change");
+      console.log("event", event);
     }
   }
 };
