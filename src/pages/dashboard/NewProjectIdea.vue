@@ -122,12 +122,9 @@
             </div>
           </div>
         </div>
-        <div
-          class="row"
-          :class="form.editors.length > 0 ? 'items-baseline' : 'items-center'"
-        >
+        <div class="row">
           <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
+            <p class="font-16 q-mt-xs q-mb-none q-pt-xs">
               {{ $t("newProjectIdeaForm.inviteEditors") }}
             </p>
           </div>
@@ -699,12 +696,7 @@ export default {
         },
         fundingGuideline: [],
         municipality: "",
-        editors: [
-          {
-            id: null,
-            username: ""
-          }
-        ],
+        editors: [],
         categories: [],
         tags: [],
         estimatedCosts: [],
