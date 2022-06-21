@@ -1,23 +1,28 @@
 <template>
   <div>
     <div class="row q-col-gutter-y-lg q-mb-lg">
-      <div v-for="(user, index) in users" :key="index" class="col-12">
+      <div
+        v-for="(user, index) in users"
+        :key="index"
+        class="col-12"
+        :class="index > 0 ? 'q-pt-sm' : ''"
+      >
         <div
-          class="row items-center"
+          class="row items-baseline"
           :class="{ 'q-col-gutter-x-md': $q.screen.gt.sm }"
         >
           <div class="col-11">
-            <div class="row q-col-gutter-x-md ">
+            <div class="row q-col-gutter-x-md">
               <div class="col-12">
                 <q-select
                   outlined
                   dense
-                  :rules="[val => (!!val && val.length > 0) || 'Required']"
-                  :value="user"
+                  :value="user.username"
                   :options="userOptions"
                   options-selected-class="text-primary text-weight-600"
                   class="no-shadow input-radius-6"
                   @input="onSelect($event, index)"
+                  :rules="[val => !!val || 'Please select a user']"
                 >
                   <template v-slot:selected>
                     <template v-if="!!user && user.username !== ''">
@@ -80,7 +85,12 @@ export default {
   props: {
     editing: {
       type: Array,
-      default: () => []
+      default: () => [
+        {
+          username: "",
+          id: null
+        }
+      ]
     }
   },
   data() {
