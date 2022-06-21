@@ -82,7 +82,7 @@
       :data="apiData"
       :columns="columns"
       row-key="name"
-      hide-bottom
+      :hide-bottom="apiData.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : ['title']"
       :filter="filter"
