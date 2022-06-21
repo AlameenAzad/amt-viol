@@ -28,6 +28,7 @@
           />
           {{ $router.currentRoute.meta.title }}
         </q-toolbar-title>
+        <q-space></q-space>
         <div>
           <div class="inline-block ">
             <small class="q-mr-xs">Logged in as:</small>
