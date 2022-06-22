@@ -44,7 +44,7 @@ export async function createNewProjectIdea(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({ path: "/user/data" });
+      this.$router.push({ path: "/user/data?tab=projectIdeas" });
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -230,7 +230,7 @@ export async function editProjectIdea(context, payload) {
       });
       // context.dispatch("getProjectIdeas");
       this.$router.push({
-        path: "/user/data"
+        path: "/user/data?tab=projectIdeas"
       });
     } catch (error) {
       console.error("error", error);

@@ -44,7 +44,7 @@ export async function createNewFunding(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({ path: "/user/data" });
+      this.$router.push({ path: "/user/data?tab=fundings" });
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -233,7 +233,7 @@ export async function editFunding(context, payload) {
       });
       // context.dispatch("getProjectIdeas");
       this.$router.push({
-        path: "/user/data"
+        path: "/user/data?tab=fundings"
       });
     } catch (error) {
       console.error("error", error);
