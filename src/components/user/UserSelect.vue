@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="row q-col-gutter-y-lg q-mb-lg">
+    <div
+      class="row q-col-gutter-y-lg"
+      :class="users.length > 0 ? '' : 'q-mb-lg'"
+    >
       <div
         v-for="(user, index) in users"
         :key="index"
