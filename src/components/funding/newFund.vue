@@ -4,7 +4,11 @@
       Fundings
     </p>
     <div class="bg-white radius-20 q-py-lg q-px-md">
-      <q-form ref="newFundingForm" class="q-gutter-lg q-px-md q-mb-md">
+      <q-form
+        @validation-error="scrollToInvalidElement"
+        ref="newFundingForm"
+        class="q-gutter-lg q-px-md q-mb-md"
+      >
         <div class="row items-center">
           <div class="col-4">
             <p class="font-16 no-margin">
@@ -688,8 +692,9 @@
 </template>
 
 <script>
+import { scroll } from "quasar";
+const { getScrollTarget, setScrollPosition } = scroll;
 import { dateFormatter } from "src/boot/dateFormatter";
-
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
@@ -756,6 +761,13 @@ export default {
     };
   },
   methods: {
+    scrollToInvalidElement(ref) {
+      const el = ref.$el;
+      const target = getScrollTarget(el);
+      const offset = el.offsetTop;
+      const duration = 500;
+      setScrollPosition(target, offset, duration);
+    },
     dateFormatter,
     // dateFormatter(val) {
     //   if (!!val) {
