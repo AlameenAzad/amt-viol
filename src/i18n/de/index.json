@@ -264,7 +264,7 @@
   "fundingSelector": {
     "title": "Förderrichtlinien auswählen"
   },
-  "linkSelector": {
+  "links": {
     "linkAdd": "Link hinzufügen"
   },
   "projectIdeaPlaceholder": {
