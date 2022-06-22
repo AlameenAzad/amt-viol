@@ -9,7 +9,7 @@
         ref="newProjectIdeaForm"
         class="q-gutter-lg q-px-md q-mb-md"
       >
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               {{ $t("newProjectIdeaForm.projectName") }}
@@ -76,7 +76,6 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
-                  :rules="[val => !!val || 'Required']"
                   disable
                 />
               </div>
@@ -86,7 +85,6 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
-                  :rules="[val => !!val || 'Required']"
                   disable
                 />
               </div>
@@ -380,7 +378,7 @@
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              {{ $t("newProjectIdeaForm.fundingGuidelines") }}
+              {{ $t("newProjectIdeaForm.plaanedPeriod") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -396,6 +394,7 @@
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
                   @click="$refs.qPlannedStartDateProxy.show()"
+                  :rules="[val => !!val || 'Required']"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -434,6 +433,7 @@
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
                   @click="$refs.qPlannedEndDateProxy.show()"
+                  :rules="[val => !!val || 'Required']"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -475,7 +475,7 @@
         >
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              Links
+              {{ $t("projectContent.links") }}
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -498,7 +498,6 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
-                  :rules="[val => !!val || 'Required']"
                   v-model="form.media"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -554,7 +553,6 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
-                  :rules="[val => !!val || 'Required']"
                   v-model="form.files"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
