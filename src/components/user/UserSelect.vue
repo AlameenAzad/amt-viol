@@ -25,7 +25,6 @@
                   options-selected-class="text-primary text-weight-600"
                   class="no-shadow input-radius-6"
                   @input="onSelect($event, index)"
-                  :rules="[val => !!val || 'Please select a user']"
                 >
                   <template v-slot:selected>
                     <template v-if="!!user && user.username !== ''">
@@ -88,12 +87,7 @@ export default {
   props: {
     editing: {
       type: Array,
-      default: () => [
-        {
-          username: "",
-          id: null
-        }
-      ]
+      default: () => []
     }
   },
   data() {
