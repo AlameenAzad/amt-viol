@@ -498,6 +498,7 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
+                  :rules="[val => !!val || 'Required']"
                   v-model="form.media"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -554,6 +555,7 @@
                 <q-file
                   flat
                   v-model="form.files"
+                  :rules="[val => !!val || 'Required']"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
                   dark

@@ -65,7 +65,12 @@ export default {
   props: {
     editing: {
       type: Array,
-      default: () => []
+      default: () => [
+        {
+          title: "",
+          link: ""
+        }
+      ]
     }
   },
   data() {
