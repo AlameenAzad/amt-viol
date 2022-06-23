@@ -480,9 +480,10 @@
                         <draggable
                           handle=".handle"
                           class="col-8 q-ml-lg"
-                          :value="item.children"
+                          v-model="item.children"
                           ghost-class="movingClass"
                           @update="onUpdate($event, item.children)"
+                          @change="onChange($event, item.children)"
                           :force-fallback="true"
                         >
                           <transition-group
@@ -886,20 +887,41 @@ export default {
       console.log("on SORT", event);
     },
     onUpdate(event, items) {
-      console.log("event", event);
-      console.log("items", items);
-      const newIndex = event.newIndex;
-      const oldIndex = event.oldIndex;
-      items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
-      // update order property based on position in array
-      items.forEach(function(item, index) {
-        console.log("item", item);
-        item.sortPosition = index + 1;
-      });
+      // console.log("ON UPDATE");
+      // console.log("event", event);
+      // console.log("items", items);
+      // const newIndex = event.newIndex;
+      //   const oldIndex = event.oldIndex;
+      //   items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+      //   // update order property based on position in array
+      //   items.forEach(function(item, index) {
+      //     console.log("item", item);
+      //     item.sortPosition = index + 1;
+      //   });
     },
-    onChange(event) {
-      console.log("on change");
-      console.log("event", event);
+    // onUpdate(event, items) {
+    //   console.log("event", event);
+    //   console.log("items", items);
+    //   const newIndex = event.newIndex;
+    //   const oldIndex = event.oldIndex;
+    //   items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+    //   // update order property based on position in array
+    //   items.forEach(function(item, index) {
+    //     console.log("item", item);
+    //     item.sortPosition = index + 1;
+    //   });
+    // },
+    onChange({ moved }, items) {
+      console.log("ON CHANGE");
+      console.log("moved", moved);
+      console.log("items", items);
+      // const newIndex = moved.newIndex;
+      // const oldIndex = moved.oldIndex;
+      // items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+      // // update order property based on position in array
+      // items.forEach(function(item, index) {
+      //   item.sortPosition = index;
+      // });
     }
   }
 };
