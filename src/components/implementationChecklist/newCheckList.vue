@@ -310,15 +310,15 @@
             <draggable
               handle=".handle"
               class="col-8"
-              :value="form.initialContact.items"
+              v-model="form.initialContact.items"
               ghost-class="movingClass"
-              @update="onUpdate($event, form.initialContact.items)"
+              @change="onChange($event, form.initialContact.items)"
               :force-fallback="true"
             >
               <transition-group type="transition" tag="div" name="flip-list">
                 <q-card
                   v-for="element in form.initialContact.items"
-                  :key="element.sortPosition"
+                  :key="element.id"
                   class="q-pa-none shadow-0"
                 >
                   <div style="background:#16428B1A">
@@ -440,9 +440,9 @@
                   <draggable
                     handle=".handle"
                     class="col-8"
-                    :value="element.tasks"
+                    v-model="element.tasks"
                     ghost-class="movingClass"
-                    @update="onUpdate($event, element.tasks)"
+                    @change="onChange($event, element.tasks)"
                     :force-fallback="true"
                   >
                     <transition-group
@@ -452,7 +452,7 @@
                     >
                       <q-card
                         v-for="item in element.tasks"
-                        :key="item.sortPosition"
+                        :key="item.id"
                         class="shadow-0 q-mt-xs"
                       >
                         <q-card-section
@@ -482,7 +482,6 @@
                           class="col-8 q-ml-lg"
                           v-model="item.children"
                           ghost-class="movingClass"
-                          @update="onUpdate($event, item.children)"
                           @change="onChange($event, item.children)"
                           :force-fallback="true"
                         >
@@ -493,7 +492,7 @@
                           >
                             <q-card
                               v-for="child in item.children"
-                              :key="child.sortPosition"
+                              :key="child.id"
                               class="shadow-0"
                             >
                               <q-card-section
@@ -576,74 +575,87 @@ export default {
               sortPosition: 1,
               active: false,
               project: null,
+              id: 1,
               tasks: [
                 {
                   name: "Parent 1",
                   sortPosition: 1,
+                  id: 1,
                   active: true,
                   children: [
                     {
                       name: "Child 1",
                       sortPosition: 1,
                       active: true,
-                      fixed: true
+                      id: 1
                     },
                     {
                       name: "Child 2",
                       sortPosition: 2,
-                      active: false
+                      active: false,
+                      id: 2
                     },
                     {
                       name: "Child 3",
                       sortPosition: 3,
-                      active: true
+                      active: true,
+                      id: 3
                     },
                     {
                       name: "Child 4",
                       sortPosition: 4,
-                      active: true
+                      active: true,
+                      id: 4
                     },
                     {
                       name: "Child 5",
                       sortPosition: 5,
-                      active: false
+                      active: false,
+                      id: 5
                     },
                     {
                       name: "Child 6",
                       sortPosition: 6,
-                      active: false
+                      active: false,
+                      id: 6
                     },
                     {
                       name: "Child 7",
                       sortPosition: 7,
-                      active: true
+                      active: true,
+                      id: 7
                     }
                   ]
                 },
                 {
                   name: "Parent 2",
                   sortPosition: 2,
+                  id: 2,
                   active: true,
                   children: [
                     {
                       name: "Child 1",
                       sortPosition: 1,
-                      active: true
+                      active: true,
+                      id: 1
                     },
                     {
                       name: "Child 2",
                       sortPosition: 2,
-                      active: false
+                      active: false,
+                      id: 2
                     },
                     {
                       name: "Child 3",
                       sortPosition: 3,
-                      active: true
+                      active: true,
+                      id: 3
                     },
                     {
                       name: "Child 4",
                       sortPosition: 4,
-                      active: true
+                      active: true,
+                      id: 4
                     }
                   ]
                 }
@@ -657,7 +669,8 @@ export default {
               text: "",
               active: true,
               tasks: null,
-              sortPosition: 2
+              sortPosition: 2,
+              id: 2
             }
           ]
         },
@@ -886,42 +899,10 @@ export default {
     onSort(event) {
       console.log("on SORT", event);
     },
-    onUpdate(event, items) {
-      // console.log("ON UPDATE");
-      // console.log("event", event);
-      // console.log("items", items);
-      // const newIndex = event.newIndex;
-      //   const oldIndex = event.oldIndex;
-      //   items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
-      //   // update order property based on position in array
-      //   items.forEach(function(item, index) {
-      //     console.log("item", item);
-      //     item.sortPosition = index + 1;
-      //   });
-    },
-    // onUpdate(event, items) {
-    //   console.log("event", event);
-    //   console.log("items", items);
-    //   const newIndex = event.newIndex;
-    //   const oldIndex = event.oldIndex;
-    //   items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
-    //   // update order property based on position in array
-    //   items.forEach(function(item, index) {
-    //     console.log("item", item);
-    //     item.sortPosition = index + 1;
-    //   });
-    // },
     onChange({ moved }, items) {
-      console.log("ON CHANGE");
-      console.log("moved", moved);
-      console.log("items", items);
-      // const newIndex = moved.newIndex;
-      // const oldIndex = moved.oldIndex;
-      // items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
-      // // update order property based on position in array
-      // items.forEach(function(item, index) {
-      //   item.sortPosition = index;
-      // });
+      items.map((item, index) => {
+        item.sortPosition = index + 1;
+      });
     }
   }
 };
