@@ -10,18 +10,18 @@
             <div class="row q-col-gutter-x-md ">
               <div class="col-6">
                 <q-input
-                  :rules="[val => !!val || 'Required']"
                   outlined
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costName')"
                   @input="onInput(index)"
+                  :rules="[val => !!val || 'Please enter cost name']"
                 />
               </div>
               <div class="col-6">
                 <q-input
                   outlined
-                  :rules="[val => !!val || 'Required']"
+                  :rules="[val => !!val || 'Please enter cost amount']"
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costAmount')"
@@ -64,7 +64,12 @@ export default {
   props: {
     editing: {
       type: Array,
-      default: () => []
+      default: () => [
+        {
+          name: "",
+          price: ""
+        }
+      ]
     }
   },
   data() {
