@@ -2,13 +2,13 @@
   <div>
     <div
       class="row q-col-gutter-y-lg"
-      :class="users.length > 0 ? '' : 'q-mb-lg'"
+      :class="users.length > 0 ? 'q-mb-lg' : 'q-mb-lg'"
     >
       <div
         v-for="(user, index) in users"
         :key="index"
         class="col-12"
-        :class="index > 0 ? 'q-pt-sm' : ''"
+        :class="index > 0 ? 'q-pt-lg' : ''"
       >
         <div
           class="row items-baseline"
