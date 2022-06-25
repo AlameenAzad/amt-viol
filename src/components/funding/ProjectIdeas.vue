@@ -4,7 +4,7 @@
     :bg-color="isInChecklist ? 'white' : ''"
     dense
     v-model="model"
-    multiple
+    :multiple="isInChecklist === false"
     :options="projects"
     options-selected-class="text-primary text-weight-600"
     class="no-shadow input-radius-6"
@@ -53,11 +53,19 @@ export default {
   },
   methods: {
     onSelect(value) {
-      const projects = [];
-      value.forEach(element => {
-        projects.push({ id: element.id });
-      });
-      this.$emit("update:linkToProject", projects.length > 0 ? projects : []);
+      if (!this.isInChecklist) {
+        const projects = [];
+        value.forEach(element => {
+          projects.push({ id: element.id });
+        });
+        this.$emit("update:linkToProject", projects.length > 0 ? projects : []);
+      } else {
+        let project = value;
+        this.$emit(
+          "update:linkToProject",
+          !!project.id ? { id: project.id } : {}
+        );
+      }
     }
   },
   computed: {
