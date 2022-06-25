@@ -187,7 +187,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
-              lazy-rules
+              ref="categories"
               :editing="isEdit.categories"
               @update:category="form.categories = $event"
             />
@@ -742,7 +742,7 @@ export default {
     submitNewProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
-        if (success) {
+        if (success && this.$refs.categories.validate()) {
           this.isLoading = true;
           await this.checkOptionalParameters();
           const res = await this.$store.dispatch(
