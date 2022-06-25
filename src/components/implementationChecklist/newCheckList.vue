@@ -214,11 +214,14 @@
             >project activity</q-card-section
           >
         </q-card>
-        <!--INITIAL CONTACT  -->
-        <div class="row items-start">
+        <div
+          v-for="(card, index) in form.items"
+          :key="index"
+          class="row items-start"
+        >
           <div class="col-4">
             <p class="font-16 no-margin text-weight-600">
-              Initial contact with the politics
+              {{ card.objectTitle }}
             </p>
             <div class="flex items-center row q-mt-md  ">
               <div class="col-2">
@@ -229,24 +232,24 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.initialContact.start)"
+                  :value="dateFormatter(card.start)"
                   readonly
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
-                  @click="$refs.initialContactStartDateProxy.show()"
+                  @click="$refs.startDateProxy[index].show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="initialContactStartDateProxy"
+                        :ref="'startDateProxy'"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
-                          v-model="form.initialContact.start"
+                          v-model="card.start"
                           mask="YYYY-MM-DD"
-                          @input="$refs.initialContactStartDateProxy.hide()"
+                          @input="$refs.startDateProxy[index].hide()"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -272,24 +275,24 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.initialContact.end)"
+                  :value="dateFormatter(card.end)"
                   color="primary"
                   readonly
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
-                  @click="$refs.initialContactEndDateProxy.show()"
+                  @click="$refs.endDateProxy[index].show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="initialContactEndDateProxy"
+                        :ref="'endDateProxy'"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
-                          v-model="form.initialContact.end"
+                          v-model="card.end"
                           mask="YYYY-MM-DD"
-                          @input="$refs.initialContactEndDateProxy.hide()"
+                          @input="$refs.endDateProxy[index].hide()"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -311,343 +314,15 @@
             <draggable
               handle=".handle"
               class="col-8"
-              v-model="form.initialContact.items"
+              v-model="card.items"
               ghost-class="movingClass"
-              @change="onChange($event, form.initialContact.items)"
+              @change="onChange($event, card.items)"
               :force-fallback="true"
               :move="onMove"
             >
               <transition-group type="transition" tag="div" name="flip-list">
                 <q-card
-                  v-for="(element, index) in form.initialContact.items"
-                  :key="element.id"
-                  class="q-pa-none shadow-0"
-                  :class="index > 0 ? 'q-mt-md' : ''"
-                >
-                  <div style="background:#16428B1A">
-                    <q-card-section class="row items-center justify-between">
-                      <div class="row items-center">
-                        <q-icon
-                          size="sm"
-                          color="blue-5"
-                          class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                          name="reorder"
-                        />
-                        <p class="no-margin font-18 text-blue text-weight-600">
-                          {{ element.objectTitle }}
-                        </p>
-                      </div>
-                      <q-toggle
-                        size="lg"
-                        color="primary"
-                        class="customToggle"
-                        v-model="element.active"
-                      />
-                    </q-card-section>
-                    <q-card-section>
-                      <div class="row q-col-gutter-md">
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            bg-color="white"
-                            dense
-                            class="no-shadow input-radius-6"
-                            placeholder="Name"
-                            v-model="element.name"
-                          />
-                        </div>
-                        <div
-                          v-if="element.hasOwnProperty('project')"
-                          class="col-12"
-                        >
-                          <ProjectIdeas
-                            :isInChecklist="true"
-                            :editing="isEdit.projects"
-                            @update:linkToProject="element.project = $event"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            bg-color="white"
-                            dense
-                            class="no-shadow input-radius-6"
-                            placeholder="text"
-                            v-model="element.text"
-                          />
-                        </div>
-                        <div class="col-4">
-                          <q-file
-                            outlined
-                            bg-color="transparent"
-                            v-model="form.files"
-                            class="uploadInput input-radius-6"
-                            label-color="primary"
-                            :label="
-                              !!form.files && form.files.length > 0
-                                ? 'Add Files'
-                                : 'Upload File'
-                            "
-                            multiple
-                            display-value=""
-                            append
-                          >
-                            <template v-slot:prepend>
-                              <q-icon
-                                color="primary"
-                                class="on-right"
-                                name="upload"
-                              />
-                            </template>
-                          </q-file>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div
-                          class="q-mt-sm"
-                          v-if="form.files && form.files.length > 0"
-                        >
-                          <q-item
-                            v-for="(file, index) in form.files"
-                            :key="index"
-                            clickable
-                          >
-                            <q-item-section side>
-                              <q-avatar rounded size="48px">
-                                <small>{{
-                                  imgPreview(file).name.split(".")[1]
-                                }}</small>
-                              </q-avatar>
-                            </q-item-section>
-                            <q-item-section>
-                              <q-item-label class="ellipsis" caption>{{
-                                imgPreview(file).name
-                              }}</q-item-label>
-                            </q-item-section>
-                            <q-item-section side>
-                              <q-btn
-                                icon="delete"
-                                @click.prevent.stop="removeFile(index)"
-                                size="sm"
-                                round
-                                text-color="red"
-                                dense
-                              >
-                              </q-btn>
-                            </q-item-section>
-                          </q-item>
-                        </div>
-                      </div>
-                    </q-card-section>
-                  </div>
-                  <draggable
-                    v-if="element.active === true"
-                    handle=".handle"
-                    class="col-8"
-                    v-model="element.tasks"
-                    ghost-class="movingClass"
-                    @change="onChange($event, element.tasks)"
-                    :force-fallback="true"
-                  >
-                    <transition-group
-                      type="transition"
-                      tag="div"
-                      name="flip-list"
-                    >
-                      <q-card
-                        v-for="(item, index) in element.tasks"
-                        :key="item.id"
-                        class="shadow-0"
-                        :class="index === 0 ? 'q-mt-xs' : ''"
-                      >
-                        <q-card-section
-                          style="background:#FDD50033"
-                          class="flex items-center justify-between q-pa-sm"
-                        >
-                          <div class="row items-center ">
-                            <q-icon
-                              size="sm"
-                              color="blue-5"
-                              class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                              name="reorder"
-                            />
-                            <p class="no-margin font-16 text-weight-600">
-                              {{ item.name }}
-                            </p>
-                          </div>
-                          <q-toggle
-                            size="lg"
-                            color="primary"
-                            class="customToggle"
-                            v-model="item.active"
-                          />
-                        </q-card-section>
-                        <draggable
-                          v-if="item.active === true"
-                          handle=".handle"
-                          class="col-8 q-ml-lg"
-                          v-model="item.children"
-                          ghost-class="movingClass"
-                          @change="onChange($event, item.children)"
-                          :force-fallback="true"
-                        >
-                          <transition-group
-                            type="transition"
-                            tag="div"
-                            name="flip-list"
-                          >
-                            <q-card
-                              v-for="child in item.children"
-                              :key="child.id"
-                              class="shadow-0"
-                            >
-                              <q-card-section
-                                horizontal
-                                class="items-center q-pa-xs justify-between"
-                              >
-                                <div class="col-auto ">
-                                  <q-icon
-                                    size="sm"
-                                    color="blue-5"
-                                    class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                                    name="reorder"
-                                  />
-                                </div>
-                                <div class="col-10">
-                                  <p class="no-margin font-14 text-overflow">
-                                    {{ child.name }}
-                                  </p>
-                                </div>
-                                <div class="col-auto">
-                                  <q-toggle
-                                    size="lg"
-                                    color="primary"
-                                    class="customToggle"
-                                    v-model="child.active"
-                                  />
-                                </div>
-                              </q-card-section>
-                              <q-separator class="bg-blue q-mb-sm opacity-10" />
-                            </q-card>
-                          </transition-group>
-                        </draggable>
-                      </q-card>
-                    </transition-group>
-                  </draggable>
-                </q-card>
-              </transition-group>
-            </draggable>
-          </div>
-          <div class="col-12">
-            <q-separator class="bg-blue q-mt-md opacity-10" />
-          </div>
-        </div>
-        <!-- PREPARTAION -->
-        <div class="row items-start">
-          <div class="col-4">
-            <p class="font-16 no-margin text-weight-600">
-              Preparation of the project idea outline with internal coordination
-            </p>
-            <div class="flex items-center row q-mt-md  ">
-              <div class="col-2">
-                <p class="font-14 no-margin">Start</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.preparation.start)"
-                  readonly
-                  color="primary"
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
-                  @click="$refs.preparationStartDateProxy.show()"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        ref="preparationStartDateProxy"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          v-model="form.preparation.start"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.preparationStartDateProxy.hide()"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-            <div class="flex items-center row q-mt-md  ">
-              <div class="col-2">
-                <p class="font-14 no-margin">End</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.preparation.end)"
-                  color="primary"
-                  readonly
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
-                  @click="$refs.preparationEndtDateProxy.show()"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        ref="preparationEndtDateProxy"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          v-model="form.preparation.end"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.preparationEndtDateProxy.hide()"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-          </div>
-          <div class="col-8">
-            <draggable
-              handle=".handle"
-              class="col-8"
-              v-model="form.preparation.items"
-              ghost-class="movingClass"
-              @change="onChange($event, form.preparation.items)"
-              :force-fallback="true"
-              :move="onMove"
-            >
-              <transition-group type="transition" tag="div" name="flip-list">
-                <q-card
-                  v-for="(element, index) in form.preparation.items"
+                  v-for="(element, index) in card.items"
                   :key="element.id"
                   class="q-pa-none shadow-0"
                   :class="index > 0 ? 'q-mt-md' : ''"
@@ -790,353 +465,30 @@
                       >
                         <q-card-section
                           style="background:#FDD50033"
-                          class="flex items-center justify-between q-pa-sm"
+                          class="q-pa-sm items-center"
+                          horizontal
                         >
-                          <div class="row items-center ">
+                          <div class="col-auto">
                             <q-icon
                               size="sm"
                               color="blue-5"
                               class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
                               name="reorder"
                             />
+                          </div>
+                          <div class="col-10">
                             <p class="no-margin font-16 text-weight-600">
                               {{ item.name }}
                             </p>
                           </div>
-                          <q-toggle
-                            size="lg"
-                            color="primary"
-                            class="customToggle"
-                            v-model="item.active"
-                          />
-                        </q-card-section>
-                        <draggable
-                          v-if="item.active === true"
-                          handle=".handle"
-                          class="col-8 q-ml-lg"
-                          v-model="item.children"
-                          ghost-class="movingClass"
-                          @change="onChange($event, item.children)"
-                          :force-fallback="true"
-                        >
-                          <transition-group
-                            type="transition"
-                            tag="div"
-                            name="flip-list"
-                          >
-                            <q-card
-                              v-for="child in item.children"
-                              :key="child.id"
-                              class="shadow-0"
-                            >
-                              <q-card-section
-                                horizontal
-                                class="items-center q-pa-xs justify-between"
-                              >
-                                <div class="col-auto ">
-                                  <q-icon
-                                    size="sm"
-                                    color="blue-5"
-                                    class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                                    name="reorder"
-                                  />
-                                </div>
-                                <div class="col-10">
-                                  <p class="no-margin font-14 text-overflow">
-                                    {{ child.name }}
-                                  </p>
-                                </div>
-                                <div class="col-auto">
-                                  <q-toggle
-                                    size="lg"
-                                    color="primary"
-                                    class="customToggle"
-                                    v-model="child.active"
-                                  />
-                                </div>
-                              </q-card-section>
-                              <q-separator class="bg-blue q-mb-sm opacity-10" />
-                            </q-card>
-                          </transition-group>
-                        </draggable>
-                      </q-card>
-                    </transition-group>
-                  </draggable>
-                </q-card>
-              </transition-group>
-            </draggable>
-          </div>
-          <div class="col-12">
-            <q-separator class="bg-blue q-mt-md opacity-10" />
-          </div>
-        </div>
-        <!-- FUNDING RESEARCH -->
-        <div class="row items-start">
-          <div class="col-4">
-            <p class="font-16 no-margin text-weight-600">
-              funding research
-            </p>
-            <div class="flex items-center row q-mt-md  ">
-              <div class="col-2">
-                <p class="font-14 no-margin">Start</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.preparation.start)"
-                  readonly
-                  color="primary"
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
-                  @click="$refs.preparationStartDateProxy.show()"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        ref="preparationStartDateProxy"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          v-model="form.preparation.start"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.preparationStartDateProxy.hide()"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
+                          <div class="col-auto">
+                            <q-toggle
+                              size="lg"
                               color="primary"
-                              flat
+                              class="customToggle"
+                              v-model="item.active"
                             />
                           </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-            <div class="flex items-center row q-mt-md  ">
-              <div class="col-2">
-                <p class="font-14 no-margin">End</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6"
-                  :value="dateFormatter(form.preparation.end)"
-                  color="primary"
-                  readonly
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
-                  @click="$refs.preparationEndtDateProxy.show()"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        ref="preparationEndtDateProxy"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          v-model="form.preparation.end"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.preparationEndtDateProxy.hide()"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-          </div>
-          <div class="col-8">
-            <draggable
-              handle=".handle"
-              class="col-8"
-              v-model="form.preparation.items"
-              ghost-class="movingClass"
-              @change="onChange($event, form.preparation.items)"
-              :force-fallback="true"
-              :sort="false"
-            >
-              <transition-group type="transition" tag="div" name="flip-list">
-                <q-card
-                  v-for="(element, index) in form.preparation.items"
-                  :key="element.id"
-                  class="q-pa-none shadow-0"
-                  :class="index > 0 ? 'q-mt-md' : ''"
-                >
-                  <div style="background:#16428B1A">
-                    <q-card-section class="row items-center justify-between">
-                      <div class="row items-center">
-                        <q-icon
-                          size="sm"
-                          color="blue-5"
-                          class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                          name="lock"
-                        />
-                        <p class="no-margin font-18 text-blue text-weight-600">
-                          {{ element.objectTitle }}
-                        </p>
-                      </div>
-                      <q-toggle
-                        size="lg"
-                        color="primary"
-                        class="customToggle"
-                        v-model="element.active"
-                      />
-                    </q-card-section>
-                    <q-card-section>
-                      <div class="row q-col-gutter-md">
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            bg-color="white"
-                            dense
-                            class="no-shadow input-radius-6"
-                            placeholder="Name"
-                            v-model="element.name"
-                          />
-                        </div>
-                        <div
-                          v-if="element.hasOwnProperty('project')"
-                          class="col-12"
-                        >
-                          <ProjectIdeas
-                            :isInChecklist="true"
-                            :editing="isEdit.projects"
-                            @update:linkToProject="element.project = $event"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            bg-color="white"
-                            dense
-                            class="no-shadow input-radius-6"
-                            placeholder="text"
-                            v-model="element.text"
-                          />
-                        </div>
-                        <div class="col-4">
-                          <q-file
-                            outlined
-                            bg-color="transparent"
-                            v-model="form.files"
-                            class="uploadInput input-radius-6"
-                            label-color="primary"
-                            :label="
-                              !!form.files && form.files.length > 0
-                                ? 'Add Files'
-                                : 'Upload File'
-                            "
-                            multiple
-                            display-value=""
-                            append
-                          >
-                            <template v-slot:prepend>
-                              <q-icon
-                                color="primary"
-                                class="on-right"
-                                name="upload"
-                              />
-                            </template>
-                          </q-file>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div
-                          class="q-mt-sm"
-                          v-if="form.files && form.files.length > 0"
-                        >
-                          <q-item
-                            v-for="(file, index) in form.files"
-                            :key="index"
-                            clickable
-                          >
-                            <q-item-section side>
-                              <q-avatar rounded size="48px">
-                                <small>{{
-                                  imgPreview(file).name.split(".")[1]
-                                }}</small>
-                              </q-avatar>
-                            </q-item-section>
-                            <q-item-section>
-                              <q-item-label class="ellipsis" caption>{{
-                                imgPreview(file).name
-                              }}</q-item-label>
-                            </q-item-section>
-                            <q-item-section side>
-                              <q-btn
-                                icon="delete"
-                                @click.prevent.stop="removeFile(index)"
-                                size="sm"
-                                round
-                                text-color="red"
-                                dense
-                              >
-                              </q-btn>
-                            </q-item-section>
-                          </q-item>
-                        </div>
-                      </div>
-                    </q-card-section>
-                  </div>
-                  <draggable
-                    v-if="element.active === true"
-                    handle=".handle"
-                    class="col-8"
-                    v-model="element.tasks"
-                    ghost-class="movingClass"
-                    @change="onChange($event, element.tasks)"
-                    :force-fallback="true"
-                  >
-                    <transition-group
-                      type="transition"
-                      tag="div"
-                      name="flip-list"
-                    >
-                      <q-card
-                        v-for="(item, index) in element.tasks"
-                        :key="item.id"
-                        class="shadow-0"
-                        :class="index === 0 ? 'q-mt-xs' : ''"
-                      >
-                        <q-card-section
-                          style="background:#FDD50033"
-                          class="flex items-center justify-between q-pa-sm"
-                        >
-                          <div class="row items-center ">
-                            <q-icon
-                              size="sm"
-                              color="blue-5"
-                              class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                              name="reorder"
-                            />
-                            <p class="no-margin font-16 text-weight-600">
-                              {{ item.name }}
-                            </p>
-                          </div>
-                          <q-toggle
-                            size="lg"
-                            color="primary"
-                            class="customToggle"
-                            v-model="item.active"
-                          />
                         </q-card-section>
                         <draggable
                           v-if="item.active === true"
@@ -1262,422 +614,821 @@ export default {
         project: "",
         visibility: "only for me",
         editors: [],
-        initialContact: {
-          start: "",
-          end: "",
-          items: [
-            // captureIdea
-            {
-              objectName: "captureIdea",
-              objectTitle: "capture Project Idea",
-              name: "",
-              text: "",
-              sortPosition: 1,
-              active: true,
-              project: {},
-              id: 1,
-              files: null,
-              tasks: [
-                {
-                  name: "Projektidee-Quellen nutzen",
-                  sortPosition: 1,
-                  id: 1,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name: "Projektidee aus Antragder Politik entnommen",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name: "Projektidee aus lokalem Arbeitskreis entnommen",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    },
-                    {
-                      name:
-                        "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen",
-                      sortPosition: 5,
-                      active: false,
-                      id: 5
-                    },
-                    {
-                      name:
-                        "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht",
-                      sortPosition: 6,
-                      active: false,
-                      id: 6
-                    },
-                    {
-                      name:
-                        "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee",
-                      sortPosition: 7,
-                      active: true,
-                      id: 7
-                    }
-                  ]
-                },
-                {
-                  name: "Allgemeine Rahmenbedingungen ermitteln",
-                  sortPosition: 2,
-                  id: 2,
-                  active: true,
-                  children: [
-                    {
-                      name: "ZielundNutzenderProjektideedefinieren",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "BedarfederBürger*innenermitteln(z.B.überAbfrageüberderHomepage)",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name: "Projektinitiator*innenfestlegen",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Finanzielle Rahmenbedingungenim Bauamt und der Kämmereiprüfen (u.a. Kostenschätzung und Liquidität der Kommune)",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    }
-                  ]
-                }
-              ]
-            },
-            // caputreContect
-            {
-              objectName: "caputreContect",
-              objectTitle: "Caputre contect",
-              name: "",
-              text: "",
-              active: false,
-              sortPosition: 2,
-              files: null,
-              id: 2,
-              tasks: []
-            }
-          ]
-        },
-        preparation: {
-          start: "",
-          end: "",
-          items: [
-            {
-              objectName: "inspection",
-              objectTitle: "Inspection",
-              name: "",
-              text: "",
-              sortPosition: 1,
-              id: 1,
-              active: true,
-              fixed: true,
-              files: null,
-              tasks: [
-                {
-                  name: "Begehung zielgerichtet vorbereiten",
-                  sortPosition: 1,
-                  id: 1,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name:
-                        "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    },
-                    {
-                      name:
-                        "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
-                      sortPosition: 5,
-                      active: false,
-                      id: 5
-                    },
-                    {
-                      name:
-                        "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                      sortPosition: 6,
-                      active: false,
-                      id: 6
-                    }
-                  ]
-                },
-                {
-                  name:
-                    "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
-                  sortPosition: 2,
-                  id: 2,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name:
-                        "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              objectName: "captureRequirements",
-              objectTitle: "Capture requirements",
-              name: "",
-              text: "",
-              sortPosition: 2,
-              id: 2,
-              active: true,
-              fixed: true,
-              files: null,
-              tasks: [
-                {
-                  name:
-                    "Projektentwicklung partizipativ gestalten und konkretisieren",
-                  sortPosition: 1,
-                  id: 1,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name:
-                        "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    },
-                    {
-                      name:
-                        "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
-                      sortPosition: 5,
-                      active: false,
-                      id: 5
-                    },
-                    {
-                      name:
-                        "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                      sortPosition: 6,
-                      active: false,
-                      id: 6
-                    }
-                  ]
-                },
-                {
-                  name:
-                    "Projektsteckbrief für die weiteren Schritte dokumentieren",
-                  sortPosition: 2,
-                  id: 2,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    },
-                    {
-                      name:
-                        "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                      sortPosition: 5,
-                      active: true,
-                      id: 5
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              objectName: "captureNeeds",
-              objectTitle: "Capture Needs/Goals",
-              name: "",
-              text: "",
-              sortPosition: 3,
-              id: 3,
-              active: true,
-              fixed: true,
-              files: null,
-              tasks: [
-                {
-                  name: "Erwartungen an das Projekt definieren",
-                  sortPosition: 1,
-                  id: 1,
-                  active: true,
-                  children: [
-                    {
-                      name: "AlleBeteiligtenaufeinenNennerbringen",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "Erwartungshaltungtransparentmachenundkonsolidieren",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name:
-                        "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name: "Fragebogen-Abfrage(Zielgruppen)",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    }
-                  ]
-                },
-                {
-                  name: "Ressourcen der Akteure bündeln",
-                  sortPosition: 2,
-                  id: 2,
-                  active: true,
-                  children: [
-                    {
-                      name:
-                        "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
-                      sortPosition: 1,
-                      active: true,
-                      id: 1
-                    },
-                    {
-                      name:
-                        "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
-                      sortPosition: 2,
-                      active: false,
-                      id: 2
-                    },
-                    {
-                      name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
-                      sortPosition: 3,
-                      active: true,
-                      id: 3
-                    },
-                    {
-                      name:
-                        "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                      sortPosition: 4,
-                      active: true,
-                      id: 4
-                    },
-                    {
-                      name:
-                        "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                      sortPosition: 5,
-                      active: true,
-                      id: 5
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
+        items: [
+          {
+            objectName: "initialContact",
+            objectTitle: "Initial contact with the politics",
+            start: "",
+            end: "",
+            items: [
+              // captureIdea
+              {
+                objectName: "captureIdea",
+                objectTitle: "capture Project Idea",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                active: true,
+                project: {},
+                id: 1,
+                files: null,
+                tasks: [
+                  {
+                    name: "Projektidee-Quellen nutzen",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name: "Projektidee aus Antragder Politik entnommen",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Projektidee aus lokalem Arbeitskreis entnommen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      },
+                      {
+                        name:
+                          "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee",
+                        sortPosition: 7,
+                        active: true,
+                        id: 7
+                      }
+                    ]
+                  },
+                  {
+                    name: "Allgemeine Rahmenbedingungen ermitteln",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name: "ZielundNutzenderProjektideedefinieren",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*innenermitteln(z.B.überAbfrageüberderHomepage)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Projektinitiator*innenfestlegen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Finanzielle Rahmenbedingungenim Bauamt und der Kämmereiprüfen (u.a. Kostenschätzung und Liquidität der Kommune)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      }
+                    ]
+                  }
+                ]
+              },
+              // caputreContect
+              {
+                objectName: "caputreContect",
+                objectTitle: "Caputre contect",
+                name: "",
+                text: "",
+                active: false,
+                sortPosition: 2,
+                files: null,
+                id: 2,
+                tasks: []
+              }
+            ]
+          },
+          {
+            objectName: "preparation",
+            objectTitle:
+              "Preparation of the project idea outline with internal coordination",
+            start: "",
+            end: "",
+            items: [
+              {
+                objectName: "inspection",
+                objectTitle: "Inspection",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                id: 1,
+                active: true,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Begehung zielgerichtet vorbereiten",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "captureRequirements",
+                objectTitle: "Capture requirements",
+                name: "",
+                text: "",
+                sortPosition: 2,
+                id: 2,
+                active: true,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name:
+                      "Projektentwicklung partizipativ gestalten und konkretisieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Projektsteckbrief für die weiteren Schritte dokumentieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "captureNeeds",
+                objectTitle: "Capture Needs/Goals",
+                name: "",
+                text: "",
+                sortPosition: 3,
+                id: 3,
+                active: true,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Erwartungen an das Projekt definieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      }
+                    ]
+                  },
+                  {
+                    name: "Ressourcen der Akteure bündeln",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            objectName: "fundingResearch",
+            objectTitle: "funding research",
+            start: "",
+            end: "",
+            items: [
+              {
+                objectName: "checkDatabase",
+                objectTitle: "Check database “fundings”",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                id: 1,
+                active: false,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Begehung zielgerichtet vorbereiten",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkForFunding",
+                objectTitle: "check for fundings",
+                name: "",
+                text: "",
+                sortPosition: 2,
+                id: 2,
+                active: false,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name:
+                      "Projektentwicklung partizipativ gestalten und konkretisieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Projektsteckbrief für die weiteren Schritte dokumentieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkWithFunding",
+                objectTitle: "check with funding provider",
+                name: "",
+                text: "",
+                sortPosition: 3,
+                id: 3,
+                active: false,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Erwartungen an das Projekt definieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      }
+                    ]
+                  },
+                  {
+                    name: "Ressourcen der Akteure bündeln",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkGuildlines",
+                objectTitle: "check guidlines (long version)",
+                name: "",
+                text: "",
+                sortPosition: 4,
+                id: 4,
+                active: true,
+                fixed: false,
+                files: null,
+                tasks: [
+                  {
+                    name:
+                      "Worauf muss beim Abgleich des Projektsteckbriefes mit der Richtlinie geachtet werden?",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name: "Fristenbeachten",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name: "CheckdesProjektsteckbriefesmitRichtlinie",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      }
+                    ]
+                  },
+                  {
+                    name: "Grundlegende Förderbedingungen prüfen",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name: "Antragsberechtigungprüfen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name: "Brutto/nettoFörderungprüfen",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Schwellenwerte/Bagatellgrenzeprüfen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Spezielle Rahmenbedingungen und Bedeutung (z.B. AZA-Richtlinie) prüfen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Projektsteckbrief ggf. nachjustieren/ Passgenauigkeit zum Förderprogramm herstellen",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      },
+                      {
+                        name: "DierichtigenSchlagwörterdefinieren/adressieren",
+                        sortPosition: 6,
+                        active: true,
+                        id: 6
+                      },
+                      {
+                        name:
+                          "BeiUnsicherheitweitereRücksprachemitdemFördermittelgeber",
+                        sortPosition: 7,
+                        active: true,
+                        id: 7
+                      },
+                      {
+                        name:
+                          "AlternativeFinanzierungs-undFördermöglichkeitenprüfen",
+                        sortPosition: 8,
+                        active: true,
+                        id: 8
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+
         info: {
           contactName: "",
           phone: "",
