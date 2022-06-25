@@ -19,7 +19,7 @@ export async function createNewChecklist(context, payload) {
     console.log("data", data);
     // Construct initialContact
     const initialContact = await constructInitialContact(
-      data.items.find(item => item.objectName === "initialContact")
+      data.items.find(item => item.cardName === "initialContact")
     );
     console.log("initialContact", initialContact);
   }
