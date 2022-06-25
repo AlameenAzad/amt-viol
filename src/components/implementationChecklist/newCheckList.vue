@@ -221,7 +221,7 @@
         >
           <div class="col-4">
             <p class="font-16 no-margin text-weight-600">
-              {{ card.objectTitle }}
+              {{ card.cardTitle }}
             </p>
             <div class="flex items-center row q-mt-md  ">
               <div class="col-2">
@@ -616,8 +616,8 @@ export default {
         editors: [],
         items: [
           {
-            objectName: "initialContact",
-            objectTitle: "Initial contact with the politics",
+            cardName: "initialContact",
+            cardTitle: "Initial contact with the politics",
             start: "",
             end: "",
             items: [
@@ -739,8 +739,8 @@ export default {
             ]
           },
           {
-            objectName: "preparation",
-            objectTitle:
+            cardName: "preparation",
+            cardTitle:
               "Preparation of the project idea outline with internal coordination",
             start: "",
             end: "",
@@ -1037,8 +1037,8 @@ export default {
             ]
           },
           {
-            objectName: "fundingResearch",
-            objectTitle: "funding research",
+            cardName: "fundingResearch",
+            cardTitle: "funding research",
             start: "",
             end: "",
             items: [
@@ -1426,9 +1426,655 @@ export default {
                 ]
               }
             ]
+          },
+          {
+            cardName: "preparationOfProject",
+            cardTitle: "Preparation/optimisation of project documents",
+            start: "",
+            end: "",
+            items: [
+              {
+                objectName: "checkContent",
+                objectTitle: "Check content with guidlines",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                id: 1,
+                active: false,
+                fixed: false,
+                files: null,
+                tasks: [
+                  {
+                    name: "Begehung zielgerichtet vorbereiten",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkCooperations",
+                objectTitle: "If necessary check cooperations",
+                name: "",
+                text: "",
+                sortPosition: 2,
+                id: 2,
+                active: false,
+                fixed: false,
+                files: null,
+                tasks: [
+                  {
+                    name:
+                      "Projektentwicklung partizipativ gestalten und konkretisieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        sortPosition: 5,
+                        active: false,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                        sortPosition: 6,
+                        active: false,
+                        id: 6
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Projektsteckbrief für die weiteren Schritte dokumentieren",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkSimilarProejcts",
+                objectTitle: "If necessary check similar projects",
+                name: "",
+                text: "",
+                sortPosition: 3,
+                id: 3,
+                active: false,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Erwartungen an das Projekt definieren",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      }
+                    ]
+                  },
+                  {
+                    name: "Ressourcen der Akteure bündeln",
+                    sortPosition: 2,
+                    id: 2,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "checkPlanning",
+                objectTitle: "Check planning and financing (department)",
+                name: "",
+                text: "",
+                sortPosition: 4,
+                id: 4,
+                active: true,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Interne Fachabteilungen konkret einbeziehen",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "VorherigeAbstimmungenmiteinzelnenFachleutenzusammenfügen",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name: "MöglicheEinwände/Projektsinnprüfen",
+                        sortPosition: 2,
+                        active: true,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "BesprechungderformalenAnforderungenandieProjektunterlagen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "AbstimmungderAufgaben/ToDosmitdenFachämtern",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "KoordinationderAufgabenmitzentralemAnsprechpartner*innen",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "BeschlüssezurGestaltungdesProjektesmüssengetroffenwerden",
+                        sortPosition: 6,
+                        active: true,
+                        id: 6
+                      },
+                      {
+                        name:
+                          "Alternativenprüfen,ggf.ohneFörderungbeizugeringerFördersumme",
+                        sortPosition: 7,
+                        active: true,
+                        id: 7
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            cardName: "legitimation",
+            cardTitle: "Legitimation for submission",
+            start: "",
+            end: "",
+            items: [
+              {
+                objectName: "template",
+                objectTitle: "Template / Discussion of the project documents",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                id: 1,
+                active: true,
+                fixed: true,
+                files: null,
+                tasks: [
+                  {
+                    name: "Use Projet idea sources",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "RechtzeitigeInfosanAusschüsse/Gemeindevertretung/Bürgermeister*ingeben",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "SchlüssigerProjektantrag->transparent,nachvollziehbar,kurz,prägnant",
+                        sortPosition: 2,
+                        active: true,
+                        id: 2
+                      },
+                      {
+                        name: "VollständigeProjektunterlagen(möglichst)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "Projekt-Informationsblatt/One-Pager",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Kostenschätzungen,Kosten-undFinanzierungsplanundFolgekosten",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "PräsentationdurchFunktionsträger*in/Projektkoordinator*in",
+                        sortPosition: 6,
+                        active: true,
+                        id: 6
+                      },
+                      {
+                        name: "ModerationderfinalenDiskussionzumProjektantrag",
+                        sortPosition: 7,
+                        active: true,
+                        id: 7
+                      },
+                      {
+                        name:
+                          "Ggf. Umlaufbeschluss falls Entscheidungsgremium zu spät tagt",
+                        sortPosition: 8,
+                        active: true,
+                        id: 8
+                      }
+                    ]
+                  },
+                  {
+                    name: "Prepare and initiate the adoption of resolutions",
+                    sortPosition: 2,
+                    id: 2,
+                    active: false,
+                    children: [
+                      {
+                        name:
+                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            cardName: "finalExamination",
+            cardTitle: "Final examination of the project documents",
+            start: "",
+            end: "",
+            items: [
+              {
+                objectName: "revision",
+                objectTitle: "Revision of project documents",
+                name: "",
+                text: "",
+                sortPosition: 1,
+                id: 1,
+                active: false,
+                fixed: false,
+                files: null,
+                tasks: [
+                  {
+                    name: "Use Projet idea sources",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "RechtzeitigeInfosanAusschüsse/Gemeindevertretung/Bürgermeister*ingeben",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "SchlüssigerProjektantrag->transparent,nachvollziehbar,kurz,prägnant",
+                        sortPosition: 2,
+                        active: true,
+                        id: 2
+                      },
+                      {
+                        name: "VollständigeProjektunterlagen(möglichst)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name: "Projekt-Informationsblatt/One-Pager",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name:
+                          "Kostenschätzungen,Kosten-undFinanzierungsplanundFolgekosten",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      },
+                      {
+                        name:
+                          "PräsentationdurchFunktionsträger*in/Projektkoordinator*in",
+                        sortPosition: 6,
+                        active: true,
+                        id: 6
+                      },
+                      {
+                        name: "ModerationderfinalenDiskussionzumProjektantrag",
+                        sortPosition: 7,
+                        active: true,
+                        id: 7
+                      },
+                      {
+                        name:
+                          "Ggf. Umlaufbeschluss falls Entscheidungsgremium zu spät tagt",
+                        sortPosition: 8,
+                        active: true,
+                        id: 8
+                      }
+                    ]
+                  },
+                  {
+                    name: "Prepare and initiate the adoption of resolutions",
+                    sortPosition: 2,
+                    id: 2,
+                    active: false,
+                    children: [
+                      {
+                        name:
+                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name:
+                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        sortPosition: 2,
+                        active: false,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                objectName: "signatures",
+                objectTitle: "Collection of signatures",
+                name: "",
+                text: "",
+                sortPosition: 2,
+                id: 2,
+                active: true,
+                fixed: false,
+                files: null,
+                tasks: [
+                  {
+                    name: "Coordination of the collection of signatures",
+                    sortPosition: 1,
+                    id: 1,
+                    active: true,
+                    children: [
+                      {
+                        name:
+                          "RechtzeitigeInformationenzuweitereAblaufanalleUnterzeichner*innen(Wann? Nach Antragstellung?)",
+                        sortPosition: 1,
+                        active: true,
+                        id: 1
+                      },
+                      {
+                        name: "Richtliniegeändert?->Anpassung",
+                        sortPosition: 2,
+                        active: true,
+                        id: 2
+                      },
+                      {
+                        name:
+                          "RechtzeitigeÜbermittelungderVorlagen(Antrag,Kooperationsvereinbarungenetc.)",
+                        sortPosition: 3,
+                        active: true,
+                        id: 3
+                      },
+                      {
+                        name:
+                          "AbstimmungderfinalenSammlungvonUnterschriften(ZeitundPostwegeinplanen)",
+                        sortPosition: 4,
+                        active: true,
+                        id: 4
+                      },
+                      {
+                        name: "PrüfungderUnterschriften",
+                        sortPosition: 5,
+                        active: true,
+                        id: 5
+                      },
+                      {
+                        name: "DigitalisierungArchiv/Ablage",
+                        sortPosition: 6,
+                        active: true,
+                        id: 6
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ],
-
         info: {
           contactName: "",
           phone: "",
@@ -1439,18 +2085,13 @@ export default {
         },
         municipality: "",
         categories: [],
-        tags: [],
-        estimatedCosts: [],
-        links: [],
-        media: null,
-        files: null
+        tags: []
       },
       visibilityOptions: ["only for me", "all users", "listed only"],
       ideaProviderOptions: [
         { label: "Volunteering", value: "volunteering" },
         { label: "Main Office", value: "main office" }
       ],
-
       isLoading: false
     };
   },
