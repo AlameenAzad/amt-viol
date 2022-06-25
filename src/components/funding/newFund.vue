@@ -311,6 +311,7 @@
               suffix="%"
               placeholder="Own Contribution"
               v-model.number="form.ownContribution"
+              @input="$event === '' ? (form.ownContribution = null) : $event"
               type="number"
               :rules="[]"
             />
