@@ -287,7 +287,7 @@
                     >
                       <p class="q-mb-none">{{ link.title }}</p>
                       <a
-                        class="col-12 q-mb-sm text-blue block text-weight-600"
+                        class="col-12 q-mb-sm text-blue block text-weight-600 text-overflow"
                         target="_blank"
                         rel="noopener noreferrer"
                         :href="
@@ -336,7 +336,7 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-12 q-mb-md">
+          <!-- <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -358,7 +358,7 @@
                 </div>
               </q-card-section>
             </q-card>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="col-12 col-md-8">
