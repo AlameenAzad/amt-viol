@@ -72,7 +72,7 @@
                   <p class="q-mb-sm">
                     {{ funding.info.phone || "Phone not found" }}
                   </p>
-                  <p class="q-mb-sm">
+                  <p class="q-mb-sm text-overflow">
                     {{ funding.info.email || "Email not found" }}
                   </p>
                 </div>
