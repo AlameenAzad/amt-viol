@@ -11,17 +11,31 @@
     @input="onSelect"
   >
     <template v-slot:selected>
-      <template v-if="model && model.length > 0">
-        <span v-for="(project, index) in model" :key="index">
-          {{ index > 0 ? ", " : "" }}
-          {{ project.title }}
-        </span>
-      </template>
-      <template v-else>
-        <span class="text-grey">
-          Select Projects
-        </span>
-      </template>
+      <div v-if="!isInChecklist">
+        <template v-if="model && model.length > 0">
+          <span v-for="(project, index) in model" :key="index">
+            {{ index > 0 ? ", " : "" }}
+            {{ project.title }}
+          </span>
+        </template>
+        <template v-else>
+          <span class="text-grey">
+            Select Projects
+          </span>
+        </template>
+      </div>
+      <div v-if="isInChecklist">
+        <template v-if="model">
+          <span>
+            {{ model.title }}
+          </span>
+        </template>
+        <template v-else>
+          <span class="text-grey">
+            Select Project
+          </span>
+        </template>
+      </div>
     </template>
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
