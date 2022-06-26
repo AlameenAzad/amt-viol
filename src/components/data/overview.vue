@@ -420,6 +420,17 @@ export default {
         });
         this.viewIsLoading = false;
         this.$router.push({ path: `/user/newFunding/${id}` });
+      } else {
+        this.viewIsLoading = true;
+        const id = JSON.parse(JSON.stringify(row && row.id));
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: id
+          }
+        );
+        this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newChecklist/${id}` });
       }
     },
     async editItem(row) {
@@ -477,8 +488,10 @@ export default {
         this.$store.commit("funding/setSpecificFunding", null);
       } else {
         this.$store.dispatch("implementationChecklist/getChecklists");
-        // TODO change this
-        // this.$store.commit("project/setSpecificProject", null);
+        this.$store.commit(
+          "implementationChecklist/setSpecificChecklist",
+          null
+        );
       }
     }
   },
