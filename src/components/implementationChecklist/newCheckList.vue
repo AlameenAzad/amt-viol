@@ -2193,27 +2193,6 @@ export default {
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       );
     },
-    disableMove() {
-      return false;
-    },
-    toggleActive(item) {
-      console.log("item", item);
-    },
-    horse(event) {
-      console.log("event", event);
-    },
-    changeSomething(value) {
-      console.log(value);
-    },
-    onEnd: function(event) {
-      console.log("ON END", event);
-      // TODO Not sure if the below are needed
-      // this.oldIndex = event.oldIndex;
-      // this.newIndex = event.newIndex;
-    },
-    onSort(event) {
-      console.log("on SORT", event);
-    },
     onChange({ moved }, items) {
       items.map((item, index) => {
         item.sortPosition = index + 1;
