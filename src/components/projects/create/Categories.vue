@@ -4,8 +4,7 @@
     dense
     ref="select"
     v-model="model"
-    :rules="[val => true || 'Required']"
-    lazy-rules
+    :rules="[val => (!!val && val.length > 0) || 'Required']"
     multiple
     :options="categories"
     options-selected-class="text-primary text-weight-600"
@@ -36,7 +35,6 @@
 </template>
 
 <script>
-//  :rules="[val => (!!val && val.length > 0) || 'Required']"
 export default {
   name: "categories",
   props: {
