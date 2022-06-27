@@ -11,7 +11,6 @@
       no-caps
     >
       <q-tab
-        exact
         class="q-py-xs q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="projectIdeas"
@@ -441,6 +440,9 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     isInPage() {
       return this.$router.currentRoute.path == "/user/data";
     },
