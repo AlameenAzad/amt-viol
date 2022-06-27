@@ -10,7 +10,12 @@
         class="q-px-lg"
         :active="$router.currentRoute.fullPath == link.path"
         active-class="text-white activeMenu"
-        v-show="link.meta.showInNavigation === true"
+        v-show="
+          (isAdmin === false &&
+            link.meta.requireAdmin === false &&
+            link.meta.showInNavigation === true) ||
+            (isAdmin === true && link.meta.showInNavigation === true)
+        "
       >
         <q-item-section avatar>
           <img class="icon-white" :src="link.icon" />
