@@ -40,7 +40,8 @@ const routes = [
           title: "Home",
           // title: i18n.t("notifications.updateRequest"),
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -51,7 +52,8 @@ const routes = [
         meta: {
           title: "Data Overview",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Documents.svg",
         component: () => import("pages/dashboard/Home.vue")
@@ -62,7 +64,8 @@ const routes = [
         meta: {
           title: "My Watchlist",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Favorite.svg",
         children: [
@@ -71,7 +74,8 @@ const routes = [
             name: "projectIdeas",
             meta: {
               title: "projectIdeas",
-              requireAuth: true
+              requireAuth: true,
+              requireAdmin: true
             },
             icon: "/icons/Home.svg"
           }
@@ -84,7 +88,8 @@ const routes = [
         meta: {
           title: "Categories & Keywords/Tags",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Hash.svg",
         component: () => import("src/pages/dashboard/CategoriesKeywords.vue")
@@ -95,7 +100,8 @@ const routes = [
         meta: {
           title: "User Administation",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Users.svg",
         component: () => import("pages/dashboard/AdminUser.vue")
@@ -107,7 +113,8 @@ const routes = [
           title: "User Administation",
           showInNavigation: false,
           backLink: "/Administation/User",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Users.svg",
         component: () => import("pages/dashboard/DetailUser.vue")
@@ -118,7 +125,8 @@ const routes = [
         meta: {
           title: "My Network",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Network.svg",
         component: () => import("pages/dashboard/Network.vue")
@@ -130,7 +138,8 @@ const routes = [
           title: "User Data",
           showInNavigation: false,
           backLink: "/network",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Users.svg",
         component: () => import("pages/dashboard/NetworkUser.vue")
@@ -141,7 +150,8 @@ const routes = [
         meta: {
           title: "Administrative areas",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Municipality.svg",
         component: () => import("pages/dashboard/Municipality.vue")
@@ -152,7 +162,8 @@ const routes = [
         meta: {
           title: "Details for the Administration",
           backLink: "/Administation/Areas",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Municipality.svg",
         component: () => import("pages/dashboard/MunicipalityDetail.vue")
@@ -163,7 +174,8 @@ const routes = [
         meta: {
           title: "Statistics & Archive",
           showInNavigation: true,
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Archive.svg",
         component: () => import("pages/dashboard/Stats.vue")
@@ -179,7 +191,8 @@ const routes = [
         name: "notifications",
         meta: {
           title: "Notifications",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/Notifications.vue")
@@ -189,7 +202,8 @@ const routes = [
         name: "MyData",
         meta: {
           title: "My Data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/MyData.vue")
@@ -199,7 +213,8 @@ const routes = [
         name: "settings",
         meta: {
           title: "Settings",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         icon: "/icons/Settings.svg",
         component: () => import("pages/dashboard/Settings.vue")
@@ -210,7 +225,8 @@ const routes = [
         meta: {
           title: "New Project Ideas",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/NewProjectIdea.vue")
       },
@@ -220,7 +236,8 @@ const routes = [
         meta: {
           title: "Edit project Idea",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/NewProjectIdea.vue")
       },
@@ -230,7 +247,8 @@ const routes = [
         meta: {
           title: "Details of the project Idea",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/ProjectView.vue")
       },
@@ -240,7 +258,8 @@ const routes = [
         meta: {
           title: "New Funding",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/NewFunding.vue")
       },
@@ -250,7 +269,8 @@ const routes = [
         meta: {
           title: "Edit Funding",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/NewFunding.vue")
       },
@@ -260,7 +280,8 @@ const routes = [
         meta: {
           title: "Details of the Funding",
           backLink: "/user/data",
-          requireAuth: true
+          requireAuth: true,
+          requireAdmin: true
         },
         component: () => import("pages/dashboard/FundingView.vue")
       },
