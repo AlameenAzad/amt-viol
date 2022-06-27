@@ -238,3 +238,25 @@ export async function getSpecificChecklist(context, payload) {
     }
   }
 }
+
+export async function deleteChecklist(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/checklists/${id}`);
+      context.commit("deleteChecklist", res.data.data && res.data.data.id);
+      Notify.create({
+        message: "Checklist deleted successfully",
+        type: "positive"
+      });
+      context.dispatch("getChecklists");
+    } catch (error) {
+      Notify.create({
+        position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
