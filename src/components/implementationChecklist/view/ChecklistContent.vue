@@ -881,8 +881,8 @@
                       <p class="q-mb-none font-16">
                         {{
                           dateFormatter(
-                            !!checklist.preparationOfProject &&
-                              checklist.preparationOfProject.start
+                            !!checklist.legitimation &&
+                              checklist.legitimation.start
                           )
                         }}
                       </p>
@@ -894,8 +894,8 @@
                       <p class="q-mt-sm font-16">
                         {{
                           dateFormatter(
-                            !!checklist.preparationOfProject &&
-                              checklist.preparationOfProject.end
+                            !!checklist.legitimation &&
+                              checklist.legitimation.end
                           )
                         }}
                       </p>
@@ -904,8 +904,7 @@
                 </div>
                 <div class="col-8">
                   <div
-                    v-for="(card,
-                    propertyName) in checklist.preparationOfProject"
+                    v-for="(card, propertyName) in checklist.legitimation"
                     :key="card.sortPosition"
                   >
                     <div
@@ -924,14 +923,8 @@
                                 class="font-18 text-blue text-weight-600 q-ma-none"
                               >
                                 {{
-                                  propertyName === "checkContent"
-                                    ? "Check Content with Guidlines"
-                                    : propertyName === "checkCooperations"
-                                    ? "If necessary check cooperations"
-                                    : propertyName === "checkSimilarProejcts"
-                                    ? "If necessary check similar projects"
-                                    : propertyName === "checkPlanning"
-                                    ? "Check planning and financing with all relevant departments"
+                                  propertyName === "template"
+                                    ? "Presentation/discussion of the project documents"
                                     : ""
                                 }}
                               </p>
@@ -1016,250 +1009,149 @@
 
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md items-start">
+              <q-card-section
+                horizontal
+                class="q-pa-md items-start q-col-gutter-x-sm"
+              >
                 <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Determination Base
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
+                  <div class="row">
+                    <div class="col-12">
+                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                        Final examination of the project documents
+                      </h4>
+                    </div>
+                    <div class="col-2">
+                      <p class="q-mb-none font-16">Start</p>
+                    </div>
+                    <div class="col-10">
+                      <p class="q-mb-none font-16">
                         {{
-                          checklist.assessment ||
-                            "Determination base is not set"
+                          dateFormatter(
+                            !!checklist.finalExamination &&
+                              checklist.finalExamination.start
+                          )
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-2">
+                      <p class="q-mt-sm font-16">End</p>
+                    </div>
+                    <div class="col-10">
+                      <p class="q-mt-sm font-16">
+                        {{
+                          dateFormatter(
+                            !!checklist.finalExamination &&
+                              checklist.finalExamination.end
+                          )
                         }}
                       </p>
                     </div>
                   </div>
                 </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    checklist Period
-                  </h4>
-                </div>
                 <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div class="row">
-                        <div class="col-6 col-md-2">
-                          <p class="q-mt-sm q-mb-sm inline-block">
-                            Start
-                          </p>
-                        </div>
-                        <div class="col-6 col-md-6">
-                          <p class="q-mt-sm q-mb-sm inline-block">
-                            {{
-                              dateFormatter(checklist.plannedStart) ||
-                                "Planned Start not set"
-                            }}
-                          </p>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-6 col-md-2">
-                          <p class="q-mt-sm q-mb-sm inline-block">
-                            End
-                          </p>
-                        </div>
-                        <div class="col-6 col-md-6">
-                          <p class="q-mt-sm q-mb-sm inline-block">
-                            {{
-                              dateFormatter(checklist.plannedEnd) ||
-                                "Planned End not set"
-                            }}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Notes to the checklist period
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{ checklist.notes || "Notes is not set" }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Links
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div v-if="checklist.links && checklist.links.length > 0">
-                        <div
-                          v-for="(link, index) in checklist.links"
-                          :key="index"
-                          class="row"
-                        >
-                          <div class="col-12">
-                            <p class="q-mt-sm q-mb-xs inline-block">
-                              {{ link.title || "Link title not set" }}
-                            </p>
+                  <div
+                    v-for="(card, propertyName) in checklist.finalExamination"
+                    :key="card.sortPosition"
+                  >
+                    <div
+                      v-if="
+                        (propertyName != 'end' ||
+                          propertyName != 'start' ||
+                          propertyName != 'id') &&
+                          card.active === true
+                      "
+                    >
+                      <div class="q-mb-sm" style="background:#16428B1A">
+                        <div class="q-pa-md font-16">
+                          <div class="row justify-between items-start q-mb-md">
+                            <div>
+                              <p
+                                class="font-18 text-blue text-weight-600 q-ma-none"
+                              >
+                                {{
+                                  propertyName === "signatures"
+                                    ? "Collection of signatures"
+                                    : propertyName === "revision"
+                                    ? "Revision of project documents"
+                                    : ""
+                                }}
+                              </p>
+                              <p class="font-14 q-ma-none">
+                                {{ card.name || "No name filled" }}
+                              </p>
+                            </div>
+                            <div>
+                              <q-chip square text-color="white" color="green"
+                                >Done</q-chip
+                              >
+                            </div>
                           </div>
-                          <div class="col-auto">
-                            <a
-                              class="q-mb-sm text-blue block text-weight-600"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              :href="
-                                link.link.split('://')[0].substring(0, 5) ===
-                                'https'
-                                  ? link.link
-                                  : link.link
-                                      .split('://')[0]
-                                      .substring(0, 4) === 'http'
-                                  ? link.link
-                                  : `http://${link.link}`
-                              "
-                              >{{ link.link }}</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
-                        <p class="q-mt-sm q-mb-sm">
-                          No Links set
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Uploads
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div v-if="checklist.files && checklist.files.length > 0">
-                        <div
-                          v-for="(file, index) in checklist.files"
-                          :key="index"
-                          class="row"
-                        >
-                          <div class="col-auto">
-                            <a
-                              class="q-mb-sm text-blue block text-weight-600"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              :href="`${appUrl}${file.url}`"
-                              >{{ file.name }}</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
-                        <p class="q-mt-sm q-mb-sm">
-                          No Files Uploaded
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
 
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Relevant Documents
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div class="row">
-                        <p class="q-mt-sm q-mb-xs">
-                          Project Ideas
-                        </p>
+                          <div class="row items-center q-mb-md">
+                            <div>
+                              <p class="font-16 text-blue-5 q-ma-none">
+                                Description
+                              </p>
+                              <p class="font-16 q-ma-none">
+                                {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div
-                        v-if="
-                          checklist.projects && checklist.projects.length > 0
-                        "
-                      >
-                        <div
-                          class="row"
-                          v-for="(project, index) in checklist.projects"
-                          :key="index"
+                      <div v-if="!!card.tasks && card.tasks.length > 0">
+                        <q-expansion-item
+                          expand-icon-class="text-blue"
+                          v-for="task in card.tasks"
+                          :key="task.sortPosition"
+                          style="background:#FDD50033"
+                          class="q-mb-sm"
+                          v-show="task.active === true"
                         >
-                          <div class="col-auto">
-                            <a
-                              class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              @click.prevent="viewProject(project.id)"
-                              >{{ project.title }}</a
+                          <template v-slot:header>
+                            <q-item-section>
+                              <p class="font-18 text-weight-600 q-ma-none">
+                                {{ task.name }}
+                              </p>
+                            </q-item-section>
+                          </template>
+                          <q-card>
+                            <div
+                              v-if="!!task.children && task.children.length > 0"
                             >
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
-                        <p class="q-mt-xs q-mb-sm">
-                          No Linked Projects
-                        </p>
-                      </div>
-                    </div>
-                    <div class="q-ml-md font-16">
-                      <div class="row">
-                        <p class="q-mt-sm q-mb-xs">
-                          Implementation Checklist
-                        </p>
-                      </div>
-                      <div
-                        v-if="!!checklist.checklist && !!checklist.checklist.id"
-                      >
-                        <div class="row">
-                          <div class="col-auto">
-                            <a
-                              class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              @click.prevent="
-                                viewChecklist(checklist.checklist.id)
-                              "
-                              >{{ checklist.checklist.title }}</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
-                        <p class="q-mt-xs q-mb-sm">
-                          No Linked Implementation Checklist
-                        </p>
+                              <q-card-section
+                                horizontal
+                                v-for="item in task.children"
+                                :key="item.sortPosition"
+                                class="q-pl-none q-py-sm q-pr-none"
+                              >
+                                <div class="col-12">
+                                  <div class="row justify-between items-center">
+                                    <div class="col-11">
+                                      <p class="font-14 q-ma-none">
+                                        {{ item.name }}
+                                      </p>
+                                    </div>
+                                    <div class="col-auto">
+                                      <q-checkbox
+                                        disable
+                                        color="primary"
+                                        class="isActiveCheckbox font-16 q-py-none"
+                                        :value="item.active"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card-section>
+                            </div>
+                          </q-card>
+                        </q-expansion-item>
                       </div>
                     </div>
                   </div>
                 </div>
               </q-card-section>
+              <q-separator inset class="bg-blue opacity-10" />
             </q-card>
           </div>
         </div>
@@ -1270,7 +1162,6 @@
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
-
 export default {
   name: "checklistView",
   data() {
