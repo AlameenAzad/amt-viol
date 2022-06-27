@@ -21,6 +21,7 @@
                   outlined
                   dense
                   :value="user.username"
+                  :rules="[val => !!val || 'Required']"
                   :options="userOptions"
                   options-selected-class="text-primary text-weight-600"
                   class="no-shadow input-radius-6"
