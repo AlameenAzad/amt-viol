@@ -78,16 +78,19 @@
       </q-route-tab>
     </q-tabs>
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       :data="apiData"
       :columns="columns"
       row-key="name"
-      :hide-bottom="apiData.length > 0"
+      :hide-bottom="!isInPage"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : ['title']"
       :filter="filter"
       :pagination="{
-        rowsPerPage: isInPage ? 0 : 5
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: isInPage ? 10 : 5
       }"
     >
       <template v-slot:top>
@@ -313,83 +316,6 @@ export default {
         "plannedStart",
         "plannedEnd"
       ],
-      // projectCols: [
-      //   {
-      //     name: "title",
-      //     label: this.$t("myData.title"),
-      //     align: "left",
-      //     field: row => row.title,
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "categories",
-      //     align: "left",
-      //     label: this.$t("myData.categories"),
-      //     field: row =>
-      //       (!!row.categories &&
-      //         row.categories.map(category => category.title).join(", ")) ||
-      //       "No Categories",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "status",
-      //     label: "Status",
-      //     align: "left",
-      //     field: row =>
-      //       row.published === true
-      //         ? "Published"
-      //         : row.published === false
-      //         ? "Draft"
-      //         : "Status Unavailable",
-      //     sortable: true
-      //   }
-      // ],
-      // fundingCols: [
-      //   {
-      //     name: "title",
-      //     label: "Title",
-      //     align: "left",
-      //     field: row => row.title,
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "categories",
-      //     align: "left",
-      //     label: "Categories",
-      //     field: row =>
-      //       (!!row.categories &&
-      //         row.categories.map(category => category.title).join(", ")) ||
-      //       "No Categories",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "plannedStart",
-      //     label: "Planned Start",
-      //     align: "left",
-      //     field: row => dateFormatter(row.plannedStart),
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "plannedEnd",
-      //     label: "Planned End",
-      //     align: "left",
-      //     field: row => dateFormatter(row.plannedEnd),
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "status",
-      //     label: "Status",
-      //     align: "left",
-      //     field: row =>
-      //       row.published === true
-      //         ? "Published"
-      //         : row.published === false
-      //         ? "Draft"
-      //         : "Status Unavailable",
-      //     sortable: true
-      //   }
-      // ],
-
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false
@@ -466,6 +392,13 @@ export default {
           id: id
         });
         this.deleteIsLoading = false;
+      } else {
+        this.deleteIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("implementationChecklist/deleteChecklist", {
+          id: id
+        });
+        this.deleteIsLoading = false;
       }
     },
     goToPage(page) {
@@ -531,6 +464,13 @@ export default {
     projectCols() {
       return [
         {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
+        {
           name: "title",
           label: this.$t("myData.title"),
           align: "left",
@@ -563,6 +503,13 @@ export default {
     },
     fundingCols() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "title",
           label: this.$t("fundingsCol.title"),
@@ -611,6 +558,13 @@ export default {
     checklistCols() {
       return [
         {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
+        {
           name: "title",
           label: this.$t("checkListCols.title"),
           align: "left",
@@ -650,4 +604,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.pagination-no-shadow .q-field__control {
+  box-shadow: none;
+}
+</style>
