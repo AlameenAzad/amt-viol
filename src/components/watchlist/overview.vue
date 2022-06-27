@@ -327,7 +327,7 @@ export default {
       ];
     },
     isInPage() {
-      return this.$router.currentRoute.fullPath == "/watchlist";
+      return this.$router.currentRoute.path == "/watchlist";
     },
     columns() {
       return this.tab == "projectIdeas"
