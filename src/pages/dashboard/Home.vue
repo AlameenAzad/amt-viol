@@ -55,6 +55,7 @@
               outline
               class="mr-0 radius-6 text-weight-600"
               no-caps
+              @click="$router.push({ path: '/user/newChecklist' })"
             >
               <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("homeBtns.checkListBtn") }}
