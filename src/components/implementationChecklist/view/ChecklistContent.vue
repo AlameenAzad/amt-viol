@@ -242,7 +242,15 @@
             </q-card>
           </div>
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              class="shadow-1 radius-20"
+              :class="
+                checkProgress(
+                  checklist.initialContact.start,
+                  checklist.initialContact.end
+                )
+              "
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -313,7 +321,7 @@
                               </p>
                             </div>
                             <div>
-                              <q-chip square text-color="white" color="green"
+                              <q-chip square text-color="white" class=""
                                 >Done</q-chip
                               >
                             </div>
@@ -407,7 +415,15 @@
           </div>
 
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              class="shadow-1 radius-20"
+              :class="
+                checkProgress(
+                  checklist.preparation.start,
+                  checklist.preparation.end
+                )
+              "
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -557,7 +573,15 @@
           </div>
 
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              :class="
+                checkProgress(
+                  checklist.fundingResearch.start,
+                  checklist.fundingResearch.end
+                )
+              "
+              class="shadow-1 radius-20"
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -709,7 +733,15 @@
           </div>
 
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              :class="
+                checkProgress(
+                  checklist.preparationOfProject.start,
+                  checklist.preparationOfProject.end
+                )
+              "
+              class="shadow-1 radius-20"
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -862,7 +894,15 @@
           </div>
 
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              :class="
+                checkProgress(
+                  checklist.legitimation.start,
+                  checklist.legitimation.end
+                )
+              "
+              class="shadow-1 radius-20"
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -1008,7 +1048,15 @@
           </div>
 
           <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
+            <q-card
+              :class="
+                checkProgress(
+                  checklist.finalExamination.start,
+                  checklist.finalExamination.end
+                )
+              "
+              class="shadow-1 radius-20"
+            >
               <q-card-section
                 horizontal
                 class="q-pa-md items-start q-col-gutter-x-sm"
@@ -1183,6 +1231,18 @@ export default {
   },
   methods: {
     dateFormatter,
+    checkProgress(start, end) {
+      const currentDate = new Date();
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      if (currentDate < startDate) {
+        return "Not started";
+      } else if (currentDate > endDate) {
+        return "done";
+      } else {
+        return "inProgress";
+      }
+    },
     async viewFunding(id) {
       if (!!id) {
         // await this.getNewData(id);
@@ -1258,5 +1318,17 @@ export default {
 .isActiveCheckbox .q-checkbox__bg svg {
   color: $primary;
   padding: 2px;
+}
+.done {
+  border: 1px solid $green;
+  .q-chip {
+    background: $green;
+  }
+}
+.inProgress {
+  border: 1px solid $yellow;
+  .q-chip {
+    background: $yellow;
+  }
 }
 </style>
