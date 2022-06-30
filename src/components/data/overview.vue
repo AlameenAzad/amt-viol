@@ -374,6 +374,17 @@ export default {
         });
         this.editIsLoading = false;
         this.$router.push({ path: `/user/newFunding/edit/${id}` });
+      } else {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: id
+          }
+        );
+        this.editIsLoading = false;
+        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
       }
     },
     async deleteItem(row) {
@@ -605,9 +616,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.pagination-no-shadow .q-field__control {
-  box-shadow: none;
-}
-</style>
