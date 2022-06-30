@@ -149,6 +149,9 @@
 .no-shadow .q-field__inner .q-field__control {
   box-shadow: none !important;
 }
+.pagination-no-shadow .q-field__control {
+  box-shadow: none;
+}
 .q-field__control.bg-transparent {
   box-shadow: none !important;
 }
