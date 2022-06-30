@@ -303,6 +303,17 @@ const routes = [
         },
         component: () =>
           import("pages/dashboard/ImplementationChecklistView.vue")
+      },
+      {
+        path: "/user/newCheckList/edit/:id",
+        name: "EditChecklist",
+        meta: {
+          title: "Edit Checklist",
+          backLink: "/user/data",
+          requireAuth: true,
+          requireAdmin: false
+        },
+        component: () => import("pages/dashboard/ImplementationChecklist.vue")
       }
     ]
   },
