@@ -3,8 +3,15 @@
     <p class="text-center font-36 text-weight-regular q-my-lg">
       Umsetzungscheckliste
     </p>
-    <div class="bg-white radius-20 q-py-lg q-px-md">
-      <q-form ref="newChecklistForm" class="q-gutter-lg q-px-md q-mb-md">
+    <div
+      class="bg-white radius-20 q-py-lg"
+      :class="{ 'q-px-md': $q.screen.gt.sm }"
+    >
+      <q-form
+        ref="newChecklistForm"
+        @validation-error="scrollToInvalidElement"
+        class="q-gutter-lg q-px-md q-mb-md"
+      >
         <div class="row items-center">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
@@ -18,7 +25,7 @@
               class="no-shadow input-radius-6"
               placeholder="Title"
               v-model="form.title"
-              :rules="[]"
+              :rules="[val => !!val || 'Required']"
             />
           </div>
         </div>
@@ -220,7 +227,7 @@
           :key="index"
           class="row items-start"
         >
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 q-pr-sm">
             <p class="font-16 no-margin text-weight-600">
               {{ card.cardTitle }}
             </p>
@@ -326,7 +333,7 @@
                   v-for="(element, index) in card.items"
                   :key="element.objectId"
                   class="q-pa-none shadow-0"
-                  :class="index > 0 ? 'q-mt-md' : ''"
+                  :class="index > 0 ? 'q-mt-xs' : ''"
                 >
                   <div style="background:#16428B1A">
                     <q-card-section
@@ -342,9 +349,66 @@
                         />
                       </div>
                       <div class="col-10">
-                        <p class="no-margin font-18 text-blue text-weight-600">
-                          {{ element.objectTitle }}
-                        </p>
+                        <div class="row items-center">
+                          <div class="col-11 q-pr-sm">
+                            <div class="row">
+                              <div class="col-12">
+                                <p
+                                  class="no-margin font-18 text-blue text-weight-600"
+                                >
+                                  {{ element.objectTitle }}
+                                </p>
+                              </div>
+                              <div v-show="!!element.desc" class="col-12">
+                                <p class="no-margin font-14 text-italic">
+                                  {{ element.desc }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-1">
+                            <div
+                              v-show="!!element.info && element.info.length > 0"
+                              class="col-auto"
+                            >
+                              <q-btn
+                                flat
+                                round
+                                class="q-pa-none"
+                                icon="help_outline"
+                                color="primary"
+                              >
+                                <q-tooltip
+                                  content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                  content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                  anchor="top left"
+                                  self="bottom right"
+                                  :offset="[-50, 10]"
+                                >
+                                  <q-card>
+                                    <q-card-section class="q-pb-xs">
+                                      <p
+                                        class="no-margin font-16 text-weight-600"
+                                      >
+                                        Prüffrage:
+                                      </p>
+                                    </q-card-section>
+                                    <q-card-section horizontal class="q-pr-md">
+                                      <ul class="listClass">
+                                        <li
+                                          v-for="(info, index) in element.info"
+                                          :key="index"
+                                        >
+                                          {{ info }}
+                                        </li>
+                                      </ul>
+                                    </q-card-section>
+                                  </q-card>
+                                </q-tooltip>
+                              </q-btn>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="col-auto">
                         <q-toggle
@@ -452,7 +516,7 @@
                     </q-card-section>
                   </div>
                   <draggable
-                    v-if="element.active === true"
+                    v-show="element.active === true"
                     handle=".handle"
                     class="col-8"
                     v-model="element.tasks"
@@ -466,14 +530,13 @@
                       name="flip-list"
                     >
                       <q-card
-                        v-for="(item, index) in element.tasks"
+                        v-for="item in element.tasks"
                         :key="item.objectId"
-                        class="shadow-0"
-                        :class="index === 0 ? 'q-mt-xs' : ''"
+                        class="shadow-0 q-my-xs"
                       >
                         <q-card-section
                           style="background:#FDD50033"
-                          class="q-pa-sm items-center"
+                          class="q-pa-sm items-center justify-between"
                           horizontal
                         >
                           <div class="col-auto">
@@ -485,9 +548,69 @@
                             />
                           </div>
                           <div class="col-10">
-                            <p class="no-margin font-16 text-weight-600">
-                              {{ item.name }}
-                            </p>
+                            <div class="row items-center">
+                              <div class="col-11 q-pr-sm">
+                                <div class="row">
+                                  <div class="col-12">
+                                    <p
+                                      class="no-margin font-18 text-blue text-weight-600"
+                                    >
+                                      {{ item.name }}
+                                    </p>
+                                  </div>
+                                  <div v-show="!!element.desc" class="col-12">
+                                    <p class="no-margin font-14 text-italic">
+                                      {{ element.desc }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-1">
+                                <div
+                                  v-show="!!item.info && item.info.length > 0"
+                                  class="col-auto"
+                                >
+                                  <q-btn
+                                    flat
+                                    round
+                                    class="q-pa-none"
+                                    icon="help_outline"
+                                    color="primary"
+                                  >
+                                    <q-tooltip
+                                      content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                      content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                      anchor="top left"
+                                      self="bottom right"
+                                      :offset="[-50, 10]"
+                                    >
+                                      <q-card>
+                                        <q-card-section class="q-pb-xs">
+                                          <p
+                                            class="no-margin font-16 text-weight-600"
+                                          >
+                                            Prüffrage:
+                                          </p>
+                                        </q-card-section>
+                                        <q-card-section
+                                          horizontal
+                                          class="q-pr-md"
+                                        >
+                                          <ul class="listClass">
+                                            <li
+                                              v-for="(info, index) in item.info"
+                                              :key="index"
+                                            >
+                                              {{ info }}
+                                            </li>
+                                          </ul>
+                                        </q-card-section>
+                                      </q-card>
+                                    </q-tooltip>
+                                  </q-btn>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-auto">
                             <q-toggle
@@ -499,7 +622,7 @@
                           </div>
                         </q-card-section>
                         <draggable
-                          v-if="item.active === true"
+                          v-show="item.active === true"
                           handle=".handle"
                           class="col-8 q-ml-lg"
                           v-model="item.children"
@@ -519,7 +642,7 @@
                             >
                               <q-card-section
                                 horizontal
-                                class="items-center q-pa-xs justify-between"
+                                class="items-center q-pa-xs justify-evenly"
                               >
                                 <div class="col-auto ">
                                   <q-icon
@@ -530,9 +653,63 @@
                                   />
                                 </div>
                                 <div class="col-10">
-                                  <p class="no-margin font-14 text-overflow">
-                                    {{ child.name }}
-                                  </p>
+                                  <div class="row items-center">
+                                    <div class="col-11">
+                                      <p
+                                        class="no-margin font-14 text-overflow"
+                                      >
+                                        {{ child.name }}
+                                      </p>
+                                    </div>
+                                    <div class="col-1">
+                                      <div
+                                        v-show="
+                                          !!child.info && child.info.length > 0
+                                        "
+                                        class="col-auto"
+                                      >
+                                        <q-btn
+                                          flat
+                                          round
+                                          class="q-pa-none"
+                                          icon="help_outline"
+                                          color="primary"
+                                        >
+                                          <q-tooltip
+                                            content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                            content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                            anchor="top left"
+                                            self="bottom right"
+                                            :offset="[-50, 10]"
+                                          >
+                                            <q-card>
+                                              <q-card-section class="q-pb-xs">
+                                                <p
+                                                  class="no-margin font-16 text-weight-600"
+                                                >
+                                                  Prüffrage:
+                                                </p>
+                                              </q-card-section>
+                                              <q-card-section
+                                                horizontal
+                                                class="q-pr-md"
+                                              >
+                                                <ul class="listClass">
+                                                  <li
+                                                    v-for="(info,
+                                                    index) in child.info"
+                                                    :key="index"
+                                                  >
+                                                    {{ info }}
+                                                  </li>
+                                                </ul>
+                                              </q-card-section>
+                                            </q-card>
+                                          </q-tooltip>
+                                        </q-btn>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                                 <div class="col-auto">
                                   <q-toggle
@@ -558,37 +735,32 @@
             <q-separator class="bg-blue q-mt-md opacity-10" />
           </div>
         </div>
-        <div
-          class="row"
-          :class="$q.screen.gt.sm ? 'justify-center' : 'justify-between'"
-        >
-          <q-btn
-            :label="
-              isEdit
-                ? $t('draftButton.editAsDraft')
-                : $t('draftButton.saveAsDraft')
-            "
-            @click="isEdit ? editProjectIdea(false) : submitNewChecklist(false)"
-            size="16px"
-            outline
-            color="primary"
-            :loading="isLoading"
-            no-caps
-            class="radius-6 q-py-xs"
-            :class="$q.screen.gt.sm ? 'q-mr-md q-px-xl' : 'q-px-sm'"
-          />
-          <q-btn
-            :label="
-              isEdit ? $t('publishButton.edit') : $t('publishButton.publish')
-            "
-            @click="isEdit ? editProjectIdea(true) : submitNewChecklist(true)"
-            size="16px"
-            color="primary"
-            :loading="isLoading"
-            no-caps
-            class="radius-6 q-py-xs"
-            :class="$q.screen.gt.sm ? 'q-ml-md q-px-xl' : 'q-px-md'"
-          />
+        <div class="row justify-center">
+          <div class="col-5 col-md-2 q-mr-sm">
+            <q-btn
+              :label="$t('draftButton.saveAsDraft')"
+              @click="
+                isEdit ? editProjectIdea(false) : submitNewChecklist(false)
+              "
+              size="16px"
+              outline
+              color="primary"
+              :loading="isLoading"
+              no-caps
+              class="radius-6 q-py-xs full-width"
+            />
+          </div>
+          <div class="col-5 col-md-2 q-ml-sm">
+            <q-btn
+              :label="$t('publishButton.publish')"
+              @click="isEdit ? editProjectIdea(true) : submitNewChecklist(true)"
+              size="16px"
+              color="primary"
+              :loading="isLoading"
+              no-caps
+              class="radius-6 q-py-xs full-width"
+            />
+          </div>
         </div>
       </q-form>
     </div>
@@ -596,6 +768,8 @@
 </template>
 
 <script>
+import { scroll } from "quasar";
+const { getScrollTarget, setScrollPosition } = scroll;
 import ProjectIdeas from "components/funding/ProjectIdeas.vue";
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
@@ -614,6 +788,7 @@ export default {
   },
   data() {
     return {
+      dialog: true,
       projectIdea: true,
       form: {
         title: "",
@@ -624,14 +799,16 @@ export default {
         items: [
           {
             cardName: "initialContact",
-            cardTitle: "Initial contact with the politics",
+            cardTitle: "Erstgespräch mit dem politischen Ehrenamt",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               // captureIdea
               {
                 objectName: "captureIdea",
-                objectTitle: "capture Project Idea",
+                objectTitle: "Erfassung der Projektidee (Themen, Inhalte)",
+                desc:
+                  "Wie kann eine potenzielle Projektidee vor einem Erstgespräch ermittelt werden?",
                 name: "",
                 text: "",
                 sortPosition: 1,
@@ -641,20 +818,21 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name: "Projektidee-Quellen nutzen",
+                    name: "Projektidee-Quellen Nutzen",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen",
+                          "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen ",
                         sortPosition: 1,
                         active: true,
-                        objectId: 1
+                        objectId: 1,
+                        info: ["Sind Entwicklungskonzepte noch gültig?"]
                       },
                       {
-                        name: "Projektidee aus Antragder Politik entnommen",
+                        name: "Projektidee aus Antrag der Politik entnommen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
@@ -667,7 +845,7 @@ export default {
                       },
                       {
                         name:
-                          "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt",
+                          "Projektidee im Erstgespräch (Einzelgemeinde oder Zusammenschluss) entwickelt",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
@@ -677,18 +855,21 @@ export default {
                           "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen",
                         sortPosition: 5,
                         active: false,
-                        objectId: 5
+                        objectId: 5,
+                        info: [
+                          "Umgang mit Projektideen von Seiten des nicht-politischen Ehrenamtes klären?"
+                        ]
                       },
                       {
                         name:
-                          "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht",
+                          "Projektidee durch externe Dienstleister/ Produktanbieter in Beratungsgespräch eingebracht",
                         sortPosition: 6,
                         active: false,
                         objectId: 6
                       },
                       {
                         name:
-                          "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee",
+                          "Veröffentlichung von Förderprogrammen als Basis für Projektidee",
                         sortPosition: 7,
                         active: true,
                         objectId: 7
@@ -702,27 +883,30 @@ export default {
                     active: true,
                     children: [
                       {
-                        name: "ZielundNutzenderProjektideedefinieren",
+                        name: "Ziel und Nutzen der Projektidee definieren",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "BedarfederBürger*innenermitteln(z.B.überAbfrageüberderHomepage)",
+                          "Bedarfe der Bürger*innen ermitteln (z.B. über Abfrage über der Homepage)",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Projektinitiator*innenfestlegen",
+                        name: "Projektinitiator festlegen",
                         sortPosition: 3,
                         active: true,
-                        objectId: 3
+                        objectId: 3,
+                        info: [
+                          "Wer ist inhaltlicher Ansprechpartner für die Projektkoordination?"
+                        ]
                       },
                       {
                         name:
-                          "Finanzielle Rahmenbedingungenim Bauamt und der Kämmereiprüfen (u.a. Kostenschätzung und Liquidität der Kommune)",
+                          "Finanzielle Rahmenbedingungen im Bauamt und der Kämmerei prüfen (u.a. Kostenschätzung und Liquidität der Kommune",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
@@ -734,66 +918,86 @@ export default {
               // caputreContect
               {
                 objectName: "caputreContect",
-                objectTitle: "Caputre contect",
+                objectTitle:
+                  "Erfassung Kontext (Themen, Inhalte, Mehrwert, Nutzen)",
+                desc:
+                  "Wie kann der Kontext einer Projektidee im Erstgespräch skizziert und im Nachgang konkretisiert werden?",
                 name: "",
                 text: "",
-                active: false,
+                active: true,
                 sortPosition: 2,
                 files: null,
                 objectId: 2,
+                info: [
+                  "Könnte die Idee genehmigungspflichtig sein?",
+                  "Sind die Eigentumsverhältnisse geklärt?",
+                  "Könnte es weitere Hürden und Hindernisse geben?"
+                ],
                 tasks: [
                   {
-                    name: "Projektidee-Quellen nutzen",
+                    name:
+                      "Erste Einschätzungen zu den allgemeinen Rahmenbedingungen dokumentieren",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen",
+                          "Offene Abfrage der kommunalen Rahmenbedingungen im Erstgespräch dokumentieren",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name: "Projektidee aus Antragder Politik entnommen",
+                        name:
+                          "Bestehende Dokumente (Konzepte, Planungen, Strategien) analysieren",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Projektidee aus lokalem Arbeitskreis entnommen",
+                        name:
+                          "Diskussion zu weiteren wichtigen Gesprächspartnern führen und dokumentieren",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Projektidee im Erstgespräch (Einzelgemeindeoder Zusammenschluss) entwickelt",
+                          "Produktrecherche, Kostenplanung und Wirtschaftlichkeitsprüfung skizzieren",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
-                      },
+                      }
+                    ]
+                  },
+                  {
+                    name:
+                      "Input von weiteren Akteur*innen ermitteln und dokumentieren (z.B. Fachbereiche der Verwaltung, existierende Projektideen/ Referenzprojekte)",
+                    sortPosition: 2,
+                    objectId: 2,
+                    active: true,
+                    children: [
                       {
                         name:
-                          "Projektidee aus Vernetzungsgespräch mit anderen Kommunen oder Institutionen (z.B. Hochschulen, Privatwirtschaft, Vereine) entnommen",
-                        sortPosition: 5,
-                        active: false,
-                        objectId: 5
-                      },
-                      {
-                        name:
-                          "Projektidee durch externe Dienstleister*in/Produktanbieter*in in Beratungsgespräch eingebracht",
-                        sortPosition: 6,
-                        active: false,
-                        objectId: 6
-                      },
-                      {
-                        name:
-                          "Veröffentlichungvon Förderprogrammen als Basisfür Projektidee",
-                        sortPosition: 7,
+                          "Best-Practice-Beispiele zu existierende Projektideen/ Referenzprojekte finden und mit kommunalen Rahmenbedingungen abgleichen",
+                        sortPosition: 1,
                         active: true,
-                        objectId: 7
+                        objectId: 1
+                      },
+                      {
+                        name:
+                          "Input wichtiger Akteure im Nachgang über Workshopformat dokumentieren",
+                        sortPosition: 2,
+                        active: false,
+                        objectId: 2
+                      },
+                      {
+                        name:
+                          "Input wichtiger Akteure im Nachgang über Interviewformat dokumentieren",
+                        sortPosition: 3,
+                        active: true,
+                        objectId: 3
                       }
                     ]
                   }
@@ -803,14 +1007,13 @@ export default {
           },
           {
             cardName: "preparation",
-            cardTitle:
-              "Preparation of the project idea outline with internal coordination",
+            cardTitle: "Erstellung der Projektideen-Skizze",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               {
                 objectName: "inspection",
-                objectTitle: "Inspection",
+                objectTitle: "Ggf. Begehung (Abschätzung Projektumfang)",
                 name: "",
                 text: "",
                 sortPosition: 1,
@@ -818,6 +1021,10 @@ export default {
                 active: true,
                 fixed: true,
                 files: null,
+                info: [
+                  "Sind Gutachten/Vorstudien nötig?",
+                  "Müssen externe Dienstleister beauftragt werden?"
+                ],
                 tasks: [
                   {
                     name: "Begehung zielgerichtet vorbereiten",
@@ -827,21 +1034,21 @@ export default {
                     children: [
                       {
                         name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                          "Alle relevanten Akteure (z.B. Bauamt, externe Akteure) zur Begehung einladen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                          "Allgemeine Blickwinkel der Fachabteilungen der Verwaltung einholen (Kämmerei, Bauamt, etc.)",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
                         name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                          "Investitionskosten anhand von Projektideen/ Referenzprojekten grob ermitteln",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
@@ -855,7 +1062,7 @@ export default {
                       },
                       {
                         name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                          "Bedarfe der Bürger*innen einfließen lassen, bspw. über Mängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister etc.), Workshops, Entwicklungskonzepte",
                         sortPosition: 5,
                         active: false,
                         objectId: 5
@@ -878,14 +1085,14 @@ export default {
                     children: [
                       {
                         name:
-                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                          "Besprechung durchführen samt Dokumentation des Gesprächsverlauf, Anfertigung einer Planskizze etc.",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                          "Besprechung im Büro anhand von Projektideen-Skizze, Bildern, Karten und Planskizzen etc.",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
@@ -903,9 +1110,10 @@ export default {
               },
               {
                 objectName: "captureRequirements",
-                objectTitle: "Capture requirements",
+                objectTitle: "Erfassung Anforderungen (Projektumfang)",
                 name: "",
                 text: "",
+                desc: "Wie können Anforderungen erfasst werden?",
                 sortPosition: 2,
                 objectId: 2,
                 active: true,
@@ -920,46 +1128,37 @@ export default {
                     active: true,
                     children: [
                       {
-                        name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        name: "Arbeitsgruppe einrichten",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                          "Strukturiertes Brainstorming mit entsprechenden Fragestellungen und geeigneter Methodik durchführen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
                         name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                          "Offenes Brainstorming mit entsprechenden Fragestellungen durchführen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                          "Ideen werden auch aus der Bürgerschaft mit entsprechenden Fragestellungen und geeigneter Methodik mitgenommen– nicht nur Politik",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
-                        name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                        name: "Genehmigung bei der Kommunalaufsicht prüfen",
                         sortPosition: 5,
                         active: false,
                         objectId: 5
-                      },
-                      {
-                        name:
-                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                        sortPosition: 6,
-                        active: false,
-                        objectId: 6
                       }
                     ]
                   },
@@ -972,34 +1171,34 @@ export default {
                     children: [
                       {
                         name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                          "Bedarfsanalyse aus den vorherigen Schritten dokumentieren (Phase 0)",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                          "Recherche zu Projektideen/ Referenzprojekten samt Abstimmung mit Kommune dokumentieren",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        name: "Fragebogen-Abfrage durchführen (Zielgruppen)",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                          "Interview-Abfrage durchführen (Kooperationspartner)",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                          "Genehmigungen prüfen, ggf. schon einholen und dokumentieren (Zeitvorlauf, Voranfragen, Gutachten)",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
@@ -1010,9 +1209,10 @@ export default {
               },
               {
                 objectName: "captureNeeds",
-                objectTitle: "Capture Needs/Goals",
+                objectTitle: "Erfassung Bedarfe/Ziele",
                 name: "",
                 text: "",
+                desc: "Wie können Ziele und Bedarfe erfasst werden?",
                 sortPosition: 3,
                 objectId: 3,
                 active: true,
@@ -1026,27 +1226,30 @@ export default {
                     active: true,
                     children: [
                       {
-                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        name: "Alle Beteiligten auf einen Nenner bringen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                          "Erwartungshaltung transparent machen und konsolidieren",
                         sortPosition: 2,
                         active: false,
-                        objectId: 2
+                        objectId: 2,
+                        info: [
+                          "Mit welchen Methoden-Formaten kann man das am besten machen?"
+                        ]
                       },
                       {
                         name:
-                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                          "Offenes Sammlung von Zielen (und Zwischenzielen) und Bedarfen in einer Gruppendiskussion",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        name: "Fragebogen-Abfrage (Zielgruppen)",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
@@ -1061,37 +1264,50 @@ export default {
                     children: [
                       {
                         name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                          "Kommunikation und Absprache im eigenen Haus koordinieren",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                        name: "Zeitschiene abstimmen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        name: "Ressourcen und Aufgaben zielgerichtet verteilen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
+                          "Kommunikation mit Bürger*innen (Homepage, Gemeindebrief, Presse) ermöglichen",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
+                          "Strukturierte Sammlung von Zielen und Bedarfen in einer Gruppendiskussion",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
+                      },
+                      {
+                        name:
+                          "Interview-Abfrage durchführen (Kooperationspartner)",
+                        sortPosition: 6,
+                        active: true,
+                        objectId: 6
+                      },
+                      {
+                        name:
+                          "Recherche zu Projekten mit ähnlichen Zielen und Bedarfen",
+                        sortPosition: 7,
+                        active: true,
+                        objectId: 7
                       }
                     ]
                   }
@@ -1101,95 +1317,85 @@ export default {
           },
           {
             cardName: "fundingResearch",
-            cardTitle: "funding research",
+            cardTitle: "Fördermittelrecherche",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               {
                 objectName: "checkDatabase",
-                objectTitle: "Check database “fundings”",
+                objectTitle: "Check Datenbank „Fördermittel“",
                 name: "",
                 text: "",
+                desc: "Welche grundlegenden Informationen werden benötigt?",
                 sortPosition: 1,
                 objectId: 1,
-                active: false,
+                active: true,
                 fixed: true,
                 files: null,
                 tasks: [
                   {
-                    name: "Begehung zielgerichtet vorbereiten",
+                    name: "Zeitschiene und Inhalte abgleichen",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                          "Eigene Zeitplanung mit zeitlichem Rahmen des Fördertopfes abgleichen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        name: "Themenkategorien abgleichen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        name: "Projektinhalte aus User Aktivität 2 abgleichen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                          "Projektnutzen und Kosten aus User Aktivität 2 abgleichen",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                          "Akteurskonstellation/ Kooperationsbedarf abgleichen, u.a. auch zwecks inhaltlicher und/ oder finanzieller Anpassungen",
                         sortPosition: 5,
                         active: false,
                         objectId: 5
-                      },
-                      {
-                        name:
-                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                        sortPosition: 6,
-                        active: false,
-                        objectId: 6
                       }
                     ]
                   },
                   {
-                    name:
-                      "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
+                    name: "Kosten- und Finanzierungsplan aufstellen",
                     sortPosition: 2,
                     objectId: 2,
                     active: true,
                     children: [
                       {
                         name:
-                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                          "Projektmehrwert/ -nutzen mit Kosten- und Finanzierungsplan verknüpfen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        name: "Kostenschätzung einholen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
                         name:
-                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                          "Akteurskonstellation bzgl. Finanzierung/ Inhalte bewerten und prüfen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
@@ -1200,106 +1406,69 @@ export default {
               },
               {
                 objectName: "checkForFunding",
-                objectTitle: "check for fundings",
+                objectTitle: "Check über Förderscouting",
                 name: "",
                 text: "",
+                desc:
+                  "Welche grundlegenden Informationen werden benötigt? Kann ggf. schon ab User Aktivität 2 mit dem Förderscouting erfolgen (2.1 oder 2.2)",
                 sortPosition: 2,
                 objectId: 2,
-                active: false,
+                active: true,
                 fixed: true,
                 files: null,
                 tasks: [
                   {
                     name:
-                      "Projektentwicklung partizipativ gestalten und konkretisieren",
+                      "Gemeinsame Fördermittelrecherche bzw. Check der Projektidee durchführen",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
-                        name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                        name: "Förderscouting prüft Themenkategorien gegen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                        name: "Förderscouting hinterfragt Projektziele",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
                         name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                          "Förderscouting hinterfragt Projektmehrwert/ -nutzen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name:
-                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        name: "Förderscouting hinterfragt Kostenschätzung",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                          "Förderscouting hinterfragt Kooperationspartner*innen",
                         sortPosition: 5,
                         active: false,
                         objectId: 5
                       },
                       {
                         name:
-                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
+                          "Projektkoordinator holt erste Kostenangebote (über Fachamt) ein",
                         sortPosition: 6,
                         active: false,
                         objectId: 6
-                      }
-                    ]
-                  },
-                  {
-                    name:
-                      "Projektsteckbrief für die weiteren Schritte dokumentieren",
-                    sortPosition: 2,
-                    objectId: 2,
-                    active: true,
-                    children: [
-                      {
-                        name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
-                        sortPosition: 1,
-                        active: true,
-                        objectId: 1
                       },
                       {
                         name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
-                        sortPosition: 2,
+                          "Protokollauszüge relevanter Ausschüsse im Projektsteckbrief dokumentieren",
+                        sortPosition: 7,
                         active: false,
-                        objectId: 2
-                      },
-                      {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
-                        sortPosition: 3,
-                        active: true,
-                        objectId: 3
-                      },
-                      {
-                        name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                        sortPosition: 4,
-                        active: true,
-                        objectId: 4
-                      },
-                      {
-                        name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                        sortPosition: 5,
-                        active: true,
-                        objectId: 5
+                        objectId: 7
                       }
                     ]
                   }
@@ -1307,88 +1476,64 @@ export default {
               },
               {
                 objectName: "checkWithFunding",
-                objectTitle: "check with funding provider",
+                objectTitle: "Check beim Fördermittelgeber",
                 name: "",
                 text: "",
+                desc:
+                  "Welche Informationen müssen für ein zielführendes Gespräch ermittelt werden?",
                 sortPosition: 3,
                 objectId: 3,
-                active: false,
+                active: true,
                 fixed: true,
                 files: null,
                 tasks: [
                   {
-                    name: "Erwartungen an das Projekt definieren",
+                    name:
+                      "Worauf muss im Gespräch mit dem Fördermittelgeber geachtet werden?",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
-                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        name: "Fristen beachten",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                          "Check des Projektsteckbriefes mit dem Fördermittelgeber",
                         sortPosition: 2,
                         active: false,
-                        objectId: 2
+                        objectId: 2,
+                        info: [
+                          "Passen die Projektziele mit den Förderzielen zusammen?",
+                          "Sind alle relevanten Themenkategorien in die Projektidee integriert?",
+                          "Passt der Projektinhalte zum Förderzweck?",
+                          "Passt der Projektmehrwert/ -nutzen zum Förderzweck?",
+                          "Passen die Kostenschätzungen (Eigenmittel, Folgekosten) in das Fördervolumen?",
+                          "Was ist hinsichtlich der Besitzverhältnisse zu beachten?",
+                          "Was ist hinsichtlich der Kooperationspartner*innen zu beachten?"
+                        ]
                       },
                       {
                         name:
-                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                          "Check Rahmenbedingungen (allgemein) mit Projektplanung",
                         sortPosition: 3,
                         active: true,
-                        objectId: 3
+                        objectId: 3,
+                        info: ["Welchen Planungsstand sollte das Projekt haben"]
                       },
                       {
-                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        name:
+                          "Check alternative Finanzierungs-/ Fördermöglichkeiten ",
                         sortPosition: 4,
                         active: true,
-                        objectId: 4
-                      }
-                    ]
-                  },
-                  {
-                    name: "Ressourcen der Akteure bündeln",
-                    sortPosition: 2,
-                    objectId: 2,
-                    active: true,
-                    children: [
-                      {
-                        name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
-                        sortPosition: 1,
-                        active: true,
-                        objectId: 1
-                      },
-                      {
-                        name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
-                        sortPosition: 2,
-                        active: false,
-                        objectId: 2
-                      },
-                      {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
-                        sortPosition: 3,
-                        active: true,
-                        objectId: 3
-                      },
-                      {
-                        name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                        sortPosition: 4,
-                        active: true,
-                        objectId: 4
-                      },
-                      {
-                        name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                        sortPosition: 5,
-                        active: true,
-                        objectId: 5
+                        objectId: 4,
+                        info: [
+                          "Welche Möglichkeiten der Kumulierung gibt es?",
+                          "Wie hoch muss der Eigenanteil sein"
+                        ]
                       }
                     ]
                   }
@@ -1396,9 +1541,11 @@ export default {
               },
               {
                 objectName: "checkGuildlines",
-                objectTitle: "check guidlines (long version)",
+                objectTitle: "Check Richtlinie (Langfassung)",
                 name: "",
                 text: "",
+                desc:
+                  "Worauf muss bei der Durchsicht von Langfassungen geachtet werden?",
                 sortPosition: 4,
                 objectId: 4,
                 active: true,
@@ -1413,16 +1560,25 @@ export default {
                     active: true,
                     children: [
                       {
-                        name: "Fristenbeachten",
+                        name: "Fristen beachten",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name: "CheckdesProjektsteckbriefesmitRichtlinie",
+                        name: "Check des Projektsteckbriefes mit Richtlinie",
                         sortPosition: 2,
                         active: false,
-                        objectId: 2
+                        objectId: 2,
+                        info: [
+                          "Passen die Projektziele mit den Förderzielen zusammen?",
+                          "Sind alle relevanten Themenkategorien in die Projektidee integriert?",
+                          "Passt der Projektinhalte zum Förderzweck?",
+                          "Passt der Projektmehrwert/ -nutzen zum Förderzweck?",
+                          "Passen die Kostenschätzungen (Eigenmittel, Folgekosten) in das Fördervolumen?",
+                          "Was ist hinsichtlich der Besitzverhältnisse zu beachten?",
+                          "Was ist hinsichtlich der Kooperationspartner*innen zu beachten?"
+                        ]
                       }
                     ]
                   },
@@ -1433,19 +1589,19 @@ export default {
                     active: true,
                     children: [
                       {
-                        name: "Antragsberechtigungprüfen",
+                        name: "Antragsberechtigung prüfen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name: "Brutto/nettoFörderungprüfen",
+                        name: "Brutto/netto Förderung prüfen",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Schwellenwerte/Bagatellgrenzeprüfen",
+                        name: "Schwellenwerte/Bagatellgrenze prüfen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
@@ -1465,21 +1621,22 @@ export default {
                         objectId: 5
                       },
                       {
-                        name: "DierichtigenSchlagwörterdefinieren/adressieren",
+                        name:
+                          "Die richtigen Schlagwörter definieren/ adressieren",
                         sortPosition: 6,
                         active: true,
                         objectId: 6
                       },
                       {
                         name:
-                          "BeiUnsicherheitweitereRücksprachemitdemFördermittelgeber",
+                          "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber",
                         sortPosition: 7,
                         active: true,
                         objectId: 7
                       },
                       {
                         name:
-                          "AlternativeFinanzierungs-undFördermöglichkeitenprüfen",
+                          "Alternative Finanzierungs- und Fördermöglichkeiten prüfen",
                         sortPosition: 8,
                         active: true,
                         objectId: 8
@@ -1492,98 +1649,62 @@ export default {
           },
           {
             cardName: "preparationOfProject",
-            cardTitle: "Preparation/optimisation of project documents",
+            cardTitle: "Ausarbeitung/Optimierung Projektunterlagen",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               {
                 objectName: "checkContent",
-                objectTitle: "Check content with guidlines",
+                objectTitle: "Check Inhalt mit Richtlinie",
                 name: "",
                 text: "",
+                desc:
+                  "Welche inhaltlichen Hinweise gibt die Richtlinie, um die Förderfähigkeit des Projektantrages zu verbessern/zu erreichen?",
                 sortPosition: 1,
                 objectId: 1,
-                active: false,
+                active: true,
                 fixed: false,
                 files: null,
                 tasks: [
                   {
-                    name: "Begehung zielgerichtet vorbereiten",
+                    name:
+                      "Projektsteckbrief anhand der Richtlinien-Hinweise überarbeiten",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                          "Inhaltliche Anpassung des Projektsteckbriefes anhand User Aktivität 3",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                          "Überführung des Projektsteckbriefes in den Projektantrag",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        name: "Kostenschätzungen mit Fachamt präzisieren",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name:
-                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                        name: "Budgetsituation beim Fördermittelgeber erfragen",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
+                          "Klärung letzter offener Fragen nach der Bearbeitung (telefonisch, E-Mail",
                         sortPosition: 5,
                         active: false,
                         objectId: 5
-                      },
-                      {
-                        name:
-                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                        sortPosition: 6,
-                        active: false,
-                        objectId: 6
-                      }
-                    ]
-                  },
-                  {
-                    name:
-                      "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
-                    sortPosition: 2,
-                    objectId: 2,
-                    active: true,
-                    children: [
-                      {
-                        name:
-                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
-                        sortPosition: 1,
-                        active: true,
-                        objectId: 1
-                      },
-                      {
-                        name:
-                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
-                        sortPosition: 2,
-                        active: false,
-                        objectId: 2
-                      },
-                      {
-                        name:
-                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
-                        sortPosition: 3,
-                        active: true,
-                        objectId: 3
                       }
                     ]
                   }
@@ -1591,9 +1712,11 @@ export default {
               },
               {
                 objectName: "checkCooperations",
-                objectTitle: "If necessary check cooperations",
+                objectTitle: "Ggf. Check Kooperationen",
                 name: "",
                 text: "",
+                desc:
+                  "Welche weiteren Kooperationen sind zielführend, um die Projektqualität nachhaltig zu verbessern?",
                 sortPosition: 2,
                 objectId: 2,
                 active: false,
@@ -1601,96 +1724,66 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name:
-                      "Projektentwicklung partizipativ gestalten und konkretisieren",
+                    name: "Weitere zielführende Kooperationen identifizieren",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "AllerelevantenAkteur*innen(z.B.Bauamt,externeAkteur*innen)zurBegehungeinladen",
+                          "Beteiligte=Zielgruppe; PR/ÖA, Fachexperten, Kämmerei (hier breit denken)",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "AllgemeineBlickwinkelderFachabteilungenderVerwaltungeinholen (Kämmerei, Bauamt, etc.)",
+                          "ggf. Kontaktaufnahme mit weiteren Kooperationspartnern via Mail, Telefon, Gespräch",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name:
-                          "InvestitionskostenanhandvonProjektideen/Referenzprojektengrobermitteln",
+                        name: "Beteiligte aus allen Bereichen zusammenbringen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
+                          "Private und Öffentliche Akteure (Vereine, Verbände etc.)",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
-                      },
-                      {
-                        name:
-                          "BedarfederBürger*inneneinfließenlassen,bspw.überMängel-Melder (digital, Telefon, Bürgerservice, Bürgermeister*innen etc.), Workshops, Entwicklungskonzepte",
-                        sortPosition: 5,
-                        active: false,
-                        objectId: 5
-                      },
-                      {
-                        name:
-                          "Kurzinfos zu potenziellen Fördermöglichkeiten vorbereiten",
-                        sortPosition: 6,
-                        active: false,
-                        objectId: 6
                       }
                     ]
                   },
                   {
                     name:
-                      "Projektsteckbrief für die weiteren Schritte dokumentieren",
+                      "Projektqualität durch weitere Kooperationspartner nachhaltig verbessern",
                     sortPosition: 2,
                     objectId: 2,
                     active: true,
                     children: [
                       {
-                        name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                        name: "Abfrage von weiteren Bedarfen bei Zielgruppe",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
+                          "Reflektion des Projektinhaltes und Auslotung der Kooperationsmöglichkeiten",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
+                        name:
+                          "Vereinbarung der Zusammenarbeit und ggf. Schließung einer Kooperationsvereinbarung",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
-                      },
-                      {
-                        name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                        sortPosition: 4,
-                        active: true,
-                        objectId: 4
-                      },
-                      {
-                        name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                        sortPosition: 5,
-                        active: true,
-                        objectId: 5
                       }
                     ]
                   }
@@ -1698,9 +1791,11 @@ export default {
               },
               {
                 objectName: "checkSimilarProejcts",
-                objectTitle: "If necessary check similar projects",
+                objectTitle: "Ggf. Check vergleichbare Projekte",
                 name: "",
                 text: "",
+                desc:
+                  "Wie findet man vergleichbare Projekte und nutzt die Informationen für die Verbesserung der Projektqualität?",
                 sortPosition: 3,
                 objectId: 3,
                 active: false,
@@ -1708,33 +1803,33 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name: "Erwartungen an das Projekt definieren",
+                    name: "Vergleichbare Projekte identifizieren",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
-                        name: "AlleBeteiligtenaufeinenNennerbringen",
+                        name: "Suche im Internet",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
                         name:
-                          "Erwartungshaltungtransparentmachenundkonsolidieren",
+                          "Kontaktaufnahme und Austausch mit Projektinitiatoren",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name:
-                          "OffenesSammlungvonZielen(undZwischenzielen)undBedarfenineiner Gruppendiskussion",
+                        name: "Suche über Netzwerkpartner und Kollegium",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name: "Fragebogen-Abfrage(Zielgruppen)",
+                        name:
+                          "Akteure mit Erfahrung mit Fördermittelgeber kontaktieren",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
@@ -1742,44 +1837,18 @@ export default {
                     ]
                   },
                   {
-                    name: "Ressourcen der Akteure bündeln",
+                    name:
+                      "Projektqualität durch Abgleich mit vergleichbaren Projekten nachhaltig verbessern",
                     sortPosition: 2,
                     objectId: 2,
                     active: true,
                     children: [
                       {
                         name:
-                          "BedarfsanalyseausdenvorherigenSchrittendokumentieren(Phase0)",
+                          "Transfer in den eigenen Projektkontext (Nachnutzung)",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
-                      },
-                      {
-                        name:
-                          "RecherchezuProjektideen/ReferenzprojektensamtAbstimmungmitKommune dokumentieren",
-                        sortPosition: 2,
-                        active: false,
-                        objectId: 2
-                      },
-                      {
-                        name: "Fragebogen-Abfragedurchführen(Zielgruppen)",
-                        sortPosition: 3,
-                        active: true,
-                        objectId: 3
-                      },
-                      {
-                        name:
-                          "Interview-Abfragedurchführen(Kooperationspartner*innen)",
-                        sortPosition: 4,
-                        active: true,
-                        objectId: 4
-                      },
-                      {
-                        name:
-                          "Genehmigungenprüfen,ggf.schoneinholenunddokumentieren(Zeitvorlauf, Voranfragen, Gutachten)",
-                        sortPosition: 5,
-                        active: true,
-                        objectId: 5
                       }
                     ]
                   }
@@ -1787,9 +1856,12 @@ export default {
               },
               {
                 objectName: "checkPlanning",
-                objectTitle: "Check planning and financing (department)",
+                objectTitle:
+                  "Check Planung und Finanzierung mit allen relevanten Fachämtern",
                 name: "",
                 text: "",
+                desc:
+                  "Wie kann die interne Zusammenarbeit effizient koordiniert werden?",
                 sortPosition: 4,
                 objectId: 4,
                 active: true,
@@ -1804,47 +1876,48 @@ export default {
                     children: [
                       {
                         name:
-                          "VorherigeAbstimmungenmiteinzelnenFachleutenzusammenfügen",
+                          "Vorherige Abstimmungen mit einzelnen Fachleuten zusammenfügen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name: "MöglicheEinwände/Projektsinnprüfen",
+                        name: "Mögliche Einwände/ Projektsinn prüfen ",
                         sortPosition: 2,
                         active: true,
                         objectId: 2
                       },
                       {
                         name:
-                          "BesprechungderformalenAnforderungenandieProjektunterlagen",
+                          "Besprechung der formalen Anforderungen an die Projektunterlagen",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name: "AbstimmungderAufgaben/ToDosmitdenFachämtern",
+                        name:
+                          "Abstimmung der Aufgaben/ ToDos mit den Fachämtern",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "KoordinationderAufgabenmitzentralemAnsprechpartner*innen",
+                          "Koordination der Aufgaben mit zentralem Ansprechpartner*innen",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
                       },
                       {
                         name:
-                          "BeschlüssezurGestaltungdesProjektesmüssengetroffenwerden",
+                          "Beschlüsse zur Gestaltung des Projektes müssen getroffen werden",
                         sortPosition: 6,
                         active: true,
                         objectId: 6
                       },
                       {
                         name:
-                          "Alternativenprüfen,ggf.ohneFörderungbeizugeringerFördersumme",
+                          "Alternativen prüfen, ggf. ohne Förderung bei zu geringer Fördersumme",
                         sortPosition: 7,
                         active: true,
                         objectId: 7
@@ -1857,15 +1930,17 @@ export default {
           },
           {
             cardName: "legitimation",
-            cardTitle: "Legitimation for submission",
+            cardTitle: "Legitimierung zur Einreichung",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               {
                 objectName: "template",
-                objectTitle: "Template / Discussion of the project documents",
+                objectTitle: "Vorlage/ Diskussion der Projektunterlagen",
                 name: "",
                 text: "",
+                desc:
+                  "Was muss erarbeitet werden, um einen breiten Konsens herbei zu führen?",
                 sortPosition: 1,
                 objectId: 1,
                 active: true,
@@ -1873,53 +1948,56 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name: "Use Projet idea sources",
+                    name:
+                      "Projektantrag zielführend in Gemeindevertretung einbringen",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "RechtzeitigeInfosanAusschüsse/Gemeindevertretung/Bürgermeister*ingeben",
+                          "Rechtzeitige Infos an Ausschüsse/ Gemeindevertretung/ Bürgermeister geben",
                         sortPosition: 1,
                         active: true,
-                        objectId: 1
+                        objectId: 1,
+                        info: ["Zusätzliche Gremien einbinden?"]
                       },
                       {
                         name:
-                          "SchlüssigerProjektantrag->transparent,nachvollziehbar,kurz,prägnant",
+                          "Schlüssiger Projektantrag -> transparent, nachvollziehbar, kurz, prägnant",
                         sortPosition: 2,
                         active: true,
                         objectId: 2
                       },
                       {
-                        name: "VollständigeProjektunterlagen(möglichst)",
+                        name: "Vollständige Projektunterlagen (möglichst)",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name: "Projekt-Informationsblatt/One-Pager",
+                        name: "Projekt-Informationsblatt/ One-Pager",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
                         name:
-                          "Kostenschätzungen,Kosten-undFinanzierungsplanundFolgekosten",
+                          "Kostenschätzungen, Kosten- und Finanzierungsplan und Folgekosten",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
                       },
                       {
                         name:
-                          "PräsentationdurchFunktionsträger*in/Projektkoordinator*in",
+                          "Präsentation durch Funktionsträger/ Projektkoordinator",
                         sortPosition: 6,
                         active: true,
                         objectId: 6
                       },
                       {
-                        name: "ModerationderfinalenDiskussionzumProjektantrag",
+                        name:
+                          "Moderation der finalen Diskussion zum Projektantrag",
                         sortPosition: 7,
                         active: true,
                         objectId: 7
@@ -1934,31 +2012,38 @@ export default {
                     ]
                   },
                   {
-                    name: "Prepare and initiate the adoption of resolutions",
+                    name: "Beschlussfassung vorbereiten und herbeiführen",
                     sortPosition: 2,
                     objectId: 2,
                     active: false,
+                    info: [
+                      "Wann und wie müssen Gemeindevertreter involviert werden? >> Mehrfach im Prozess"
+                    ],
                     children: [
                       {
                         name:
-                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                          "Beschlussvorlage auf Basis der Projektunterlagen anfertigen",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                        name: "Abstimmung der Beschlussvorlage",
                         sortPosition: 2,
                         active: false,
                         objectId: 2
                       },
                       {
-                        name:
-                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                        name: "Anhörung Experten",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
+                      },
+                      {
+                        name: "Protokollauszug den Projektunterlagen beifügen",
+                        sortPosition: 4,
+                        active: true,
+                        objectId: 4
                       }
                     ]
                   }
@@ -1968,15 +2053,17 @@ export default {
           },
           {
             cardName: "finalExamination",
-            cardTitle: "Final examination of the project documents",
+            cardTitle: "Prüfung der Projektunterlagen final",
             start: "2022-06-11",
             end: "2022-06-20",
             items: [
               {
                 objectName: "revision",
-                objectTitle: "Revision of project documents",
+                objectTitle: "Überarbeitung Projektunterlagen",
                 name: "",
                 text: "",
+                desc:
+                  "Was muss bei der finalen Überarbeitung aller Projektunterlagen beachtet werden?",
                 sortPosition: 1,
                 objectId: 1,
                 active: false,
@@ -1984,102 +2071,105 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name: "Use Projet idea sources",
+                    name: "Überarbeitung der Projektunterlagen",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
+                    info: [
+                      "Ist das Geld beim Projektträger vorhanden? (Budget pro Aufruf)"
+                    ],
                     children: [
                       {
                         name:
-                          "RechtzeitigeInfosanAusschüsse/Gemeindevertretung/Bürgermeister*ingeben",
+                          "Diese Aktivität muss frühzeitig koordiniert werden",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name:
-                          "SchlüssigerProjektantrag->transparent,nachvollziehbar,kurz,prägnant",
+                        name: "Zeit einplanen",
                         sortPosition: 2,
                         active: true,
                         objectId: 2
                       },
                       {
-                        name: "VollständigeProjektunterlagen(möglichst)",
+                        name:
+                          "Einreichungsmodalitäten und technische Rahmenbedingungen (siehe EasyOnline)",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
-                        name: "Projekt-Informationsblatt/One-Pager",
+                        name:
+                          "Inhaltliche Durchsicht aller Unterlagen (inklusive Anlagen, eigene Checkliste ob alles da ist)",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
-                        name:
-                          "Kostenschätzungen,Kosten-undFinanzierungsplanundFolgekosten",
+                        name: "Formale Durchsicht aller Unterlagen",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
                       },
                       {
-                        name:
-                          "PräsentationdurchFunktionsträger*in/Projektkoordinator*in",
+                        name: "Check Kostenplan mit Angeboten",
                         sortPosition: 6,
                         active: true,
                         objectId: 6
                       },
                       {
-                        name: "ModerationderfinalenDiskussionzumProjektantrag",
+                        name: "Bei gravierenden Änderungen neuer Beschluss",
                         sortPosition: 7,
                         active: true,
                         objectId: 7
                       },
                       {
-                        name:
-                          "Ggf. Umlaufbeschluss falls Entscheidungsgremium zu spät tagt",
+                        name: "Finale Besprechung mit dem Projektträger",
                         sortPosition: 8,
                         active: true,
                         objectId: 8
                       }
                     ]
-                  },
-                  {
-                    name: "Prepare and initiate the adoption of resolutions",
-                    sortPosition: 2,
-                    objectId: 2,
-                    active: false,
-                    children: [
-                      {
-                        name:
-                          "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
-                        sortPosition: 1,
-                        active: true,
-                        objectId: 1
-                      },
-                      {
-                        name:
-                          "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
-                        sortPosition: 2,
-                        active: false,
-                        objectId: 2
-                      },
-                      {
-                        name:
-                          "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
-                        sortPosition: 3,
-                        active: true,
-                        objectId: 3
-                      }
-                    ]
                   }
+                  // {
+                  //   name: "Prepare and initiate the adoption of resolutions",
+                  //   sortPosition: 2,
+                  //   objectId: 2,
+                  //   active: false,
+                  //   children: [
+                  //     {
+                  //       name:
+                  //         "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
+                  //       sortPosition: 1,
+                  //       active: true,
+                  //       objectId: 1
+                  //     },
+                  //     {
+                  //       name:
+                  //         "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
+                  //       sortPosition: 2,
+                  //       active: false,
+                  //       objectId: 2
+                  //     },
+                  //     {
+                  //       name:
+                  //         "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
+                  //       sortPosition: 3,
+                  //       active: true,
+                  //       objectId: 3
+                  //     }
+                  //   ]
+                  // }
                 ]
               },
               {
                 objectName: "signatures",
-                objectTitle: "Collection of signatures",
+                objectTitle: "Einholung von Unterschriften",
                 name: "",
                 text: "",
+                desc:
+                  "Was muss bei der Einholung von Unterschriften beachtet werden?",
                 sortPosition: 2,
                 objectId: 2,
                 active: true,
@@ -2087,46 +2177,46 @@ export default {
                 files: null,
                 tasks: [
                   {
-                    name: "Coordination of the collection of signatures",
+                    name: "Koordination der Unterschriftensammlung",
                     sortPosition: 1,
                     objectId: 1,
                     active: true,
                     children: [
                       {
                         name:
-                          "RechtzeitigeInformationenzuweitereAblaufanalleUnterzeichner*innen(Wann? Nach Antragstellung?)",
+                          "Rechtzeitige Informationen zu weitere Ablauf an alle Unterzeichner (Wann? Nach Antragstellung?)",
                         sortPosition: 1,
                         active: true,
                         objectId: 1
                       },
                       {
-                        name: "Richtliniegeändert?->Anpassung",
+                        name: "Richtlinie geändert? -> Anpassung",
                         sortPosition: 2,
                         active: true,
                         objectId: 2
                       },
                       {
                         name:
-                          "RechtzeitigeÜbermittelungderVorlagen(Antrag,Kooperationsvereinbarungenetc.)",
+                          "Rechtzeitige Übermittelung der Vorlagen (Antrag, Kooperationsvereinbarungen etc.)",
                         sortPosition: 3,
                         active: true,
                         objectId: 3
                       },
                       {
                         name:
-                          "AbstimmungderfinalenSammlungvonUnterschriften(ZeitundPostwegeinplanen)",
+                          "Abstimmung der finalen Sammlung von Unterschriften (Zeit und Postweg einplanen)",
                         sortPosition: 4,
                         active: true,
                         objectId: 4
                       },
                       {
-                        name: "PrüfungderUnterschriften",
+                        name: "Prüfung der Unterschriften",
                         sortPosition: 5,
                         active: true,
                         objectId: 5
                       },
                       {
-                        name: "DigitalisierungArchiv/Ablage",
+                        name: "Digitalisierung Archiv/ Ablage",
                         sortPosition: 6,
                         active: true,
                         objectId: 6
@@ -2142,7 +2232,6 @@ export default {
           contactName: "",
           phone: "",
           email: "",
-          location: "",
           streetNo: "",
           postalCode: ""
         },
@@ -2174,18 +2263,27 @@ export default {
         this.$store.state.userCenter.user.user
       );
     },
-    project() {
-      return this.$store.state.project.project;
+    checklist() {
+      return this.$store.state.implementationChecklist.checklist;
     },
     isEdit() {
       return (
         !!this.$route.params.id &&
-        JSON.parse(JSON.stringify(this.$store.state.project.project))
+        JSON.parse(
+          JSON.stringify(this.$store.state.implementationChecklist.checklist)
+        )
       );
     }
   },
   methods: {
     dateFormatter,
+    scrollToInvalidElement(ref) {
+      const el = ref.$el;
+      const target = getScrollTarget(el);
+      const offset = el.offsetTop;
+      const duration = 500;
+      setScrollPosition(target, offset, duration);
+    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
@@ -2246,6 +2344,22 @@ export default {
       // if (!captureIdea?.project.objectId) {
       //   delete captureIdea.project;
       // }
+    },
+    setData() {
+      this.form = {
+        ...this.form,
+        ...JSON.parse(
+          JSON.stringify({
+            ...this.checklist
+          })
+        )
+      };
+    }
+  },
+
+  mounted() {
+    if (!!this.checklist && !!this.$route.params.id) {
+      this.setData();
     }
   }
 };
@@ -2277,5 +2391,21 @@ export default {
 }
 .movingClass {
   background: $blue-1;
+}
+.listClass {
+  list-style: none;
+  li {
+    font-size: 14px;
+    margin-block: 0.5em;
+  }
+  li::before {
+    content: "\2022";
+    color: $primary;
+    font-weight: bold;
+    display: inline-block;
+    width: 2em;
+    margin-left: -1em;
+    margin-right: -1em;
+  }
 }
 </style>
