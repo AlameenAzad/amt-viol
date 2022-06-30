@@ -1,11 +1,8 @@
 <template>
   <q-dialog @before-show="getItemInfo" v-model="$_options">
-    <q-card
-      class="radius-10 column"
-      :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg'"
-    >
+    <q-card class="q-pa-md radius-10" style="width: 532px; max-width: 90vw;">
       <q-form @submit.prevent="!!editingId ? editItem() : addItem()">
-        <q-card-section align="center">
+        <q-card-section class="q-pt-none" align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
               !!editingId
@@ -18,7 +15,7 @@
             }}
           </h6>
         </q-card-section>
-        <q-card-section align="left">
+        <q-card-section class="q-pb-none">
           <div class=" items-center ">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
@@ -41,28 +38,30 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="row justify-center ">
-            <q-btn
-              label="Cancel"
-              v-close-popup
-              outline
-              size="14px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-mr-sm"
-              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-lg'"
-            />
-            <q-btn
-              :label="!!editingId ? 'Edit' : 'Save'"
-              type="submit"
-              unelevated
-              :loading="isLoading"
-              size="14px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-py-sm"
-              :class="$q.screen.gt.sm ? ' q-px-xl ' : 'q-px-lg'"
-            />
+          <div class="row justify-center">
+            <div class="col-5 q-mr-sm">
+              <q-btn
+                label="Cancel"
+                v-close-popup
+                outline
+                size="14px"
+                color="primary"
+                no-caps
+                class="q-py-xs radius-6 full-width"
+              />
+            </div>
+            <div class="col-5 q-ml-sm">
+              <q-btn
+                :label="!!editingId ? 'Edit' : 'Save'"
+                type="submit"
+                unelevated
+                :loading="isLoading"
+                size="14px"
+                color="primary"
+                no-caps
+                class="q-py-xs radius-6 full-width"
+              />
+            </div>
           </div>
         </q-card-section>
       </q-form>

@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="$_options">
-    <q-card class="q-pa-md radius-10">
-      <div>
+    <q-card class="q-pa-md radius-10" style="width: 532px; max-width: 90vw;">
+      <q-card-section class="no-padding">
         <h6 class="text-center font-24 q-mt-md">
           {{ $t("userAdministration.inviteUser") }}
         </h6>
@@ -102,32 +102,33 @@
               />
             </div>
           </div>
-
-          <div class="row justify-center q-ml-lg">
-            <q-btn
-              :label="$t('userAdministration.cancel')"
-              outline
-              v-close-popup
-              size="16px"
-              color="primary"
-              no-caps
-              class="no-shadow radius-6 q-mr-sm"
-              :class="$q.screen.gt.sm ? 'q-px-xl ' : 'q-px-xs'"
-            />
-            <q-btn
-              :label="$t('userAdministration.sendInvitation')"
-              type="submit"
-              unelevated
-              size="16px"
-              color="primary"
-              no-caps
-              :loading="isLoading"
-              class="no-shadow radius-6"
-              :class="$q.screen.gt.sm ? 'q-px-xl ' : 'q-px-xs'"
-            />
+          <div class="row justify-center">
+            <div class="col-5 q-mr-sm">
+              <q-btn
+                :label="$t('userAdministration.cancel')"
+                outline
+                v-close-popup
+                size="16px"
+                color="primary"
+                no-caps
+                class="radius-6 q-py-xs full-width"
+              />
+            </div>
+            <div class="col-5 q-ml-sm">
+              <q-btn
+                :label="$t('userAdministration.sendInvitation')"
+                type="submit"
+                unelevated
+                size="16px"
+                color="primary"
+                no-caps
+                :loading="isLoading"
+                class="radius-6 q-py-xs full-width"
+              />
+            </div>
           </div>
         </q-form>
-      </div>
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>

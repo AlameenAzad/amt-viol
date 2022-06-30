@@ -1,6 +1,6 @@
 <template>
   <q-dialog @before-show="getMunicipalityInfo" v-model="$_options">
-    <q-card class="q-pa-lg radius-10">
+    <q-card class="q-pa-md radius-10" style="width: 532px; max-width: 90vw;">
       <div>
         <h6 class="text-center font-24 q-mt-md">
           {{ !!editingId ? "Edit Administration" : "Create Administration" }}
@@ -43,33 +43,29 @@
               />
             </div>
           </div>
-          <div class="items-center">
-            <div class="row q-col-gutter-x-md">
-              <div class="col-6">
-                <q-btn
-                  label="Cancel"
-                  outline
-                  v-close-popup
-                  size="16px"
-                  color="primary"
-                  no-caps
-                  class="no-shadow radius-6"
-                  :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg full-width'"
-                />
-              </div>
-              <div class="col-6">
-                <q-btn
-                  :label="!!editingId ? 'Edit' : 'Save'"
-                  type="submit"
-                  unelevated
-                  size="16px"
-                  color="primary"
-                  no-caps
-                  class="no-shadow radius-6"
-                  :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-lg full-width'"
-                  :loading="isLoading"
-                />
-              </div>
+          <div class="row justify-center">
+            <div class="col-5 q-mr-sm">
+              <q-btn
+                label="Cancel"
+                outline
+                v-close-popup
+                size="16px"
+                color="primary"
+                no-caps
+                class="no-shadow q-py-xs full-width radius-6"
+              />
+            </div>
+            <div class="col-5 q-ml-sm">
+              <q-btn
+                :label="!!editingId ? 'Edit' : 'Save'"
+                type="submit"
+                unelevated
+                size="16px"
+                color="primary"
+                no-caps
+                class="no-shadow q-py-xs full-width radius-6"
+                :loading="isLoading"
+              />
             </div>
           </div>
         </q-form>
