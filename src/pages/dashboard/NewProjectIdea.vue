@@ -3,7 +3,10 @@
     <p class="text-center font-36 text-weight-regular q-my-lg">
       {{ $t("newProjectIdeaForm.title") }}
     </p>
-    <div class="bg-white radius-20 q-py-lg q-px-md">
+    <div
+      class="bg-white radius-20 q-py-lg"
+      :class="{ 'q-px-md': $q.screen.gt.sm }"
+    >
       <q-form
         @validation-error="scrollToInvalidElement"
         ref="newProjectIdeaForm"
@@ -40,7 +43,11 @@
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
-                  :value="!!userDetails && userDetails.fullName"
+                  :value="
+                    !!isEdit
+                      ? form.info.contactName
+                      : !!userDetails && userDetails.fullName
+                  "
                   disable
                 />
               </div>
@@ -51,6 +58,11 @@
                   disable
                   class="no-shadow input-radius-6"
                   placeholder="Administration"
+                  :value="
+                    !!isEdit
+                      ? form.municipality.title
+                      : !!userDetails && userDetails.municipality.title
+                  "
                   :rules="[]"
                 />
               </div>
@@ -76,6 +88,11 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
+                  :value="
+                    !!isEdit
+                      ? form.info.streetNo
+                      : !!userDetails && userDetails.streetNo
+                  "
                   disable
                 />
               </div>
@@ -85,6 +102,11 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
+                  :value="
+                    !!isEdit
+                      ? form.info.postalCode
+                      : !!userDetails && userDetails.postalCode
+                  "
                   disable
                 />
               </div>
@@ -94,7 +116,11 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
-                  :value="!!userDetails && userDetails.phone"
+                  :value="
+                    !!isEdit
+                      ? form.info.phone
+                      : !!userDetails && userDetails.phone
+                  "
                   disable
                 />
               </div>
@@ -104,7 +130,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
-                  :value="!!user && user.email"
+                  :value="!!isEdit ? form.info.email : !!user && user.email"
                   disable
                 />
               </div>
@@ -611,39 +637,34 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div
-          class="row"
-          :class="$q.screen.gt.sm ? 'justify-center' : 'justify-between'"
-        >
-          <q-btn
-            :label="
-              isEdit
-                ? $t('draftButton.editAsDraft')
-                : $t('draftButton.saveAsDraft')
-            "
-            @click="
-              isEdit ? editProjectIdea(false) : submitNewProjectIdea(false)
-            "
-            size="16px"
-            outline
-            color="primary"
-            :loading="isLoading"
-            no-caps
-            class="radius-6 q-py-xs"
-            :class="$q.screen.gt.sm ? 'q-mr-md q-px-xl' : 'q-px-sm'"
-          />
-          <q-btn
-            :label="
-              isEdit ? $t('publishButton.edit') : $t('publishButton.publish')
-            "
-            @click="isEdit ? editProjectIdea(true) : submitNewProjectIdea(true)"
-            size="16px"
-            color="primary"
-            :loading="isLoading"
-            no-caps
-            class="radius-6 q-py-xs"
-            :class="$q.screen.gt.sm ? 'q-ml-md q-px-xl' : 'q-px-md'"
-          />
+        <div class="row justify-center">
+          <div class="col-5 col-md-2 q-mr-sm">
+            <q-btn
+              :label="$t('draftButton.saveAsDraft')"
+              @click="
+                isEdit ? editProjectIdea(false) : submitNewProjectIdea(false)
+              "
+              size="16px"
+              outline
+              color="primary"
+              :loading="isLoading"
+              no-caps
+              class="radius-6 q-py-xs full-width"
+            />
+          </div>
+          <div class="col-5 col-md-2 q-ml-sm">
+            <q-btn
+              :label="$t('publishButton.publish')"
+              @click="
+                isEdit ? editProjectIdea(true) : submitNewProjectIdea(true)
+              "
+              size="16px"
+              color="primary"
+              :loading="isLoading"
+              no-caps
+              class="radius-6 q-py-xs full-width"
+            />
+          </div>
         </div>
       </q-form>
     </div>
@@ -724,11 +745,6 @@ export default {
     removeImg(index) {
       this.form.media.splice(index, 1);
     },
-    myRule(val) {
-      if (val === null) {
-        return "required";
-      }
-    },
     removeFile(index) {
       this.form.files.splice(index, 1);
     },
@@ -798,20 +814,6 @@ export default {
             data: {
               ...this.form,
               published: published
-              // info: {
-              //   ...this.form.info,
-              //   contactName: this.userDetails.fullName,
-              //   phone: this.userDetails.phone,
-              //   email: this.user.email,
-              //   location: this.userDetails.location,
-              //   streetNo: "",
-              //   postalCode: ""
-              // },
-              // municipality: {
-              //   id:
-              //     this.userDetails.municipality &&
-              //     this.userDetails.municipality.id
-              // },
             }
           });
           this.isLoading = false;
