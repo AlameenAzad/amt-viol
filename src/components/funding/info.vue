@@ -1,14 +1,16 @@
 <template>
   <div class="q-mt-lg">
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1  pagination-no-shadow"
       :title="$t('fundingsInfo.current')"
       :data="data"
       :columns="columns"
       row-key="name"
-      :hide-bottom="data.length > 0"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: 10
       }"
     >
       <template v-slot:top>
@@ -167,5 +169,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
