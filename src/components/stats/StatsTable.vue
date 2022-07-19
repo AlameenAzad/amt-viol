@@ -129,7 +129,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="publishDateStart" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="publishDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -161,7 +165,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="publishDateEnd" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="publishDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -195,7 +203,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="endDateStart" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="endDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
@@ -227,7 +239,11 @@
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="endDateEnd" mask="DD.MM.YYYY">
+                        <q-date
+                          v-model="endDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
