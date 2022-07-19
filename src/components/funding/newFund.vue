@@ -412,6 +412,7 @@
                           v-model="form.plannedStart"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedStartDateProxy.hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -450,6 +451,7 @@
                           v-model="form.plannedEnd"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedEndDateProxy.hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
