@@ -40,10 +40,16 @@
       :data="data"
       :columns="columns"
       row-key="name"
-      hide-bottom
+      :hide-bottom="!isInPage && data.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : []"
       :filter="filter"
+      :pagination="{
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: isInPage ? 50 : 5
+      }"
     >
       <template v-slot:top-left>
         <q-input
