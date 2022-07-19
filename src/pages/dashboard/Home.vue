@@ -7,6 +7,7 @@
           icon="search"
           unelevated
           class="mr-0 radius-6 text-weight-600"
+          :class="{ 'full-width': $q.screen.lt.md }"
           no-caps
         >
           <p class="q-mb-none q-mx-md q-my-sm">
@@ -23,6 +24,7 @@
               unelevated
               outline
               class="mr-0 radius-6 text-weight-600"
+              :class="{ 'full-width': $q.screen.lt.md }"
               no-caps
               @click="$router.push({ path: '/user/newProjectIdea' })"
             >
@@ -31,14 +33,14 @@
               </p>
             </q-btn>
           </div>
-          <div class="col-12 col-md-auto">
+          <div v-if="isAdmin" class="col-12 col-md-auto">
             <q-btn
-              v-if="isAdmin"
               color="blue"
               icon="add"
               unelevated
               outline
               class="mr-0 radius-6  text-weight-600"
+              :class="{ 'full-width': $q.screen.lt.md }"
               no-caps
               @click="$router.push({ path: '/user/newFunding' })"
             >
@@ -54,6 +56,7 @@
               unelevated
               outline
               class="mr-0 radius-6 text-weight-600"
+              :class="{ 'full-width': $q.screen.lt.md }"
               no-caps
               @click="$router.push({ path: '/user/newChecklist' })"
             >
@@ -66,7 +69,7 @@
       </div>
     </div>
 
-    <div>
+    <div v-if="isAdmin">
       <fundingInfo />
     </div>
     <div class="row q-col-gutter-md ">
@@ -77,7 +80,7 @@
         <watchlist />
       </div>
     </div>
-    <div>
+    <div v-if="false">
       <network />
     </div>
   </q-page>
