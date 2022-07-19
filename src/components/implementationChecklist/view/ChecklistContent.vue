@@ -320,10 +320,22 @@
                                 {{ card.name }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" class=""
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.initialContact.start,
+                                  checklist.initialContact.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.initialContact.start,
+                                  checklist.initialContact.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
                           <div class="row items-center q-mb-md">
@@ -353,6 +365,56 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'captureIdea'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'caputreContect'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -497,10 +559,22 @@
                                 {{ card.name || "No name filled" }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" color="green"
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.preparation.start,
+                                  checklist.preparation.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.preparation.start,
+                                  checklist.preparation.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
 
@@ -511,6 +585,81 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'inspection'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'captureRequirements'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'captureNeeds'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -657,13 +806,24 @@
                                 {{ card.name || "No name filled" }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" color="green"
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.fundingResearch.start,
+                                  checklist.fundingResearch.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.fundingResearch.start,
+                                  checklist.fundingResearch.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
-
                           <div class="row items-center q-mb-md">
                             <div>
                               <p class="font-16 text-blue-5 q-ma-none">
@@ -671,6 +831,106 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkDatabase'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkForFunding'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkWithFunding'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkGuildlines'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -818,13 +1078,24 @@
                                 {{ card.name || "No name filled" }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" color="green"
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.preparationOfProject.start,
+                                  checklist.preparationOfProject.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.preparationOfProject.start,
+                                  checklist.preparationOfProject.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
-
                           <div class="row items-center q-mb-md">
                             <div>
                               <p class="font-16 text-blue-5 q-ma-none">
@@ -832,6 +1103,106 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkContent'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkCooperations'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkSimilarProejcts'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'checkPlanning'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -972,10 +1343,22 @@
                                 {{ card.name || "No name filled" }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" color="green"
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.legitimation.start,
+                                  checklist.legitimation.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.legitimation.start,
+                                  checklist.legitimation.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
 
@@ -986,6 +1369,31 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'template'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -1128,10 +1536,22 @@
                                 {{ card.name || "No name filled" }}
                               </p>
                             </div>
-                            <div>
-                              <q-chip square text-color="white" color="green"
-                                >Done</q-chip
-                              >
+                            <div
+                              v-if="
+                                checkProgress(
+                                  checklist.finalExamination.start,
+                                  checklist.finalExamination.end
+                                ) !== 'notStarted'
+                              "
+                            >
+                              <q-chip square class="text-weight-600">{{
+                                checkProgress(
+                                  checklist.finalExamination.start,
+                                  checklist.finalExamination.end
+                                ) === "done"
+                                  ? "Done"
+                                  : "In Progress"
+                              }}</q-chip>
                             </div>
                           </div>
 
@@ -1142,6 +1562,56 @@
                               </p>
                               <p class="font-16 q-ma-none">
                                 {{ card.text || "No description filled" }}
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'signatures'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
+                              </p>
+                            </div>
+                          </div>
+                          <div v-if="propertyName === 'revision'">
+                            <div
+                              v-if="card.file && card.file.length > 0"
+                              class="row items-center q-mb-none"
+                            >
+                              <div
+                                v-for="(file, index) in card.file"
+                                :key="index"
+                                class="col-auto q-mr-md"
+                              >
+                                <a
+                                  class="q-mb-md text-blue block text-weight-600"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  :href="`${appUrl}${file.url}`"
+                                  >{{ file.name }}</a
+                                >
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p class="q-mt-sm q-mb-sm">
+                                No Files Uploaded
                               </p>
                             </div>
                           </div>
@@ -1211,7 +1681,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 export default {
-  name: "checklistView",
+  name: "checklistContent",
   data() {
     return {
       slide: 1,
@@ -1236,7 +1706,7 @@ export default {
       const startDate = new Date(start);
       const endDate = new Date(end);
       if (currentDate < startDate) {
-        return "Not started";
+        return "notStarted";
       } else if (currentDate > endDate) {
         return "done";
       } else {
@@ -1323,12 +1793,18 @@ export default {
   border: 1px solid $green;
   .q-chip {
     background: $green;
+    .q-chip__content {
+      color: white;
+    }
   }
 }
 .inProgress {
   border: 1px solid $yellow;
   .q-chip {
     background: $yellow;
+    .q-chip__content {
+      color: black;
+    }
   }
 }
 </style>
