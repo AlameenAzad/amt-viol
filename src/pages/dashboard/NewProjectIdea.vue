@@ -44,7 +44,7 @@
                   class="no-shadow input-radius-6"
                   :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                   :value="
-                    !!isEdit
+                    !!project
                       ? form.info.contactName
                       : !!userDetails && userDetails.fullName
                   "
@@ -59,7 +59,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Administration"
                   :value="
-                    !!isEdit
+                    !!project
                       ? form.municipality.title
                       : !!userDetails && userDetails.municipality.title
                   "
@@ -89,7 +89,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Steet, Nr."
                   :value="
-                    !!isEdit
+                    !!project
                       ? form.info.streetNo
                       : !!userDetails && userDetails.streetNo
                   "
@@ -103,7 +103,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
                   :value="
-                    !!isEdit
+                    !!project
                       ? form.info.postalCode
                       : !!userDetails && userDetails.postalCode
                   "
@@ -117,7 +117,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
                   :value="
-                    !!isEdit
+                    !!project
                       ? form.info.phone
                       : !!userDetails && userDetails.phone
                   "
@@ -130,7 +130,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
-                  :value="!!isEdit ? form.info.email : !!user && user.email"
+                  :value="!!project ? form.info.email : !!user && user.email"
                   disable
                 />
               </div>
@@ -154,7 +154,7 @@
           </div>
           <div class="col-12 col-md-8">
             <UserSelect
-              :editing="isEdit.editors"
+              :editing="project.editors"
               @update:user="form.editors = $event"
             />
           </div>
@@ -214,7 +214,7 @@
           <div class="col-12 col-md-8">
             <Categories
               ref="categories"
-              :editing="isEdit.categories"
+              :editing="project.categories"
               @update:category="form.categories = $event"
             />
           </div>
@@ -224,7 +224,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
+            <Tags :editing="project.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -373,7 +373,7 @@
           </div>
           <div class="col-12 col-md-8">
             <EstimatedCost
-              :editing="isEdit.estimatedCosts"
+              :editing="project.estimatedCosts"
               @update:cost="form.estimatedCosts = $event"
             />
           </div>
@@ -391,7 +391,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Fundings
-              :editing="isEdit.fundingGuideline"
+              :editing="project.fundingGuideline"
               @update:linkToFunding="form.fundingGuideline = $event"
             />
           </div>
@@ -430,9 +430,11 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedStartOptions"
                           v-model="form.plannedStart"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedStartDateProxy.hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -469,9 +471,11 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedEndOptions"
                           v-model="form.plannedEnd"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedEndDateProxy.hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -505,7 +509,10 @@
             </p>
           </div>
           <div class="col-12 col-md-8">
-            <Links :editing="isEdit.links" @update:link="form.links = $event" />
+            <Links
+              :editing="project.links"
+              @update:link="form.links = $event"
+            />
           </div>
         </div>
         <div class="row">
@@ -545,6 +552,7 @@
                 </q-file>
                 <div class="q-mt-sm" v-if="form.media && form.media.length > 0">
                   <q-item
+                    class="radius-6"
                     v-for="(image, index) in form.media"
                     :key="index"
                     clickable
@@ -601,6 +609,7 @@
                 </q-file>
                 <div class="q-mt-sm" v-if="form.files && form.files.length > 0">
                   <q-item
+                    class="radius-6"
                     v-for="(file, index) in form.files"
                     :key="index"
                     clickable
@@ -642,7 +651,7 @@
             <q-btn
               :label="$t('draftButton.saveAsDraft')"
               @click="
-                isEdit ? editProjectIdea(false) : submitNewProjectIdea(false)
+                project ? editProjectIdea(false) : submitNewProjectIdea(false)
               "
               size="16px"
               outline
@@ -656,7 +665,7 @@
             <q-btn
               :label="$t('publishButton.publish')"
               @click="
-                isEdit ? editProjectIdea(true) : submitNewProjectIdea(true)
+                project ? editProjectIdea(true) : submitNewProjectIdea(true)
               "
               size="16px"
               color="primary"
@@ -735,6 +744,21 @@ export default {
   },
   //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
+    plannedStartOptions(date) {
+      // const calendarDate = date.replace(/\//g, "-");
+      // const currentDate = new Date().toISOString().split("T")[0];
+      // return calendarDate >= currentDate;
+      return true;
+    },
+    plannedEndOptions(date) {
+      if (!!this.form.plannedStart) {
+        const calendarDate = date.replace(/\//g, "-");
+        // const currentDate = new Date().toISOString().split("T")[0];
+        return calendarDate >= this.form.plannedStart;
+      } else {
+        return true;
+      }
+    },
     dateFormatter,
     imgPreview(val) {
       return {
@@ -849,9 +873,6 @@ export default {
       return this.$store.state.userCenter.user.user;
     },
     project() {
-      return this.$store.state.project.project;
-    },
-    isEdit() {
       return (
         !!this.$route.params.id &&
         JSON.parse(JSON.stringify(this.$store.state.project.project))
