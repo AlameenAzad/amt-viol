@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black text-white">
       <q-toolbar
-        class="q-my-sm "
+        class="q-my-sm justify-between"
         :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-sm'"
       >
         <q-btn
@@ -14,26 +14,23 @@
           color="primary"
           icon="menu"
         />
-        <q-toolbar-title
-          class="text-weight-600"
-          :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
-          @click="$router.go(-1)"
-        >
-          <q-icon
-            v-if="$router.currentRoute.meta.backLink"
-            name="chevron_left"
-            size="sm"
-            color="primary"
-            class="q-mb-"
-          />
-          {{ $router.currentRoute.meta.title }}
-        </q-toolbar-title>
-        <q-space></q-space>
-        <div>
-          <div class="inline-block ">
-            <small class="q-mr-xs">Logged in as:</small>
-            <span class="text-caption">{{ user || "" }}</span>
-          </div>
+        <div class="col-4 col-md-auto">
+          <q-toolbar-title
+            class="text-weight-600"
+            :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
+            @click="$router.go(-1)"
+          >
+            <q-icon
+              v-if="$router.currentRoute.meta.backLink"
+              name="chevron_left"
+              size="sm"
+              color="primary"
+              class="q-mb-"
+            />
+            {{ $router.currentRoute.meta.title }}
+          </q-toolbar-title>
+        </div>
+        <div class="col-auto">
           <q-btn
             flat
             round
@@ -96,6 +93,8 @@
           >
           </q-btn>
         </div>
+
+        <!-- <q-space></q-space> -->
       </q-toolbar>
     </q-header>
 
@@ -107,9 +106,9 @@
       content-class="bg-blue"
     >
       <div class="q-px-lg q-pt-sm">
-        <p class="font-20 text-weight-bold">
-          ENABLER/ <br />
-          FACILITATOR ADMINS
+        <p class="font-20 ">
+          <small class="q-mr-xs">Hello,</small><br />
+          <span class="text-weight-bold">{{ user || "" }}</span>
         </p>
       </div>
       <q-list>
