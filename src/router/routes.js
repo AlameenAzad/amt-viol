@@ -98,7 +98,7 @@ const routes = [
         path: "/Administation/User",
         name: "AdministationUser",
         meta: {
-          title: "User Administation",
+          title: "User Administration",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: true
@@ -124,7 +124,7 @@ const routes = [
         name: "Network",
         meta: {
           title: "My Network",
-          showInNavigation: true,
+          showInNavigation: false,
           requireAuth: true,
           requireAdmin: false
         },
@@ -290,7 +290,9 @@ const routes = [
         name: "newCheckList",
         meta: {
           title: "New Implementation checklist",
-          backLink: "/user/data"
+          backLink: "/user/data",
+          requireAuth: true,
+          requireAdmin: false
         },
         component: () => import("pages/dashboard/ImplementationChecklist.vue")
       },
@@ -299,7 +301,9 @@ const routes = [
         name: "viewCheckList",
         meta: {
           title: "Details of the Implementation checklist",
-          backLink: "/user/data"
+          backLink: "/user/data",
+          requireAuth: true,
+          requireAdmin: false
         },
         component: () =>
           import("pages/dashboard/ImplementationChecklistView.vue")
