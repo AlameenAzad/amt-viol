@@ -6,6 +6,12 @@ export function setSpecificChecklist(state, payload) {
   state.checklist = payload;
 }
 
+export function addNewChecklist(state, payload) {
+  if (!!payload) {
+    state.checklists.push(payload);
+  }
+}
+
 export function deleteChecklist(state, payload) {
   if (!!payload) {
     state.checklists = state.checklists.filter(
