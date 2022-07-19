@@ -6,7 +6,7 @@
 import newCheckList from "src/components/implementationChecklist/newCheckList.vue";
 
 export default {
-  name: "newFunding",
+  name: "newImplementationChecklist",
   components: {
     newCheckList
   }
