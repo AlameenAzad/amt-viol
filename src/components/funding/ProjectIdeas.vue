@@ -56,8 +56,8 @@ export default {
       default: false
     },
     editing: {
-      type: Array,
-      default: null
+      type: [Object, Array],
+      default: () => null
     }
   },
   data() {
