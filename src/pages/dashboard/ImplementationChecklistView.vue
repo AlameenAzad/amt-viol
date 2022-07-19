@@ -10,7 +10,7 @@
 <script>
 import ChecklistContent from "components/implementationChecklist/view/ChecklistContent.vue";
 export default {
-  name: "FundingView",
+  name: "ChecklistView",
   components: {
     ChecklistContent
   },
