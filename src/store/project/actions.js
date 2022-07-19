@@ -24,7 +24,6 @@ export async function createNewProjectIdea(context, payload) {
     try {
       const res = await api.post("/api/projects", { data: dataWithoutFiles });
       console.log("res :>> ", res);
-      context.commit("addNewProjectIdea", res.data.data);
       if (data.files !== null) {
         const fileUploadRes = await context.dispatch("uploadFiles", {
           files: data.files,
@@ -39,6 +38,7 @@ export async function createNewProjectIdea(context, payload) {
         });
         console.log("mediaUploadRes", mediaUploadRes);
       }
+      context.commit("addNewProjectIdea", res.data.data);
       Notify.create({
         message: "New Project Idea added successfully",
         type: "positive"
@@ -294,6 +294,29 @@ export async function deleteProjectIdea(context, payload) {
     } catch (error) {
       Notify.create({
         // position: "top-right",
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function archiveProjectIdea(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.put(`/api/projects/${id}`, {
+        data: { archived: true }
+      });
+      // context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
+      Notify.create({
+        message: "Project Idea archived successfully",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
+    } catch (error) {
+      Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
