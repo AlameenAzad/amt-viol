@@ -145,7 +145,7 @@
           <div class="col-12 col-md-8">
             <ProjectIdeas
               :isInChecklist="true"
-              :editing="isEdit.projects"
+              :editing="isEdit.project"
               @update:linkToProject="form.project = $event"
             />
           </div>
@@ -217,6 +217,74 @@
             <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
+        <div class="row items-center">
+          <div class="col-12 col-md-4">
+            <p class="font-16 no-margin">
+              Uploads
+            </p>
+          </div>
+          <div class="col-12 col-md-8">
+            <div class="row q-col-gutter-md">
+              <div class="col-12 col-md-6">
+                <q-file
+                  flat
+                  :rules="[val => !!val || 'Required']"
+                  v-model="form.media"
+                  class="uploadInput input-radius-6 text-white"
+                  label-color="white"
+                  dark
+                  bg-color="primary"
+                  :label="
+                    !!form.media && form.media.length > 0
+                      ? 'Add Images'
+                      : 'Select Images'
+                  "
+                  multiple
+                  display-value=""
+                  append
+                >
+                  <template v-slot:prepend>
+                    <q-icon color="white" class="on-right" name="upload" />
+                  </template>
+                </q-file>
+                <div class="q-mt-sm" v-if="form.media && form.media.length > 0">
+                  <q-item
+                    class="radius-6"
+                    v-for="(image, index) in form.media"
+                    :key="index"
+                    clickable
+                  >
+                    <q-item-section side>
+                      <q-avatar rounded size="48px">
+                        <q-img
+                          :ratio="1"
+                          contain
+                          :src="imgPreview(image).url"
+                        />
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="ellipsis" caption>{{
+                        imgPreview(image).name
+                      }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="delete"
+                        @click.prevent.stop="removeImg(index)"
+                        size="sm"
+                        round
+                        text-color="red"
+                        dense
+                      >
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
           <q-card-section class="q-pa-md font-16 text-weight-600"
             >project activity</q-card-section
@@ -258,6 +326,7 @@
                           v-model="card.start"
                           mask="YYYY-MM-DD"
                           @input="$refs.startDateProxy[index].hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -301,6 +370,7 @@
                           v-model="card.end"
                           mask="YYYY-MM-DD"
                           @input="$refs.endDateProxy[index].hide()"
+                          first-day-of-week="1"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -437,7 +507,17 @@
                         >
                           <ProjectIdeas
                             :isInChecklist="true"
-                            :editing="isEdit.projects"
+                            :editing="
+                              !!isEdit
+                                ? isEdit.initialContact.captureIdea.project
+                                : form.items
+                                    .find(
+                                      item => item.cardName === 'initialContact'
+                                    )
+                                    .items.find(
+                                      item => item.objectName === 'captureIdea'
+                                    ).project
+                            "
                             @update:linkToProject="element.project = $event"
                           />
                         </div>
@@ -451,72 +531,77 @@
                             v-model="element.text"
                           />
                         </div>
-                        <div class="col-12 col-md-4">
-                          <q-file
-                            outlined
-                            bg-color="transparent"
-                            v-model="form.files"
-                            class="uploadInput input-radius-6"
-                            label-color="primary"
-                            :label="
-                              !!form.files && form.files.length > 0
-                                ? 'Add Files'
-                                : 'Upload File'
-                            "
-                            multiple
-                            display-value=""
-                            append
-                          >
-                            <template v-slot:prepend>
-                              <q-icon
-                                color="primary"
-                                class="on-right"
-                                name="upload"
-                              />
-                            </template>
-                          </q-file>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div
-                          class="q-mt-sm"
-                          v-if="form.files && form.files.length > 0"
-                        >
-                          <q-item
-                            v-for="(file, index) in form.files"
-                            :key="index"
-                            clickable
-                          >
-                            <q-item-section side>
-                              <q-avatar rounded size="48px">
-                                <small>{{
-                                  imgPreview(file).name.split(".")[1]
-                                }}</small>
-                              </q-avatar>
-                            </q-item-section>
-                            <q-item-section>
-                              <q-item-label class="ellipsis" caption>{{
-                                imgPreview(file).name
-                              }}</q-item-label>
-                            </q-item-section>
-                            <q-item-section side>
-                              <q-btn
-                                icon="delete"
-                                @click.prevent.stop="removeFile(index)"
-                                size="sm"
-                                round
-                                text-color="red"
-                                dense
+                        <div class="col-12">
+                          <div class="row items-center q-col-gutter-x-sm">
+                            <div class="col-12 col-md-4">
+                              <q-file
+                                outlined
+                                bg-color="transparent"
+                                v-model="element.file"
+                                class="uploadInput input-radius-6"
+                                label-color="primary"
+                                :label="
+                                  !!element.file && element.file.length > 0
+                                    ? 'Add file'
+                                    : 'Upload File'
+                                "
+                                multiple
+                                display-value=""
+                                append
                               >
-                              </q-btn>
-                            </q-item-section>
-                          </q-item>
+                                <template v-slot:prepend>
+                                  <q-icon
+                                    color="primary"
+                                    class="on-right"
+                                    name="upload"
+                                  />
+                                </template>
+                              </q-file>
+                            </div>
+                            <div
+                              class="col-12 q-mt-sm"
+                              v-if="element.file && element.file.length > 0"
+                            >
+                              <q-item
+                                class="q-py-none q-pl-none inline radius-6 items-center"
+                                v-for="(file, index) in element.file"
+                                :key="index"
+                                clickable
+                              >
+                                <q-item-section side class="col-auto q-pr-xs">
+                                  <q-avatar rounded size="48px">
+                                    <p class="font-16 no-margin">
+                                      {{ imgPreview(file).name.split(".")[1] }}
+                                    </p>
+                                  </q-avatar>
+                                </q-item-section>
+                                <q-item-section class="col-auto ">
+                                  <q-item-label class="ellipsis" caption>{{
+                                    imgPreview(file).name
+                                  }}</q-item-label>
+                                </q-item-section>
+                                <q-item-section side>
+                                  <q-btn
+                                    icon="delete"
+                                    @click.prevent.stop="
+                                      removeFile(card, element, index)
+                                    "
+                                    size="sm"
+                                    round
+                                    text-color="red"
+                                    dense
+                                  >
+                                  </q-btn>
+                                </q-item-section>
+                              </q-item>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </q-card-section>
                   </div>
                   <draggable
-                    v-show="element.active === true"
+                    v-if="element.active === true"
                     handle=".handle"
                     class="col-8"
                     v-model="element.tasks"
@@ -558,9 +643,9 @@
                                       {{ item.name }}
                                     </p>
                                   </div>
-                                  <div v-show="!!element.desc" class="col-12">
+                                  <div v-show="!!item.desc" class="col-12">
                                     <p class="no-margin font-14 text-italic">
-                                      {{ element.desc }}
+                                      {{ item.desc }}
                                     </p>
                                   </div>
                                 </div>
@@ -622,7 +707,7 @@
                           </div>
                         </q-card-section>
                         <draggable
-                          v-show="item.active === true"
+                          v-if="item.active === true"
                           handle=".handle"
                           class="col-8 q-ml-lg"
                           v-model="item.children"
@@ -739,9 +824,7 @@
           <div class="col-5 col-md-2 q-mr-sm">
             <q-btn
               :label="$t('draftButton.saveAsDraft')"
-              @click="
-                isEdit ? editProjectIdea(false) : submitNewChecklist(false)
-              "
+              @click="isEdit ? editChecklist(false) : submitNewChecklist(false)"
               size="16px"
               outline
               color="primary"
@@ -753,7 +836,7 @@
           <div class="col-5 col-md-2 q-ml-sm">
             <q-btn
               :label="$t('publishButton.publish')"
-              @click="isEdit ? editProjectIdea(true) : submitNewChecklist(true)"
+              @click="isEdit ? editChecklist(true) : submitNewChecklist(true)"
               size="16px"
               color="primary"
               :loading="isLoading"
@@ -788,7 +871,6 @@ export default {
   },
   data() {
     return {
-      dialog: true,
       projectIdea: true,
       form: {
         title: "",
@@ -800,8 +882,8 @@ export default {
           {
             cardName: "initialContact",
             cardTitle: "Erstgespräch mit dem politischen Ehrenamt",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               // captureIdea
               {
@@ -813,9 +895,9 @@ export default {
                 text: "",
                 sortPosition: 1,
                 active: true,
-                project: {},
+                project: null,
                 objectId: 1,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Projektidee-Quellen Nutzen",
@@ -924,9 +1006,9 @@ export default {
                   "Wie kann der Kontext einer Projektidee im Erstgespräch skizziert und im Nachgang konkretisiert werden?",
                 name: "",
                 text: "",
-                active: true,
+                active: false,
                 sortPosition: 2,
-                files: null,
+                file: null,
                 objectId: 2,
                 info: [
                   "Könnte die Idee genehmigungspflichtig sein?",
@@ -1008,8 +1090,8 @@ export default {
           {
             cardName: "preparation",
             cardTitle: "Erstellung der Projektideen-Skizze",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               {
                 objectName: "inspection",
@@ -1018,9 +1100,9 @@ export default {
                 text: "",
                 sortPosition: 1,
                 objectId: 1,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 info: [
                   "Sind Gutachten/Vorstudien nötig?",
                   "Müssen externe Dienstleister beauftragt werden?"
@@ -1116,9 +1198,9 @@ export default {
                 desc: "Wie können Anforderungen erfasst werden?",
                 sortPosition: 2,
                 objectId: 2,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -1215,9 +1297,9 @@ export default {
                 desc: "Wie können Ziele und Bedarfe erfasst werden?",
                 sortPosition: 3,
                 objectId: 3,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Erwartungen an das Projekt definieren",
@@ -1318,8 +1400,8 @@ export default {
           {
             cardName: "fundingResearch",
             cardTitle: "Fördermittelrecherche",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               {
                 objectName: "checkDatabase",
@@ -1329,9 +1411,9 @@ export default {
                 desc: "Welche grundlegenden Informationen werden benötigt?",
                 sortPosition: 1,
                 objectId: 1,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Zeitschiene und Inhalte abgleichen",
@@ -1413,9 +1495,9 @@ export default {
                   "Welche grundlegenden Informationen werden benötigt? Kann ggf. schon ab User Aktivität 2 mit dem Förderscouting erfolgen (2.1 oder 2.2)",
                 sortPosition: 2,
                 objectId: 2,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -1483,9 +1565,9 @@ export default {
                   "Welche Informationen müssen für ein zielführendes Gespräch ermittelt werden?",
                 sortPosition: 3,
                 objectId: 3,
-                active: true,
-                fixed: true,
-                files: null,
+                active: false,
+                fixed: false,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -1548,9 +1630,9 @@ export default {
                   "Worauf muss bei der Durchsicht von Langfassungen geachtet werden?",
                 sortPosition: 4,
                 objectId: 4,
-                active: true,
+                active: false,
                 fixed: false,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -1650,8 +1732,8 @@ export default {
           {
             cardName: "preparationOfProject",
             cardTitle: "Ausarbeitung/Optimierung Projektunterlagen",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               {
                 objectName: "checkContent",
@@ -1662,9 +1744,9 @@ export default {
                   "Welche inhaltlichen Hinweise gibt die Richtlinie, um die Förderfähigkeit des Projektantrages zu verbessern/zu erreichen?",
                 sortPosition: 1,
                 objectId: 1,
-                active: true,
+                active: false,
                 fixed: false,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -1721,7 +1803,7 @@ export default {
                 objectId: 2,
                 active: false,
                 fixed: false,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Weitere zielführende Kooperationen identifizieren",
@@ -1800,7 +1882,7 @@ export default {
                 objectId: 3,
                 active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Vergleichbare Projekte identifizieren",
@@ -1864,9 +1946,9 @@ export default {
                   "Wie kann die interne Zusammenarbeit effizient koordiniert werden?",
                 sortPosition: 4,
                 objectId: 4,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Interne Fachabteilungen konkret einbeziehen",
@@ -1931,8 +2013,8 @@ export default {
           {
             cardName: "legitimation",
             cardTitle: "Legitimierung zur Einreichung",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               {
                 objectName: "template",
@@ -1943,9 +2025,9 @@ export default {
                   "Was muss erarbeitet werden, um einen breiten Konsens herbei zu führen?",
                 sortPosition: 1,
                 objectId: 1,
-                active: true,
+                active: false,
                 fixed: true,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name:
@@ -2054,8 +2136,8 @@ export default {
           {
             cardName: "finalExamination",
             cardTitle: "Prüfung der Projektunterlagen final",
-            start: "2022-06-11",
-            end: "2022-06-20",
+            start: "2022-07-10",
+            end: "2022-07-20",
             items: [
               {
                 objectName: "revision",
@@ -2068,7 +2150,7 @@ export default {
                 objectId: 1,
                 active: false,
                 fixed: false,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Überarbeitung der Projektunterlagen",
@@ -2132,35 +2214,6 @@ export default {
                       }
                     ]
                   }
-                  // {
-                  //   name: "Prepare and initiate the adoption of resolutions",
-                  //   sortPosition: 2,
-                  //   objectId: 2,
-                  //   active: false,
-                  //   children: [
-                  //     {
-                  //       name:
-                  //         "BesprechungdurchführensamtDokumentationdesGesprächsverlauf,Anfertigungeiner Planskizze etc.",
-                  //       sortPosition: 1,
-                  //       active: true,
-                  //       objectId: 1
-                  //     },
-                  //     {
-                  //       name:
-                  //         "BesprechungimBüroanhandvonProjektideen-Skizze,Bildern,KartenundPlanskizzenetc.",
-                  //       sortPosition: 2,
-                  //       active: false,
-                  //       objectId: 2
-                  //     },
-                  //     {
-                  //       name:
-                  //         "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
-                  //       sortPosition: 3,
-                  //       active: true,
-                  //       objectId: 3
-                  //     }
-                  //   ]
-                  // }
                 ]
               },
               {
@@ -2172,9 +2225,9 @@ export default {
                   "Was muss bei der Einholung von Unterschriften beachtet werden?",
                 sortPosition: 2,
                 objectId: 2,
-                active: true,
+                active: false,
                 fixed: false,
-                files: null,
+                file: null,
                 tasks: [
                   {
                     name: "Koordination der Unterschriftensammlung",
@@ -2237,7 +2290,8 @@ export default {
         },
         municipality: "",
         categories: [],
-        tags: []
+        tags: [],
+        media: null
       },
       visibilityOptions: ["only for me", "all users", "listed only"],
       ideaProviderOptions: [
@@ -2277,6 +2331,23 @@ export default {
   },
   methods: {
     dateFormatter,
+    imgPreview(val) {
+      return {
+        url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
+        name: val.name
+      };
+    },
+    removeFile(card, element, index) {
+      if (!!card && !!element) {
+        this.form.items
+          .find(item => item.cardName === card.cardName)
+          .items.find(item => item.objectName === element.objectName)
+          .file.splice(index, 1);
+      }
+    },
+    removeImg(index) {
+      this.form.media.splice(index, 1);
+    },
     scrollToInvalidElement(ref) {
       const el = ref.$el;
       const target = getScrollTarget(el);
@@ -2301,7 +2372,6 @@ export default {
       this.$refs.newChecklistForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
-          await this.checkOptionalParameters();
           const res = await this.$store.dispatch(
             "implementationChecklist/createNewChecklist",
             {
@@ -2334,29 +2404,319 @@ export default {
         }
       });
     },
-    checkOptionalParameters() {
-      // const initialContact = this.form.items.find(
-      //   item => item.cardName === "initialContact"
-      // );
-      // const captureIdea = initialContact.items.find(
-      //   item => item.objectName === "captureIdea"
-      // );
-      // if (!captureIdea?.project.objectId) {
-      //   delete captureIdea.project;
-      // }
+    editChecklist(val) {
+      const published = val;
+      this.$refs.newChecklistForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch(
+            "implementationChecklist/editChecklist",
+            {
+              data: {
+                ...this.form,
+                published: published
+              }
+            }
+          );
+          this.isLoading = false;
+        } else {
+          // this.$refs.newChecklistForm.focus();
+          console.log("error");
+        }
+      });
     },
-    setData() {
+    async setData() {
+      console.log("this.form", this.form);
+      const specificChecklist = JSON.parse(JSON.stringify(this.checklist));
+      console.log("specificChecklist :>> ", specificChecklist);
       this.form = {
         ...this.form,
-        ...JSON.parse(
-          JSON.stringify({
-            ...this.checklist
-          })
-        )
+        ...specificChecklist
+      };
+      await this.setItems(specificChecklist);
+    },
+    async setItems(checklist) {
+      this.form.items = [
+        {
+          ...this.setInitialContact(checklist)
+        },
+        {
+          ...this.setPreparation(checklist)
+        },
+        {
+          ...this.setFundingResearch(checklist)
+        },
+        {
+          ...this.setPreparationOfProject(checklist)
+        },
+        {
+          ...this.setLegitimation(checklist)
+        },
+        {
+          ...this.setFinalExamination(checklist)
+        }
+      ];
+    },
+    setInitialContact(checklist) {
+      return {
+        ...this.form.items.find(item => item.cardName === "initialContact"),
+        start: checklist.initialContact.start,
+        end: checklist.initialContact.end,
+        id: checklist.initialContact.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "initialContact")
+              .items.find(item => item.objectName === "captureIdea"),
+            name: checklist.initialContact.captureIdea.name,
+            text: checklist.initialContact.captureIdea.text,
+            sortPosition: checklist.initialContact.captureIdea.sortPosition,
+            active: checklist.initialContact.captureIdea.active,
+            tasks: checklist.initialContact.captureIdea.tasks,
+            file: checklist.initialContact.captureIdea.file,
+            id: checklist.initialContact.captureIdea.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "initialContact")
+              .items.find(item => item.objectName === "caputreContect"),
+            name: checklist.initialContact.caputreContect.name,
+            text: checklist.initialContact.caputreContect.text,
+            sortPosition: checklist.initialContact.caputreContect.sortPosition,
+            active: checklist.initialContact.caputreContect.active,
+            tasks: checklist.initialContact.caputreContect.tasks,
+            file: checklist.initialContact.caputreContect.file,
+            id: checklist.initialContact.caputreContect.id
+          }
+        ]
+      };
+    },
+    setPreparation(checklist) {
+      return {
+        ...this.form.items.find(item => item.cardName === "preparation"),
+        start: checklist.preparation.start,
+        end: checklist.preparation.end,
+        id: checklist.preparation.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparation")
+              .items.find(item => item.objectName === "inspection"),
+            name: checklist.preparation.inspection.name,
+            text: checklist.preparation.inspection.text,
+            sortPosition: 1,
+            active: checklist.preparation.inspection.active,
+            tasks: checklist.preparation.inspection.tasks,
+            file: checklist.preparation.inspection.file,
+            id: checklist.preparation.inspection.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparation")
+              .items.find(item => item.objectName === "captureRequirements"),
+            name: checklist.preparation.captureRequirements.name,
+            text: checklist.preparation.captureRequirements.text,
+            sortPosition: 2,
+            active: checklist.preparation.captureRequirements.active,
+            tasks: checklist.preparation.captureRequirements.tasks,
+            file: checklist.preparation.captureRequirements.file,
+            id: checklist.preparation.captureRequirements.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparation")
+              .items.find(item => item.objectName === "captureNeeds"),
+            name: checklist.preparation.captureNeeds.name,
+            text: checklist.preparation.captureNeeds.text,
+            sortPosition: 3,
+            active: checklist.preparation.captureNeeds.active,
+            tasks: checklist.preparation.captureNeeds.tasks,
+            file: checklist.preparation.captureNeeds.file,
+            id: checklist.preparation.captureNeeds.id
+          }
+        ]
+      };
+    },
+    setFundingResearch(checklist) {
+      return {
+        ...this.form.items.find(item => item.cardName === "fundingResearch"),
+        start: checklist.fundingResearch.start,
+        end: checklist.fundingResearch.end,
+        id: checklist.fundingResearch.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "fundingResearch")
+              .items.find(item => item.objectName === "checkDatabase"),
+            name: checklist.fundingResearch.checkDatabase.name,
+            text: checklist.fundingResearch.checkDatabase.text,
+            sortPosition: 1,
+            active: checklist.fundingResearch.checkDatabase.active,
+            tasks: checklist.fundingResearch.checkDatabase.tasks,
+            file: checklist.fundingResearch.checkDatabase.file,
+            id: checklist.fundingResearch.checkDatabase.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "fundingResearch")
+              .items.find(item => item.objectName === "checkForFunding"),
+            name: checklist.fundingResearch.checkForFunding.name,
+            text: checklist.fundingResearch.checkForFunding.text,
+            sortPosition: 2,
+            active: checklist.fundingResearch.checkForFunding.active,
+            tasks: checklist.fundingResearch.checkForFunding.tasks,
+            file: checklist.fundingResearch.checkForFunding.file,
+            id: checklist.fundingResearch.checkForFunding.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "fundingResearch")
+              .items.find(item => item.objectName === "checkWithFunding"),
+            name: checklist.fundingResearch.checkWithFunding.name,
+            text: checklist.fundingResearch.checkWithFunding.text,
+            sortPosition:
+              checklist.fundingResearch.checkWithFunding.sortPosition,
+            active: checklist.fundingResearch.checkWithFunding.active,
+            tasks: checklist.fundingResearch.checkWithFunding.tasks,
+            file: checklist.fundingResearch.checkWithFunding.file,
+            id: checklist.fundingResearch.checkWithFunding.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "fundingResearch")
+              .items.find(item => item.objectName === "checkGuildlines"),
+            name: checklist.fundingResearch.checkGuildlines.name,
+            text: checklist.fundingResearch.checkGuildlines.text,
+            sortPosition:
+              checklist.fundingResearch.checkGuildlines.sortPosition,
+            active: checklist.fundingResearch.checkGuildlines.active,
+            tasks: checklist.fundingResearch.checkGuildlines.tasks,
+            file: checklist.fundingResearch.checkGuildlines.file,
+            id: checklist.fundingResearch.checkGuildlines.id
+          }
+        ]
+      };
+    },
+    setPreparationOfProject(checklist) {
+      return {
+        ...this.form.items.find(
+          item => item.cardName === "preparationOfProject"
+        ),
+        start: checklist.preparationOfProject.start,
+        end: checklist.preparationOfProject.end,
+        id: checklist.preparationOfProject.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparationOfProject")
+              .items.find(item => item.objectName === "checkContent"),
+            name: checklist.preparationOfProject.checkContent.name,
+            text: checklist.preparationOfProject.checkContent.text,
+            sortPosition:
+              checklist.preparationOfProject.checkContent.sortPosition,
+            active: checklist.preparationOfProject.checkContent.active,
+            tasks: checklist.preparationOfProject.checkContent.tasks,
+            file: checklist.preparationOfProject.checkContent.file,
+            id: checklist.preparationOfProject.checkContent.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparationOfProject")
+              .items.find(item => item.objectName === "checkCooperations"),
+            name: checklist.preparationOfProject.checkCooperations.name,
+            text: checklist.preparationOfProject.checkCooperations.text,
+            sortPosition:
+              checklist.preparationOfProject.checkCooperations.sortPosition,
+            active: checklist.preparationOfProject.checkCooperations.active,
+            tasks: checklist.preparationOfProject.checkCooperations.tasks,
+            file: checklist.preparationOfProject.checkCooperations.file,
+            id: checklist.preparationOfProject.checkCooperations.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparationOfProject")
+              .items.find(item => item.objectName === "checkSimilarProejcts"),
+            name: checklist.preparationOfProject.checkSimilarProejcts.name,
+            text: checklist.preparationOfProject.checkSimilarProejcts.text,
+            sortPosition:
+              checklist.preparationOfProject.checkSimilarProejcts.sortPosition,
+            active: checklist.preparationOfProject.checkSimilarProejcts.active,
+            tasks: checklist.preparationOfProject.checkSimilarProejcts.tasks,
+            file: checklist.preparationOfProject.checkSimilarProejcts.file,
+            id: checklist.preparationOfProject.checkSimilarProejcts.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "preparationOfProject")
+              .items.find(item => item.objectName === "checkPlanning"),
+            name: checklist.preparationOfProject.checkPlanning.name,
+            text: checklist.preparationOfProject.checkPlanning.text,
+            sortPosition: 4,
+            active: checklist.preparationOfProject.checkPlanning.active,
+            tasks: checklist.preparationOfProject.checkPlanning.tasks,
+            file: checklist.preparationOfProject.checkPlanning.file,
+            id: checklist.preparationOfProject.checkPlanning.id
+          }
+        ]
+      };
+    },
+    setLegitimation(checklist) {
+      return {
+        ...this.form.items.find(item => item.cardName === "legitimation"),
+        start: checklist.legitimation.start,
+        end: checklist.legitimation.end,
+        id: checklist.legitimation.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "legitimation")
+              .items.find(item => item.objectName === "template"),
+            name: checklist.legitimation.template.name,
+            text: checklist.legitimation.template.text,
+            sortPosition: 1,
+            active: checklist.legitimation.template.active,
+            tasks: checklist.legitimation.template.tasks,
+            file: checklist.legitimation.template.file,
+            id: checklist.legitimation.template.id
+          }
+        ]
+      };
+    },
+    setFinalExamination(checklist) {
+      return {
+        ...this.form.items.find(item => item.cardName === "finalExamination"),
+        start: checklist.finalExamination.start,
+        end: checklist.finalExamination.end,
+        id: checklist.finalExamination.id,
+        items: [
+          {
+            ...this.form.items
+              .find(item => item.cardName === "finalExamination")
+              .items.find(item => item.objectName === "revision"),
+            name: checklist.finalExamination.revision.name,
+            text: checklist.finalExamination.revision.text,
+            sortPosition: checklist.finalExamination.revision.sortPosition,
+            active: checklist.finalExamination.revision.active,
+            tasks: checklist.finalExamination.revision.tasks,
+            file: checklist.finalExamination.revision.file,
+            id: checklist.finalExamination.revision.id
+          },
+          {
+            ...this.form.items
+              .find(item => item.cardName === "finalExamination")
+              .items.find(item => item.objectName === "signatures"),
+            name: checklist.finalExamination.signatures.name,
+            text: checklist.finalExamination.signatures.text,
+            sortPosition: checklist.finalExamination.signatures.sortPosition,
+            active: checklist.finalExamination.signatures.active,
+            tasks: checklist.finalExamination.signatures.tasks,
+            file: checklist.finalExamination.signatures.file,
+            id: checklist.finalExamination.signatures.id
+          }
+        ]
       };
     }
   },
-
   mounted() {
     if (!!this.checklist && !!this.$route.params.id) {
       this.setData();
