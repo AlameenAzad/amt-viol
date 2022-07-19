@@ -7,7 +7,6 @@ export async function getFundings(context) {
     context.commit("setFundings", res.data);
   } catch (error) {
     Notify.create({
-      position: "top-right",
       type: "negative",
       message: error.response.data.error.message
     });
@@ -48,7 +47,6 @@ export async function createNewFunding(context, payload) {
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -80,7 +78,6 @@ export async function uploadFiles(context, payload) {
     } catch (error) {
       console.log("files error.response", error.response);
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -112,7 +109,6 @@ export async function uploadMedia(context, payload) {
     } catch (error) {
       console.log("media error.response", error.response);
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -131,7 +127,6 @@ export async function deleteFilesAndMedia(context, payload) {
       } catch (error) {
         console.log("files error.response", error.response);
         Notify.create({
-          position: "top-right",
           type: "negative",
           message: error.response.data.error.message
         });
@@ -238,7 +233,6 @@ export async function editFunding(context, payload) {
     } catch (error) {
       console.error("error", error);
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -256,7 +250,6 @@ export async function getSpecificFunding(context, payload) {
       // return res.data.id;
     } catch (error) {
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -277,7 +270,6 @@ export async function deleteFunding(context, payload) {
       context.dispatch("getFundings");
     } catch (error) {
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
