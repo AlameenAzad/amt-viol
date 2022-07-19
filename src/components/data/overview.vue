@@ -1,40 +1,6 @@
 <template>
   <div class="q-my-lg ">
     <q-tabs
-      v-if="!isInPage"
-      v-model="tab"
-      align="justify"
-      indicator-color="transparent"
-      class="q-mb-lg text-black"
-      active-bg-color="yellow"
-      :class="$router.currentRoute.fullPath == '/dashboard' ? 'hidden' : ''"
-      no-caps
-    >
-      <q-tab
-        class="q-py-xs q-mr-lg radius-10 border-yellow"
-        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
-        name="projectIdeas"
-      >
-        <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
-      </q-tab>
-      <q-tab
-        class="q-mr-lg radius-10 border-yellow"
-        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
-        name="fundings"
-      >
-        <p class="font-20 no-margin">{{ $t("myData.fundings") }}</p>
-      </q-tab>
-      <q-tab
-        class=" radius-10 border-yellow"
-        :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
-        name="implementationChecklist"
-      >
-        <p class="font-20 no-margin">
-          {{ $t("myData.implementationChecklist") }}
-        </p>
-      </q-tab>
-    </q-tabs>
-    <q-tabs
       v-if="isInPage"
       v-model="tab"
       align="justify"
@@ -54,6 +20,7 @@
         <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
       </q-route-tab>
       <q-route-tab
+        v-if="isAdmin"
         :to="{ query: { tab: 'fundings' } }"
         exact
         replace
@@ -81,7 +48,7 @@
       :data="apiData"
       :columns="columns"
       row-key="name"
-      :hide-bottom="!isInPage"
+      :hide-bottom="!isInPage && apiData.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : ['title']"
       :filter="filter"
@@ -89,7 +56,7 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: isInPage ? 10 : 5
+        rowsPerPage: isInPage ? 50 : 5
       }"
     >
       <template v-slot:top>
@@ -120,7 +87,11 @@
                   {{ $t("myDataHome.projectIdeaBtn") }}
                 </p>
               </q-tab>
-              <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
+              <q-tab
+                v-if="isAdmin"
+                class="q-mr-lg radius-6 border-yellow"
+                name="fundings"
+              >
                 <p class="font-14 text-weight-600 no-margin">
                   {{ $t("myDataHome.fundingsBtn") }}
                 </p>
@@ -154,7 +125,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-4 col-md-4 text-right">
+          <div class=" text-right">
             <q-btn
               color="blue"
               icon="add"
@@ -255,15 +226,27 @@
                           name="star_rate"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="archiveItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.archive") }}
 
                         <q-icon
+                          v-if="!archiveIsLoading"
                           size="sm"
                           class="text-blue"
-                          name="inventory"/></span
+                          name="inventory"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
                   <q-item
@@ -317,7 +300,8 @@ export default {
       ],
       viewIsLoading: false,
       editIsLoading: false,
-      deleteIsLoading: false
+      deleteIsLoading: false,
+      archiveIsLoading: false
     };
   },
   methods: {
@@ -409,6 +393,30 @@ export default {
           id: id
         });
         this.deleteIsLoading = false;
+      }
+    },
+    async archiveItem(row) {
+      if (this.tab === "projectIdeas") {
+        this.archiveIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/archiveProjectIdea", {
+          id: id
+        });
+        this.archiveIsLoading = false;
+      } else if (this.tab === "fundings") {
+        this.archiveIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("funding/deleteFunding", {
+          id: id
+        });
+        this.archiveIsLoading = false;
+      } else {
+        this.archiveIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("implementationChecklist/deleteChecklist", {
+          id: id
+        });
+        this.archiveIsLoading = false;
       }
     },
     goToPage(page) {
