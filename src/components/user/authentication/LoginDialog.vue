@@ -29,7 +29,11 @@
               />
             </div>
           </div>
-          <p class="no-margin text-red text-center">{{ errorMsg }}</p>
+          <div class="row q-mt-none">
+            <p class="no-margin text-red text-center full-width">
+              {{ errorMsg }}
+            </p>
+          </div>
           <div class="row justify-center">
             <div class="col-12 col-md-5 text-center">
               <q-btn
@@ -96,6 +100,7 @@ export default {
         this.$emit("update", val);
         this.form.identifier = "";
         this.form.password = "";
+        this.errorMsg = "";
       }
     },
     loginMessages() {
