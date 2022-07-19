@@ -26,7 +26,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costAmount')"
-                  v-model.number="cost.price"
+                  v-model="cost.price"
                   @input="onInput(index)"
                   decimals
                   prefix="€"
@@ -91,7 +91,7 @@ export default {
     addEstimatedCost() {
       this.estimatedCosts.push({
         name: "",
-        price: null
+        price: ""
       });
     },
     removeEstimatedCost(index) {
