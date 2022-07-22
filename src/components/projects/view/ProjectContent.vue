@@ -511,7 +511,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 export default {
-  name: "documentView",
+  name: "projectContent",
   data() {
     return {
       slide: 1,
@@ -525,7 +525,6 @@ export default {
         if (!!this.loading[index]) {
           this.loading[index].loading = true;
         }
-        console.log(this.loading[index].loading);
         await this.$store.dispatch("funding/getSpecificFunding", {
           id: id
         });
