@@ -215,15 +215,25 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="addToWatchlist(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.bookmark") }}
 
                         <q-icon
+                          v-if="!watchlistIsLoading"
                           size="sm"
                           class="text-blue"
-                          name="star_rate"/></span
+                          name="star_rate"/>
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"/></span
                     ></q-item-section>
                   </q-item>
                   <q-item
@@ -250,6 +260,7 @@
                     ></q-item-section>
                   </q-item>
                   <q-item
+                    v-if="isAdmin"
                     clickable
                     v-close-popup
                     @click="deleteItem(props.row)"
@@ -279,13 +290,23 @@
         </q-tr>
       </template>
     </q-table>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
+import DeleteDialog from "components/data/DeleteDialog.vue";
 export default {
   name: "dataOverview",
+  components: {
+    DeleteDialog
+  },
   data() {
     return {
       tab: this.$router.currentRoute.query.tab || "projectIdeas",
@@ -298,21 +319,17 @@ export default {
         "plannedStart",
         "plannedEnd"
       ],
+      deleteDialog: false,
+      itemId: null,
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
-      archiveIsLoading: false
+      archiveIsLoading: false,
+      watchlistIsLoading: false
     };
   },
   methods: {
     dateFormatter,
-    // dateFormatter(val) {
-    //   if (!!val) {
-    //     return date.formatDate(new Date(val), "DD.MM.YYYY");
-    //   } else {
-    //     return "No Date";
-    //   }
-    // },
     async view(row) {
       if (this.tab === "projectIdeas") {
         this.viewIsLoading = true;
@@ -372,28 +389,8 @@ export default {
       }
     },
     async deleteItem(row) {
-      if (this.tab === "projectIdeas") {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/deleteProjectIdea", {
-          id: id
-        });
-        this.deleteIsLoading = false;
-      } else if (this.tab === "fundings") {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("funding/deleteFunding", {
-          id: id
-        });
-        this.deleteIsLoading = false;
-      } else {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("implementationChecklist/deleteChecklist", {
-          id: id
-        });
-        this.deleteIsLoading = false;
-      }
+      this.itemId = row && row.id;
+      this.deleteDialog = true;
     },
     async archiveItem(row) {
       if (this.tab === "projectIdeas") {
@@ -406,17 +403,41 @@ export default {
       } else if (this.tab === "fundings") {
         this.archiveIsLoading = true;
         const id = row && row.id;
-        await this.$store.dispatch("funding/deleteFunding", {
+        await this.$store.dispatch("funding/archiveFunding", {
           id: id
         });
         this.archiveIsLoading = false;
       } else {
         this.archiveIsLoading = true;
         const id = row && row.id;
-        await this.$store.dispatch("implementationChecklist/deleteChecklist", {
+        await this.$store.dispatch("implementationChecklist/archiveChecklist", {
           id: id
         });
         this.archiveIsLoading = false;
+      }
+    },
+    async addToWatchlist(row) {
+      if (this.tab === "projectIdeas") {
+        this.watchlistIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/addToWatchlist", {
+          id: id
+        });
+        this.watchlistIsLoading = false;
+      } else if (this.tab === "fundings") {
+        this.watchlistIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("funding/addToWatchlist", {
+          id: id
+        });
+        this.watchlistIsLoading = false;
+      } else {
+        this.watchlistIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("implementationChecklist/addToWatchlist", {
+          id: id
+        });
+        this.watchlistIsLoading = false;
       }
     },
     goToPage(page) {
@@ -453,7 +474,6 @@ export default {
       } else if (val === "fundings") {
         this.getData("fundings");
       } else {
-        // TODO change this
         this.getData("implementationChecklist");
       }
     }
@@ -617,7 +637,6 @@ export default {
       ];
     }
   },
-
   mounted() {
     console.log("this.$router.currentRoute", this.$router.currentRoute);
     this.getData(this.tab);
