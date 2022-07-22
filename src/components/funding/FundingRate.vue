@@ -22,7 +22,7 @@
                   dense
                   class="no-shadow input-radius-6"
                   placeholder="Amount"
-                  v-model.number="funding.amount"
+                  v-model="funding.amount"
                   :rules="[]"
                   @input="onInput(index)"
                   suffix="%"
