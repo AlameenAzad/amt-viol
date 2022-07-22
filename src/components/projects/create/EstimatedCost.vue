@@ -28,9 +28,7 @@
                   :placeholder="$t('estimatedCost.costAmount')"
                   v-model="cost.price"
                   @input="onInput(index)"
-                  decimals
-                  prefix="€"
-                  mask="##########"
+                  suffix="€"
                 />
               </div>
             </div>
@@ -78,10 +76,20 @@ export default {
   },
   methods: {
     onInput(index) {
+      // console.log(index, type);
+      // let formattedNumber = new Intl.NumberFormat("de-DE").format(
+      //   this.estimatedCosts[index].price
+      // );
+      // console.log(formattedNumber);
       if (
         !!this.estimatedCosts[index].name &&
         !!this.estimatedCosts[index].price
       ) {
+        // this.estimatedCosts.map(item => {
+        //   item.price = new Intl.NumberFormat("de-DE").format(
+        //     parseFloat(item.price)
+        //   );
+        // });
         this.$emit(
           "update:cost",
           this.estimatedCosts.length > 0 ? this.estimatedCosts : []
@@ -102,13 +110,6 @@ export default {
       );
     }
   }
-  // mounted() {
-  //   this.estimatedCosts = this.editing
-  //     ? JSON.parse(
-  //         JSON.stringify(this.$store.state.project.project.estimatedCosts)
-  //       )
-  //     : [];
-  // }
 };
 </script>
 
