@@ -776,8 +776,22 @@ export default {
         // this.viewIsLoading = false;
       }
     },
-    async viewChecklist() {
-      console.log("Not yet implemented");
+    async viewChecklist(id) {
+      if (!!id) {
+        // if (!!this.loading[index]) {
+        //   this.loading[index].loading = true;
+        // }
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: id
+          }
+        );
+        // if (!!this.loading[index]) {
+        //   this.loading[index].loading = false;
+        // }
+        this.$router.push({ path: `/user/newChecklist/${id}` });
+      }
     },
     async getNewData(id) {
       console.log("url id", this.$route.params.id);
