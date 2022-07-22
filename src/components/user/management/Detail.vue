@@ -62,6 +62,10 @@
           </div>
           <div class="col-9">
             <q-select
+              :disable="
+                (!!currentUser && currentUser.id) ===
+                  (!!loggedInUser && loggedInUser.id)
+              "
               outlined
               dense
               :options="options"
@@ -73,7 +77,6 @@
             />
           </div>
         </div>
-
         <div class="row justify-center q-ml-lg ">
           <q-btn
             type="submit"
@@ -155,6 +158,7 @@ export default {
   },
   data() {
     return {
+      currentUser: null,
       options: ["admin", "user"],
       showDialog: false,
       isLoading: false,
@@ -174,6 +178,7 @@ export default {
         let currentUser = this.$store.state.userCenter.users.find(user => {
           return user.id == id;
         });
+        this.currentUser = currentUser;
         this.form.username = currentUser.username;
         this.form.email = currentUser.email;
         this.form.municipality.id = currentUser.user_detail.municipality.id;
@@ -193,6 +198,7 @@ export default {
       this.$refs.updateUserForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
+          // TODO add loading to button
           const res = await this.$store.dispatch("userCenter/updateUser", {
             id: this.$route.params.id,
             data: {
@@ -205,6 +211,14 @@ export default {
           console.log("error");
         }
       });
+    }
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return this.$store.state.userCenter.user.user;
     }
   },
   mounted() {
