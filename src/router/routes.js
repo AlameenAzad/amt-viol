@@ -56,7 +56,7 @@ const routes = [
           requireAdmin: false
         },
         icon: "/icons/Documents.svg",
-        component: () => import("pages/dashboard/Home.vue")
+        component: () => import("pages/dashboard/DataOverview.vue")
       },
       {
         path: "/watchlist",
