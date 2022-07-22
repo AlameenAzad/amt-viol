@@ -5,7 +5,7 @@
       style="width: 570px; max-width: 80vw;"
     >
       <q-card-section>
-        <q-form ref="loginForm" @submit.prevent="login" class="q-gutter-lg">
+        <q-form ref="loginForm" class="q-gutter-lg">
           <div class="row">
             <div class="col-12">
               <p class="q-mb-sm font-16">Email</p>
@@ -37,7 +37,7 @@
           <div class="row justify-center">
             <div class="col-12 col-md-5 text-center">
               <q-btn
-                type="submit"
+                @click="login"
                 class="radius-10 full-width"
                 padding="12px 12px"
                 color="yellow"
@@ -78,17 +78,27 @@ export default {
   },
   methods: {
     async login() {
-      if (!!this.form.identifier && !!this.form.password) {
-        this.isLoading = true;
-        const res = await this.$store.dispatch("userCenter/login", this.form);
-        this.isLoading = false;
-        this.errorMsg = res;
-        if (res === true) {
-          this.$_options = false;
+      this.$refs.loginForm.validate().then(async success => {
+        if (success) {
+          this.isLoading = true;
+          const res = await this.$store.dispatch("userCenter/login", this.form);
           this.isLoading = false;
-          this.errorMsg = "";
+          this.errorMsg = res;
+          if (res === true) {
+            this.$_options = false;
+            this.isLoading = false;
+            this.errorMsg = "";
+          }
+        } else {
+          const elements = this.$refs.loginForm.getValidationComponents();
+          console.log("elements", elements);
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
-      }
+      });
     }
   },
   computed: {
