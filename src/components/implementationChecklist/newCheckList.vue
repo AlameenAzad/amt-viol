@@ -145,7 +145,7 @@
           <div class="col-12 col-md-8">
             <ProjectIdeas
               :isInChecklist="true"
-              :editing="isEdit.project"
+              :editing="checklist.project"
               @update:linkToProject="form.project = $event"
             />
           </div>
@@ -158,7 +158,7 @@
           </div>
           <div class="col-12 col-md-8">
             <UserSelect
-              :editing="isEdit.editors"
+              :editing="checklist.editors"
               @update:user="form.editors = $event"
             />
           </div>
@@ -204,7 +204,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
-              :editing="isEdit.categories"
+              :editing="checklist.categories"
               @update:category="form.categories = $event"
             />
           </div>
@@ -214,7 +214,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
+            <Tags :editing="checklist.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row items-center">
@@ -367,6 +367,7 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedEndOptions"
                           v-model="card.end"
                           mask="YYYY-MM-DD"
                           @input="$refs.endDateProxy[index].hide()"
@@ -508,8 +509,8 @@
                           <ProjectIdeas
                             :isInChecklist="true"
                             :editing="
-                              !!isEdit
-                                ? isEdit.initialContact.captureIdea.project
+                              !!checklist
+                                ? checklist.initialContact.captureIdea.project
                                 : form.items
                                     .find(
                                       item => item.cardName === 'initialContact'
@@ -824,7 +825,9 @@
           <div class="col-5 col-md-2 q-mr-sm">
             <q-btn
               :label="$t('draftButton.saveAsDraft')"
-              @click="isEdit ? editChecklist(false) : submitNewChecklist(false)"
+              @click="
+                !!checklist ? editChecklist(false) : submitNewChecklist(false)
+              "
               size="16px"
               outline
               color="primary"
@@ -836,7 +839,9 @@
           <div class="col-5 col-md-2 q-ml-sm">
             <q-btn
               :label="$t('publishButton.publish')"
-              @click="isEdit ? editChecklist(true) : submitNewChecklist(true)"
+              @click="
+                !!checklist ? editChecklist(true) : submitNewChecklist(true)
+              "
               size="16px"
               color="primary"
               :loading="isLoading"
@@ -882,8 +887,8 @@ export default {
           {
             cardName: "initialContact",
             cardTitle: "Erstgespräch mit dem politischen Ehrenamt",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               // captureIdea
               {
@@ -1090,8 +1095,8 @@ export default {
           {
             cardName: "preparation",
             cardTitle: "Erstellung der Projektideen-Skizze",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               {
                 objectName: "inspection",
@@ -1400,8 +1405,8 @@ export default {
           {
             cardName: "fundingResearch",
             cardTitle: "Fördermittelrecherche",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               {
                 objectName: "checkDatabase",
@@ -1732,8 +1737,8 @@ export default {
           {
             cardName: "preparationOfProject",
             cardTitle: "Ausarbeitung/Optimierung Projektunterlagen",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               {
                 objectName: "checkContent",
@@ -2013,8 +2018,8 @@ export default {
           {
             cardName: "legitimation",
             cardTitle: "Legitimierung zur Einreichung",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               {
                 objectName: "template",
@@ -2136,8 +2141,8 @@ export default {
           {
             cardName: "finalExamination",
             cardTitle: "Prüfung der Projektunterlagen final",
-            start: "2022-07-10",
-            end: "2022-07-20",
+            start: "",
+            end: "",
             items: [
               {
                 objectName: "revision",
@@ -2317,10 +2322,10 @@ export default {
         this.$store.state.userCenter.user.user
       );
     },
+    // checklist() {
+    //   return this.$store.state.implementationChecklist.checklist;
+    // },
     checklist() {
-      return this.$store.state.implementationChecklist.checklist;
-    },
-    isEdit() {
       return (
         !!this.$route.params.id &&
         JSON.parse(
@@ -2331,6 +2336,25 @@ export default {
   },
   methods: {
     dateFormatter,
+    plannedEndOptions(date, index) {
+      console.log("date", date);
+      console.log("index", index);
+      // if (!!this.form.plannedStart) {
+      //   const calendarDate = date.replace(/\//g, "-");
+      //   return calendarDate >= this.form.plannedStart;
+      // } else {
+      //   return true;
+      // }
+      return true;
+    },
+    // plannedStartOptions(date) {
+    //   if (!!this.form.plannedEnd) {
+    //     const calendarDate = date.replace(/\//g, "-");
+    //     return calendarDate <= this.form.plannedEnd;
+    //   } else {
+    //     return true;
+    //   }
+    // },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
@@ -2399,8 +2423,12 @@ export default {
           );
           this.isLoading = false;
         } else {
-          // this.$refs.newChecklistForm.focus();
-          console.log("error");
+          const elements = this.$refs.newChecklistForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
@@ -2420,8 +2448,12 @@ export default {
           );
           this.isLoading = false;
         } else {
-          // this.$refs.newChecklistForm.focus();
-          console.log("error");
+          const elements = this.$refs.newChecklistForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
