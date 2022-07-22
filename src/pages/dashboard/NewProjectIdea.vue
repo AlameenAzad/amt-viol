@@ -744,17 +744,18 @@ export default {
   },
   //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
-    plannedStartOptions(date) {
-      // const calendarDate = date.replace(/\//g, "-");
-      // const currentDate = new Date().toISOString().split("T")[0];
-      // return calendarDate >= currentDate;
-      return true;
-    },
     plannedEndOptions(date) {
       if (!!this.form.plannedStart) {
         const calendarDate = date.replace(/\//g, "-");
-        // const currentDate = new Date().toISOString().split("T")[0];
         return calendarDate >= this.form.plannedStart;
+      } else {
+        return true;
+      }
+    },
+    plannedStartOptions(date) {
+      if (!!this.form.plannedEnd) {
+        const calendarDate = date.replace(/\//g, "-");
+        return calendarDate <= this.form.plannedEnd;
       } else {
         return true;
       }
@@ -812,8 +813,12 @@ export default {
           );
           this.isLoading = false;
         } else {
-          // this.$refs.newProjectIdeaForm.focus();
-          console.log("error");
+          const elements = this.$refs.newProjectIdeaForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
@@ -831,7 +836,7 @@ export default {
     editProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
-        if (success) {
+        if (success && this.$refs.categories.validate()) {
           this.isLoading = true;
           await this.checkOptionalParameters();
           const res = await this.$store.dispatch("project/editProjectIdea", {
@@ -842,7 +847,12 @@ export default {
           });
           this.isLoading = false;
         } else {
-          console.log("error");
+          const elements = this.$refs.newProjectIdeaForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
