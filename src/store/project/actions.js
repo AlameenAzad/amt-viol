@@ -280,20 +280,21 @@ export async function editProject(context, payload) {
   }
 }
 
-export async function deleteProjectIdea(context, payload) {
+export async function addToWatchlist(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
-      const res = await api.delete(`/api/projects/${id}`);
-      context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
+      const res = await api.post("/api/watchlists", {
+        data: { project: id }
+      });
+      console.log("res", res);
       Notify.create({
-        message: "Project Idea deleted successfully",
+        message: "Project Idea added to watchlist",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
-        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
@@ -309,7 +310,7 @@ export async function archiveProjectIdea(context, payload) {
       const res = await api.put(`/api/projects/${id}`, {
         data: { archived: true }
       });
-      // context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
+      console.log("res", res);
       Notify.create({
         message: "Project Idea archived successfully",
         type: "positive"
@@ -317,6 +318,28 @@ export async function archiveProjectIdea(context, payload) {
       context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function deleteProjectIdea(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/projects/${id}`);
+      context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
+      Notify.create({
+        message: "Project Idea deleted successfully",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
+    } catch (error) {
+      Notify.create({
+        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });

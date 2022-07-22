@@ -257,6 +257,52 @@ export async function getSpecificFunding(context, payload) {
   }
 }
 
+export async function archiveFunding(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/fundings/${id}`, {
+        data: { archived: true }
+      });
+      console.log("res", res);
+      Notify.create({
+        message: "Funding archived successfully",
+        type: "positive"
+      });
+      context.dispatch("getFundings");
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function addToWatchlist(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.post("/api/watchlists", {
+        data: { funding: id }
+      });
+      console.log("res", res);
+      Notify.create({
+        message: "Funding added to watchlist",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function deleteFunding(context, payload) {
   const { id } = payload;
   if (!!id) {
