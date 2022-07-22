@@ -130,7 +130,7 @@
           </div>
           <div class="col-12 col-md-8">
             <UserSelect
-              :editing="isEdit.editors"
+              :editing="funding.editors"
               @update:user="form.editors = $event"
             />
           </div>
@@ -177,7 +177,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
-              :editing="isEdit.categories"
+              :editing="funding.categories"
               @update:category="form.categories = $event"
             />
           </div>
@@ -187,7 +187,7 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="isEdit.tags" @update:tag="form.tags = $event" />
+            <Tags :editing="funding.tags" @update:tag="form.tags = $event" />
           </div>
         </div>
         <div class="row">
@@ -294,7 +294,7 @@
           </div>
           <div class="col-12 col-md-8">
             <FundingRate
-              :editing="isEdit.rates"
+              :editing="funding.rates"
               @update:fundingRate="form.rates = $event"
             />
           </div>
@@ -349,7 +349,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Fundings
-              :editing="isEdit.fundingsLinkedTo"
+              :editing="funding.fundingsLinkedTo"
               @update:linkToFunding="form.fundingsLinkedTo = $event"
             />
           </div>
@@ -409,6 +409,7 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedStartOptions"
                           v-model="form.plannedStart"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedStartDateProxy.hide()"
@@ -448,6 +449,7 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedEndOptions"
                           v-model="form.plannedEnd"
                           mask="YYYY-MM-DD"
                           @input="$refs.qPlannedEndDateProxy.hide()"
@@ -506,7 +508,10 @@
             </p>
           </div>
           <div class="col-12 col-md-8">
-            <Links :editing="isEdit.links" @update:link="form.links = $event" />
+            <Links
+              :editing="funding.links"
+              @update:link="form.links = $event"
+            />
           </div>
         </div>
         <div class="row">
@@ -644,7 +649,7 @@
           </div>
           <div class="col-12 col-md-8">
             <ProjectIdeas
-              :editing="isEdit.projects"
+              :editing="funding.projects"
               @update:linkToProject="form.projects = $event"
             />
           </div>
@@ -665,7 +670,7 @@
           </div>
           <div class="col-12 col-md-8">
             <ImplementationChecklists
-              :editing="isEdit.checklist"
+              :editing="funding.checklist"
               @update:linkToImplementationChecklist="form.checklist = $event"
             />
           </div>
@@ -679,7 +684,7 @@
           <div class="col-5 col-md-2 q-mr-sm">
             <q-btn
               :label="'Save as Draft'"
-              @click="isEdit ? editFunding(false) : submitNewFunding(false)"
+              @click="!!funding ? editFunding(false) : submitNewFunding(false)"
               outline
               size="16px"
               color="primary"
@@ -691,7 +696,7 @@
           <div class="col-5 col-md-2 q-ml-sm">
             <q-btn
               :label="'Publish'"
-              @click="isEdit ? editFunding(true) : submitNewFunding(true)"
+              @click="!!funding ? editFunding(true) : submitNewFunding(true)"
               unelevated
               size="16px"
               color="primary"
@@ -776,6 +781,22 @@ export default {
     };
   },
   methods: {
+    plannedEndOptions(date) {
+      if (!!this.form.plannedStart) {
+        const calendarDate = date.replace(/\//g, "-");
+        return calendarDate >= this.form.plannedStart;
+      } else {
+        return true;
+      }
+    },
+    plannedStartOptions(date) {
+      if (!!this.form.plannedEnd) {
+        const calendarDate = date.replace(/\//g, "-");
+        return calendarDate <= this.form.plannedEnd;
+      } else {
+        return true;
+      }
+    },
     scrollToInvalidElement(ref) {
       const el = ref.$el;
       const target = getScrollTarget(el);
@@ -784,13 +805,6 @@ export default {
       setScrollPosition(target, offset, duration);
     },
     dateFormatter,
-    // dateFormatter(val) {
-    //   if (!!val) {
-    //     return date.formatDate(new Date(val), "DD.MM.YYYY");
-    //   } else {
-    //     return;
-    //   }
-    // },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
@@ -828,7 +842,12 @@ export default {
           }
           this.isLoading = false;
         } else {
-          console.log("error");
+          const elements = this.$refs.newFundingForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
@@ -853,15 +872,6 @@ export default {
             data: {
               ...this.form,
               published: published,
-              // info: {
-              //   ...this.form.info,
-              //   contactName: this.userDetails.fullName,
-              //   phone: this.userDetails.phone,
-              //   email: this.user.email,
-              //   location: this.userDetails.location,
-              //   streetNo: "",
-              //   postalCode: ""
-              // },
               municipality: {
                 id:
                   this.userDetails.municipality &&
@@ -874,7 +884,12 @@ export default {
           });
           this.isLoading = false;
         } else {
-          console.log("error");
+          const elements = this.$refs.newFundingForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     },
@@ -905,9 +920,6 @@ export default {
       return this.$store.state.userCenter.user.user;
     },
     funding() {
-      return this.$store.state.funding.funding;
-    },
-    isEdit() {
       return (
         !!this.$route.params.id &&
         JSON.parse(JSON.stringify(this.$store.state.funding.funding))
