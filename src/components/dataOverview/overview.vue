@@ -416,15 +416,28 @@
         </q-tr>
       </template>
     </q-table>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null), (tab = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
+import DeleteDialog from "components/data/DeleteDialog.vue";
 export default {
   name: "dataOverview",
+  components: {
+    DeleteDialog
+  },
   data() {
     return {
+      deleteDialog: false,
+      itemId: null,
+      tab: null,
       expanded: false,
       search: "",
       type: "",
@@ -628,26 +641,17 @@ export default {
     },
     async deleteItem(row) {
       if (row.type === "project") {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/deleteProjectIdea", {
-          id: id
-        });
-        this.deleteIsLoading = false;
+        this.tab = "projectIdeas";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
       } else if (row.type === "funding") {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("funding/deleteFunding", {
-          id: id
-        });
-        this.deleteIsLoading = false;
+        this.tab = "fundings";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
       } else {
-        this.deleteIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("implementationChecklist/deleteChecklist", {
-          id: id
-        });
-        this.deleteIsLoading = false;
+        this.tab = "implementationChecklist";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
       }
     },
     async archiveItem(row) {
