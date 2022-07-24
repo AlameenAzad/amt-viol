@@ -204,7 +204,9 @@
     "fundinginfoArchive": "Funding Information Archive",
     "enquiries": "Enquiries",
     "watchList": "Watch Lists",
-    "adminNetwork": "Administration Network"
+    "adminNetwork": "Administration Network",
+    "projectinfoArchive": "Project Archive",
+    "municipalities": "Municipalities"
   },
   "statsTable": {
     "title": "Title",
@@ -273,12 +275,10 @@
     "email": "Email",
     "location": "Location/s with geo-coordinates",
     "selectUser": "Select User",
-
     "selectCategories": "Select Categories",
     "selectTags": "Select Tags",
     "descripeProject": "Describe Project",
     "describeProjectGoals": "Describe Project Goals",
-
     "costPosition": "Cost Position",
     "esitimatedCost": "Estimated Cost (in €) ",
     "selectGuidelines": "Select Funding Guidelines",
@@ -318,5 +318,9 @@
     "message": "Message",
     "sendInvitation": "Send Invitation",
     "cancel": "Cancel"
-  }
+  },
+  "NoCategories": "No Categories",
+  "funding": "funding",
+  "projectIdeas": "projectIdea",
+  "checklist": "checklist"
 }
