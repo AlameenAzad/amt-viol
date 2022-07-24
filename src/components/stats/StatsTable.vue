@@ -25,6 +25,7 @@
             <template v-slot:header>
               <div v-if="isInPage" class="col-12 col-md-4">
                 <q-input
+                  clearable
                   borderless
                   outlined
                   class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm"
@@ -55,6 +56,7 @@
                   {{ $t("statsTable.type") }}
                 </p>
                 <q-select
+                  clearable
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
@@ -70,6 +72,7 @@
                   {{ $t("statsTable.categories") }}
                 </p>
                 <q-select
+                  clearable
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
@@ -85,6 +88,7 @@
                   {{ $t("statsTable.tags/keywords") }}
                 </p>
                 <q-select
+                  clearable
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
@@ -100,6 +104,7 @@
                   {{ $t("statsTable.projectCoordinator") }}
                 </p>
                 <q-select
+                  clearable
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
@@ -115,6 +120,7 @@
                   {{ $t("statsTable.publishDate") }}
                 </p>
                 <q-input
+                  clearable
                   filled
                   v-model="publishDateStart"
                   class="no-shadow q-mb-lg input-radius-4"
@@ -151,6 +157,7 @@
               <div class="col-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
                 <q-input
+                  clearable
                   filled
                   v-model="publishDateEnd"
                   class="no-shadow q-mb-lg input-radius-4"
@@ -189,6 +196,7 @@
                   {{ $t("statsTable.endDate") }}
                 </p>
                 <q-input
+                  clearable
                   filled
                   v-model="endDateStart"
                   class="no-shadow q-mb-lg input-radius-4"
@@ -225,6 +233,7 @@
               <div class="col-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
                 <q-input
+                  clearable
                   filled
                   v-model="endDateEnd"
                   class="no-shadow q-mb-lg input-radius-4"
@@ -290,24 +299,45 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup>
+                  <q-item clickable @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.view") }}
                         <q-icon
+                          v-if="!viewIsLoading"
                           size="sm"
                           class="text-blue"
-                          name="visibility"/></span
+                          name="visibility"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+
+                  <q-item clickable @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.edit") }}
 
-                        <q-icon size="sm" class="text-blue" name="edit"/></span
+                        <q-icon
+                          v-if="!editIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
+
                   <q-item clickable v-close-popup>
                     <q-item-section
                       ><span class="text-right font-14">
@@ -319,12 +349,28 @@
                           name="publish"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="deleteItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14 text-red">
                         {{ $t("statsTable.delete") }}
 
-                        <q-icon size="sm" name="delete"/></span
+                        <q-icon
+                          v-if="!deleteIsLoading"
+                          size="sm"
+                          class="text-red"
+                          name="delete"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
                 </q-list>
@@ -334,300 +380,296 @@
         </q-tr>
       </template>
     </q-table>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null), (tab = null)"
+    />
   </div>
 </template>
 
 <script>
+import { dateFormatter } from "src/boot/dateFormatter";
+import DeleteDialog from "components/data/DeleteDialog.vue";
 export default {
+  name: "StatsTable",
+  components: {
+    DeleteDialog
+  },
+  props: {
+    table: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
-      expanded: true,
+      expanded: false,
       search: "",
       type: "",
       category: "",
       tagsKeywords: "",
       projectCoordinator: "",
-      // typeOptions: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
-      // categoryOptions: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
-      tagKeywordsOptions: [
-        "Google",
-        "Facebook",
-        "Twitter",
-        "Apple",
-        "Oracle",
-        ""
-      ],
-      projectCoordinatorOptions: [
-        "Google",
-        "Facebook",
-        "Twitter",
-        "Apple",
-        "Oracle"
-      ],
+      itemId: null,
+      tab: null,
       publishDateStart: "",
       publishDateEnd: "",
       endDateStart: "",
       endDateEnd: "",
-      // columns: [
-      //   {
-      //     name: "title",
-      //     required: true,
-      //     label: "Title",
-      //     align: "left",
-      //     field: row => row.name,
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "type",
-      //     align: "left",
-      //     label: "Type",
-      //     field: "type",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "categories",
-      //     align: "left",
-      //     label: "Categories",
-      //     field: "category",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "publishDate",
-      //     align: "left",
-      //     label: "Publish Date",
-      //     field: "publishDate",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "endDate",
-      //     align: "left",
-      //     label: "End Date",
-      //     field: "endDate",
-      //     sortable: true
-      //   },
-      //   {
-      //     name: "owners",
-      //     align: "left",
-      //     label: "Owners",
-      //     field: "owners",
-      //     sortable: true
-      //   }
-      // ],
-      data: [
-        {
-          name: "Frozen Yogurt",
-          type: "159",
-          category: "6.0",
-          carbs: 24,
-          protein: 4.0,
-          publishDate: "21.03.2022",
-          endDate: "27.03.2022",
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%",
-          owners: "Abraham"
-        },
-        {
-          name: "Ice cream sandwich",
-          type: "237",
-          category: "9.0",
-          carbs: 37,
-          protein: 4.3,
-          publishDate: "21.03.2022",
-          endDate: "27.03.2022",
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%",
-          owners: "Abraham"
-        },
-        {
-          name: "Eclair",
-          type: "262",
-          category: "16.0",
-          carbs: 23,
-          protein: 6.0,
-          publishDate: "23.03.2022",
-          endDate: "25.03.2022",
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%",
-          owners: "Abraham"
-        },
-        {
-          name: "Cupcake",
-          type: "305",
-          category: "3.7",
-          carbs: 67,
-          protein: 4.3,
-          publishDate: "21.03.2022",
-          endDate: "27.03.2022",
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%",
-          owners: "Admin"
-        },
-        {
-          name: "Gingerbread",
-          type: "356",
-          category: "16.0",
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          publishDate: "22.03.2022",
-          endDate: "25.03.2022",
-          calcium: "7%",
-          iron: "16%",
-          owners: "Admin"
-        },
-        {
-          name: "Jelly bean",
-          type: "375",
-          category: "0.0",
-          carbs: 94,
-          protein: 0.0,
-          publishDate: "21.03.2022",
-          endDate: "27.03.2022",
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%",
-          owners: "Admin"
-        },
-        {
-          name: "Lollipop",
-          type: "392",
-          category: "0.3",
-          carbs: 98,
-          protein: 0,
-          publishDate: "18.03.2022",
-          endDate: "30.03.2022",
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
-          owners: "Admin"
-        },
-        {
-          name: "Lollisdasdpop",
-          type: "392",
-          category: "0.2",
-          carbs: 98,
-          protein: 0,
-          publishDate: "20.03.2022",
-          endDate: "27.03.2022",
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
-          owners: "Admin"
-        },
-        {
-          name: "Testt",
-          type: "392",
-          category: "0.1",
-          carbs: 98,
-          protein: 0,
-          publishDate: "21.03.2022",
-          endDate: "27.03.2022",
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%",
-          owners: "Admin"
-        }
-      ]
+      data: [],
+      viewIsLoading: false,
+      editIsLoading: false,
+      deleteIsLoading: false,
+      deleteDialog: false
     };
   },
   methods: {
+    dateFormatter,
     // TODO need to refactor this function.
     filterTable(rows, terms) {
-      // TODO modify the row and add publishDate and endDate
-
       let search = terms.name ? terms.name.toLowerCase() : "";
+      let category = terms.category ? terms.category : "";
+      let type = terms.type ? terms.type : "";
+      let tagsKeywords = terms.tagsKeywords ? terms.tagsKeywords : "";
+      let projectCoordinator = terms.projectCoordinator
+        ? terms.projectCoordinator
+        : "";
       let publishDateStart = terms.publishDateStart
         ? terms.publishDateStart
         : "";
       let publishDateEnd = terms.publishDateEnd ? terms.publishDateEnd : "";
       let endDateStart = terms.endDateStart ? terms.endDateStart : "";
       let endDateEnd = terms.endDateEnd ? terms.endDateEnd : "";
-
-      const validTerms = {
-        type: terms.type ? terms.type : "",
-        category: terms.category ? terms.category : "",
-        tagsKeywords: terms.tagsKeywords ? terms.tagsKeywords : "",
-        projectCoordinator: terms.projectCoordinator
-          ? terms.projectCoordinator
-          : ""
-      };
-
-      let filteredRows = [];
-
-      // Check if all terms are empty. If they are, return all rows.
-      for (let term in terms) {
-        if (terms[term] === "" && terms.hasOwnProperty(term)) {
-          filteredRows = rows;
-        }
+      let filteredRows = rows;
+      if (!!search) {
+        filteredRows = filteredRows.filter(row => {
+          return row.title.toLowerCase().includes(search);
+        });
       }
-
-      // Filter by search term and other filters if search exists
-      if (search) {
-        console.warn("There be search term");
-        for (let term in terms) {
-          if (term !== "name" && !!terms[term] && terms.hasOwnProperty(term)) {
-            //for search and other filters
-            console.log("term :>> ", term);
-            filteredRows = rows
-              .filter(row => row[term] === terms[term])
-              .filter(row => row.name.toLowerCase().includes(search));
-          } else if (!!terms[term] && terms.hasOwnProperty(term)) {
-            //only for search
-            filteredRows = rows.filter(row =>
-              row.name.toLowerCase().includes(search)
-            );
-          }
-        }
-      } else {
-        console.warn("No search term");
-        for (let term in terms) {
-          if (term !== "name" && !!terms[term] && terms.hasOwnProperty(term)) {
-            if (publishDateStart || publishDateEnd) {
-              console.log("Is in IFFF");
-              filteredRows = rows.filter(
-                row =>
-                  row.publishDate >= publishDateStart &&
-                  (publishDateEnd
-                    ? row.publishDate <= publishDateEnd
-                    : row.publishDate >= publishDateStart)
+      if (!!type) {
+        filteredRows = filteredRows.filter(row => {
+          return row.type.toLowerCase() === type.toLowerCase();
+        });
+      }
+      if (!!category) {
+        filteredRows = filteredRows.filter(row => {
+          return row.categories.find(
+            cat => cat.title.toLowerCase() === category.toLowerCase()
+          );
+        });
+      }
+      if (!!tagsKeywords) {
+        filteredRows = filteredRows.filter(row => {
+          return row.tags.find(
+            tag => tag.title.toLowerCase() === tagsKeywords.toLowerCase()
+          );
+        });
+      }
+      if (!!projectCoordinator) {
+        filteredRows = filteredRows.filter(row => {
+          return (
+            row.owner &&
+            row.owner.username.toLowerCase() ===
+              projectCoordinator.toLowerCase()
+          );
+        });
+      }
+      if (!!publishDateStart || !!publishDateEnd) {
+        const publishDateStartParts = publishDateStart.split(".");
+        const startDate = new Date(
+          publishDateStartParts[2],
+          publishDateStartParts[1] - 1,
+          publishDateStartParts[0]
+        );
+        const publishDateEndParts = publishDateEnd.split(".");
+        const endDate = new Date(
+          publishDateEndParts[2],
+          publishDateEndParts[1] - 1,
+          publishDateEndParts[0]
+        );
+        filteredRows = rows.filter(row => {
+          if (!!row.plannedStart && !!row.plannedEnd) {
+            if (
+              endDate instanceof Date &&
+              !isNaN(endDate) &&
+              startDate instanceof Date &&
+              !isNaN(startDate)
+            ) {
+              return (
+                new Date(row.plannedStart) >= startDate &&
+                new Date(row.plannedStart) <= endDate
               );
-            } else if (endDateStart || endDateEnd) {
-              filteredRows = rows.filter(
-                row =>
-                  row.endDate >= endDateStart &&
-                  (publishDateEnd
-                    ? row.endDate <= endDateEnd
-                    : row.endDate >= endDateStart)
-              );
-            } else {
-              console.log("Is in ELSE");
-              filteredRows = rows.filter(row => row[term] === terms[term]);
+            } else if (endDate instanceof Date && !isNaN(endDate)) {
+              return new Date(row.plannedStart) <= endDate;
+            } else if (startDate instanceof Date && !isNaN(startDate)) {
+              return new Date(row.plannedStart) >= startDate;
             }
-            console.log("term :>> ", term);
-            // filteredRows = rows.filter(row => row[term] === terms[term]);
           }
+        });
+      }
+      if (!!endDateStart || !!endDateEnd) {
+        const endDateStartParts = endDateStart.split(".");
+        const startDate = new Date(
+          endDateStartParts[2],
+          endDateStartParts[1] - 1,
+          endDateStartParts[0]
+        );
+        const endDateEndParts = endDateEnd.split(".");
+        const endDate = new Date(
+          endDateEndParts[2],
+          endDateEndParts[1] - 1,
+          endDateEndParts[0]
+        );
+        filteredRows = rows.filter(row => {
+          if (!!row.plannedStart && !!row.plannedEnd) {
+            if (
+              endDate instanceof Date &&
+              !isNaN(endDate) &&
+              startDate instanceof Date &&
+              !isNaN(startDate)
+            ) {
+              return (
+                new Date(row.plannedEnd) >= startDate &&
+                new Date(row.plannedEnd) <= endDate
+              );
+            } else if (endDate instanceof Date && !isNaN(endDate)) {
+              return new Date(row.plannedEnd) <= endDate;
+            } else if (startDate instanceof Date && !isNaN(startDate)) {
+              return new Date(row.plannedEnd) >= startDate;
+            }
+          }
+        });
+      }
+      return filteredRows;
+    },
+    prepTableData() {
+      var data = [];
+      for (const item in this.table) {
+        if (this.table.hasOwnProperty(item)) {
+          if (item === "fundings") {
+            this.table[item].forEach(funding => {
+              data.push({ ...funding, type: "funding" });
+            });
+          } else if (item === "projects") {
+            this.table[item].forEach(funding => {
+              data.push({ ...funding, type: "project" });
+            });
+          } else if (item === "checklists") {
+            this.table[item].forEach(funding => {
+              data.push({ ...funding, type: "checklist" });
+            });
+          }
+          this.data = data;
         }
       }
-
-      console.log("filteredRows :>> ", filteredRows);
-
-      return filteredRows;
+    },
+    async view(row) {
+      if (row.type === "project") {
+        this.viewIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/viewProject", {
+          id: id
+        });
+        this.viewIsLoading = false;
+      } else if (row.type === "funding") {
+        this.viewIsLoading = true;
+        const id = JSON.parse(JSON.stringify(row && row.id));
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: id
+        });
+        this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newFunding/${id}` });
+      } else {
+        this.viewIsLoading = true;
+        const id = JSON.parse(JSON.stringify(row && row.id));
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: id
+          }
+        );
+        this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newChecklist/${id}` });
+      }
+    },
+    async editItem(row) {
+      if (row.type === "project") {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("project/editProject", {
+          id: id
+        });
+        this.editIsLoading = false;
+      } else if (row.type === "funding") {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: id
+        });
+        this.editIsLoading = false;
+        this.$router.push({ path: `/user/newFunding/edit/${id}` });
+      } else {
+        this.editIsLoading = true;
+        const id = row && row.id;
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: id
+          }
+        );
+        this.editIsLoading = false;
+        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+      }
+    },
+    async deleteItem(row) {
+      console.log("delete");
+      if (row.type === "project") {
+        this.tab = "projectIdeas";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
+      } else if (row.type === "funding") {
+        this.tab = "fundings";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
+      } else {
+        this.tab = "implementationChecklist";
+        this.itemId = row && row.id;
+        this.deleteDialog = true;
+      }
     }
   },
   computed: {
     typeOptions() {
       let vals = this.data.map(item => item.type);
-      vals.push("");
       return vals;
     },
     categoryOptions() {
-      let vals = this.data.map(item => item.category);
-      vals.push("");
-      return vals;
+      const categories = [];
+      this.data.map(item =>
+        item.categories.map(cat =>
+          !!cat.title ? categories.push(cat.title) : null
+        )
+      );
+      return [...new Set(categories)];
+    },
+    tagKeywordsOptions() {
+      const tagsKeywords = [];
+      this.data.map(item =>
+        item.tags.map(tag =>
+          !!tag.title ? tagsKeywords.push(tag.title) : null
+        )
+      );
+      return [...new Set(tagsKeywords)];
+    },
+    projectCoordinatorOptions() {
+      const users = [];
+      this.data.map(item =>
+        !!item.owner && !!item.owner.username
+          ? users.push(item.owner.username)
+          : null
+      );
+      return [...new Set(users)];
     },
     isInPage() {
       // TODO this solution might be temporary
@@ -655,46 +697,52 @@ export default {
           required: true,
           label: this.$t("statsTable.title"),
           align: "left",
-          field: row => row.name,
+          field: "title",
           sortable: true
         },
         {
           name: "type",
           align: "left",
           label: this.$t("statsTable.type"),
-          field: "type",
+          field: row => this.$t(row.type),
           sortable: true
         },
         {
           name: "categories",
           align: "left",
           label: this.$t("statsTable.categories"),
-          field: "category",
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            this.$t("NoCategories"),
           sortable: true
         },
         {
           name: "publishDate",
           align: "left",
           label: this.$t("statsTable.publishDate"),
-          field: "publishDate",
+          field: row => dateFormatter(row.plannedStart),
           sortable: true
         },
         {
           name: "endDate",
           align: "left",
           label: this.$t("statsTable.endDate"),
-          field: "endDate",
+          field: row => dateFormatter(row.plannedEnd),
           sortable: true
         },
         {
           name: "owners",
           align: "left",
           label: this.$t("statsTable.owners"),
-          field: "owners",
+          field: row => row.owner && row.owner.username,
           sortable: true
         }
       ];
     }
+  },
+  mounted() {
+    this.prepTableData();
   }
 };
 </script>

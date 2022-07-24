@@ -8,14 +8,22 @@
         </div>
       </div>
     </div>
-    <StatsTable />
+    <StatsTable v-if="statsData.table.projects" :table="statsData.table" />
   </q-page>
 </template>
 
 <script>
 import StatsTable from "components/stats/StatsTable.vue";
 export default {
-  name: "index",
+  name: "stats",
+  data() {
+    return {
+      statsData: {
+        stats: {},
+        table: {}
+      }
+    };
+  },
   components: {
     StatsTable
   },
@@ -24,38 +32,48 @@ export default {
       return [
         {
           title: this.$t("Statistics.currentFunding"),
-          value: "1894"
+          value: this.statsData.stats.fundings
         },
         {
           title: this.$t("Statistics.projectIdeas"),
-          value: "2836"
+          value: this.statsData.stats.projects
         },
         {
           title: this.$t("Statistics.implementationChecklist"),
-          value: "2361"
+          value: this.statsData.stats.checklists
         },
         {
           title: this.$t("Statistics.administration/user"),
-          value: "48"
+          value: this.statsData.stats.users
         },
         {
           title: this.$t("Statistics.fundinginfoArchive"),
-          value: "789"
+          value: this.statsData.stats.archivedFundings
         },
         {
-          title: this.$t("Statistics.enquiries"),
-          value: "836"
+          title: this.$t("Statistics.projectinfoArchive"),
+          value: this.statsData.stats.archivedProjects
         },
         {
           title: this.$t("Statistics.watchList"),
-          value: "632"
+          value: this.statsData.stats.watchlists
         },
         {
-          title: this.$t("Statistics.adminNetwork"),
-          value: "438"
+          title: this.$t("Statistics.municipalities"),
+          value: this.statsData.stats.municipalities
         }
       ];
     }
+  },
+  methods: {
+    getArchivedStats() {
+      this.$api.get("/api/stats").then(response => {
+        this.statsData = response.data;
+      });
+    }
+  },
+  created() {
+    this.getArchivedStats();
   }
 };
 </script>
