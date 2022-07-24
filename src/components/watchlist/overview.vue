@@ -34,7 +34,6 @@
         </p>
       </q-route-tab>
     </q-tabs>
-
     <q-table
       class="radius-20 shadow-1"
       :data="data"
