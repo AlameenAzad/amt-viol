@@ -296,16 +296,24 @@
       :dialogState="deleteDialog"
       @update="(deleteDialog = $event), (itemId = null)"
     />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "dataOverview",
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   data() {
     return {
@@ -320,6 +328,7 @@ export default {
         "plannedEnd"
       ],
       deleteDialog: false,
+      requestDialog: false,
       itemId: null,
       viewIsLoading: false,
       editIsLoading: false,
@@ -334,9 +343,11 @@ export default {
       if (this.tab === "projectIdeas") {
         this.viewIsLoading = true;
         const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
+        const res = await this.$store.dispatch("project/viewProject", {
           id: id
         });
+        if (res === "unauthorized") {
+        }
         this.viewIsLoading = false;
       } else if (this.tab === "fundings") {
         this.viewIsLoading = true;

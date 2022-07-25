@@ -261,7 +261,11 @@ export async function getSpecificProject(context, payload) {
         type: "negative",
         message: error.response.data.error.message
       });
-      return false;
+      if (error.response.status === 401) {
+        return "unauthorized";
+      } else {
+        return false;
+      }
     }
   }
 }
@@ -269,8 +273,13 @@ export async function getSpecificProject(context, payload) {
 export async function viewProject(context, payload) {
   const { id } = payload;
   const project = await context.dispatch("getSpecificProject", { id });
-  if (!!project) {
+  console.log("project :>> ", project);
+  if (!!project && project !== "unauthorized") {
     this.$router.push({ path: `/user/newProjectIdea/${id}` });
+  } else if (project === "unauthorized") {
+    return "unauthorized";
+  } else {
+    return false;
   }
 }
 
@@ -295,9 +304,27 @@ export async function addToWatchlist(context, payload) {
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
-      await context.dispatch("userCenter/getDataOverview", null, {
-        root: true
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
       });
+      return false;
+    }
+  }
+}
+
+export async function removeFromWatchlist(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/watchlists/${id}`);
+      console.log("res", res);
+      Notify.create({
+        message: "Project Idea removed from watchlist",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
         type: "negative",
@@ -321,9 +348,6 @@ export async function archiveProjectIdea(context, payload) {
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
-      await context.dispatch("userCenter/getDataOverview", null, {
-        root: true
-      });
     } catch (error) {
       Notify.create({
         type: "negative",
