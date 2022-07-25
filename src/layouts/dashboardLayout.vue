@@ -89,7 +89,7 @@
             dark
             color="red"
             class="mr-0"
-            @click="$store.dispatch('userCenter/logout')"
+            @click="logout"
           >
           </q-btn>
         </div>
@@ -115,7 +115,7 @@
         <EssentialLink />
       </q-list>
     </q-drawer>
-
+    <logoutDialog :dialogState="logoutDialog" @update="logoutDialog = $event" />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -125,6 +125,7 @@
 <script>
 import EssentialLink from "components/EssentialLink.vue";
 import errorDialog from "components/errorDialog.vue";
+import logoutDialog from "components/user/authentication/logout.vue";
 import {
   enable as enableDarkMode,
   disable as disableDarkMode,
@@ -134,10 +135,12 @@ import {
 export default {
   name: "MainLayout",
   components: {
-    EssentialLink
+    EssentialLink,
+    logoutDialog
   },
   data() {
     return {
+      logoutDialog: false,
       leftDrawerOpen: this.$q.screen.gt.sm,
       themeIcon: isDarkReaderEnabled()
         ? "mdi-weather-night"
@@ -165,6 +168,12 @@ export default {
     goBack() {
       this.$router.currentRoute.meta.backLink &&
         this.$router.push(this.$router.currentRoute.meta.backLink);
+    },
+    logout() {
+      console.log(localStorage.getItem("showLogoutDialog"));
+      localStorage.getItem("showLogoutDialog") == "false"
+        ? this.$store.dispatch("userCenter/logout")
+        : (this.logoutDialog = true);
     }
   },
   computed: {

@@ -41,7 +41,6 @@
     "transferData": "Übertragen von Daten",
     "deleteGeneralData": "Allgemeine Daten löschen",
     "selectUser": "Benutzer*in auswählen ",
-
     "saveChanges": "Änderungen speichern"
   },
   "myData": {
@@ -206,7 +205,9 @@
     "fundinginfoArchive": "Förderinfos-Archiv",
     "enquiries": "Anfragen",
     "watchList": "Merklisten",
-    "adminNetwork": "Verwaltungsnetzwerke"
+    "adminNetwork": "Verwaltungsnetzwerke",
+    "projectinfoArchive": "Projektideen-Archiv",
+    "municipalities": "Verwaltung"
   },
   "statsTable": {
     "title": "Titel",
@@ -239,7 +240,6 @@
     "projectStatus": "Projektstatus (optional)",
     "estimatedCost": "Kostenschätzung (optional)",
     "fundingGuidelines": "Förderrichtlinien (optional)",
-
     "plaanedPeriod": "Geplanter Zeitraum",
     "links": "Links",
     "uploads": "Uploads",
@@ -320,5 +320,9 @@
     "message": "Nachricht",
     "sendInvitation": "Einladung senden",
     "cancel": "Abbrechen"
-  }
+  },
+  "NoCategories": "Keine Kategorien",
+  "funding": "Fördermittel",
+  "projectIdea": "Projektideen",
+  "checklist": "Umsetzungscheckliste"
 }

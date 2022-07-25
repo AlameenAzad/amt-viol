@@ -8,14 +8,19 @@
         </div>
       </div>
     </div>
-    <StatsTable />
+    <StatsTable @stats="val => (statsData = val)" />
   </q-page>
 </template>
 
 <script>
 import StatsTable from "components/stats/StatsTable.vue";
 export default {
-  name: "index",
+  name: "stats",
+  data() {
+    return {
+      statsData: {}
+    };
+  },
   components: {
     StatsTable
   },
@@ -24,39 +29,41 @@ export default {
       return [
         {
           title: this.$t("Statistics.currentFunding"),
-          value: "1894"
+          value: this.statsData.fundings
         },
         {
           title: this.$t("Statistics.projectIdeas"),
-          value: "2836"
+          value: this.statsData.projects
         },
         {
           title: this.$t("Statistics.implementationChecklist"),
-          value: "2361"
+          value: this.statsData.checklists
         },
         {
           title: this.$t("Statistics.administration/user"),
-          value: "48"
+          value: this.statsData.users
         },
         {
           title: this.$t("Statistics.fundinginfoArchive"),
-          value: "789"
+          value: this.statsData.archivedFundings
         },
         {
-          title: this.$t("Statistics.enquiries"),
-          value: "836"
+          title: this.$t("Statistics.projectinfoArchive"),
+          value: this.statsData.archivedProjects
         },
         {
           title: this.$t("Statistics.watchList"),
-          value: "632"
+          value: this.statsData.watchlists
         },
         {
-          title: this.$t("Statistics.adminNetwork"),
-          value: "438"
+          title: this.$t("Statistics.municipalities"),
+          value: this.statsData.municipalities
         }
       ];
     }
-  }
+  },
+  methods: {},
+  created() {}
 };
 </script>
 
