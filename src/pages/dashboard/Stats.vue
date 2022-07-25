@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <StatsTable v-if="statsData.table.projects" :table="statsData.table" />
+    <StatsTable @stats="val => (statsData = val)" />
   </q-page>
 </template>
 
@@ -18,10 +18,7 @@ export default {
   name: "stats",
   data() {
     return {
-      statsData: {
-        stats: {},
-        table: {}
-      }
+      statsData: {}
     };
   },
   components: {
@@ -32,49 +29,41 @@ export default {
       return [
         {
           title: this.$t("Statistics.currentFunding"),
-          value: this.statsData.stats.fundings
+          value: this.statsData.fundings
         },
         {
           title: this.$t("Statistics.projectIdeas"),
-          value: this.statsData.stats.projects
+          value: this.statsData.projects
         },
         {
           title: this.$t("Statistics.implementationChecklist"),
-          value: this.statsData.stats.checklists
+          value: this.statsData.checklists
         },
         {
           title: this.$t("Statistics.administration/user"),
-          value: this.statsData.stats.users
+          value: this.statsData.users
         },
         {
           title: this.$t("Statistics.fundinginfoArchive"),
-          value: this.statsData.stats.archivedFundings
+          value: this.statsData.archivedFundings
         },
         {
           title: this.$t("Statistics.projectinfoArchive"),
-          value: this.statsData.stats.archivedProjects
+          value: this.statsData.archivedProjects
         },
         {
           title: this.$t("Statistics.watchList"),
-          value: this.statsData.stats.watchlists
+          value: this.statsData.watchlists
         },
         {
           title: this.$t("Statistics.municipalities"),
-          value: this.statsData.stats.municipalities
+          value: this.statsData.municipalities
         }
       ];
     }
   },
-  methods: {
-    getArchivedStats() {
-      this.$api.get("/api/stats").then(response => {
-        this.statsData = response.data;
-      });
-    }
-  },
-  created() {
-    this.getArchivedStats();
-  }
+  methods: {},
+  created() {}
 };
 </script>
 

@@ -337,16 +337,23 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-
-                  <q-item clickable v-close-popup>
+                  <q-item clickable @click="publishItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.publish") }}
 
                         <q-icon
+                          v-if="!editIsLoading"
                           size="sm"
                           class="text-blue"
-                          name="publish"/></span
+                          name="publish"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
                     ></q-item-section>
                   </q-item>
 
@@ -384,7 +391,7 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="(deleteDialog = $event), (itemId = null), (tab = null)"
+      @update="deleteDone()"
     />
   </div>
 </template>
@@ -396,12 +403,6 @@ export default {
   name: "StatsTable",
   components: {
     DeleteDialog
-  },
-  props: {
-    table: {
-      type: Object,
-      default: null
-    }
   },
   data() {
     return {
@@ -421,7 +422,11 @@ export default {
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
-      deleteDialog: false
+      deleteDialog: false,
+      statsData: {
+        stats: {},
+        table: {}
+      }
     };
   },
   methods: {
@@ -545,18 +550,19 @@ export default {
     },
     prepTableData() {
       var data = [];
-      for (const item in this.table) {
-        if (this.table.hasOwnProperty(item)) {
+      var table = this.statsData.table;
+      for (const item in table) {
+        if (table.hasOwnProperty(item)) {
           if (item === "fundings") {
-            this.table[item].forEach(funding => {
+            table[item].forEach(funding => {
               data.push({ ...funding, type: "funding" });
             });
           } else if (item === "projects") {
-            this.table[item].forEach(funding => {
+            table[item].forEach(funding => {
               data.push({ ...funding, type: "project" });
             });
           } else if (item === "checklists") {
-            this.table[item].forEach(funding => {
+            table[item].forEach(funding => {
               data.push({ ...funding, type: "checklist" });
             });
           }
@@ -623,7 +629,6 @@ export default {
       }
     },
     async deleteItem(row) {
-      console.log("delete");
       if (row.type === "project") {
         this.tab = "projectIdeas";
         this.itemId = row && row.id;
@@ -636,6 +641,40 @@ export default {
         this.tab = "implementationChecklist";
         this.itemId = row && row.id;
         this.deleteDialog = true;
+      }
+    },
+    getArchivedStats() {
+      this.$api.get("/api/stats").then(response => {
+        this.statsData = response.data;
+        this.$emit("stats", this.statsData.stats);
+        this.prepTableData();
+      });
+    },
+    deleteDone($event) {
+      console.log("deleteDone", $event);
+      this.deleteDialog = $event;
+      this.itemId = null;
+      this.tab = null;
+      this.getArchivedStats();
+    },
+    publishItem(row) {
+      var data = {
+        data: {
+          archived: false
+        }
+      };
+      if (row.type === "project") {
+        this.$api.put(`/api/projects/${row.id}`, data).then(response => {
+          this.getArchivedStats();
+        });
+      } else if (row.type === "funding") {
+        this.$api.put(`/api/fundings/${row.id}`, data).then(response => {
+          this.getArchivedStats();
+        });
+      } else {
+        this.$api.put(`/api/checklists/${row.id}`, data).then(response => {
+          this.getArchivedStats();
+        });
       }
     }
   },
@@ -742,7 +781,7 @@ export default {
     }
   },
   mounted() {
-    this.prepTableData();
+    this.getArchivedStats();
   }
 };
 </script>
