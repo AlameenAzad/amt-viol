@@ -252,3 +252,22 @@ export async function logout(context) {
   context.commit("funding/setFundings", [], { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
 }
+
+export async function forgotPassword(context) {
+  try {
+    await api.post("/api/auth/forgot-password", {
+      email: context.state.user.user.email
+    });
+    Notify.create({
+      message: "Password reset link was sent to your email.",
+      type: "positive"
+    });
+  } catch (error) {
+    console.log("error :>> ", error.response);
+    Notify.create({
+      type: "negative",
+      message: error.response.data.error.message
+    });
+    return false;
+  }
+}
