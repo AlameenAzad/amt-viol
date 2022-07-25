@@ -41,7 +41,9 @@
     "transferData": "Übertragen von Daten",
     "deleteGeneralData": "Allgemeine Daten löschen",
     "selectUser": "Benutzer*in auswählen ",
-    "saveChanges": "Änderungen speichern"
+    "saveChanges": "Änderungen speichern",
+    "resetPassword": "Passwort zurücksetzen",
+    "request": "Anfrage"
   },
   "myData": {
     "projectIdeas": "Projektideen",
@@ -324,5 +326,8 @@
   "NoCategories": "Keine Kategorien",
   "funding": "Fördermittel",
   "projectIdea": "Projektideen",
-  "checklist": "Umsetzungscheckliste"
+  "checklist": "Umsetzungscheckliste",
+  "wantToLogout": "Möchten Sie sich abmelden?",
+  "dontShowAgain": "Nicht mehr anzeigen",
+  "passwordResetInfo": "Wenn Sie Ihre E-Mail-Adresse eingeben, werden Sie eine E-Mail mit einem Link zum Zurücksetzen Ihres Passworts erhalten."
 }
