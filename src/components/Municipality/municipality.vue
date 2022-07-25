@@ -97,7 +97,7 @@
                     ></q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup>
+                  <q-item v-if="isAdmin" clickable v-close-popup>
                     <q-item-section @click="prepDeleteDialog(props.row)"
                       ><span class="text-right font-14 text-red">
                         {{ $t("administrativeAreas.delete") }}
@@ -163,6 +163,9 @@ export default {
   computed: {
     data() {
       return this.$store.state.municipality.municipalities;
+    },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
     },
     columns() {
       return [
