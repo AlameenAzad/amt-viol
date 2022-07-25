@@ -3,24 +3,24 @@
     <q-card class="q-px-xl radius-10 column">
       <q-card-section align="center">
         <h6 class="text-center font-20 q-mt-md q-mb-none">
-          {{ "Loggin you out" }}
+          {{ $t("Loggin you out") }}
         </h6>
       </q-card-section>
       <q-card-section align="left"
         ><div class=" items-center text-center ">
           <p>
-            {{ "Are you sure you want to logout?" }}
+            {{ $t("wantToLogout") }}
           </p>
           <q-checkbox
             class=""
             v-model="showAgain"
-            label="Don't Show this dialog again."
+            :label="$t('dontShowAgain')"
           /></div
       ></q-card-section>
       <q-card-section class="q-pt-none text-center">
         <div class="row justify-center q-ml-lg ">
           <q-btn
-            label="Cancel"
+            :label="$t('userAdministration.cancel')"
             outline
             v-close-popup
             size="14px"
@@ -29,7 +29,7 @@
             class="no-shadow radius-6 q-px-xl  q-mr-sm "
           />
           <q-btn
-            label="Confirm"
+            :label="$t('category&Keyword.deletePopupButton')"
             unelevated
             size="14px"
             color="red"
