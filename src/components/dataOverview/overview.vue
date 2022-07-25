@@ -647,16 +647,14 @@ export default {
       if (row.type === "project") {
         this.tab = "projectIdeas";
         this.itemId = row && row.id;
-        this.deleteDialog = true;
       } else if (row.type === "funding") {
         this.tab = "fundings";
         this.itemId = row && row.id;
-        this.deleteDialog = true;
       } else {
         this.tab = "implementationChecklist";
         this.itemId = row && row.id;
-        this.deleteDialog = true;
       }
+      this.deleteDialog = true;
     },
     async archiveItem(row) {
       if (row.type === "project") {
@@ -666,6 +664,7 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       } else if (row.type === "funding") {
         this.archiveIsLoading = true;
         const id = row && row.id;
@@ -673,6 +672,7 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       } else {
         this.archiveIsLoading = true;
         const id = row && row.id;
@@ -680,6 +680,7 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       }
     },
     async addToWatchlist(row) {
@@ -690,6 +691,7 @@ export default {
           id: id
         });
         this.watchlistIsLoading = false;
+        this.getData();
       } else if (row.type === "funding") {
         this.watchlistIsLoading = true;
         const id = row && row.id;
@@ -697,6 +699,7 @@ export default {
           id: id
         });
         this.watchlistIsLoading = false;
+        this.getData();
       } else {
         this.watchlistIsLoading = true;
         const id = row && row.id;
@@ -704,6 +707,7 @@ export default {
           id: id
         });
         this.watchlistIsLoading = false;
+        this.getData();
       }
     },
     goToPage(page) {
