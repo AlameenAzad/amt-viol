@@ -45,10 +45,10 @@
     </q-tabs>
     <q-table
       class="radius-20 shadow-1 pagination-no-shadow"
-      :data="apiData"
+      :data="data"
       :columns="columns"
       row-key="name"
-      :hide-bottom="!isInPage && apiData.length > 0"
+      :hide-bottom="!isInPage && data.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : ['title']"
       :filter="filter"
@@ -492,7 +492,7 @@ export default {
         ? this.fundingCols
         : this.checklistCols;
     },
-    apiData() {
+    data() {
       return this.tab == "projectIdeas"
         ? !!this.$store.state.project.projects &&
             this.$store.state.project.projects

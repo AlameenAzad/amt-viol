@@ -108,6 +108,7 @@
     "delete": "Delete"
   },
   "watchListHome": {
+    "allBtn": "All",
     "myWatchList": "My Watch List",
     "showMy": "Show My Watch List",
     "projectIdeaBtn": "Project Idea",
@@ -117,7 +118,7 @@
   "myWatchListTableOptions": {
     "view": "View",
     "edit": "Edit",
-    "bookmark": "Delete",
+    "removeBookmark": "Remove from Bookmarks",
     "archive": "Archive",
     "delete": "Delete"
   },

@@ -4,7 +4,7 @@
       <q-item
         v-for="link in dashboardRoutes"
         :key="link.path"
-        :to="link.path"
+        :to="link.path !== '/watchlist' ? link.path : '/watchlist?tab=all'"
         clickable
         v-ripple
         class="q-px-lg"

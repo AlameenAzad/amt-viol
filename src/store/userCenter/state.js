@@ -3,6 +3,7 @@ export default function() {
     user: null,
     users: [],
     dataOverview: [],
+    watchlists: [],
     loadingMessages: ""
   };
 }
