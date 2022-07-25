@@ -420,7 +420,7 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="(deleteDialog = $event), (itemId = null), (tab = null)"
+      @update="closeDialog($event), (itemId = null), (tab = null)"
     />
   </div>
 </template>
@@ -464,6 +464,10 @@ export default {
     };
   },
   methods: {
+    closeDialog(val) {
+      this.deleteDialog = val;
+      this.getData();
+    },
     filterTable(rows, terms) {
       let search = terms.name ? terms.name.toLowerCase() : "";
       let category = terms.category ? terms.category : "";
@@ -767,7 +771,6 @@ export default {
     },
     isInPage() {
       return true;
-      // return this.$router.currentRoute.path == "/user/data";
     },
     columns() {
       return [
@@ -833,7 +836,6 @@ export default {
     }
   },
   mounted() {
-    console.log("this.$router.currentRoute", this.$router.currentRoute);
     this.getData();
   }
 };
