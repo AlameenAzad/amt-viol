@@ -52,6 +52,10 @@ export function setDataOverview(state, payload) {
   }
 }
 
+export function setWatchlists(state, payload) {
+  state.watchlists = payload;
+}
+
 export function clearDataOverview(state) {
   state.dataOverview = [];
 }
