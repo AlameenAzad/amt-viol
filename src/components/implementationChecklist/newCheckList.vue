@@ -62,9 +62,13 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Name, Nachname"
-                  :value="!!userDetails && userDetails.fullName"
+                  :value="
+                    !!checklist
+                      ? form.info.contactName
+                      : !!userDetails && userDetails.fullName
+                  "
                   :rules="[]"
                   disable
                 />
@@ -74,9 +78,13 @@
                   outlined
                   dense
                   disable
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Gemeinde/Verwaltung"
-                  :value="!!userDetails && userDetails.municipality.title"
+                  :value="
+                    !!checklist
+                      ? form.municipality.title
+                      : !!userDetails && userDetails.municipality.title
+                  "
                   :rules="[]"
                 />
               </div>
@@ -94,10 +102,15 @@
               <div class="col-12 col-md-6">
                 <q-input
                   outlined
+                  disable
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Steet, Nr."
-                  v-model="form.info.streetNo"
+                  :value="
+                    !!checklist
+                      ? form.info.streetNo
+                      : !!userDetails && userDetails.streetNo
+                  "
                   :rules="[]"
                 />
               </div>
@@ -105,9 +118,14 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  disable
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Postal Code, City"
-                  v-model="form.info.postalCode"
+                  :value="
+                    !!checklist
+                      ? form.info.postalCode
+                      : !!userDetails && userDetails.postalCode
+                  "
                   :rules="[]"
                 />
               </div>
@@ -115,9 +133,13 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Telefon"
-                  :value="!!userDetails && userDetails.phone"
+                  :value="
+                    !!checklist
+                      ? form.info.phone
+                      : !!userDetails && userDetails.phone
+                  "
                   :rules="[]"
                   disable
                 />
@@ -126,9 +148,9 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="E-Mail"
-                  :value="!!user && user.email"
+                  :value="!!checklist ? form.info.email : !!user && user.email"
                   :rules="[]"
                   disable
                 />
@@ -228,7 +250,6 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
-                  :rules="[val => !!val || 'Required']"
                   v-model="form.media"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -525,8 +546,9 @@
                         <div class="col-12">
                           <q-input
                             outlined
+                            type="textarea"
+                            rows="10"
                             bg-color="white"
-                            dense
                             class="no-shadow input-radius-6"
                             placeholder="text"
                             v-model="element.text"
@@ -2798,6 +2820,15 @@ export default {
     width: 2em;
     margin-left: -1em;
     margin-right: -1em;
+  }
+}
+.disabledClass {
+  .q-field__inner .q-field__control input {
+    color: black;
+    opacity: 1 !important;
+  }
+  .q-field__inner .q-field__control:before {
+    border-color: $primary;
   }
 }
 </style>
