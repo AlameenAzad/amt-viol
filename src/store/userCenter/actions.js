@@ -240,11 +240,25 @@ export async function getDataOverview(context) {
   }
 }
 
+export async function getWatchlists(context) {
+  try {
+    const res = await api.get("/api/watchlists");
+    context.commit("setWatchlists", res.data);
+  } catch (error) {
+    console.log("error :>> ", error.response);
+    Notify.create({
+      type: "negative",
+      message: error.response.data.error.message
+    });
+  }
+}
+
 export async function logout(context) {
   this.$router.push({ path: "/" });
   context.commit("setUser", null);
   context.commit("setUsers", []);
   context.commit("clearDataOverview", []);
+  context.commit("setWatchlists", []);
   context.commit("project/setProjectIdeas", [], { root: true });
   context.commit("tag/setTags", [], { root: true });
   context.commit("municipality/setMunicipalities", [], { root: true });
