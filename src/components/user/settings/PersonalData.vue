@@ -167,7 +167,7 @@
           />
         </div>
       </div>
-      <div class="row items-center">
+      <!-- <div class="row items-center">
         <div class="col-12 bg-yellow-10 radius-6">
           <q-checkbox
             color="primary"
@@ -178,7 +178,7 @@
             {{ $t("personalData.contactUser") }}
           </q-checkbox>
         </div>
-      </div>
+      </div> -->
       <div class="row justify-center">
         <q-btn
           type="submit"

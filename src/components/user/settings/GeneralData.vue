@@ -18,12 +18,13 @@
           <q-input
             outlined
             class="no-shadow input-radius-6"
-            v-model="email"
+            v-model="user.email"
             :rules="[]"
+            disable
           />
         </div>
       </div>
-      <div class="row items-center">
+      <!-- <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
             {{ $t("generalData.currentPassword") }}
@@ -67,6 +68,26 @@
             :rules="[]"
           />
         </div>
+      </div> -->
+      <q-separator inset class="bg-blue opacity-10" />
+      <div class="row items-center">
+        <div class="col-3">
+          <p class="font-16 no-margin">
+            {{ $t("generalData.resetPassword") }}
+          </p>
+        </div>
+        <div class="col-9">
+          <q-btn
+            @click="pwdResetDialog = true"
+            outline
+            no-caps
+            size="16px"
+            color="primary"
+            class="text-weight-600 q-py-xs"
+          >
+            {{ $t("generalData.request") }}
+          </q-btn>
+        </div>
       </div>
       <q-separator inset class="bg-blue opacity-10" />
       <div class="row items-center">
@@ -103,7 +124,7 @@
           </q-btn>
         </div>
       </div>
-      <q-separator inset class="bg-blue opacity-10" />
+      <!-- <q-separator inset class="bg-blue opacity-10" />
       <div class="row justify-center">
         <q-btn
           type="submit"
@@ -114,29 +135,36 @@
         >
           {{ $t("generalData.saveChanges") }}
         </q-btn>
-      </div>
+      </div> -->
     </q-form>
     <TransferDialog
       :dialogState="transferDialog"
       @update="transferDialog = $event"
+    />
+    <resetPwdDialog
+      :dialogState="pwdResetDialog"
+      @update="pwdResetDialog = $event"
     />
   </div>
 </template>
 
 <script>
 import TransferDialog from "components/user/settings/TransferDialog.vue";
+import resetPwdDialog from "./resetPasswordDialog.vue";
 export default {
   name: "generalDataTab",
   components: {
-    TransferDialog
+    TransferDialog,
+    resetPwdDialog
   },
   data() {
     return {
       transferDialog: false,
-      email: "",
-      currentPassword: "",
-      newPassword: "",
-      newPasswordConfirm: ""
+      pwdResetDialog: false,
+      email: ""
+      // currentPassword: "",
+      // newPassword: "",
+      // newPasswordConfirm: ""
     };
   },
   methods: {
@@ -148,6 +176,11 @@ export default {
           console.log("error");
         }
       });
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.userCenter.user.user;
     }
   }
 };

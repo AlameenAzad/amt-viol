@@ -41,7 +41,9 @@
     "transferData": "Transfer Data",
     "deleteGeneralData": "Delete General Data",
     "selectUser": "Select User ",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "resetPassword": "Reset Password",
+    "request": "request"
   },
   "myData": {
     "projectIdeas": "Project Ideas",
@@ -323,5 +325,8 @@
   "NoCategories": "No Categories",
   "funding": "funding",
   "projectIdeas": "projectIdea",
-  "checklist": "checklist"
+  "checklist": "checklist",
+  "wantToLogout": "Are you sure you want to logout?",
+  "dontShowAgain": "Don't Show this dialog again.",
+  "passwordResetInfo": "You will receive an email with instructions on how to reset your password."
 }

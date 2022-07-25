@@ -3,20 +3,16 @@
     <q-card class="q-px-xl radius-10 column">
       <q-card-section align="center">
         <h6 class="text-center font-20 q-mt-md q-mb-none">
-          {{ $t("Loggin you out") }}
+          {{ $t("generalData.resetPassword") }}
         </h6>
       </q-card-section>
       <q-card-section align="left"
         ><div class=" items-center text-center ">
           <p>
-            {{ $t("wantToLogout") }}
+            {{ $t("passwordResetInfo") }}
           </p>
-          <q-checkbox
-            class=""
-            v-model="showAgain"
-            :label="$t('dontShowAgain')"
-          /></div
-      ></q-card-section>
+        </div></q-card-section
+      >
       <q-card-section class="q-pt-none text-center">
         <div class="row justify-center q-ml-lg ">
           <q-btn
@@ -32,10 +28,10 @@
             :label="$t('category&Keyword.deletePopupButton')"
             unelevated
             size="14px"
-            color="red"
+            color="blue"
             no-caps
             class="no-shadow radius-6 q-px-xl q-py-sm"
-            @click="logout"
+            @click="requestReset"
           />
         </div>
       </q-card-section>
@@ -45,22 +41,23 @@
 
 <script>
 export default {
-  name: "logoutDialog",
+  name: "resetPWDDialog",
   props: {
     dialogState: { type: Boolean, default: false }
   },
   data() {
     return {
-      showAgain: false,
       isLoading: false
     };
   },
   methods: {
-    logout() {
-      if (this.showAgain) {
-        localStorage.setItem("showLogoutDialog", false);
+    async requestReset() {
+      this.isLoading = true;
+      const res = await this.$store.dispatch("userCenter/forgotPassword");
+      this.isLoading = false;
+      if (res !== false) {
+        this.$_options = false;
       }
-      this.$store.dispatch("userCenter/logout");
     }
   },
   computed: {
