@@ -44,7 +44,8 @@ export async function createNewProjectIdea(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({ path: "/user/data?tab=projectIdeas" });
+      // this.$router.push({ path: "/user/data?tab=projectIdeas" });
+      this.$router.go(-1);
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -229,9 +230,10 @@ export async function editProjectIdea(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({
-        path: "/user/data?tab=projectIdeas"
-      });
+      // this.$router.push({
+      //   path: "/user/data?tab=projectIdeas"
+      // });
+      this.$router.go(-1);
     } catch (error) {
       console.error("error", error);
       Notify.create({
@@ -293,6 +295,9 @@ export async function addToWatchlist(context, payload) {
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
+      await context.dispatch("userCenter/getDataOverview", null, {
+        root: true
+      });
     } catch (error) {
       Notify.create({
         type: "negative",
@@ -316,6 +321,9 @@ export async function archiveProjectIdea(context, payload) {
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
+      await context.dispatch("userCenter/getDataOverview", null, {
+        root: true
+      });
     } catch (error) {
       Notify.create({
         type: "negative",

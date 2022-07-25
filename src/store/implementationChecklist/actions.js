@@ -228,7 +228,8 @@ export async function createNewChecklist(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({ path: "/user/data?tab=implementationChecklist" });
+      // this.$router.push({ path: "/user/data?tab=implementationChecklist" });
+      this.$router.go(-1);
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -865,9 +866,10 @@ export async function editChecklist(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      this.$router.push({
-        path: "/user/data?tab=implementationChecklist"
-      });
+      // this.$router.push({
+      //   path: "/user/data?tab=implementationChecklist"
+      // });
+      this.$router.go(-1);
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -1108,6 +1110,9 @@ export async function archiveChecklist(context, payload) {
         type: "positive"
       });
       context.dispatch("getChecklists");
+      await context.dispatch("userCenter/getDataOverview", null, {
+        root: true
+      });
     } catch (error) {
       Notify.create({
         position: "top-right",
@@ -1131,7 +1136,10 @@ export async function addToWatchlist(context, payload) {
         message: "Funding added to watchlist",
         type: "positive"
       });
-      context.dispatch("getProjectIdeas");
+      context.dispatch("getChecklists");
+      await context.dispatch("userCenter/getDataOverview", null, {
+        root: true
+      });
     } catch (error) {
       Notify.create({
         type: "negative",
