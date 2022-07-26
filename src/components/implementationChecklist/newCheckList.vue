@@ -335,6 +335,7 @@
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
                   @click="$refs.startDateProxy[index].show()"
+                  ref="startDate"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -379,6 +380,7 @@
                   bg-color="white"
                   :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
                   @click="$refs.endDateProxy[index].show()"
+                  ref="endDate"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -523,6 +525,7 @@
                             v-model="element.name"
                           />
                         </div>
+
                         <div
                           v-if="element.hasOwnProperty('project')"
                           class="col-12"
@@ -921,7 +924,7 @@ export default {
                 name: "",
                 text: "",
                 sortPosition: 1,
-                active: true,
+                active: false,
                 project: null,
                 objectId: 1,
                 file: null,
@@ -930,13 +933,13 @@ export default {
                     name: "Projektidee-Quellen Nutzen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Projektidee aus bestehenden kommunalen Entwicklungskonzept entnommen ",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1,
                         info: ["Sind Entwicklungskonzepte noch gültig?"]
                       },
@@ -949,14 +952,14 @@ export default {
                       {
                         name: "Projektidee aus lokalem Arbeitskreis entnommen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Projektidee im Erstgespräch (Einzelgemeinde oder Zusammenschluss) entwickelt",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -980,7 +983,7 @@ export default {
                         name:
                           "Veröffentlichung von Förderprogrammen als Basis für Projektidee",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       }
                     ]
@@ -989,12 +992,12 @@ export default {
                     name: "Allgemeine Rahmenbedingungen ermitteln",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Ziel und Nutzen der Projektidee definieren",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1007,7 +1010,7 @@ export default {
                       {
                         name: "Projektinitiator festlegen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3,
                         info: [
                           "Wer ist inhaltlicher Ansprechpartner für die Projektkoordination?"
@@ -1017,7 +1020,7 @@ export default {
                         name:
                           "Finanzielle Rahmenbedingungen im Bauamt und der Kämmerei prüfen (u.a. Kostenschätzung und Liquidität der Kommune",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -1048,13 +1051,13 @@ export default {
                       "Erste Einschätzungen zu den allgemeinen Rahmenbedingungen dokumentieren",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Offene Abfrage der kommunalen Rahmenbedingungen im Erstgespräch dokumentieren",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1068,14 +1071,14 @@ export default {
                         name:
                           "Diskussion zu weiteren wichtigen Gesprächspartnern führen und dokumentieren",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Produktrecherche, Kostenplanung und Wirtschaftlichkeitsprüfung skizzieren",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -1085,13 +1088,13 @@ export default {
                       "Input von weiteren Akteur*innen ermitteln und dokumentieren (z.B. Fachbereiche der Verwaltung, existierende Projektideen/ Referenzprojekte)",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Best-Practice-Beispiele zu existierende Projektideen/ Referenzprojekte finden und mit kommunalen Rahmenbedingungen abgleichen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1105,7 +1108,7 @@ export default {
                         name:
                           "Input wichtiger Akteure im Nachgang über Interviewformat dokumentieren",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       }
                     ]
@@ -1139,13 +1142,13 @@ export default {
                     name: "Begehung zielgerichtet vorbereiten",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Alle relevanten Akteure (z.B. Bauamt, externe Akteure) zur Begehung einladen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1159,14 +1162,14 @@ export default {
                         name:
                           "Investitionskosten anhand von Projektideen/ Referenzprojekten grob ermitteln",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Erweiterten Prüfauftrag an die Verwaltung (kein endgültiger Beschluss) mit Entscheider*innen abstimmen und veranlassen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -1190,13 +1193,13 @@ export default {
                       "Weitere Rahmenbedingungen beim Vor-Ort-Termin sondieren",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Besprechung durchführen samt Dokumentation des Gesprächsverlauf, Anfertigung einer Planskizze etc.",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1210,7 +1213,7 @@ export default {
                         name:
                           "Finanzielle Spielräume mit der Kämmerei anhand der Projektideen-Skizze und den Kurzinfos zu Fördermöglichkeiten besprechen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       }
                     ]
@@ -1234,12 +1237,12 @@ export default {
                       "Projektentwicklung partizipativ gestalten und konkretisieren",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Arbeitsgruppe einrichten",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1253,14 +1256,14 @@ export default {
                         name:
                           "Offenes Brainstorming mit entsprechenden Fragestellungen durchführen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Ideen werden auch aus der Bürgerschaft mit entsprechenden Fragestellungen und geeigneter Methodik mitgenommen– nicht nur Politik",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -1276,13 +1279,13 @@ export default {
                       "Projektsteckbrief für die weiteren Schritte dokumentieren",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Bedarfsanalyse aus den vorherigen Schritten dokumentieren (Phase 0)",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1295,21 +1298,21 @@ export default {
                       {
                         name: "Fragebogen-Abfrage durchführen (Zielgruppen)",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Interview-Abfrage durchführen (Kooperationspartner)",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name:
                           "Genehmigungen prüfen, ggf. schon einholen und dokumentieren (Zeitvorlauf, Voranfragen, Gutachten)",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       }
                     ]
@@ -1332,12 +1335,12 @@ export default {
                     name: "Erwartungen an das Projekt definieren",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Alle Beteiligten auf einen Nenner bringen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1354,13 +1357,13 @@ export default {
                         name:
                           "Offenes Sammlung von Zielen (und Zwischenzielen) und Bedarfen in einer Gruppendiskussion",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name: "Fragebogen-Abfrage (Zielgruppen)",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -1369,13 +1372,13 @@ export default {
                     name: "Ressourcen der Akteure bündeln",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Kommunikation und Absprache im eigenen Haus koordinieren",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1387,35 +1390,35 @@ export default {
                       {
                         name: "Ressourcen und Aufgaben zielgerichtet verteilen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Kommunikation mit Bürger*innen (Homepage, Gemeindebrief, Presse) ermöglichen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name:
                           "Strukturierte Sammlung von Zielen und Bedarfen in einer Gruppendiskussion",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name:
                           "Interview-Abfrage durchführen (Kooperationspartner)",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       },
                       {
                         name:
                           "Recherche zu Projekten mit ähnlichen Zielen und Bedarfen",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       }
                     ]
@@ -1446,13 +1449,13 @@ export default {
                     name: "Zeitschiene und Inhalte abgleichen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Eigene Zeitplanung mit zeitlichem Rahmen des Fördertopfes abgleichen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1464,14 +1467,14 @@ export default {
                       {
                         name: "Projektinhalte aus User Aktivität 2 abgleichen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Projektnutzen und Kosten aus User Aktivität 2 abgleichen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -1487,13 +1490,13 @@ export default {
                     name: "Kosten- und Finanzierungsplan aufstellen",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Projektmehrwert/ -nutzen mit Kosten- und Finanzierungsplan verknüpfen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1506,7 +1509,7 @@ export default {
                         name:
                           "Akteurskonstellation bzgl. Finanzierung/ Inhalte bewerten und prüfen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       }
                     ]
@@ -1531,12 +1534,12 @@ export default {
                       "Gemeinsame Fördermittelrecherche bzw. Check der Projektidee durchführen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Förderscouting prüft Themenkategorien gegen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1549,13 +1552,13 @@ export default {
                         name:
                           "Förderscouting hinterfragt Projektmehrwert/ -nutzen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name: "Förderscouting hinterfragt Kostenschätzung",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -1601,12 +1604,12 @@ export default {
                       "Worauf muss im Gespräch mit dem Fördermittelgeber geachtet werden?",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Fristen beachten",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1629,7 +1632,7 @@ export default {
                         name:
                           "Check Rahmenbedingungen (allgemein) mit Projektplanung",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3,
                         info: ["Welchen Planungsstand sollte das Projekt haben"]
                       },
@@ -1637,7 +1640,7 @@ export default {
                         name:
                           "Check alternative Finanzierungs-/ Fördermöglichkeiten ",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4,
                         info: [
                           "Welche Möglichkeiten der Kumulierung gibt es?",
@@ -1666,12 +1669,12 @@ export default {
                       "Worauf muss beim Abgleich des Projektsteckbriefes mit der Richtlinie geachtet werden?",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Fristen beachten",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1695,12 +1698,12 @@ export default {
                     name: "Grundlegende Förderbedingungen prüfen",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Antragsberechtigung prüfen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1712,42 +1715,42 @@ export default {
                       {
                         name: "Schwellenwerte/Bagatellgrenze prüfen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Spezielle Rahmenbedingungen und Bedeutung (z.B. AZA-Richtlinie) prüfen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name:
                           "Projektsteckbrief ggf. nachjustieren/ Passgenauigkeit zum Förderprogramm herstellen",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name:
                           "Die richtigen Schlagwörter definieren/ adressieren",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       },
                       {
                         name:
                           "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       },
                       {
                         name:
                           "Alternative Finanzierungs- und Fördermöglichkeiten prüfen",
                         sortPosition: 8,
-                        active: true,
+                        active: false,
                         objectId: 8
                       }
                     ]
@@ -1780,13 +1783,13 @@ export default {
                       "Projektsteckbrief anhand der Richtlinien-Hinweise überarbeiten",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Inhaltliche Anpassung des Projektsteckbriefes anhand User Aktivität 3",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1799,13 +1802,13 @@ export default {
                       {
                         name: "Kostenschätzungen mit Fachamt präzisieren",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name: "Budgetsituation beim Fördermittelgeber erfragen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
@@ -1836,13 +1839,13 @@ export default {
                     name: "Weitere zielführende Kooperationen identifizieren",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Beteiligte=Zielgruppe; PR/ÖA, Fachexperten, Kämmerei (hier breit denken)",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1855,14 +1858,14 @@ export default {
                       {
                         name: "Beteiligte aus allen Bereichen zusammenbringen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Private und Öffentliche Akteure (Vereine, Verbände etc.)",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -1872,12 +1875,12 @@ export default {
                       "Projektqualität durch weitere Kooperationspartner nachhaltig verbessern",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Abfrage von weiteren Bedarfen bei Zielgruppe",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1891,7 +1894,7 @@ export default {
                         name:
                           "Vereinbarung der Zusammenarbeit und ggf. Schließung einer Kooperationsvereinbarung",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       }
                     ]
@@ -1915,12 +1918,12 @@ export default {
                     name: "Vergleichbare Projekte identifizieren",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name: "Suche im Internet",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -1933,14 +1936,14 @@ export default {
                       {
                         name: "Suche über Netzwerkpartner und Kollegium",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Akteure mit Erfahrung mit Fördermittelgeber kontaktieren",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -1950,13 +1953,13 @@ export default {
                       "Projektqualität durch Abgleich mit vergleichbaren Projekten nachhaltig verbessern",
                     sortPosition: 2,
                     objectId: 2,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Transfer in den eigenen Projektkontext (Nachnutzung)",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       }
                     ]
@@ -1981,54 +1984,54 @@ export default {
                     name: "Interne Fachabteilungen konkret einbeziehen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Vorherige Abstimmungen mit einzelnen Fachleuten zusammenfügen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
                         name: "Mögliche Einwände/ Projektsinn prüfen ",
                         sortPosition: 2,
-                        active: true,
+                        active: false,
                         objectId: 2
                       },
                       {
                         name:
                           "Besprechung der formalen Anforderungen an die Projektunterlagen",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Abstimmung der Aufgaben/ ToDos mit den Fachämtern",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name:
                           "Koordination der Aufgaben mit zentralem Ansprechpartner*innen",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name:
                           "Beschlüsse zur Gestaltung des Projektes müssen getroffen werden",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       },
                       {
                         name:
                           "Alternativen prüfen, ggf. ohne Förderung bei zu geringer Fördersumme",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       }
                     ]
@@ -2061,13 +2064,13 @@ export default {
                       "Projektantrag zielführend in Gemeindevertretung einbringen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Rechtzeitige Infos an Ausschüsse/ Gemeindevertretung/ Bürgermeister geben",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1,
                         info: ["Zusätzliche Gremien einbinden?"]
                       },
@@ -2075,47 +2078,47 @@ export default {
                         name:
                           "Schlüssiger Projektantrag -> transparent, nachvollziehbar, kurz, prägnant",
                         sortPosition: 2,
-                        active: true,
+                        active: false,
                         objectId: 2
                       },
                       {
                         name: "Vollständige Projektunterlagen (möglichst)",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name: "Projekt-Informationsblatt/ One-Pager",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name:
                           "Kostenschätzungen, Kosten- und Finanzierungsplan und Folgekosten",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name:
                           "Präsentation durch Funktionsträger/ Projektkoordinator",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       },
                       {
                         name:
                           "Moderation der finalen Diskussion zum Projektantrag",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       },
                       {
                         name:
                           "Ggf. Umlaufbeschluss falls Entscheidungsgremium zu spät tagt",
                         sortPosition: 8,
-                        active: true,
+                        active: false,
                         objectId: 8
                       }
                     ]
@@ -2133,7 +2136,7 @@ export default {
                         name:
                           "Beschlussvorlage auf Basis der Projektunterlagen anfertigen",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
@@ -2145,13 +2148,13 @@ export default {
                       {
                         name: "Anhörung Experten",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name: "Protokollauszug den Projektunterlagen beifügen",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       }
                     ]
@@ -2183,7 +2186,7 @@ export default {
                     name: "Überarbeitung der Projektunterlagen",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     info: [
                       "Ist das Geld beim Projektträger vorhanden? (Budget pro Aufruf)"
                     ],
@@ -2192,51 +2195,51 @@ export default {
                         name:
                           "Diese Aktivität muss frühzeitig koordiniert werden",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
                         name: "Zeit einplanen",
                         sortPosition: 2,
-                        active: true,
+                        active: false,
                         objectId: 2
                       },
                       {
                         name:
                           "Einreichungsmodalitäten und technische Rahmenbedingungen (siehe EasyOnline)",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Inhaltliche Durchsicht aller Unterlagen (inklusive Anlagen, eigene Checkliste ob alles da ist)",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name: "Formale Durchsicht aller Unterlagen",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name: "Check Kostenplan mit Angeboten",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       },
                       {
                         name: "Bei gravierenden Änderungen neuer Beschluss",
                         sortPosition: 7,
-                        active: true,
+                        active: false,
                         objectId: 7
                       },
                       {
                         name: "Finale Besprechung mit dem Projektträger",
                         sortPosition: 8,
-                        active: true,
+                        active: false,
                         objectId: 8
                       }
                     ]
@@ -2260,45 +2263,45 @@ export default {
                     name: "Koordination der Unterschriftensammlung",
                     sortPosition: 1,
                     objectId: 1,
-                    active: true,
+                    active: false,
                     children: [
                       {
                         name:
                           "Rechtzeitige Informationen zu weitere Ablauf an alle Unterzeichner (Wann? Nach Antragstellung?)",
                         sortPosition: 1,
-                        active: true,
+                        active: false,
                         objectId: 1
                       },
                       {
                         name: "Richtlinie geändert? -> Anpassung",
                         sortPosition: 2,
-                        active: true,
+                        active: false,
                         objectId: 2
                       },
                       {
                         name:
                           "Rechtzeitige Übermittelung der Vorlagen (Antrag, Kooperationsvereinbarungen etc.)",
                         sortPosition: 3,
-                        active: true,
+                        active: false,
                         objectId: 3
                       },
                       {
                         name:
                           "Abstimmung der finalen Sammlung von Unterschriften (Zeit und Postweg einplanen)",
                         sortPosition: 4,
-                        active: true,
+                        active: false,
                         objectId: 4
                       },
                       {
                         name: "Prüfung der Unterschriften",
                         sortPosition: 5,
-                        active: true,
+                        active: false,
                         objectId: 5
                       },
                       {
                         name: "Digitalisierung Archiv/ Ablage",
                         sortPosition: 6,
-                        active: true,
+                        active: false,
                         objectId: 6
                       }
                     ]
@@ -2413,7 +2416,24 @@ export default {
         item.sortPosition = index + 1;
       });
     },
-    submitNewChecklist(val) {
+    // async validateDates() {
+    //   const form = this.form.items.map((item, index) => {
+    //     console.log("item", item, index);
+    //     item.items.map((nestedItem, indexTwo) => {
+    //       console.log("nestedItem", nestedItem, indexTwo);
+    //       if (
+    //         (item.start === "" || item.end === "") &&
+    //         nestedItem.active === true
+    //       ) {
+    //         this.$refs.startDate[index].validate();
+    //         this.$refs.startDate[index].validate();
+    //       } else {
+    //         console.log("No need to validate");
+    //       }
+    //     });
+    //   });
+    // },
+    async submitNewChecklist(val) {
       const published = val;
       this.$refs.newChecklistForm.validate().then(async success => {
         if (success) {
