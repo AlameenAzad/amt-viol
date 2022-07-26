@@ -10,6 +10,7 @@
             <div class="col-12">
               <p class="q-mb-sm font-16">Email</p>
               <q-input
+                @keyup.enter="login"
                 outlined
                 dense
                 class="no-shadow input-radius-6"
@@ -20,6 +21,7 @@
             <div class="col-12 q-mt-lg">
               <p class="q-mb-sm font-16">Password</p>
               <q-input
+                @keyup.enter="login"
                 outlined
                 dense
                 type="password"
