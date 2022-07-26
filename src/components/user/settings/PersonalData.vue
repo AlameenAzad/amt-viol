@@ -58,6 +58,13 @@
               /> -->
         </div>
       </div>
+      <q-file
+        class="hidden"
+        ref="profileImg"
+        outlined
+        v-model="newImg"
+        label="Outlined"
+      />
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
@@ -211,11 +218,13 @@ export default {
         postalCode: "",
         contactPrivacy: false
       },
-      isLoading: false
+      isLoading: false,
+      newImg: null
     };
   },
   methods: {
     setData() {
+      console.log("setData");
       this.profileImage = this.userDetails.profile?.url || null;
       this.form.email = this.user.email;
       this.form.fullName = this.userDetails.fullName || "";
@@ -225,17 +234,34 @@ export default {
       this.form.streetNo = this.userDetails.streetNo || "";
       this.form.postalCode = this.userDetails.postalCode || "";
       this.form.contactPrivacy = this.userDetails.contactPrivacy || false;
+      this.newImg = null;
     },
     changeImage() {
-      console.log("Clicked change image");
+      this.$refs.profileImg.pickFiles();
     },
-    deleteImage() {
-      console.log("Clicked Delete image");
+    async deleteImage() {
+      if (this.profileImage != null) {
+        await this.$store.dispatch(
+          "userCenter/deleteProfile",
+          this.userDetails.profile.id
+        );
+        setTimeout(() => {
+          this.setData();
+        }, 500);
+      }
     },
     savePersonalData() {
       this.$refs.personalDataForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
+          if (this.newImg != null) {
+            if (this.profileImage != null) await this.deleteImage();
+
+            await this.$store.dispatch("userCenter/uploadProfile", {
+              id: this.user.id,
+              img: this.newImg
+            });
+          }
           const res = await this.$store.dispatch(
             "userCenter/updatePersonalData",
             {
@@ -255,6 +281,9 @@ export default {
         } else {
           console.log("error");
         }
+        setTimeout(() => {
+          this.setData();
+        }, 500);
       });
     }
   },

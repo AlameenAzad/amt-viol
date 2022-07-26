@@ -208,7 +208,7 @@ export async function transferData(context, payload) {
 
   if (!!id && data.length > 0) {
     try {
-      const res = await api.get(`/api/user/transfer/${id}/?data=${dataString}`);
+      const res = await api.get(`/api/user/transfer/${id}?data=${dataString}`);
       Notify.create({
         message: "User data transferred successfully",
         type: "positive"
@@ -283,5 +283,45 @@ export async function forgotPassword(context) {
       message: error.response.data.error.message
     });
     return false;
+  }
+}
+export async function uploadProfile(context, payload) {
+  if (payload.img && payload.id) {
+    let formData = new FormData();
+    formData.append("ref", "api::user-detail.user-detail");
+    formData.append("refId", payload.id);
+    formData.append("field", "profile");
+    formData.append("files", payload.img);
+    try {
+      const fileRes = await api.post("api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      context.dispatch("getUserDetails");
+      console.log("fileRes", fileRes);
+    } catch (error) {
+      console.log("files error.response", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}
+//delete profile image
+export async function deleteProfile(context, payload) {
+  if (payload) {
+    try {
+      const res = await api.delete(`/api/upload/files/${payload}`);
+      context.dispatch("getUserDetails");
+      console.log("res", res);
+    } catch (error) {
+      console.log("error.response", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
   }
 }
