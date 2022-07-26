@@ -694,10 +694,12 @@ export default {
     },
     tagKeywordsOptions() {
       const tagsKeywords = [];
-      this.data.map(item =>
-        item.tags.map(tag =>
-          !!tag.title ? tagsKeywords.push(tag.title) : null
-        )
+      this.data.map(
+        item =>
+          !!item.tags &&
+          item.tags.map(tag =>
+            !!tag.title ? tagsKeywords.push(tag.title) : null
+          )
       );
       return [...new Set(tagsKeywords)];
     },
