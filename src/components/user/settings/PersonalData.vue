@@ -245,9 +245,6 @@ export default {
           "userCenter/deleteProfile",
           this.userDetails.profile.id
         );
-        setTimeout(() => {
-          this.setData();
-        }, 500);
       }
     },
     savePersonalData() {
@@ -281,14 +278,29 @@ export default {
         } else {
           console.log("error");
         }
-        setTimeout(() => {
-          this.setData();
-        }, 500);
       });
     }
   },
   mounted() {
     this.setData();
+  },
+  watch: {
+    userDetails: {
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.setData();
+        }
+      },
+      deep: true
+    },
+    user: {
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.setData();
+        }
+      },
+      deep: true
+    }
   },
   computed: {
     appUrl() {
