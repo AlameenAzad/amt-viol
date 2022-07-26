@@ -227,6 +227,27 @@ export async function transferData(context, payload) {
   }
 }
 
+export async function manageRequest(context, payload) {
+  console.log("payload", payload);
+  const { id } = payload;
+  const { val } = payload;
+  if (!!id) {
+    try {
+      const res = await api.put(`/api/requests/${id}`, {
+        data: { approved: val }
+      });
+      console.log("res :>> ", res);
+      // context.commit("setDataOverview", res.data);
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}
+
 export async function getDataOverview(context) {
   try {
     const res = await api.get("/api/user/overview");
