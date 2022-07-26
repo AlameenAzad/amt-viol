@@ -2,10 +2,13 @@
   <q-dialog v-model="$_options">
     <q-card class="q-px-xl radius-10 column">
       <q-card-section align="center">
+        {{ tab }}
+        {{ id }}
+        {{ type }}
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
             tab == "projectIdeas"
-              ? "Delete Project Idea"
+              ? "You don't have access to this Project Idea"
               : tab === "fundings"
               ? "Delete Funding"
               : tab === "implementationChecklist"
@@ -19,7 +22,7 @@
           <p>
             {{
               tab == "projectIdeas"
-                ? "Are you sure you want to delete this Project Idea? It will be removed from all documents."
+                ? `Would you like to request ${type} access?`
                 : tab === "fundings"
                 ? "Are you sure you want to delete this Funding? It will be removed from all documents."
                 : tab === "implementationChecklist"
@@ -45,10 +48,10 @@
             unelevated
             :loading="isLoading"
             size="14px"
-            color="red"
+            color="primary"
             no-caps
             class="no-shadow radius-6 q-px-xl q-py-sm"
-            @click="deleteItem"
+            @click="requestAccess"
           />
         </div>
       </q-card-section>
@@ -62,7 +65,8 @@ export default {
   props: {
     dialogState: { type: Boolean, default: false },
     tab: { type: String, default: "" },
-    id: { type: Number, default: null }
+    id: { type: Number, default: null },
+    type: { type: String, default: "" }
   },
   data() {
     return {
@@ -70,12 +74,13 @@ export default {
     };
   },
   methods: {
-    async deleteItem() {
+    async requestAccess() {
       if (this.tab === "projectIdeas") {
         this.isLoading = true;
-        const id = this.id;
-        const res = await this.$store.dispatch("project/deleteProjectIdea", {
-          id: id
+        const res = await this.$store.dispatch("project/requestAccess", {
+          id: this.id,
+          userId: !!this.loggedInUser && this.loggedInUser.id,
+          type: this.type
         });
         this.isLoading = false;
         if (res !== false) {
@@ -115,6 +120,12 @@ export default {
       set: function(val) {
         this.$emit("update", val);
       }
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     }
   }
 };

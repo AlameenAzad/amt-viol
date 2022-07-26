@@ -178,7 +178,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable @click="view(props.row)">
+                  <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.view") }}
@@ -196,7 +196,7 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="editItem(props.row)">
+                  <q-item clickable v-close-popup @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.edit") }}
@@ -299,8 +299,9 @@
     <RequestAccessDialog
       :id="itemId"
       :tab="tab"
+      :type="type"
       :dialogState="requestDialog"
-      @update="(requestDialog = $event), (itemId = null)"
+      @update="(requestDialog = $event), (itemId = null), (type = null)"
     />
   </div>
 </template>
@@ -330,6 +331,7 @@ export default {
       deleteDialog: false,
       requestDialog: false,
       itemId: null,
+      type: null,
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -347,6 +349,9 @@ export default {
           id: id
         });
         if (res === "unauthorized") {
+          this.itemId = row && row.id;
+          this.type = "view";
+          this.requestDialog = true;
         }
         this.viewIsLoading = false;
       } else if (this.tab === "fundings") {
