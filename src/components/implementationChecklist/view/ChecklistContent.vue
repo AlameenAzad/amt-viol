@@ -68,17 +68,6 @@
                 </div>
               </q-card-section>
               <q-separator inset class="bg-blue opacity-10" />
-              <!-- <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Location of the funding
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ funding.info.location || "funding Location not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" /> -->
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                   Invite Editor
@@ -95,6 +84,26 @@
                   </div>
                   <div v-else>
                     <p class="q-mb-sm">No editors Invited</p>
+                  </div>
+                </div>
+              </q-card-section>
+              <q-separator inset class="bg-blue opacity-10" />
+              <q-card-section>
+                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  Link for Project Idea
+                </h4>
+                <div class="q-ml-md font-16">
+                  <div v-if="checklist.project && checklist.project.id">
+                    <a
+                      class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      @click.prevent="viewProject(checklist.project.id)"
+                      >{{ checklist.project.title }}</a
+                    >
+                  </div>
+                  <div v-else>
+                    <p class="q-mb-sm">No Project Idea linked</p>
                   </div>
                 </div>
               </q-card-section>
@@ -241,7 +250,13 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-12 q-mb-md">
+
+          <div
+            v-if="
+              !!checklist.initialContact.start && !!checklist.initialContact.end
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card
               class="shadow-1 radius-20"
               :class="
@@ -297,9 +312,9 @@
                   >
                     <div
                       v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
+                        (propertyName !== 'end' ||
+                          propertyName !== 'start' ||
+                          propertyName !== 'id') &&
                           card.active === true
                       "
                     >
@@ -317,7 +332,7 @@
                                 }}
                               </p>
                               <p class="font-14 q-ma-none">
-                                {{ card.name }}
+                                {{ card.name || "No name filled" }}
                               </p>
                             </div>
                             <div
@@ -476,7 +491,10 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="!!checklist.preparation.start && !!checklist.preparation.end"
+            class="col-12 q-mb-md"
+          >
             <q-card
               class="shadow-1 radius-20"
               :class="
@@ -721,7 +739,13 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              !!checklist.fundingResearch.start &&
+                !!checklist.fundingResearch.end
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card
               :class="
                 checkProgress(
@@ -992,7 +1016,13 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              !!checklist.preparationOfProject.start &&
+                !!checklist.preparationOfProject.end
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card
               :class="
                 checkProgress(
@@ -1264,7 +1294,12 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              !!checklist.legitimation.start && !!checklist.legitimation.end
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card
               :class="
                 checkProgress(
@@ -1455,7 +1490,13 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              !!checklist.finalExamination.start &&
+                !!checklist.finalExamination.end
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card
               :class="
                 checkProgress(
