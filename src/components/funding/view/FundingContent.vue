@@ -358,14 +358,14 @@
                         <div
                           v-for="(rate, index) in funding.rates"
                           :key="index"
-                          class="row"
+                          class="row q-col-gutter-x-xl"
                         >
-                          <div class="col-6 col-md-2">
+                          <div class="col-6 col-md-auto">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ rate.amount || "Amount not set" }}%
                             </p>
                           </div>
-                          <div class="col-6 col-md-6">
+                          <div class="col-6 col-md-auto">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ rate.content || "Content not set" }}
                             </p>
