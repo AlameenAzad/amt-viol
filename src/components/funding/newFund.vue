@@ -313,9 +313,7 @@
               class="no-shadow input-radius-6 removeArrow"
               suffix="%"
               placeholder="Own Contribution"
-              v-model.number="form.ownContribution"
-              @input="$event === '' ? (form.ownContribution = null) : $event"
-              type="number"
+              v-model="form.ownContribution"
               :rules="[]"
             />
           </div>
@@ -400,6 +398,7 @@
                   bg-color="white"
                   placeholder="Planned Start"
                   @click="$refs.qPlannedStartDateProxy.show()"
+                  :rules="[val => !!val || 'Required']"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -440,6 +439,7 @@
                   bg-color="white"
                   placeholder="Planned End"
                   @click="$refs.qPlannedEndDateProxy.show()"
+                  :rules="[val => !!val || 'Required']"
                 >
                   <template v-slot:append>
                     <q-icon name="event" color="blue-5" class="cursor-pointer">
@@ -756,7 +756,7 @@ export default {
           willBeFunded: "",
           condition: ""
         },
-        ownContribution: null,
+        ownContribution: "",
         accumulability: false,
         plannedStart: "",
         plannedEnd: "",
