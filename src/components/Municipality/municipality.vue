@@ -1,16 +1,18 @@
 <template>
   <div>
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       title="Current funding information"
       :data="data"
       row-key="name"
       :columns="columns"
-      :hide-bottom="data.length > 0"
       :filter="filter"
       :visible-columns="visibleColumns"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: 50
       }"
     >
       <template v-slot:top>
@@ -169,6 +171,13 @@ export default {
     },
     columns() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "administration",
           label: this.$t("administrativeAreas.administrationName"),

@@ -1,15 +1,18 @@
 <template>
   <div>
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       title="Current funding information"
       :data="data"
       :columns="columns"
       :filter="filter"
       row-key="name"
-      :hide-bottom="data.length > 0"
+      :visible-columns="visibleColumns"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: 50
       }"
     >
       <template v-slot:top>
@@ -121,7 +124,8 @@ export default {
   data() {
     return {
       inviteUserDialog: false,
-      filter: ""
+      filter: "",
+      visibleColumns: ["name", "email", "administration", "role"]
     };
   },
   methods: {
@@ -135,6 +139,13 @@ export default {
     },
     columns() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "name",
           required: true,

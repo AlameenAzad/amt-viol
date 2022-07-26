@@ -27,16 +27,18 @@
       </q-tab>
     </q-tabs>
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       :data="apiData"
       :columns="columns"
       row-key="name"
-      :hide-bottom="apiData.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : []"
       :filter="filter"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: isInPage ? 50 : 5
       }"
     >
       <template v-slot:top>
@@ -176,6 +178,13 @@ export default {
       filter: "",
       visibleColumns: ["title", "projectIdeas", "fundings", "checklists"],
       columns: [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "title",
           label: "Title",
