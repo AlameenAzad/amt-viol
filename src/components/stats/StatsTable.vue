@@ -1,18 +1,20 @@
 <template>
   <div class="q-my-lg">
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       :class="expanded ? 'yellowBg' : ''"
       :data="data"
       :columns="columns"
-      hide-bottom
-      :pagination="{
-        rowsPerPage: 0
-      }"
       row-key="name"
       :hide-header="!isInPage"
       :filter="filter"
       :filter-method="filterTable"
+      :pagination="{
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: isInPage ? 50 : 5
+      }"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -694,10 +696,12 @@ export default {
     },
     tagKeywordsOptions() {
       const tagsKeywords = [];
-      this.data.map(item =>
-        item.tags.map(tag =>
-          !!tag.title ? tagsKeywords.push(tag.title) : null
-        )
+      this.data.map(
+        item =>
+          !!item.tags &&
+          item.tags.map(tag =>
+            !!tag.title ? tagsKeywords.push(tag.title) : null
+          )
       );
       return [...new Set(tagsKeywords)];
     },
@@ -731,6 +735,13 @@ export default {
     },
     columns() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "title",
           required: true,

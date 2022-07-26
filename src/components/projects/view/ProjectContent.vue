@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO Turn everything into components -->
   <div v-if="!!project" :class="!isDashboardView ? 'container' : ''">
     <div class="row q-mt-xl">
       <div v-if="!isDashboardView" class="col-12">
@@ -8,6 +7,57 @@
           Back
         </q-btn>
       </div>
+      <div
+        class="col-12"
+        v-if="!!project.requests && project.requests.length > 0"
+      >
+        <div v-for="request in project.requests" :key="request.id" class="row">
+          <q-card class="col-12 shadow-1 radius-20 q-mb-md q-pa-sm">
+            <q-card-section class="row items-center">
+              <q-icon
+                name="description"
+                size="md"
+                color="blue-5"
+                class="q-mr-sm"
+              />
+              <div class="col">
+                <p class="font-16 text-weight-600 q-mb-none">
+                  {{ !!request.user && request.user.username }} would like to
+                  access document
+                </p>
+                <p class="font-14 q-mb-none">
+                  {{ !!request.project && request.project.title }}
+                </p>
+              </div>
+              <div class="text-right">
+                <q-btn
+                  @click="handleRequest(true, request.id)"
+                  color="blue"
+                  unelevated
+                  class="radius-6 q-ml-md text-weight-600"
+                  no-caps
+                >
+                  <p class="q-mb-none q-mx-xl q-my-sm">
+                    {{ $t("notificationsUser.acceptBtn") }}
+                  </p>
+                </q-btn>
+                <q-btn
+                  @click="handleRequest(false, request.id)"
+                  color="red"
+                  unelevated
+                  class="radius-6 q-ml-md text-weight-600"
+                  no-caps
+                >
+                  <p class="q-mb-none q-mx-xl q-my-sm">
+                    {{ $t("notificationsUser.declineBtn") }}
+                  </p>
+                </q-btn>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+
       <div class="col-12">
         <h1 class="font-24 text-weight-600 q-my-none">
           {{ project.title || "Title not found" }}
@@ -189,8 +239,8 @@
                         {{ cost.name }}
                       </p>
                     </div>
-                    <div class="col-4 text-right">
-                      <p class="q-mb-sm">{{ cost.price }}€</p>
+                    <div class="col-4 text-right ">
+                      <p class="q-mb-sm text-overflow">{{ cost.price }}€</p>
                     </div>
                   </div>
                 </div>
@@ -520,6 +570,13 @@ export default {
   },
   methods: {
     dateFormatter,
+    async handleRequest(val, id) {
+      const res = await this.$store.dispatch("userCenter/manageRequest", {
+        id,
+        val
+      });
+      console.log("res", res);
+    },
     async viewFunding(index, id) {
       if (!!id) {
         if (!!this.loading[index]) {

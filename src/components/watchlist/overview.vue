@@ -286,7 +286,7 @@
       :id="itemId"
       :tab="editingType"
       :dialogState="deleteDialog"
-      @update="(deleteDialog = $event), (itemId = null), (editingType = null)"
+      @update="closeDialog($event), (itemId = null), (editingType = null)"
     />
   </div>
 </template>
@@ -325,6 +325,10 @@ export default {
   },
   methods: {
     dateFormatter,
+    closeDialog(val) {
+      this.deleteDialog = val;
+      this.getData();
+    },
     async view(row) {
       if (!!row && row.hasOwnProperty("project")) {
         this.viewIsLoading = true;
@@ -406,6 +410,7 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       } else if (!!row && row.hasOwnProperty("funding")) {
         this.archiveIsLoading = true;
         const id = !!row.funding && row.funding.id;
@@ -413,6 +418,7 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       } else {
         this.archiveIsLoading = true;
         const id = !!row.checklist && row.checklist.id;
@@ -420,32 +426,38 @@ export default {
           id: id
         });
         this.archiveIsLoading = false;
+        this.getData();
       }
     },
     async removeFromWatchlist(row) {
-      console.log("row", row);
-      // if (this.tab === "projectIdeas") {
-      //   this.watchlistIsLoading = true;
-      //   const id = row && row.id;
-      //   await this.$store.dispatch("project/addToWatchlist", {
-      //     id: id
-      //   });
-      //   this.watchlistIsLoading = false;
-      // } else if (this.tab === "fundings") {
-      //   this.watchlistIsLoading = true;
-      //   const id = row && row.id;
-      //   await this.$store.dispatch("funding/addToWatchlist", {
-      //     id: id
-      //   });
-      //   this.watchlistIsLoading = false;
-      // } else {
-      //   this.watchlistIsLoading = true;
-      //   const id = row && row.id;
-      //   await this.$store.dispatch("implementationChecklist/addToWatchlist", {
-      //     id: id
-      //   });
-      //   this.watchlistIsLoading = false;
-      // }
+      if (!!row && row.hasOwnProperty("project")) {
+        this.watchlistIsLoading = true;
+        const id = row.id;
+        await this.$store.dispatch("project/removeFromWatchlist", {
+          id: id
+        });
+        this.watchlistIsLoading = false;
+        this.getData();
+      } else if (!!row && row.hasOwnProperty("funding")) {
+        this.watchlistIsLoading = true;
+        const id = row.id;
+        await this.$store.dispatch("funding/removeFromWatchlist", {
+          id: id
+        });
+        this.watchlistIsLoading = false;
+        this.getData();
+      } else {
+        this.watchlistIsLoading = true;
+        const id = row.id;
+        await this.$store.dispatch(
+          "implementationChecklist/removeFromWatchlist",
+          {
+            id: id
+          }
+        );
+        this.watchlistIsLoading = false;
+        this.getData();
+      }
     },
     getData() {
       this.$store.dispatch("userCenter/getWatchlists");

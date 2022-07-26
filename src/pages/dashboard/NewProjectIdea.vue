@@ -41,7 +41,7 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                   :value="
                     !!project
@@ -56,7 +56,7 @@
                   outlined
                   dense
                   disable
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Administration"
                   :value="
                     !!project
@@ -86,7 +86,7 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Steet, Nr."
                   :value="
                     !!project
@@ -100,7 +100,7 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Postal Code, City"
                   :value="
                     !!project
@@ -114,7 +114,7 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="Telefon"
                   :value="
                     !!project
@@ -128,7 +128,7 @@
                 <q-input
                   outlined
                   dense
-                  class="no-shadow input-radius-6"
+                  class="no-shadow input-radius-6 disabledClass"
                   placeholder="E-Mail"
                   :value="!!project ? form.info.email : !!user && user.email"
                   disable
@@ -531,7 +531,6 @@
               <div class="col-12 col-md-6">
                 <q-file
                   flat
-                  :rules="[val => !!val || 'Required']"
                   v-model="form.media"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
@@ -589,7 +588,6 @@
                 <q-file
                   flat
                   v-model="form.files"
-                  :rules="[val => !!val || 'Required']"
                   class="uploadInput input-radius-6 text-white"
                   label-color="white"
                   dark
@@ -940,5 +938,14 @@ export default {
 }
 .flexWrap {
   flex-wrap: wrap !important;
+}
+.disabledClass {
+  .q-field__inner .q-field__control input {
+    color: black;
+    opacity: 1 !important;
+  }
+  .q-field__inner .q-field__control:before {
+    border-color: $primary;
+  }
 }
 </style>

@@ -178,7 +178,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable @click="view(props.row)">
+                  <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.view") }}
@@ -196,7 +196,7 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="editItem(props.row)">
+                  <q-item clickable v-close-popup @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.edit") }}
@@ -296,16 +296,25 @@
       :dialogState="deleteDialog"
       @update="(deleteDialog = $event), (itemId = null)"
     />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="type"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null), (type = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "dataOverview",
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   data() {
     return {
@@ -320,7 +329,9 @@ export default {
         "plannedEnd"
       ],
       deleteDialog: false,
+      requestDialog: false,
       itemId: null,
+      type: null,
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -334,9 +345,14 @@ export default {
       if (this.tab === "projectIdeas") {
         this.viewIsLoading = true;
         const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
+        const res = await this.$store.dispatch("project/viewProject", {
           id: id
         });
+        if (res === "unauthorized") {
+          this.itemId = row && row.id;
+          this.type = "view";
+          this.requestDialog = true;
+        }
         this.viewIsLoading = false;
       } else if (this.tab === "fundings") {
         this.viewIsLoading = true;

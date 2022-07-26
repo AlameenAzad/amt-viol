@@ -1,16 +1,18 @@
 <template>
   <div>
     <q-table
-      class="radius-20 shadow-1"
+      class="radius-20 shadow-1 pagination-no-shadow"
       title="Current funding information"
       :data="data"
       row-key="name"
       :columns="columns"
-      :hide-bottom="data.length > 0"
       :filter="filter"
       :visible-columns="visibleColumns"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: 50
       }"
     >
       <template v-slot:top>
@@ -97,7 +99,7 @@
                     ></q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup>
+                  <q-item v-if="isAdmin" clickable v-close-popup>
                     <q-item-section @click="prepDeleteDialog(props.row)"
                       ><span class="text-right font-14 text-red">
                         {{ $t("administrativeAreas.delete") }}
@@ -164,8 +166,18 @@ export default {
     data() {
       return this.$store.state.municipality.municipalities;
     },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     columns() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "administration",
           label: this.$t("administrativeAreas.administrationName"),

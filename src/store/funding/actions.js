@@ -272,9 +272,6 @@ export async function archiveFunding(context, payload) {
         type: "positive"
       });
       context.dispatch("getFundings");
-      await context.dispatch("userCenter/getDataOverview", null, {
-        root: true
-      });
     } catch (error) {
       Notify.create({
         type: "negative",
@@ -298,9 +295,27 @@ export async function addToWatchlist(context, payload) {
         type: "positive"
       });
       context.dispatch("getFundings");
-      await context.dispatch("userCenter/getDataOverview", null, {
-        root: true
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
       });
+      return false;
+    }
+  }
+}
+
+export async function removeFromWatchlist(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/watchlists/${id}`);
+      console.log("res", res);
+      Notify.create({
+        message: "Funding removed from watchlist",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
         type: "negative",

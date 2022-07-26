@@ -363,8 +363,8 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
-                                {{ card.text }}
+                              <p class="font-16 q-ma-none text-block">
+                                {{ card.text || "No description filled" }}
                               </p>
                             </div>
                           </div>
@@ -583,7 +583,7 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
+                              <p class="font-16 q-ma-none text-block">
                                 {{ card.text || "No description filled" }}
                               </p>
                             </div>
@@ -829,7 +829,7 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
+                              <p class="font-16 q-ma-none text-block">
                                 {{ card.text || "No description filled" }}
                               </p>
                             </div>
@@ -1101,7 +1101,7 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
+                              <p class="font-16 q-ma-none text-block">
                                 {{ card.text || "No description filled" }}
                               </p>
                             </div>
@@ -1367,7 +1367,7 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
+                              <p class="font-16 q-ma-none text-block">
                                 {{ card.text || "No description filled" }}
                               </p>
                             </div>
@@ -1560,7 +1560,7 @@
                               <p class="font-16 text-blue-5 q-ma-none">
                                 Description
                               </p>
-                              <p class="font-16 q-ma-none">
+                              <p class="font-16 q-ma-none text-block">
                                 {{ card.text || "No description filled" }}
                               </p>
                             </div>
@@ -1766,6 +1766,9 @@ export default {
 </script>
 
 <style lang="scss">
+.text-block {
+  white-space: pre-line;
+}
 .carouselThumbnails .q-tabs__arrow--end {
   right: -70px;
   color: $blue;
