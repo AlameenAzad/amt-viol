@@ -60,6 +60,7 @@ export async function createNewChecklist(context, payload) {
     for (const key in dataWithoutFiles) {
       if (
         typeof dataWithoutFiles[key] === "object" &&
+        !!dataWithoutFiles[key] &&
         dataWithoutFiles[key].hasOwnProperty("start")
       ) {
         for (const subKey in dataWithoutFiles[key]) {
@@ -398,6 +399,7 @@ export async function editChecklist(context, payload) {
     for (const key in dataWithoutFiles) {
       if (
         typeof dataWithoutFiles[key] === "object" &&
+        !!dataWithoutFiles[key] &&
         dataWithoutFiles[key].hasOwnProperty("start")
       ) {
         for (const subKey in dataWithoutFiles[key]) {
@@ -885,8 +887,12 @@ export async function editChecklist(context, payload) {
 export async function constructInitialContact(payload, editing) {
   if (payload) {
     let initialContact = {};
-    initialContact.start = payload.start;
-    initialContact.end = payload.end;
+    if (!!payload.start) {
+      initialContact.start = payload.start;
+    }
+    if (!!payload.end) {
+      initialContact.end = payload.end;
+    }
     if (editing === true) {
       initialContact.id = payload.id;
     }
@@ -918,8 +924,12 @@ export async function constructInitialContact(payload, editing) {
 export async function constructpreparation(payload, editing) {
   if (payload) {
     let preparation = {};
-    preparation.start = payload.start;
-    preparation.end = payload.end;
+    if (!!payload.start) {
+      preparation.start = payload.start;
+    }
+    if (!!payload.end) {
+      preparation.end = payload.end;
+    }
     if (editing === true) {
       preparation.id = payload.id;
     }
@@ -953,8 +963,12 @@ export async function constructpreparation(payload, editing) {
 export async function constructFundingResearch(payload, editing) {
   if (payload) {
     let fundingResearch = {};
-    fundingResearch.start = payload.start;
-    fundingResearch.end = payload.end;
+    if (!!payload.start) {
+      fundingResearch.start = payload.start;
+    }
+    if (!!payload.end) {
+      fundingResearch.end = payload.end;
+    }
     if (editing === true) {
       fundingResearch.id = payload.id;
     }
@@ -995,8 +1009,12 @@ export async function constructFundingResearch(payload, editing) {
 export async function constructPreparationOfProject(payload, editing) {
   if (payload) {
     let preparationOfProject = {};
-    preparationOfProject.start = payload.start;
-    preparationOfProject.end = payload.end;
+    if (!!payload.start) {
+      preparationOfProject.start = payload.start;
+    }
+    if (!!payload.end) {
+      preparationOfProject.end = payload.end;
+    }
     if (editing === true) {
       preparationOfProject.id = payload.id;
     }
@@ -1037,8 +1055,12 @@ export async function constructPreparationOfProject(payload, editing) {
 export async function constructLegitimation(payload, editing) {
   if (payload) {
     let legitimation = {};
-    legitimation.start = payload.start;
-    legitimation.end = payload.end;
+    if (!!payload.start) {
+      legitimation.start = payload.start;
+    }
+    if (!!payload.end) {
+      legitimation.end = payload.end;
+    }
     if (editing === true) {
       legitimation.id = payload.id;
     }
@@ -1056,8 +1078,12 @@ export async function constructLegitimation(payload, editing) {
 export async function constructFinalExamination(payload, editing) {
   if (payload) {
     let finalExamination = {};
-    finalExamination.start = payload.start;
-    finalExamination.end = payload.end;
+    if (!!payload.start) {
+      finalExamination.start = payload.start;
+    }
+    if (!!payload.end) {
+      finalExamination.end = payload.end;
+    }
     if (editing === true) {
       finalExamination.id = payload.id;
     }
@@ -1154,7 +1180,7 @@ export async function removeFromWatchlist(context, payload) {
         message: "Checklist removed from watchlist",
         type: "positive"
       });
-      context.dispatch("getProjectIdeas");
+      context.dispatch("getChecklists");
     } catch (error) {
       Notify.create({
         type: "negative",
