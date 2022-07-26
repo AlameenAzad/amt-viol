@@ -256,11 +256,13 @@ export async function getSpecificProject(context, payload) {
       return res.data.id;
     } catch (error) {
       console.log("error", error.response.status);
-      Notify.create({
-        // position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
+      if (error.response.status !== 401) {
+        Notify.create({
+          // position: "top-right",
+          type: "negative",
+          message: error.response.data.error.message
+        });
+      }
       if (error.response.status === 401) {
         return "unauthorized";
       } else {
@@ -322,6 +324,42 @@ export async function removeFromWatchlist(context, payload) {
       console.log("res", res);
       Notify.create({
         message: "Project Idea removed from watchlist",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
+export async function requestAccess(context, payload) {
+  const { id } = payload;
+  const { userId } = payload;
+  const { type } = payload;
+  console.log("id", id);
+  console.log("userId", userId);
+  console.log("type", type);
+  if (!!id && !!userId && !!type) {
+    try {
+      const res = await api.post("/api/requests", {
+        data: {
+          user: {
+            id: userId
+          },
+          project: {
+            id: id
+          },
+          type: type
+        }
+      });
+      console.log("res", res);
+      Notify.create({
+        message: "Project Idea access request sent",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
