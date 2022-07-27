@@ -494,10 +494,17 @@
                 <div class="col-8">
                   <div class="q-ml-xs">
                     <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
+                      <p
+                        class="q-mt-sm q-mb-sm text-block"
+                        v-html="
+                          !!funding.assessment
+                            ? funding.assessment
+                            : 'Determination base is not set'
+                        "
+                      >
+                        <!-- {{
                           funding.assessment || "Determination base is not set"
-                        }}
+                        }} -->
                       </p>
                     </div>
                   </div>
@@ -838,5 +845,8 @@ export default {
 .tabStyling div.q-img__image {
   background-size: contain !important;
   background-repeat: no-repeat !important;
+}
+.text-block {
+  white-space: pre-line;
 }
 </style>
