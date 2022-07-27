@@ -148,17 +148,15 @@ export async function resetPassword(context, payload) {
 
 export async function updatePersonalData(context, payload) {
   const { data } = payload;
-  console.log("data :>> ", data);
-  const userId = context.state.user.user.id;
-  console.log("userId", userId);
-  if (!!data && !!userId) {
+  const userDetailsId =
+    !!context.state.user.userDetails && context.state.user.userDetails.id;
+  if (!!data && !!userDetailsId) {
     try {
-      const res = await api.put(`/api/user-details/${userId}`, { data });
+      const res = await api.put(`/api/user-details/${userDetailsId}`, { data });
       Notify.create({
         message: "User data updated successfully",
         type: "positive"
       });
-      console.log("res :>> ", res);
       context.commit("updatePersonalData", res.data.data);
       context.dispatch("getUserDetails");
     } catch (error) {
