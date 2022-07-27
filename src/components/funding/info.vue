@@ -10,7 +10,7 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: 10
+        rowsPerPage: 50
       }"
     >
       <template v-slot:top>
@@ -113,7 +113,9 @@
 export default {
   name: "fundingInfo",
   data() {
-    return {};
+    return {
+      visibleColumns: ["title", "categories", "owner"]
+    };
   },
   computed: {
     data() {
@@ -125,11 +127,10 @@ export default {
     columns() {
       return [
         {
-          name: "fundingInfo",
-          required: true,
-          label: this.$t("fundingsColsHome.fundInfo"),
+          name: "id",
+          label: "id",
           align: "left",
-          field: row => row.title,
+          field: row => row.id,
           sortable: true
         },
         {
