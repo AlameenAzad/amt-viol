@@ -263,7 +263,7 @@ export async function archiveFunding(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
-      const res = await api.delete(`/api/fundings/${id}`, {
+      const res = await api.put(`/api/fundings/${id}`, {
         data: { archived: true }
       });
       console.log("res", res);

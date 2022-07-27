@@ -1127,7 +1127,7 @@ export async function archiveChecklist(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
-      const res = await api.delete(`/api/checklists/${id}`, {
+      const res = await api.put(`/api/checklists/${id}`, {
         data: { archived: true }
       });
       console.log("res", res);
