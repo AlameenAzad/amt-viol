@@ -357,7 +357,7 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-start">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Basis for assessment
@@ -366,7 +366,8 @@
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Was wird nicht gefördert"
               v-model="form.assessment"
