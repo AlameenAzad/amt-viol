@@ -9,6 +9,7 @@
           class="mr-0 radius-6 text-weight-600"
           :class="{ 'full-width': $q.screen.lt.md }"
           no-caps
+          to="/overview"
         >
           <p class="q-mb-none q-mx-md q-my-sm">
             {{ $t("homeBtns.SearchBtn") }}
