@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <div v-if="isAdmin">
+    <div>
       <fundingInfo />
     </div>
     <div class="row q-col-gutter-md ">
