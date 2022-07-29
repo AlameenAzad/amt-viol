@@ -2,13 +2,17 @@
   <q-table
     :data="data"
     :columns="columns"
-    row-key="name"
+    row-key="title"
     :filter="query"
-    class="bg-white shadow-1 radius-20 -mb-xl"
-    hide-pagination
+    class="bg-white shadow-1 radius-20 -mb-xl pagination-no-shadow"
     :pagination="{
-      rowsPerPage: 0
+      sortBy: 'title',
+      descending: true,
+      page: 1,
+      rowsPerPage: 50
     }"
+    :loading="loading"
+    color="primary"
   >
     <template v-slot:top>
       <div class="col-12 col-md-3">
@@ -36,7 +40,6 @@
         >
           {{ col.label }}
         </q-th>
-        <q-th auto-width />
       </q-tr>
     </template>
     <template v-slot:body="props">
@@ -50,23 +53,14 @@
         >
           {{ col.value }}
         </q-td>
-        <q-td auto-width>
-          <q-btn
-            size="lg"
-            color="primary"
-            round
-            flat
-            dense
-            @click="openDocument(props.row)"
-            icon="chevron_right"
-          />
-        </q-td>
       </q-tr>
     </template>
   </q-table>
 </template>
 
 <script>
+import axios from "axios";
+import { dateFormatter } from "src/boot/dateFormatter";
 export default {
   name: "documentsTable",
   data() {
@@ -74,109 +68,99 @@ export default {
       query: "",
       columns: [
         {
-          name: "desc",
-          required: true,
-          label: "Title",
+          name: "title",
+          label: "Titel",
           align: "left",
-          field: row => row.name,
+          field: row => row.title,
           sortable: true
         },
         {
-          name: "calories",
+          name: "type",
+          label: "Typ",
           align: "left",
-          label: "Type",
-          field: "calories",
+          field: row =>
+            row.type === "project"
+              ? "Projektidee"
+              : row.type === "funding"
+              ? "Förderinfo"
+              : row.type === "checklist"
+              ? "Umsetzungscheckliste"
+              : "",
           sortable: true
         },
         {
-          name: "fat",
+          name: "categories",
           align: "left",
-          label: "Categories",
-          field: "fat",
+          label: "Kategorien",
+          field: row =>
+            (!!row.categories &&
+              row.categories.map(category => category.title).join(", ")) ||
+            "No Categories",
           sortable: true
         }
       ],
-      data: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65
-        }
-      ]
+      data: [],
+      loading: false
     };
   },
   mounted() {
-    // TODO uncomment this on prod.
-    // if (!this.$route.query.q) {
-    //   this.$router.push({ name: "landing" });
-    // } else {
     this.query = this.$route.query.q;
-    // }
+    this.getData();
   },
   methods: {
-    openDocument(val) {
-      console.log(val.name);
-      this.$router.push({
-        name: "documentView",
-        params: {
-          id: val.name
+    dateFormatter,
+    async getData() {
+      try {
+        this.loading = true;
+        // const res = await this.$api.get("/api/user/overview");
+        const res = await axios.get(
+          "http://192.168.0.101:1337/api/public/data"
+        );
+        await this.prepData(res.data);
+        this.loading = false;
+      } catch (error) {
+        this.$q.notify.create({
+          type: "negative",
+          message: error.response.data.error.message
+        });
+      }
+    },
+    async prepData(data) {
+      this.data = [];
+      for (const item in data) {
+        if (data.hasOwnProperty(item)) {
+          if (item === "fundings") {
+            data[item].forEach(funding => {
+              this.data.push({ ...funding, type: "funding" });
+            });
+          } else if (item === "projects") {
+            data[item].forEach(funding => {
+              this.data.push({ ...funding, type: "project" });
+            });
+          } else if (item === "checklists") {
+            data[item].forEach(funding => {
+              this.data.push({ ...funding, type: "checklist" });
+            });
+          }
         }
-      });
+      }
+      this.updateDataCount(this.query);
+    },
+    updateDataCount(val) {
+      this.$emit(
+        "update-data",
+        !!this.data &&
+          this.data.filter(item =>
+            item.title.toLowerCase().includes(val.toLowerCase())
+          )
+      );
+    }
+  },
+  watch: {
+    query(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.updateDataCount(newVal);
+      }
     }
   }
 };
