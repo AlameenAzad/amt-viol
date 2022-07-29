@@ -31,7 +31,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-4 col-md-4 text-right">
+          <div v-if="isAdmin" class="col-4 col-md-4 text-right">
             <q-btn
               color="blue"
               icon="add"
@@ -74,7 +74,15 @@
             {{ col.value }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn
+              v-if="isAdmin"
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item
@@ -108,6 +116,17 @@
                   </q-item>
                 </q-list>
               </q-menu>
+            </q-btn>
+            <q-btn
+              v-if="!isAdmin"
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="visibility"
+              @click="$router.push(`/Administation/Areas/${props.row.id}`)"
+            >
             </q-btn>
           </q-td>
         </q-tr>
