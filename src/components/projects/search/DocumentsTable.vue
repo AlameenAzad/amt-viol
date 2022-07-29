@@ -120,6 +120,7 @@ export default {
           type: "negative",
           message: error.response.data.error.message
         });
+        this.loading = false;
       }
     },
     async prepData(data) {
