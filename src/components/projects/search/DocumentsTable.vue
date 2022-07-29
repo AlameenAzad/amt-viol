@@ -116,7 +116,7 @@ export default {
         await this.prepData(res.data);
         this.loading = false;
       } catch (error) {
-        this.$q.notify.create({
+        this.$q.notify({
           type: "negative",
           message: error.response.data.error.message
         });
