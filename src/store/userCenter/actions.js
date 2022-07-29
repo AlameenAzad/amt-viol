@@ -23,12 +23,12 @@ export async function login(context, payload) {
       context.commit("changeLoadingMessages", "Getting users");
       await context.dispatch("getUsers");
 
-      if (context.getters.isAdmin === true) {
-        context.commit("changeLoadingMessages", "Getting Fundings");
-        await context.dispatch("funding/getFundings", null, {
-          root: true
-        });
-      }
+      // if (context.getters.isAdmin === true) {
+      //   context.commit("changeLoadingMessages", "Getting Fundings");
+      //   await context.dispatch("funding/getFundings", null, {
+      //     root: true
+      //   });
+      // }
 
       context.commit("changeLoadingMessages", "Getting Checklists");
       await context.dispatch("implementationChecklist/getChecklists", null, {
