@@ -19,28 +19,32 @@
         <div class="row">
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Funding Guidelines
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ funding.title || "Title not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Funding Provider
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ funding.provider || "Provider not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
+              <div v-if="!!funding.title">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Funding Guidelines
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ funding.title || "Title not found" }}
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="!!funding.provider">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Funding Provider
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ funding.provider || "Provider not found" }}
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                   Contact Person
@@ -58,38 +62,38 @@
                 </div>
               </q-card-section>
               <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Contact details
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ funding.info.streetNo || "Street not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ funding.info.postalCode || "Postal Code not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ funding.info.phone || "Phone not found" }}
-                  </p>
-                  <p class="q-mb-sm text-overflow">
-                    {{ funding.info.email || "Email not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <!-- <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Location of the funding
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ funding.info.location || "funding Location not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" /> -->
-              <q-card-section>
+              <div
+                v-if="
+                  !!funding.info.streetNo ||
+                    !!funding.info.postalCode ||
+                    !!funding.info.phone ||
+                    !!funding.info.email
+                "
+              >
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Contact details
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ funding.info.streetNo || "Street not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ funding.info.postalCode || "Postal Code not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ funding.info.phone || "Phone not found" }}
+                    </p>
+                    <p class="q-mb-sm text-overflow">
+                      {{ funding.info.email || "Email not found" }}
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <q-card-section
+                v-if="funding.editors && funding.editors.length > 0"
+              >
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                   Invite Editor
                 </h4>
@@ -249,83 +253,118 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              !!funding.details.goal ||
+                !!funding.details.funded ||
+                !!funding.details.notFunded ||
+                !!funding.details.willBeFunded ||
+                !!funding.details.condition
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Funding Goal
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{ funding.details.goal || "Funding goals not set" }}
-                      </p>
+              <div v-if="!!funding.details.goal">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Funding Goal
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p
+                          class="q-mt-sm q-mb-sm text-block"
+                          v-html="
+                            !!funding.details.goal
+                              ? funding.details.goal
+                              : 'Funding Goals not set'
+                          "
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    What is funded?
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{ funding.details.funded || "What is funded not set" }}
-                      </p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="!!funding.details.funded">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      What is funded?
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p
+                          class="q-mt-sm q-mb-sm text-block"
+                          v-html="
+                            !!funding.details.funded
+                              ? funding.details.funded
+                              : 'What is Funded not set'
+                          "
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    What is not funded?
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
-                          funding.details.notFunded ||
-                            "What is not funded not set"
-                        }}
-                      </p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="!!funding.details.notFunded">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      What is not funded?
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p
+                          class="q-mt-sm q-mb-sm text-block"
+                          v-html="
+                            !!funding.details.notFunded
+                              ? funding.details.notFunded
+                              : 'What is not funded not set'
+                          "
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Who will be funded?
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
-                          funding.details.willBeFunded ||
-                            "Who will be funded not set"
-                        }}
-                      </p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="!!funding.details.willBeFunded">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Who will be funded?
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p
+                          class="q-mt-sm q-mb-sm text-block"
+                          v-html="
+                            !!funding.details.willBeFunded
+                              ? funding.details.willBeFunded
+                              : 'Who will be funded not set'
+                          "
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <q-card-section
+                v-if="!!funding.details.condition"
+                horizontal
+                class="q-pa-md items-start"
+              >
                 <div class="col-4">
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     Guidlines for Applicants
@@ -334,9 +373,14 @@
                 <div class="col-8">
                   <div class="q-ml-xs">
                     <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{ funding.details.condition || "Guidelines not set" }}
-                      </p>
+                      <p
+                        class="q-mt-sm q-mb-sm text-block"
+                        v-html="
+                          !!funding.details.condition
+                            ? funding.details.condition
+                            : 'Guidelines not set'
+                        "
+                      ></p>
                     </div>
                   </div>
                 </div>
@@ -345,83 +389,99 @@
           </div>
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Funding Rates
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div v-if="funding.rates && funding.rates.length > 0">
-                        <div
-                          v-for="(rate, index) in funding.rates"
-                          :key="index"
-                          class="row q-col-gutter-x-xl"
-                        >
-                          <div class="col-6 col-md-auto">
-                            <p class="q-mt-sm q-mb-sm inline-block">
-                              {{ rate.amount || "Amount not set" }}%
-                            </p>
-                          </div>
-                          <div class="col-6 col-md-auto">
-                            <p class="q-mt-sm q-mb-sm inline-block">
-                              {{ rate.content || "Content not set" }}
-                            </p>
+              <div v-if="funding.rates && funding.rates.length > 0">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Funding Rates
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <div v-if="funding.rates && funding.rates.length > 0">
+                          <div
+                            v-for="(rate, index) in funding.rates"
+                            :key="index"
+                            class="row q-col-gutter-x-xl"
+                          >
+                            <div class="col-6 col-md-auto">
+                              <p class="q-mt-sm q-mb-sm inline-block">
+                                {{ rate.amount || "Amount not set" }}%
+                              </p>
+                            </div>
+                            <div class="col-6 col-md-auto">
+                              <p class="q-mt-sm q-mb-sm inline-block">
+                                {{ rate.content || "Content not set" }}
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        <div v-else>
+                          <p class="q-mt-sm q-mb-sm">
+                            No Funding Rates Set
+                          </p>
+                        </div>
                       </div>
-                      <div v-else>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="!!funding.ownContribution">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Own Contribution
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
                         <p class="q-mt-sm q-mb-sm">
-                          No Funding Rates Set
+                          {{
+                            funding.ownContribution ||
+                              "Own contribution is not set"
+                          }}
                         </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Own Contribution
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
-                          funding.ownContribution ||
-                            "Own contribution is not set"
-                        }}
-                      </p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div>
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Accumulability
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p class="q-mt-sm q-mb-sm">
+                          {{
+                            funding.accumulability === true
+                              ? "Yes"
+                              : "No" || "Accumulability is not set"
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Accumulability
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{
-                          funding.accumulability || "Accumulability is not set"
-                        }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <q-card-section
+                v-if="
+                  funding.accumulability === true &&
+                    funding.fundingsLinkedTo &&
+                    funding.fundingsLinkedTo.length > 0
+                "
+                horizontal
+                class="q-pa-md items-start"
+              >
                 <div class="col-4">
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     Links to the fundings
@@ -485,32 +545,30 @@
 
           <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Determination Base
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p
-                        class="q-mt-sm q-mb-sm text-block"
-                        v-html="
-                          !!funding.assessment
-                            ? funding.assessment
-                            : 'Determination base is not set'
-                        "
-                      >
-                        <!-- {{
-                          funding.assessment || "Determination base is not set"
-                        }} -->
-                      </p>
+              <div v-if="!!funding.assessment">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Determination Base
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <p
+                          class="q-mt-sm q-mb-sm text-block"
+                          v-html="
+                            !!funding.assessment
+                              ? funding.assessment
+                              : 'Determination base is not set'
+                          "
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
               <q-card-section horizontal class="q-pa-md items-start">
                 <div class="col-4">
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -555,74 +613,82 @@
                 </div>
               </q-card-section>
               <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Notes to the funding period
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <p class="q-mt-sm q-mb-sm">
-                        {{ funding.notes || "Notes is not set" }}
-                      </p>
-                    </div>
+              <div v-if="!!funding.notes">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Notes to the funding period
+                    </h4>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Links
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
-                      <div v-if="funding.links && funding.links.length > 0">
-                        <div
-                          v-for="(link, index) in funding.links"
-                          :key="index"
-                          class="row"
-                        >
-                          <div class="col-12">
-                            <p class="q-mt-sm q-mb-xs inline-block">
-                              {{ link.title || "Link title not set" }}
-                            </p>
-                          </div>
-                          <div class="col-auto">
-                            <a
-                              class="q-mb-sm text-blue block text-weight-600"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              :href="
-                                link.link.split('://')[0].substring(0, 5) ===
-                                'https'
-                                  ? link.link
-                                  : link.link
-                                      .split('://')[0]
-                                      .substring(0, 4) === 'http'
-                                  ? link.link
-                                  : `http://${link.link}`
-                              "
-                              >{{ link.link }}</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
                         <p class="q-mt-sm q-mb-sm">
-                          No Links set
+                          {{ funding.notes || "Notes is not set" }}
                         </p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md items-start">
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <div v-if="funding.links && funding.links.length > 0">
+                <q-card-section horizontal class="q-pa-md items-start">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Links
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-xs">
+                      <div class="q-ml-md font-16">
+                        <div v-if="funding.links && funding.links.length > 0">
+                          <div
+                            v-for="(link, index) in funding.links"
+                            :key="index"
+                            class="row"
+                          >
+                            <div class="col-12">
+                              <p class="q-mt-sm q-mb-xs inline-block">
+                                {{ link.title || "Link title not set" }}
+                              </p>
+                            </div>
+                            <div class="col-auto">
+                              <a
+                                class="q-mb-sm text-blue block text-weight-600"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                :href="
+                                  link.link.split('://')[0].substring(0, 5) ===
+                                  'https'
+                                    ? link.link
+                                    : link.link
+                                        .split('://')[0]
+                                        .substring(0, 4) === 'http'
+                                    ? link.link
+                                    : `http://${link.link}`
+                                "
+                                >{{ link.link }}</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div v-else>
+                          <p class="q-mt-sm q-mb-sm">
+                            No Links set
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </div>
+              <q-card-section
+                v-if="funding.files && funding.files.length > 0"
+                horizontal
+                class="q-pa-md items-start"
+              >
                 <div class="col-4">
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     Uploads
@@ -660,7 +726,13 @@
             </q-card>
           </div>
 
-          <div class="col-12 q-mb-md">
+          <div
+            v-if="
+              (funding.projects && funding.projects.length > 0) ||
+                (!!funding.checklist && !!funding.checklist.id)
+            "
+            class="col-12 q-mb-md"
+          >
             <q-card class="shadow-1 radius-20">
               <q-card-section horizontal class="q-pa-md items-start">
                 <div class="col-4">
@@ -670,7 +742,10 @@
                 </div>
                 <div class="col-8">
                   <div class="q-ml-xs">
-                    <div class="q-ml-md font-16">
+                    <div
+                      v-if="funding.projects && funding.projects.length > 0"
+                      class="q-ml-md font-16"
+                    >
                       <div class="row">
                         <p class="q-mt-sm q-mb-xs">
                           Project Ideas
@@ -701,7 +776,10 @@
                         </p>
                       </div>
                     </div>
-                    <div class="q-ml-md font-16">
+                    <div
+                      v-if="!!funding.checklist && !!funding.checklist.id"
+                      class="q-ml-md font-16"
+                    >
                       <div class="row">
                         <p class="q-mt-sm q-mb-xs">
                           Implementation Checklist
