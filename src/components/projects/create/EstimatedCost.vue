@@ -3,7 +3,7 @@
     <div class="row q-col-gutter-y-lg q-mb-lg">
       <div v-for="(cost, index) in estimatedCosts" :key="index" class="col-12">
         <div
-          class="row items-center"
+          class="row items-baseline"
           :class="{ 'q-col-gutter-x-md': $q.screen.gt.sm }"
         >
           <div class="col-11">
