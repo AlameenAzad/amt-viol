@@ -8,15 +8,16 @@
   "notifications": {
     "notifications": "Notifications",
     "inTheApp": "IN THE APP",
-    "updateRequest": "Request to update documents",
-    "invitations": "Invitations",
+    "updateRequest": "If a user has left a comment on a funding",
+    "invitations": "Public user request to join the platform",
     "newProjects": "New Projects",
     "FundingOpportunityExpires": "Funding opportunity expires",
     "newChecklists": "New checklists",
     "IfSomeoneWantsToAddMeAsAContact": "If someone wants to add me as a contact",
     "viaEmail": "VIA EMAIL",
     "saveEmails": "Save E-Mails",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "viewEditRequest": "View/Edit Request to my documents"
   },
   "notificationsUser": {
     "viewBtn": "View",

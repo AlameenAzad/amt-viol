@@ -8,15 +8,16 @@
   "notifications": {
     "notifications": "Benachrichtigungen",
     "inTheApp": "IN DER APP",
-    "updateRequest": "Anfragen zur Daten",
-    "invitations": "Anfrage",
+    "updateRequest": "Wenn ein Nutzer einen Kommentar zu einer Förderung hinterlassen hat",
+    "invitations": "Benutzeranfrage, der Plattform beizutreten",
     "newProjects": "Neue Projekte",
     "FundingOpportunityExpires": "Fördermöglichkeit läuft aus",
     "newChecklists": "Neue Umsetzungschecklisten",
     "IfSomeoneWantsToAddMeAsAContact": "Wenn mich jemand als Kontakt hinzufügen möchte",
     "viaEmail": "PER EMAIL",
     "saveEmails": "Sichere E-Mails",
-    "saveChanges": "Änderungen speichern"
+    "saveChanges": "Änderungen speichern",
+    "viewEditRequest": "Anfrage zu meinen Dokumenten ansehen/bearbeiten"
   },
   "notificationsUser": {
     "viewBtn": "Ansehen",
