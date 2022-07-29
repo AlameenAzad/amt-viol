@@ -226,6 +226,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
+              :requiresValidation="true"
               :editing="checklist.categories"
               @update:category="form.categories = $event"
             />
@@ -236,7 +237,11 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="checklist.tags" @update:tag="form.tags = $event" />
+            <Tags
+              :requiresValidation="true"
+              :editing="checklist.tags"
+              @update:tag="form.tags = $event"
+            />
           </div>
         </div>
         <div class="row items-center">
@@ -328,8 +333,10 @@
                 <q-input
                   outlined
                   dense
+                  :disable="disableDate(index)"
+                  :rules="[val => !!val || 'Required']"
                   class="no-shadow input-radius-6"
-                  :value="dateFormatter(card.start)"
+                  :value="disableDate(index) ? '' : dateFormatter(card.start)"
                   readonly
                   color="primary"
                   bg-color="white"
@@ -345,6 +352,7 @@
                         transition-hide="scale"
                       >
                         <q-date
+                          :options="plannedStartOptions"
                           v-model="card.start"
                           mask="YYYY-MM-DD"
                           @input="$refs.startDateProxy[index].hide()"
@@ -373,8 +381,10 @@
                 <q-input
                   outlined
                   dense
+                  :disable="disableDate(index)"
+                  :rules="[val => !!val || 'Required']"
                   class="no-shadow input-radius-6"
-                  :value="dateFormatter(card.end)"
+                  :value="disableDate(index) ? '' : dateFormatter(card.end)"
                   color="primary"
                   readonly
                   bg-color="white"
@@ -424,10 +434,10 @@
             >
               <transition-group type="transition" tag="div" name="flip-list">
                 <q-card
-                  v-for="(element, index) in card.items"
+                  v-for="(element, secondIndex) in card.items"
                   :key="element.objectId"
                   class="q-pa-none shadow-0"
-                  :class="index > 0 ? 'q-mt-xs' : ''"
+                  :class="secondIndex > 0 ? 'q-mt-xs' : ''"
                 >
                   <div style="background:#16428B1A">
                     <q-card-section
@@ -509,6 +519,7 @@
                           size="lg"
                           color="primary"
                           class="customToggle"
+                          @input="disableDate(index)"
                           v-model="element.active"
                         />
                       </div>
@@ -2360,26 +2371,31 @@ export default {
     }
   },
   methods: {
-    dateFormatter,
-    plannedEndOptions(date, index) {
-      console.log("date", date);
-      console.log("index", index);
-      // if (!!this.form.plannedStart) {
-      //   const calendarDate = date.replace(/\//g, "-");
-      //   return calendarDate >= this.form.plannedStart;
-      // } else {
-      //   return true;
-      // }
-      return true;
+    disableDate(index) {
+      if (index !== null || index !== undefined) {
+        const disabledItems = this.form.items[index].items.map(item => {
+          return item.active === true;
+        });
+        return !disabledItems.includes(true);
+      }
     },
-    // plannedStartOptions(date) {
-    //   if (!!this.form.plannedEnd) {
-    //     const calendarDate = date.replace(/\//g, "-");
-    //     return calendarDate <= this.form.plannedEnd;
-    //   } else {
-    //     return true;
-    //   }
-    // },
+    dateFormatter,
+    plannedEndOptions(date) {
+      if (!!this.form.plannedStart) {
+        const calendarDate = date.replace(/\//g, "-");
+        return calendarDate >= this.form.plannedStart;
+      } else {
+        return true;
+      }
+    },
+    plannedStartOptions(date) {
+      if (!!this.form.plannedEnd) {
+        const calendarDate = date.replace(/\//g, "-");
+        return calendarDate <= this.form.plannedEnd;
+      } else {
+        return true;
+      }
+    },
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
