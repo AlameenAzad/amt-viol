@@ -20,7 +20,6 @@
         <p class="font-20 no-margin">{{ $t("myData.projectIdeas") }}</p>
       </q-route-tab>
       <q-route-tab
-        v-if="isAdmin"
         :to="{ query: { tab: 'fundings' } }"
         exact
         replace
@@ -77,7 +76,7 @@
               v-model="tab"
               align="justify"
               indicator-color="transparent"
-              class="q-mb-lg text-black"
+              class="text-black"
               active-bg-color="yellow"
               no-caps
               dense
@@ -87,11 +86,7 @@
                   {{ $t("myDataHome.projectIdeaBtn") }}
                 </p>
               </q-tab>
-              <q-tab
-                v-if="isAdmin"
-                class="q-mr-lg radius-6 border-yellow"
-                name="fundings"
-              >
+              <q-tab class="q-mr-lg radius-6 border-yellow" name="fundings">
                 <p class="font-14 text-weight-600 no-margin">
                   {{ $t("myDataHome.fundingsBtn") }}
                 </p>
@@ -136,6 +131,7 @@
               :class="$q.screen.gt.sm ? 'radius-6' : ''"
               no-caps
               @click="goToPage(tab)"
+              v-if="isAdmin || tab !== 'fundings'"
             >
               <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
                 {{
@@ -196,7 +192,12 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="editItem(props.row)">
+                  <q-item
+                    v-if="isAdmin || tab !== 'fundings'"
+                    clickable
+                    v-close-popup
+                    @click="editItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.edit") }}
@@ -237,6 +238,7 @@
                     ></q-item-section>
                   </q-item>
                   <q-item
+                    v-if="isAdmin || tab !== 'fundings'"
                     clickable
                     v-close-popup
                     @click="archiveItem(props.row)"
@@ -360,6 +362,7 @@ export default {
         await this.$store.dispatch("funding/getSpecificFunding", {
           id: id
         });
+        // TODO check if unauthorized
         this.viewIsLoading = false;
         this.$router.push({ path: `/user/newFunding/${id}` });
       } else {

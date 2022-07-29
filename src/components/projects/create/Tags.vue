@@ -1,42 +1,52 @@
 <template>
-  <q-select
-    outlined
-    dense
-    :rules="[val => (!!val && val.length > 0) || 'Required']"
-    v-model="model"
-    multiple
-    :options="tags"
-    options-selected-class="text-primary text-weight-600"
-    class="no-shadow input-radius-6"
-    @input="onSelect"
-  >
-    <template v-slot:selected>
-      <template v-if="model && model.length > 0">
-        <span v-for="(tag, index) in model" :key="index">
-          {{ index > 0 ? ", " : "" }}
-          {{ tag.title }}
-        </span>
+  <div>
+    <q-select
+      outlined
+      dense
+      :rules="
+        requiresValidation === true
+          ? [val => (!!val && val.length > 0) || 'Required']
+          : []
+      "
+      v-model="model"
+      multiple
+      :options="tags"
+      options-selected-class="text-primary text-weight-600"
+      class="no-shadow input-radius-6"
+      @input="onSelect"
+    >
+      <template v-slot:selected>
+        <template v-if="model && model.length > 0">
+          <span v-for="(tag, index) in model" :key="index">
+            {{ index > 0 ? ", " : "" }}
+            {{ tag.title }}
+          </span>
+        </template>
+        <template v-else>
+          <span class="text-grey">
+            {{ $t("tagsSelector.title") }}
+          </span>
+        </template>
       </template>
-      <template v-else>
-        <span class="text-grey">
-          {{ $t("tagsSelector.title") }}
-        </span>
+      <template v-slot:option="scope">
+        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </template>
-    </template>
-    <template v-slot:option="scope">
-      <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-        <q-item-section>
-          <q-item-label>{{ scope.opt.title }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </template>
-  </q-select>
+    </q-select>
+  </div>
 </template>
 
 <script>
 export default {
   name: "tags",
   props: {
+    requiresValidation: {
+      type: Boolean,
+      default: false
+    },
     editing: {
       type: Array,
       default: () => []
@@ -58,12 +68,14 @@ export default {
   },
   computed: {
     tags() {
-      return this.$store.state.tag.tags.map(tag => {
-        return {
-          id: tag.id,
-          title: tag.title
-        };
-      });
+      return this.$store.state.tag.tags
+        .map(tag => {
+          return {
+            id: tag.id,
+            title: tag.title
+          };
+        })
+        .sort((a, b) => a.title.localeCompare(b.title));
     }
   }
   // mounted() {

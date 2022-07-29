@@ -146,9 +146,9 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
-            <p class="font-16 q-mt-xs q-mb-none q-pt-xs">
+            <p class="font-16 no-margin">
               {{ $t("newProjectIdeaForm.inviteEditors") }}
             </p>
           </div>
@@ -213,7 +213,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
-              ref="categories"
+              :requiresValidation="true"
               :editing="project.categories"
               @update:category="form.categories = $event"
             />
@@ -224,7 +224,11 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="project.tags" @update:tag="form.tags = $event" />
+            <Tags
+              :requiresValidation="true"
+              :editing="project.tags"
+              @update:tag="form.tags = $event"
+            />
           </div>
         </div>
         <div class="row">
@@ -232,7 +236,7 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row items-start">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               {{ $t("newProjectIdeaForm.projectContent") }}
@@ -250,7 +254,7 @@
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               {{ $t("newProjectIdeaForm.projectGoals") }}
@@ -266,13 +270,6 @@
               v-model="form.details.goals"
               :rules="[val => !!val || 'Required']"
             />
-            <!-- <q-editor
-              v-model="form.details.goals"
-              min-height="12rem"
-              paragraph-tag="p"
-              content-class=""
-              class="no-shadow input-radius-6"
-            /> -->
           </div>
         </div>
         <div class="row items-center">
@@ -347,7 +344,6 @@
               v-model="form.details.status"
               :spread="$q.screen.gt.sm"
               no-caps
-              :rules="[val => !!val || 'Required']"
               clearable
               toggle-color="yellow"
               padding="12px 10px"
@@ -360,12 +356,7 @@
             />
           </div>
         </div>
-        <div
-          class="row"
-          :class="
-            form.estimatedCosts.length > 0 ? 'items-baseline' : 'items-center'
-          "
-        >
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               {{ $t("newProjectIdeaForm.estimatedCost") }}
@@ -391,6 +382,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Fundings
+              :requiresValidation="false"
               :editing="project.fundingGuideline"
               @update:linkToFunding="form.fundingGuideline = $event"
             />
@@ -499,10 +491,7 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div
-          class="row"
-          :class="form.links.length > 0 ? 'items-baseline' : 'items-center'"
-        >
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               {{ $t("projectContent.links") }}
@@ -781,7 +770,7 @@ export default {
     submitNewProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
-        if (success && this.$refs.categories.validate()) {
+        if (success) {
           this.isLoading = true;
           await this.checkOptionalParameters();
           const res = await this.$store.dispatch(
@@ -821,20 +810,22 @@ export default {
       });
     },
     async checkOptionalParameters() {
-      if (
-        !!this.form.fundingGuideline &&
-        this.form.fundingGuideline.length < 1
-      ) {
-        delete this.form.fundingGuideline;
-      }
-      if (!this.form.details.status) {
-        delete this.form.details.status;
+      if (!this.project) {
+        if (
+          !!this.form.fundingGuideline &&
+          this.form.fundingGuideline.length < 1
+        ) {
+          delete this.form.fundingGuideline;
+        }
+        if (!this.form.details.status) {
+          delete this.form.details.status;
+        }
       }
     },
     editProjectIdea(val) {
       const published = val;
       this.$refs.newProjectIdeaForm.validate().then(async success => {
-        if (success && this.$refs.categories.validate()) {
+        if (success) {
           this.isLoading = true;
           await this.checkOptionalParameters();
           const res = await this.$store.dispatch("project/editProjectIdea", {

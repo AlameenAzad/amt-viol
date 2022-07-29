@@ -1,392 +1,522 @@
 <template>
-  <div v-if="!!project" :class="!isDashboardView ? 'container' : ''">
-    <div class="row q-mt-xl">
-      <div v-if="!isDashboardView" class="col-12">
-        <q-btn @click="$router.go(-1)" color="back" align="left" flat no-caps>
-          <q-icon name="chevron_left" color="primary" class="on-left" />
-          Back
-        </q-btn>
-      </div>
-      <div
-        class="col-12"
-        v-if="!!project.requests && project.requests.length > 0"
-      >
-        <div v-for="request in project.requests" :key="request.id" class="row">
-          <q-card class="col-12 shadow-1 radius-20 q-mb-md q-pa-sm">
-            <q-card-section class="row items-center">
-              <q-icon
-                name="description"
-                size="md"
-                color="blue-5"
-                class="q-mr-sm"
-              />
-              <div class="col">
-                <p class="font-16 text-weight-600 q-mb-none">
-                  {{ !!request.user && request.user.username }} would like to
-                  access document
-                </p>
-                <p class="font-14 q-mb-none">
-                  {{ !!request.project && request.project.title }}
-                </p>
-              </div>
-              <div class="text-right">
-                <q-btn
-                  @click="handleRequest(true, request.id)"
-                  color="blue"
-                  unelevated
-                  class="radius-6 q-ml-md text-weight-600"
-                  no-caps
-                >
-                  <p class="q-mb-none q-mx-xl q-my-sm">
-                    {{ $t("notificationsUser.acceptBtn") }}
+  <div>
+    <div v-if="!!project" :class="!isDashboardView ? 'container' : ''">
+      <div class="row">
+        <div v-if="!isDashboardView" class="col-12">
+          <q-btn @click="$router.go(-1)" color="back" align="left" flat no-caps>
+            <q-icon name="chevron_left" color="primary" class="on-left" />
+            Back
+          </q-btn>
+        </div>
+        <div
+          class="col-12"
+          v-if="!!project.requests && project.requests.length > 0"
+        >
+          <div
+            v-for="request in project.requests"
+            :key="request.id"
+            class="row"
+          >
+            <q-card class="col-12 shadow-1 radius-20 q-mb-md q-pa-none">
+              <q-card-section class="row items-center">
+                <q-icon
+                  name="description"
+                  size="md"
+                  color="blue-5"
+                  class="q-mr-sm"
+                />
+                <div class="col">
+                  <p class="font-16 text-weight-600 q-mb-none">
+                    {{ !!request.user && request.user.username }} would like to
+                    access document
                   </p>
-                </q-btn>
-                <q-btn
-                  @click="handleRequest(false, request.id)"
-                  color="red"
-                  unelevated
-                  class="radius-6 q-ml-md text-weight-600"
-                  no-caps
-                >
-                  <p class="q-mb-none q-mx-xl q-my-sm">
-                    {{ $t("notificationsUser.declineBtn") }}
+                  <p class="font-14 q-mb-none">
+                    {{ !!request.project && request.project.title }}
                   </p>
-                </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
+                </div>
+                <div class="text-right">
+                  <q-btn
+                    @click="handleRequest(true, request.id)"
+                    color="blue"
+                    unelevated
+                    class="radius-6 q-ml-md text-weight-600"
+                    no-caps
+                  >
+                    <p class="q-mb-none q-mx-xl q-my-sm">
+                      {{ $t("notificationsUser.acceptBtn") }}
+                    </p>
+                  </q-btn>
+                  <q-btn
+                    @click="handleRequest(false, request.id)"
+                    color="red"
+                    unelevated
+                    class="radius-6 q-ml-md text-weight-600"
+                    no-caps
+                  >
+                    <p class="q-mb-none q-mx-xl q-my-sm">
+                      {{ $t("notificationsUser.declineBtn") }}
+                    </p>
+                  </q-btn>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
+              <q-card-section class="row items-center justify-between q-pa-md">
+                <div class="col-8">
+                  <div class="row">
+                    <div class="col-3">
+                      <p class="font-14 no-margin text-blue-5">
+                        Erstelldatum
+                      </p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{
+                          dateFormatter(
+                            !!project.createdAt &&
+                              project.createdAt.split("T"[0])
+                          ) || ""
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{ (!!project.owner && project.owner.username) || "" }}
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        Projektidee
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{ project.visibility || "" }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row justify-between">
+                    <div class="col-auto">
+                      <q-btn
+                        @click="addToWatchlist()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        outline
+                        icon="star_outline"
+                        :loading="watchlistIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="editProject()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="edit"
+                        :loading="editIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="archiveProject()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="inventory"
+                        :loading="archiveIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="deleteProject()"
+                        color="red"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="delete"
+                        :loading="deleteIsLoading"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
       </div>
-
-      <div class="col-12">
-        <h1 class="font-24 text-weight-600 q-my-none">
-          {{ project.title || "Title not found" }}
-        </h1>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="font-24 text-weight-regular q-my-none">
+            {{ project.title || "Title not found" }}
+          </h1>
+        </div>
       </div>
-    </div>
-    <div class="row q-col-gutter-lg">
-      <div class="col-12 col-md-4">
-        <div class="row">
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.contactPerson") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ project.info.contactName || "Contact not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{
-                      project.municipality.location || "Municipality not found"
-                    }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.contactDetails") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ project.info.streetNo || "Street not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ project.info.postalCode || "Postal Code not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ project.info.phone || "Phone not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ project.info.email || "Email not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.locationOfProject") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ project.info.location || "Project Location not set" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.inviteEditors") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="project.editors && project.editors.length > 0">
-                    <p
-                      v-for="(editor, index) in project.editors"
-                      :key="index"
-                      class="q-mb-sm"
-                    >
-                      {{ editor.username }}
+      <div class="row q-col-gutter-lg">
+        <div class="col-12 col-md-4">
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.contactPerson") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ project.info.contactName || "Contact not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{
+                        project.municipality.location ||
+                          "Municipality not found"
+                      }}
                     </p>
                   </div>
-                  <div v-else>
-                    <p class="q-mb-sm">No editors Invited</p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.contactDetails") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ project.info.streetNo || "Street not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ project.info.postalCode || "Postal Code not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ project.info.phone || "Phone not found" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ project.info.email || "Email not found" }}
+                    </p>
                   </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <div>
+                  <q-card-section v-if="!!project.info.location">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.locationOfProject") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{
+                          project.info.location || "Project Location not set"
+                        }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
                 </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.categories") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div
-                    v-if="project.categories && project.categories.length > 0"
-                  >
-                    <q-chip
-                      v-for="(category, index) in project.categories"
-                      :key="index"
-                      square
-                      size="16px"
-                      color="yellow-10"
-                      text-color="blue"
+
+                <q-card-section
+                  v-if="project.editors && project.editors.length > 0"
+                >
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.inviteEditors") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div v-if="project.editors && project.editors.length > 0">
+                      <p
+                        v-for="(editor, index) in project.editors"
+                        :key="index"
+                        class="q-mb-sm"
+                      >
+                        {{ editor.username }}
+                      </p>
+                    </div>
+                    <div v-else>
+                      <p class="q-mb-sm">No editors Invited</p>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.categories") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div
+                      v-if="project.categories && project.categories.length > 0"
                     >
-                      {{ category.title }}
-                    </q-chip>
+                      <q-chip
+                        v-for="(category, index) in project.categories"
+                        :key="index"
+                        square
+                        size="16px"
+                        color="yellow-10"
+                        text-color="blue"
+                      >
+                        {{ category.title }}
+                      </q-chip>
+                    </div>
+                    <div v-else>
+                      No categories set
+                    </div>
                   </div>
-                  <div v-else>
-                    No categories set
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.tags") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div v-if="project.tags && project.tags.length > 0">
+                      <q-chip
+                        v-for="(tag, index) in project.tags"
+                        :key="index"
+                        square
+                        size="16px"
+                        color="yellow-10"
+                        text-color="blue"
+                      >
+                        {{ tag.title }}
+                      </q-chip>
+                    </div>
+                    <div v-else>No Tags Set</div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.tags") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="project.tags && project.tags.length > 0">
-                    <q-chip
-                      v-for="(tag, index) in project.tags"
-                      :key="index"
-                      square
-                      size="16px"
-                      color="yellow-10"
-                      text-color="blue"
-                    >
-                      {{ tag.title }}
-                    </q-chip>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.investive/non-investive") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{
+                        project.details.investive === true
+                          ? "Investive"
+                          : project.details.investive === false
+                          ? "Non-Investive"
+                          : "Not Set"
+                      }}
+                    </p>
                   </div>
-                  <div v-else>No Tags Set</div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.investive/non-investive") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{
-                      project.details.investive === true
-                        ? "Investive"
-                        : project.details.investive === false
-                        ? "Non-Investive"
-                        : "Not Set"
-                    }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.projectStatus") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{
-                      !!project.details.status && project.details.satus !== ""
-                        ? project.details.status
-                        : "Not Set"
-                    }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.estimatedCost") }}
-                </h4>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
                 <div
+                  v-if="
+                    !!project.details.status && project.details.satus !== ''
+                  "
+                >
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.projectStatus") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{
+                          !!project.details.status &&
+                          project.details.satus !== ""
+                            ? project.details.status
+                            : "Not Set"
+                        }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
+
+                <q-card-section
                   v-if="
                     project.estimatedCosts && project.estimatedCosts.length > 0
                   "
                 >
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.estimatedCost") }}
+                  </h4>
                   <div
-                    class="q-ml-md font-16 row"
-                    v-for="(cost, index) in project.estimatedCosts"
-                    :key="index"
+                    v-if="
+                      project.estimatedCosts &&
+                        project.estimatedCosts.length > 0
+                    "
                   >
-                    <div class="col-8">
-                      <p class="q-mb-sm">
-                        {{ cost.name }}
-                      </p>
-                    </div>
-                    <div class="col-4 text-right ">
-                      <p class="q-mb-sm text-overflow">{{ cost.price }}€</p>
-                    </div>
-                  </div>
-                </div>
-                <div v-else>
-                  <div class="q-ml-md font-16 row">
-                    <div class="col-12">
-                      <p class="q-mb-sm">
-                        No costs set
-                      </p>
+                    <div
+                      class="q-ml-md font-16 row"
+                      v-for="(cost, index) in project.estimatedCosts"
+                      :key="index"
+                    >
+                      <div class="col-8">
+                        <p class="q-mb-sm">
+                          {{ cost.name }}
+                        </p>
+                      </div>
+                      <div class="col-4 text-right ">
+                        <p class="q-mb-sm text-overflow">{{ cost.price }}€</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.fundingGuidelines") }}
-                </h4>
+                  <div v-else>
+                    <div class="q-ml-md font-16 row">
+                      <div class="col-12">
+                        <p class="q-mb-sm">
+                          No costs set
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
                 <div
                   v-if="
                     project.fundingGuideline &&
                       project.fundingGuideline.length > 0
                   "
-                  class="font-16"
                 >
-                  <div
-                    class="row"
-                    v-for="(funding, index) in project.fundingGuideline"
-                    :key="index"
-                  >
-                    <div class="col-auto">
-                      <q-btn
-                        flat
-                        align="left"
-                        :label="funding.title"
-                        color="primary"
-                        @click.prevent.stop="viewFunding(index, funding.id)"
-                        :loading="loading[index] && loading[index].loading"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="q-ml-md font-16" v-else>
-                  <p class="q-mb-sm q-mt-xs">
-                    No Funding Guidlines
-                  </p>
-                </div>
-              </q-card-section>
-
-              <q-separator inset class="bg-blue opacity-10" />
-
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.plannedPeriod") }}
-                </h4>
-                <div class="q-ml-md font-16 row">
-                  <div class="col-6 text-left">
-                    <p class="q-mb-sm">Start</p>
-                  </div>
-                  <div class="col-6 text-right">
-                    <p class="q-mb-sm">
-                      {{
-                        dateFormatter(project.plannedStart) ||
-                          "No start date found"
-                      }}
-                    </p>
-                  </div>
-                  <div class="col-6 text-left">
-                    <p class="q-mb-sm">End</p>
-                  </div>
-                  <div class="col-6 text-right">
-                    <p class="q-mb-sm">
-                      {{
-                        dateFormatter(project.plannedEnd) || "No end date found"
-                      }}
-                    </p>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Links
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="project.links && project.links.length > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.fundingGuidelines") }}
+                    </h4>
                     <div
-                      class="row"
-                      v-for="(link, index) in project.links"
-                      :key="index"
+                      v-if="
+                        project.fundingGuideline &&
+                          project.fundingGuideline.length > 0
+                      "
+                      class="font-16"
                     >
-                      <p class="q-mb-none">{{ link.title }}</p>
-                      <a
-                        class="col-12 q-mb-sm text-blue block text-weight-600 text-overflow"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        :href="
-                          link.link.split('://')[0].substring(0, 5) === 'https'
-                            ? link.link
-                            : link.link.split('://')[0].substring(0, 4) ===
-                              'http'
-                            ? link.link
-                            : `http://${link.link}`
-                        "
+                      <div
+                        class="row"
+                        v-for="(funding, index) in project.fundingGuideline"
+                        :key="index"
                       >
-                        {{ link.link }}
-                      </a>
+                        <div class="col-auto">
+                          <q-btn
+                            flat
+                            align="left"
+                            :label="funding.title"
+                            color="primary"
+                            @click.prevent.stop="viewFunding(index, funding.id)"
+                            :loading="loading[index] && loading[index].loading"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="q-ml-md font-16" v-else>
+                      <p class="q-mb-sm q-mt-xs">
+                        No Funding Guidlines
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.plannedPeriod") }}
+                  </h4>
+                  <div class="q-ml-md font-16 row">
+                    <div class="col-6 text-left">
+                      <p class="q-mb-sm">Start</p>
+                    </div>
+                    <div class="col-6 text-right">
+                      <p class="q-mb-sm">
+                        {{
+                          dateFormatter(project.plannedStart) ||
+                            "No start date found"
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-6 text-left">
+                      <p class="q-mb-sm">End</p>
+                    </div>
+                    <div class="col-6 text-right">
+                      <p class="q-mb-sm">
+                        {{
+                          dateFormatter(project.plannedEnd) ||
+                            "No end date found"
+                        }}
+                      </p>
                     </div>
                   </div>
-                  <div v-else>
-                    <p class="col-12 q-mb-none">No links set</p>
-                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="project.links && project.links.length > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Links
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <div v-if="project.links && project.links.length > 0">
+                        <div
+                          class="row"
+                          v-for="(link, index) in project.links"
+                          :key="index"
+                        >
+                          <p class="q-mb-none">{{ link.title }}</p>
+                          <a
+                            class="col-12 q-mb-sm text-blue block text-weight-600 text-overflow"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            :href="
+                              link.link.split('://')[0].substring(0, 5) ===
+                              'https'
+                                ? link.link
+                                : link.link.split('://')[0].substring(0, 4) ===
+                                  'http'
+                                ? link.link
+                                : `http://${link.link}`
+                            "
+                          >
+                            {{ link.link }}
+                          </a>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <p class="col-12 q-mb-none">No links set</p>
+                      </div>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
                 </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Uploads
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="project.files && project.files.length > 0">
-                    <div
-                      class="row"
-                      v-for="(file, index) in project.files"
-                      :key="index"
-                    >
-                      <a
-                        class="q-mb-sm text-blue block text-weight-600"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        :href="`${appUrl}${file.url}`"
-                        >{{ file.name }}</a
+                <q-card-section
+                  v-if="project.files && project.files.length > 0"
+                >
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Uploads
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div v-if="project.files && project.files.length > 0">
+                      <div
+                        class="row"
+                        v-for="(file, index) in project.files"
+                        :key="index"
                       >
+                        <a
+                          class="q-mb-sm text-blue block text-weight-600"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          :href="`${appUrl}${file.url}`"
+                          >{{ file.name }}</a
+                        >
+                      </div>
+                    </div>
+                    <div v-else>
+                      No Files uploaded
                     </div>
                   </div>
-                  <div v-else>
-                    No Files uploaded
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <!-- <div class="col-12 q-mb-md">
+                </q-card-section>
+              </q-card>
+            </div>
+            <!-- <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
               <q-card-section>
                 <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -409,167 +539,207 @@
               </q-card-section>
             </q-card>
           </div> -->
-        </div>
-      </div>
-      <div class="col-12 col-md-8">
-        <div class="row">
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section v-if="project.media">
-                <q-carousel
-                  swipeable
-                  animated
-                  v-model="slide"
-                  infinite
-                  class="radius-10"
-                >
-                  <q-carousel-slide
-                    class="imageStyling"
-                    v-for="(item, index) in project.media"
-                    :key="index"
-                    :name="index + 1"
-                    :img-src="`${appUrl}${item.url}`"
-                  />
-                </q-carousel>
-                <div class="row justify-center">
-                  <div class="col-9">
-                    <q-tabs
-                      swipeable
-                      v-model="slide"
-                      indicator-color="transparent"
-                      outside-arrows
-                      inline-label
-                      mobile-arrows
-                      align="center"
-                      active-class="opacity-50"
-                      class="no-padding q-mt-md carouselThumbnails"
-                    >
-                      <q-tab
-                        :name="index + 1"
-                        @click="slide = index + 1"
-                        v-for="(item, index) in project.media"
-                        :key="index"
-                        class="no-padding q-mx-sm radius-10"
-                        content-class="no-padding overflow-hidden"
-                      >
-                        <div
-                          class="no-padding radius-10 overflow-hidden"
-                          style="width:100px; height:100px"
-                        >
-                          <q-card-section class="no-padding">
-                            <q-img
-                              class="tabStyling"
-                              :src="`${appUrl}${item.url}`"
-                              height="100px"
-                              width="100px"
-                            />
-                          </q-card-section>
-                        </div>
-                      </q-tab>
-                    </q-tabs>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-card-section
-                class="flex flex-center"
-                v-else
-                style="height: 548px"
-              >
-                <div>
-                  <h6 class="text-grey">No Images</h6>
-                </div>
-              </q-card-section>
-            </q-card>
           </div>
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.projectGoals") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p
-                    class="q-mb-sm text-block"
-                    v-html="
-                      !!project.details.goals
-                        ? project.details.goals
-                        : 'No Project Goals found'
-                    "
+        </div>
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section v-if="project.media">
+                  <q-carousel
+                    swipeable
+                    animated
+                    v-model="slide"
+                    infinite
+                    class="radius-10"
                   >
-                    <!-- {{ project.details.goals || "No Project Goals found" }} -->
-                  </p>
+                    <q-carousel-slide
+                      class="imageStyling"
+                      v-for="(item, index) in project.media"
+                      :key="index"
+                      :name="index + 1"
+                      :img-src="`${appUrl}${item.url}`"
+                    />
+                  </q-carousel>
+                  <div class="row justify-center">
+                    <div class="col-9">
+                      <q-tabs
+                        swipeable
+                        v-model="slide"
+                        indicator-color="transparent"
+                        outside-arrows
+                        inline-label
+                        mobile-arrows
+                        align="center"
+                        active-class="opacity-50"
+                        class="no-padding q-mt-md carouselThumbnails"
+                      >
+                        <q-tab
+                          :name="index + 1"
+                          @click="slide = index + 1"
+                          v-for="(item, index) in project.media"
+                          :key="index"
+                          class="no-padding q-mx-sm radius-10"
+                          content-class="no-padding overflow-hidden"
+                        >
+                          <div
+                            class="no-padding radius-10 overflow-hidden"
+                            style="width:100px; height:100px"
+                          >
+                            <q-card-section class="no-padding">
+                              <q-img
+                                class="tabStyling"
+                                :src="`${appUrl}${item.url}`"
+                                height="100px"
+                                width="100px"
+                              />
+                            </q-card-section>
+                          </div>
+                        </q-tab>
+                      </q-tabs>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-section
+                  class="flex flex-center"
+                  v-else
+                  style="height: 548px"
+                >
+                  <div>
+                    <h6 class="text-grey">No Images</h6>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.projectGoals") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p
+                      class="q-mb-sm text-block"
+                      v-html="
+                        !!project.details.goals
+                          ? project.details.goals
+                          : 'No Project Goals found'
+                      "
+                    >
+                      <!-- {{ project.details.goals || "No Project Goals found" }} -->
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.projectValue&Benefits") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{
+                        project.details.valuesAndBenefits ||
+                          "No Project Values and Benefits found"
+                      }}
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="!!project.details.partner">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.CooperationPartner") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{
+                          project.details.partner || "No Project Partners found"
+                        }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
                 </div>
-              </q-card-section>
-
-              <q-separator inset class="bg-blue opacity-10" />
-
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.projectValue&Benefits") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{
-                      project.details.valuesAndBenefits ||
-                        "No Project Values and Benefits found"
-                    }}
-                  </p>
-                </div>
-              </q-card-section>
-
-              <q-separator inset class="bg-blue opacity-10" />
-
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.CooperationPartner") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ project.details.partner || "No Project Partners found" }}
-                  </p>
-                </div>
-              </q-card-section>
-
-              <q-separator inset class="bg-blue opacity-10" />
-
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  {{ $t("projectContent.projectContent") }}
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p
-                    class="q-mb-sm text-block"
-                    v-html="
-                      !!project.details.content
-                        ? project.details.content
-                        : 'No Project Content found'
-                    "
-                  ></p>
-                  <!-- <p class="q-mb-sm">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.projectContent") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p
+                      class="q-mb-sm text-block"
+                      v-html="
+                        !!project.details.content
+                          ? project.details.content
+                          : 'No Project Content found'
+                      "
+                    ></p>
+                    <!-- <p class="q-mb-sm">
                     {{ project.details.content || "No Project Content found" }}
                   </p> -->
-                </div>
-              </q-card-section>
-            </q-card>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="closeDialog($event), (itemId = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
+import DeleteDialog from "components/data/DeleteDialog.vue";
 export default {
   name: "projectContent",
   data() {
     return {
       slide: 1,
-      loading: []
+      loading: [],
+      itemId: null,
+      tab: "projectIdeas",
+      deleteDialog: false,
+      isLoading: false,
+      editIsLoading: false,
+      deleteIsLoading: false,
+      archiveIsLoading: false,
+      watchlistIsLoading: false
     };
+  },
+  components: {
+    DeleteDialog
   },
   methods: {
     dateFormatter,
+    closeDialog(val) {
+      this.deleteDialog = val;
+      this.$router.go(-1);
+    },
+    async getData() {
+      if (
+        (!!this.$route.params && Number(this.$route.params.id)) !==
+        (!!this.$store.state.project.project &&
+          this.$store.state.project.project.id)
+      ) {
+        await this.$store.dispatch("project/getSpecificProject", {
+          id: Number(this.$route.params.id)
+        });
+      } else if (
+        (!!this.$route.params && Number(this.$route.params.id)) ===
+        (!!this.$store.state.project.project &&
+          this.$store.state.project.project.id)
+      ) {
+        await this.$store.dispatch("project/getSpecificProject", {
+          id: Number(this.$route.params.id)
+        });
+      }
+    },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
@@ -593,6 +763,7 @@ export default {
     },
     setLoadingData() {
       if (
+        !!this.project &&
         !!this.project.fundingGuideline &&
         this.project.fundingGuideline.length > 0
       ) {
@@ -602,6 +773,34 @@ export default {
       } else {
         return;
       }
+    },
+    async addToWatchlist() {
+      this.watchlistIsLoading = true;
+      const id = !!this.project && this.project.id;
+      await this.$store.dispatch("project/addToWatchlist", {
+        id: id
+      });
+      this.watchlistIsLoading = false;
+    },
+    async editProject() {
+      this.editIsLoading = true;
+      const id = !!this.project && this.project.id;
+      await this.$store.dispatch("project/editProject", {
+        id: id
+      });
+      this.editIsLoading = false;
+    },
+    async archiveProject() {
+      this.archiveIsLoading = true;
+      const id = !!this.project && this.project.id;
+      await this.$store.dispatch("project/archiveProjectIdea", {
+        id: id
+      });
+      this.archiveIsLoading = false;
+    },
+    async deleteProject() {
+      this.itemId = !!this.project && this.project.id;
+      this.deleteDialog = true;
     }
   },
   computed: {
@@ -620,6 +819,7 @@ export default {
   },
   mounted() {
     this.setLoadingData();
+    this.getData();
   }
 };
 </script>

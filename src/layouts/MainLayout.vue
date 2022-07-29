@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lhh lpR fFf">
-    <q-header class="bg-primary text-white no-shadow">
+    <q-header
+      :class="{ dimmed: loginDialog }"
+      class="bg-primary text-white no-shadow"
+    >
       <q-toolbar class="q-my-sm navContainer ">
         <!-- TODO Fix toolbar title taking full width -->
         <q-toolbar-title>
@@ -30,7 +33,7 @@
     </q-header>
     <LoginDialog :dialogState="loginDialog" @update="loginDialog = $event" />
     <q-page-container>
-      <router-view />
+      <router-view :class="{ dimmed: loginDialog }" />
       <div v-if="$router.currentRoute.path != '/'" class="bg-yellow-10 q-py-xl">
         <div class="row container">
           <div class="col-2">

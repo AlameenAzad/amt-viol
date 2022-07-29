@@ -1,156 +1,218 @@
 <template>
   <q-page class="bg-white">
-    <div class="bg-primary">
-      <div class="container">
-        <div class="row justify-center q-pb-xl">
-          <div class="col-12 col-md-4">
-            <div class="col-12">
+    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="bg-primary">
+      <div class="row justify-center q-pb-xl">
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 q-mb-md">
               <h1 class="font-50 text-white text-weight-600 q-mb-none">
-                Funding Manager
+                Förderscouting-Plattform
               </h1>
               <p class="text-white">
-                Fusce vulputate eleifend sapien. Vestibulum purus quam,
-                scelerisque ut, mollis sed, nonummy id, metus. Nullam accumsan
-                lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla.
+                Das Projekt „Interkommunale Förderscouting-Plattform
+                Nordfriesland“ ist ein Modellvorhaben im Rahmen der
+                Förderinitiative „Heimat 2.0“ des Bundesministeriums für Wohnen,
+                Stadtentwicklung und Bauwesen (BMWSB) in Zusammenarbeit mit dem
+                Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR).
               </p>
-              <div class="col-12">
-                <p class="text-white">Find Document</p>
-                <q-input
-                  class="no-shadow q-mb-lg input-radius-4"
-                  color="primary"
-                  bg-color="white"
-                  placeholder="Search"
-                  filled
-                  v-model="documentSearch"
-                  @keyup.enter="searchForDocument"
-                >
-                  <template v-slot:append>
-                    <q-icon
-                      class="cursor-pointer"
-                      @click="searchForDocument"
-                      color="black"
-                      name="search"
-                    />
-                  </template>
-                </q-input>
-              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                class="no-shadow q-mb-lg input-radius-4"
+                color="primary"
+                bg-color="white"
+                placeholder="Find document"
+                filled
+                v-model="documentSearch"
+                @keyup.enter="searchForDocument"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    class="cursor-pointer"
+                    @click="searchForDocument"
+                    color="primary"
+                    name="search"
+                  />
+                </template>
+              </q-input>
             </div>
           </div>
         </div>
       </div>
+    </section>
+    <div :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="bg-blue-1 q-py-xl">
+      <section>
+        <div class="row justify-center">
+          <div class="col-12 col-md-8">
+            <div class="row q-col-gutter-lg">
+              <div class="col-12 col-md-4">
+                <q-card
+                  class="full-height full-width bg-white radius-20 shadow-1"
+                >
+                  <q-card-section>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <q-img
+                          spinner-color="primary"
+                          src="icons/idea.svg"
+                          style="height: 60px; max-width: 60px"
+                        />
+                      </div>
+                      <div class="col-12 text-center">
+                        <h3 class="font-16 text-weight-bold q-mb-none">
+                          Projektideen
+                        </h3>
+                        <p class="q-mb-none textColor">
+                          SNutzer*innen haben die Möglichkeit eigene
+                          Projektideen anzulegen und im Netzwerk zu teilen.
+                        </p>
+                      </div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </div>
+              <div class="col-12 col-md-4">
+                <q-card class="full-height full-width radius-20 shadow-1">
+                  <q-card-section>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <q-img
+                          spinner-color="primary"
+                          src="icons/money.svg"
+                          style="height: 60px; max-width: 60px"
+                        />
+                      </div>
+                      <div class="col-12 text-center">
+                        <h3 class="font-16 text-weight-bold q-mb-none">
+                          Fördermittel-Kurzinfos
+                        </h3>
+                        <p class="q-mb-none textColor">
+                          SKurze und übersichtliche Beschreibung aktueller
+                          Fördermöglichkeiten.
+                        </p>
+                      </div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </div>
+              <div class="col-12 col-md-4">
+                <q-card class="full-height full-width radius-20 shadow-1">
+                  <q-card-section>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <q-img
+                          spinner-color="primary"
+                          src="icons/checklist.svg"
+                          style="height: 60px; max-width: 60px"
+                        />
+                      </div>
+                      <div class="col-12 text-center">
+                        <h3 class="font-16 text-weight-bold q-mb-none">
+                          Umsetzungschecklisten
+                        </h3>
+                        <p class="q-mb-none textColor">
+                          Durchgeführte Förderprojekte von der Projektidee bis
+                          zum Zuwendungsbescheid ansehen und nachnutzen.
+                        </p>
+                      </div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row q-mt-lg justify-center">
+          <div class="col-12 text-center">
+            <h3 class="font-36 text-weight-600">About platform</h3>
+          </div>
+          <div class="col-12 col-md-8">
+            <p class="font-18 text-left">
+              Ziel der Plattform ist die langfristige Stärkung der
+              Handlungsfähigkeit der Kommunen im Rahmen des allgemeinen
+              Entwicklungsprozesses „von der Idee zum Projekt“. Vor dem
+              Hintergrund der Entwicklung lebenswerter Kommunen und der
+              Sicherung von Daseinsvorsorgeinfrastrukturen wird es für
+              strukturschwache Regionen immer essenzieller, vorhandene
+              Entwicklungsressourcen (Projektwissen, Personal und Finanzmittel)
+              in einem Wissensnetzwerk zu bündeln und zu teilen.
+            </p>
+            <p class="font-18 text-left">
+              Die Plattform bildet ein digitales Assistenzsystem für die
+              Entwicklung, Förderung und Umsetzung von kommunalen Projekten. Im
+              Ergebnis entsteht eine Wissensplattform, die
+            </p>
+            <ul class="homepageList">
+              <li class="font-18 text-left q-mb-md">
+                das jeweilige Projektideen-Management der Kommunen vereinfacht
+              </li>
+              <li class="font-18 text-left q-mb-md">
+                unterschiedliche Projektideen und geeigneten Fördermöglichkeiten
+                direkter verbindet und
+              </li>
+              <li class="font-18 text-left q-mb-md">
+                Erfahrungen zu Projektumsetzungen in Form von Checklisten als
+                „Kurzer Dienstweg 2.0“ bereithält.
+              </li>
+            </ul>
+            <p class="font-18 text-left">
+              Zur weiteren Verstetigung werden die nordfriesischen Kommunen
+              Nutzungsbedingungen definieren, die den Zugang nach der Testphase
+              für weitere Kommunen ermöglicht.
+            </p>
+            <p class="font-18 text-left">
+              Der Zugang zur Plattform ist daher aktuell begrenzt. Um einen
+              User-Account zu beantragen klicken Sie zu einem späteren Zeitpunkt
+              bitte auf das entsprechende Feld im Login-Fenster.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="container">
-      <div class="row q-col-gutter-lg q-mt-lg">
-        <div class="col-12 col-md-4">
-          <q-card class="my-card radius-10 shadow-0">
-            <q-card-section>
-              <div class="row">
-                <div class="col-12 text-center">
+    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="q-py-xl">
+      <div class="row justify-center">
+        <div class="col-12 col-md-8">
+          <div class="row q-col-gutter-xl">
+            <div class="col-12 col-md-4">
+              <q-card class="full-height full-width shadow-0">
+                <q-card-section class="full-height flex center">
                   <q-img
                     spinner-color="primary"
-                    src="https://placeimg.com/500/300/nature"
-                    style="height: 60px; max-width: 60px"
+                    src="logo-1.svg"
+                    height="150px"
+                    contain
                   />
-                </div>
-                <div class="col-12 text-center">
-                  <h3 class="font-16 text-weight-bold q-mb-none">
-                    Project Ideas
-                  </h3>
-                  <p class="q-mb-none">
-                    Short Description fusce vulputate eleifend sapien.
-                  </p>
-                </div>
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-12 col-md-4">
-          <q-card class="my-card radius-10 shadow-0">
-            <q-card-section>
-              <div class="row">
-                <div class="col-12 text-center">
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 col-md-4">
+              <q-card class="full-height full-width  shadow-0">
+                <q-card-section class="full-height flex flex-center">
                   <q-img
                     spinner-color="primary"
-                    src="https://placeimg.com/500/300/nature"
-                    style="height: 60px; max-width: 60px"
+                    src="logo-2.svg"
+                    height="150px"
+                    contain
                   />
-                </div>
-                <div class="col-12 text-center">
-                  <h3 class="font-16 text-weight-bold q-mb-none">
-                    Funding(s)
-                  </h3>
-                  <p class="q-mb-none">
-                    Short Description fusce vulputate eleifend sapien.
-                  </p>
-                </div>
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-12 col-md-4">
-          <q-card class="my-card radius-10 shadow-0">
-            <q-card-section>
-              <div class="row">
-                <div class="col-12 text-center">
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 col-md-4">
+              <q-card class="full-height full-width  shadow-0">
+                <q-card-section class="full-height flex flex-center">
                   <q-img
                     spinner-color="primary"
-                    src="https://placeimg.com/500/300/nature"
-                    style="height: 60px; max-width: 60px"
+                    src="logo-3.svg"
+                    height="150px"
+                    contain
                   />
-                </div>
-                <div class="col-12 text-center">
-                  <h3 class="font-16 text-weight-bold q-mb-none">
-                    Implementation Checklist
-                  </h3>
-                  <p class="q-mb-none">
-                    Short Description fusce vulputate eleifend sapien.
-                  </p>
-                </div>
-              </div>
-            </q-card-section>
-          </q-card>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container">
-      <div class="row q-mt-lg justify-center">
-        <div class="col-12 text-center">
-          <h3 class="font-36 text-weight-600">About Platform</h3>
-        </div>
-        <div class="col-12 col-md-9">
-          <p class="font-18 font-weight-regular text-left">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-            aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-            imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-            mollis pretium. Integer tincidunt.
-          </p>
-          <p class="font-18 font-weight-regular text-left">
-            Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-            Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-            Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur
-            ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas
-            tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit
-            amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel,
-            luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-            tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <h2>Video</h2>
-        </div>
-        <div class="col-6 text-right">
-          <h2>Video</h2>
-        </div>
-      </div>
-    </div>
+    </section>
   </q-page>
 </template>
 
@@ -163,8 +225,6 @@ export default {
     };
   },
   methods: {
-    // TODO Check if input is empty
-    // TODO call API from store>actions then go to next page?
     searchForDocument() {
       this.$router.push({
         name: "documents",
@@ -175,10 +235,21 @@ export default {
 };
 </script>
 
-<style scoped>
-/* TODO change card class name */
-.my-card {
-  width: 100%;
-  border: 1px solid black;
+<style lang="scss">
+.textColor {
+  color: $black-1;
+}
+.homepageList {
+  list-style-type: none;
+  li::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $primary;
+    margin-right: 8px;
+  }
 }
 </style>

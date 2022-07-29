@@ -4,6 +4,7 @@
       class="radius-20 shadow-1  pagination-no-shadow"
       :title="$t('fundingsInfo.current')"
       :data="data"
+      :visible-columns="visibleColumns"
       :columns="columns"
       row-key="name"
       :pagination="{

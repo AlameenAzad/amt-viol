@@ -23,12 +23,12 @@ export async function login(context, payload) {
       context.commit("changeLoadingMessages", "Getting users");
       await context.dispatch("getUsers");
 
-      if (context.getters.isAdmin === true) {
-        context.commit("changeLoadingMessages", "Getting Fundings");
-        await context.dispatch("funding/getFundings", null, {
-          root: true
-        });
-      }
+      // if (context.getters.isAdmin === true) {
+      //   context.commit("changeLoadingMessages", "Getting Fundings");
+      //   await context.dispatch("funding/getFundings", null, {
+      //     root: true
+      //   });
+      // }
 
       context.commit("changeLoadingMessages", "Getting Checklists");
       await context.dispatch("implementationChecklist/getChecklists", null, {
@@ -158,7 +158,8 @@ export async function updatePersonalData(context, payload) {
         type: "positive"
       });
       context.commit("updatePersonalData", res.data.data);
-      context.dispatch("getUserDetails");
+      // await context.dispatch("getUserDetails");
+      await context.dispatch("getUsers");
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({
@@ -172,8 +173,6 @@ export async function updatePersonalData(context, payload) {
 
 export async function updateUser(context, payload) {
   const data = payload;
-  console.log("data :>> ", data);
-
   if (!!data.id && !!data.data) {
     try {
       const res = await api.put(`/api/users/${data.id}`, { data: data.data });

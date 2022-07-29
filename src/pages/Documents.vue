@@ -6,8 +6,8 @@
           <h1 class="font-36 text-weight-600">Documents</h1>
         </div>
         <div class="col-12 q-mb-xl">
-          <p>Search result: X Documents</p>
-          <DocumentsTable />
+          <p>Search result: {{ documentsLength }} Documents</p>
+          <DocumentsTable @update-data="setDocumentNumbers" />
         </div>
       </div>
     </div>
@@ -22,9 +22,19 @@ export default {
     DocumentsTable
   },
   data() {
-    return {};
+    return {
+      documentsLength: 0
+    };
   },
-  methods: {}
+  methods: {
+    setDocumentNumbers(val) {
+      if (!!val && val.length > 0) {
+        this.documentsLength = val.length;
+      } else {
+        this.documentsLength = 0;
+      }
+    }
+  }
 };
 </script>
 

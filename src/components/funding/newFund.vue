@@ -25,7 +25,7 @@
               class="no-shadow input-radius-6"
               placeholder="official title"
               v-model="form.title"
-              :rules="[val => !!val || 'Title is required']"
+              :rules="[val => !!val || 'Required']"
             />
           </div>
         </div>
@@ -44,7 +44,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="funding provider"
                   v-model="form.provider"
-                  :rules="[]"
+                  :rules="[val => !!val || 'Required']"
                 />
               </div>
             </div>
@@ -65,7 +65,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="Name, Surname"
                   v-model="form.info.contactName"
-                  :rules="[]"
                 />
               </div>
             </div>
@@ -86,7 +85,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="Street, Nr."
                   v-model="form.info.streetNo"
-                  :rules="[]"
                 />
               </div>
               <div class="col-6">
@@ -96,7 +94,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="Postal Code, City"
                   v-model="form.info.postalCode"
-                  :rules="[]"
                 />
               </div>
               <div class="col-6">
@@ -106,7 +103,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="Telefon"
                   v-model="form.info.phone"
-                  :rules="[]"
                 />
               </div>
               <div class="col-6">
@@ -116,7 +112,6 @@
                   class="no-shadow input-radius-6"
                   placeholder="E-Mail"
                   v-model="form.info.email"
-                  :rules="[]"
                 />
               </div>
             </div>
@@ -177,6 +172,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Categories
+              :requiresValidation="true"
               :editing="funding.categories"
               @update:category="form.categories = $event"
             />
@@ -187,7 +183,11 @@
             <p class="font-16 no-margin">Tags*</p>
           </div>
           <div class="col-12 col-md-8">
-            <Tags :editing="funding.tags" @update:tag="form.tags = $event" />
+            <Tags
+              :requiresValidation="true"
+              :editing="funding.tags"
+              @update:tag="form.tags = $event"
+            />
           </div>
         </div>
         <div class="row">
@@ -195,24 +195,24 @@
             <q-separator class="bg-blue opacity-10" />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-basleine">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              funding goal
+              Funding goal
             </p>
           </div>
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Förderziel"
               v-model="form.details.goal"
-              :rules="[]"
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               What is funded?
@@ -221,15 +221,15 @@
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Was wird gefördert"
               v-model="form.details.funded"
-              :rules="[]"
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               What is not funded?
@@ -238,15 +238,15 @@
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Was wird nicht gefördert"
               v-model="form.details.notFunded"
-              :rules="[]"
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Who will be funded?
@@ -255,15 +255,15 @@
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Kooperationspartner"
               v-model="form.details.willBeFunded"
-              :rules="[]"
             />
           </div>
         </div>
-        <div class="row items-center">
+        <div class="row items-baseline">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
               Conditions for Applicants
@@ -272,11 +272,11 @@
           <div class="col-12 col-md-8">
             <q-input
               outlined
-              dense
+              type="textarea"
+              rows="10"
               class="no-shadow input-radius-6"
               placeholder="Rahmenbedingungen für Antragsteller"
               v-model="form.details.condition"
-              :rules="[]"
             />
           </div>
         </div>
@@ -289,7 +289,7 @@
         <div class="row">
           <div class="col-12 col-md-4">
             <p class="font-16 no-margin">
-              funding rates
+              Funding rates
             </p>
           </div>
           <div class="col-12 col-md-8">
@@ -347,6 +347,7 @@
           </div>
           <div class="col-12 col-md-8">
             <Fundings
+              :requiresValidation="true"
               :editing="funding.fundingsLinkedTo"
               @update:linkToFunding="form.fundingsLinkedTo = $event"
             />
@@ -371,7 +372,6 @@
               class="no-shadow input-radius-6"
               placeholder="Was wird nicht gefördert"
               v-model="form.assessment"
-              :rules="[]"
             />
           </div>
         </div>
@@ -852,17 +852,6 @@ export default {
         }
       });
     },
-    checkOptionalParameters() {
-      if (this.form.accumulability === false) {
-        delete this.form.fundingsLinkedTo;
-      }
-      if (!this.form.checklist) {
-        delete this.form.checklist;
-      }
-      if (!!this.form.projects && this.form.projects.length < 1) {
-        delete this.form.projects;
-      }
-    },
     editFunding(val) {
       const published = val;
       this.$refs.newFundingForm.validate().then(async success => {
@@ -893,6 +882,29 @@ export default {
           });
         }
       });
+    },
+    checkOptionalParameters() {
+      // if Editing a funding
+      if (!!this.funding) {
+        console.log("Editing");
+        // if (this.form.accumulability === true) {
+        // this.form.fundingsLinkedTo = null;
+        // this.$refs.fundings.validate();
+        // }
+      } else {
+        console.log("Creating");
+        if (this.form.accumulability === false) {
+          delete this.form.fundingsLinkedTo;
+        } else {
+          // this.$refs.fundings.validate();
+        }
+        if (!this.form.checklist) {
+          delete this.form.checklist;
+        }
+        if (!!this.form.projects && this.form.projects.length < 1) {
+          delete this.form.projects;
+        }
+      }
     },
     setData() {
       this.form = {

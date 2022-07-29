@@ -46,7 +46,13 @@
                               ? 'text-primary text-weight-600'
                               : ''
                           "
-                          >{{ scope.opt.username }}</q-item-label
+                          >{{
+                            !!scope.opt &&
+                            !!scope.opt.user_detail &&
+                            !!scope.opt.user_detail.fullName
+                              ? scope.opt.user_detail.fullName
+                              : scope.opt.username
+                          }}</q-item-label
                         >
                       </q-item-section>
                     </q-item>
@@ -98,8 +104,13 @@ export default {
   },
   methods: {
     onSelect(value, selectedIndex) {
-      // Adding to users array
-      this.users[selectedIndex].username = value.username;
+      if (!value) {
+        return;
+      } // Adding to users array
+      this.users[selectedIndex].username =
+        !!value.user_detail && !!value.user_detail.fullName
+          ? value.user_detail.fullName
+          : value.username;
       this.users[selectedIndex].id = value.id;
       // this.users.forEach((user, index) => {
       // if (index === selectedIndex) {
@@ -138,7 +149,9 @@ export default {
   },
   computed: {
     userOptions() {
-      return this.$store.state.userCenter.users;
+      return (
+        !!this.$store.state.userCenter && this.$store.state.userCenter.users
+      );
     }
   }
   // mounted() {

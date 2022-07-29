@@ -250,10 +250,10 @@
               </q-card-section>
             </q-card>
           </div>
-
           <div
             v-if="
-              !!checklist.initialContact.start && !!checklist.initialContact.end
+              !!checklist.initialContact.captureIdea.active ||
+                !!checklist.initialContact.caputreContect.active
             "
             class="col-12 q-mb-md"
           >
@@ -492,7 +492,11 @@
           </div>
 
           <div
-            v-if="!!checklist.preparation.start && !!checklist.preparation.end"
+            v-if="
+              !!checklist.preparation.inspection.active ||
+                !!checklist.preparation.captureRequirements.active ||
+                !!checklist.preparation.captureNeeds.active
+            "
             class="col-12 q-mb-md"
           >
             <q-card
@@ -741,8 +745,10 @@
 
           <div
             v-if="
-              !!checklist.fundingResearch.start &&
-                !!checklist.fundingResearch.end
+              !!checklist.fundingResearch.checkDatabase.active ||
+                !!checklist.fundingResearch.checkForFunding.active ||
+                !!checklist.fundingResearch.checkWithFunding.active ||
+                !!checklist.fundingResearch.checkGuildlines.active
             "
             class="col-12 q-mb-md"
           >
@@ -1018,8 +1024,10 @@
 
           <div
             v-if="
-              !!checklist.preparationOfProject.start &&
-                !!checklist.preparationOfProject.end
+              !!checklist.preparationOfProject.checkContent.active ||
+                !!checklist.preparationOfProject.checkCooperations.active ||
+                !!checklist.preparationOfProject.checkSimilarProejcts.active ||
+                !!checklist.preparationOfProject.checkPlanning.active
             "
             class="col-12 q-mb-md"
           >
@@ -1295,9 +1303,7 @@
           </div>
 
           <div
-            v-if="
-              !!checklist.legitimation.start && !!checklist.legitimation.end
-            "
+            v-if="!!checklist.legitimation.template.active"
             class="col-12 q-mb-md"
           >
             <q-card
@@ -1492,8 +1498,8 @@
 
           <div
             v-if="
-              !!checklist.finalExamination.start &&
-                !!checklist.finalExamination.end
+              !!checklist.finalExamination.signatures.active ||
+                !!checklist.finalExamination.revision.active 
             "
             class="col-12 q-mb-md"
           >

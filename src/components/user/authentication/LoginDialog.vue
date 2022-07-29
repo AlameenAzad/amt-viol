@@ -113,6 +113,7 @@ export default {
         this.form.identifier = "";
         this.form.password = "";
         this.errorMsg = "";
+        this.isLoading = false;
       }
     },
     loginMessages() {
