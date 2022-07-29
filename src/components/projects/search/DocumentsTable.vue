@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { dateFormatter } from "src/boot/dateFormatter";
 export default {
   name: "documentsTable",
@@ -110,9 +109,12 @@ export default {
   methods: {
     dateFormatter,
     async getData() {
+      // Create new instance without Auth
+      const instance = this.$api.create();
+      delete instance.defaults.headers.common["Authorization"];
       try {
         this.loading = true;
-        const res = await this.$api.get("/api/public/data");
+        const res = await instance.get("/api/public/data");
         await this.prepData(res.data);
         this.loading = false;
       } catch (error) {
