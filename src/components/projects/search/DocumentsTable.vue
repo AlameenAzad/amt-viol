@@ -112,10 +112,7 @@ export default {
     async getData() {
       try {
         this.loading = true;
-        // const res = await this.$api.get("/api/user/overview");
-        const res = await axios.get(
-          "http://192.168.0.101:1337/api/public/data"
-        );
+        const res = await this.$api.get("/api/public/data");
         await this.prepData(res.data);
         this.loading = false;
       } catch (error) {
