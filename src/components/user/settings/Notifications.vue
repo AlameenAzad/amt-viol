@@ -16,12 +16,7 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.dataRequests"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.fundingComments" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -33,28 +28,7 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.inquiry"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <div class="row items-center q-mt-xs q-pl-md">
-        <div class="col-10">
-          <p class="font-16 no-margin">
-            {{ $t("notifications.newProjects") }}
-          </p>
-        </div>
-        <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.newProjects"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.userJoinRequest" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -65,50 +39,23 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.fundingExpiry"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.fundingExpiry" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            {{ $t("notifications.newChecklists") }}
+            {{ $t("notifications.viewEditRequest") }}
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.newChecklists"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.dataRequests" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <div class="row items-center q-mt-xs q-pl-md">
-        <div class="col-10">
-          <p class="font-16 no-margin">
-            {{ $t("notifications.IfSomeoneWantsToAddMeAsAContact") }}
-          </p>
-        </div>
-        <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.app.networkRequest"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <h2
-        class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey"
-      >
+
+      <h2 class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey">
         {{ $t("notifications.viaEmail") }}
       </h2>
       <q-separator inset class="bg-blue-5 q-mt-none" />
@@ -120,12 +67,7 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.dataRequests"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.fundingComments" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -137,28 +79,7 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.inquiry"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <div class="row items-center q-mt-xs q-pl-md">
-        <div class="col-10">
-          <p class="font-16 no-margin">
-            {{ $t("notifications.newProjects") }}
-          </p>
-        </div>
-        <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.newProjects"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.userJoinRequest" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -169,73 +90,24 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.fundingExpiry"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.fundingExpiry" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
       <div class="row items-center q-mt-xs q-pl-md">
         <div class="col-10">
           <p class="font-16 no-margin">
-            {{ $t("notifications.newChecklists") }}
+            {{ $t("notifications.viewEditRequest") }}
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.newChecklists"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <div class="row items-center q-mt-xs q-pl-md">
-        <div class="col-10">
-          <p class="font-16 no-margin">
-            {{ $t("notifications.IfSomeoneWantsToAddMeAsAContact") }}
-          </p>
-        </div>
-        <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.networkRequests"
-          />
-        </div>
-      </div>
-      <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
-      <div class="row items-center q-mt-xs q-pl-md">
-        <div class="col-10">
-          <p class="font-16 no-margin">
-            {{ $t("notifications.saveEmails") }}
-          </p>
-        </div>
-        <div class="col-2 text-right">
-          <q-toggle
-            size="lg"
-            color="primary"
-            class="customToggle"
-            v-model="form.notifications.email.saveEmails"
-          />
+          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.dataRequests" />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
       <div class="row justify-center">
-        <q-btn
-          @click="saveNotificationsData"
-          :loading="isLoading"
-          size="16px"
-          color="primary"
-          no-caps
-          class="radius-6 q-px-xl q-py-sm"
-          >{{ $t("notifications.saveChanges") }}</q-btn
-        >
+        <q-btn @click="saveNotificationsData" :loading="isLoading" size="16px" color="primary" no-caps
+          class="radius-6 q-px-xl q-py-sm">{{ $t("notifications.saveChanges") }}</q-btn>
       </div>
     </q-form>
   </div>
