@@ -3,7 +3,7 @@
     <div class="row q-col-gutter-y-lg q-mb-lg">
       <div v-for="(link, index) in links" :key="index" class="col-12">
         <div
-          class="row items-center"
+          class="row items-baseline"
           :class="{ 'q-col-gutter-x-md': $q.screen.gt.sm }"
         >
           <div class="col-11">
@@ -32,7 +32,7 @@
               </div>
             </div>
           </div>
-          <div class="col-1">
+          <div class="col-1 ">
             <q-btn
               @click="removeLink(index)"
               icon="delete"
