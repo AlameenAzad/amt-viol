@@ -950,6 +950,8 @@ export default {
   },
   watch: {
     $route(to, from) {
+      console.log("to", to);
+      console.log("from", from);
       if (
         (to.params && to.params.id) !==
         (this.$store.state.funding.funding &&
@@ -966,23 +968,25 @@ export default {
       this.$router.go(-1);
     },
     async getData() {
-      // if (
-      //   (!!this.$route.params && Number(this.$route.params.id)) !==
-      //   (!!this.$store.state.funding.funding &&
-      //     this.$store.state.funding.funding.id)
-      // ) {
-      //   this.isLoading = true;
-      //   await this.$store.dispatch("funding/getSpecificFunding", {
-      //     id: Number(this.$route.params.id)
-      //   });
-      //   this.isLoading = false;
-      // } else {
-      //   this.isLoading = true;
-      //   await this.$store.dispatch("funding/getSpecificFunding", {
-      //     id: Number(this.$route.params.id)
-      //   });
-      //   this.isLoading = false;
-      // }
+      console.log("this.$router", this.$router);
+      console.log("this.$route", this.$route);
+      if (
+        (!!this.$route.params && Number(this.$route.params.id)) !==
+        (!!this.$store.state.funding.funding &&
+          this.$store.state.funding.funding.id)
+      ) {
+        this.isLoading = true;
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: Number(this.$route.params.id)
+        });
+        this.isLoading = false;
+      } else {
+        this.isLoading = true;
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: Number(this.$route.params.id)
+        });
+        this.isLoading = false;
+      }
     },
     async viewFunding(id) {
       if (!!id) {
