@@ -225,12 +225,12 @@ export default {
   methods: {
     setData() {
       console.log("setData");
-      this.profileImage = this.userDetails.profile?.url || null;
-      this.form.email = this.user.email;
+      this.profileImage = this.userDetails?.profile?.url || null;
+      this.form.email = (!!this.user && this.user.email) || "";
       this.form.fullName = this.userDetails.fullName || "";
       this.form.telephone = this.userDetails.phone || "";
       this.form.location = this.userDetails.location || "";
-      this.form.administration = this.userDetails.municipality.title;
+      this.form.administration = this.userDetails.municipality.title || "";
       this.form.streetNo = this.userDetails.streetNo || "";
       this.form.postalCode = this.userDetails.postalCode || "";
       this.form.contactPrivacy = this.userDetails.contactPrivacy || false;
@@ -253,7 +253,6 @@ export default {
           this.isLoading = true;
           if (this.newImg != null) {
             if (this.profileImage != null) await this.deleteImage();
-
             await this.$store.dispatch("userCenter/uploadProfile", {
               id: this.user.id,
               img: this.newImg
@@ -274,6 +273,7 @@ export default {
           );
           this.isLoading = false;
           if (res !== false) {
+            this.$store.dispatch("userCenter/getUserDetails");
           }
         } else {
           console.log("error");
@@ -313,7 +313,10 @@ export default {
       );
     },
     user() {
-      return this.$store.state.userCenter.user.user;
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     }
   }
 };
