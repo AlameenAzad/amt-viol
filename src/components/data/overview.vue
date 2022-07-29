@@ -77,7 +77,7 @@
               v-model="tab"
               align="justify"
               indicator-color="transparent"
-              class="q-mb-lg text-black"
+              class="text-black"
               active-bg-color="yellow"
               no-caps
               dense
