@@ -22,7 +22,8 @@
   "notificationsUser": {
     "viewBtn": "Ansehen",
     "acceptBtn": "Annehmen",
-    "declineBtn": "Ablehnen"
+    "declineBtn": "Ablehnen",
+    "viewFundingBtn": "Förderung ansehen"
   },
   "personalData": {
     "personalData": "Persönliche Daten",
@@ -330,5 +331,6 @@
   "checklist": "Umsetzungscheckliste",
   "wantToLogout": "Möchten Sie sich abmelden?",
   "dontShowAgain": "Nicht mehr anzeigen",
-  "passwordResetInfo": "Wenn Sie Ihre E-Mail-Adresse eingeben, werden Sie eine E-Mail mit einem Link zum Zurücksetzen Ihres Passworts erhalten."
+  "passwordResetInfo": "Wenn Sie Ihre E-Mail-Adresse eingeben, werden Sie eine E-Mail mit einem Link zum Zurücksetzen Ihres Passworts erhalten.",
+  "delteDataInfo": "Möchten Sie Ihren Benutzer wirklich löschen? Ihre persönlichen Daten und Einstellungen gehen dabei verloren."
 }

@@ -138,7 +138,8 @@ import Municipality from "components/projects/create/Municipality.vue";
 export default {
   name: "inviteUserDialog",
   props: {
-    dialogState: { type: Boolean, default: false }
+    dialogState: { type: Boolean, default: false },
+    guestEmail: { type: String, default: "" }
   },
   components: {
     Municipality
@@ -199,6 +200,13 @@ export default {
       },
       set: function(val) {
         this.$emit("update", val);
+      }
+    }
+  },
+  watch:{
+    dialogState: function(val){
+      if(val){
+        this.form.email = this.guestEmail;
       }
     }
   }
