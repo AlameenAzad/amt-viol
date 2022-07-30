@@ -356,3 +356,18 @@ export async function deleteProfile(context, payload) {
     }
   }
 }
+export async function deleteUser(context, payload) {
+  if (payload) {
+    try {
+      const res = await api.delete(`/api/users/${payload}`);
+      context.dispatch("logout");
+      console.log("res", res);
+    } catch (error) {
+      console.log("error.response", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}

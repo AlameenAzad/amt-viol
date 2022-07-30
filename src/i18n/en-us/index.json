@@ -330,5 +330,6 @@
   "checklist": "checklist",
   "wantToLogout": "Are you sure you want to logout?",
   "dontShowAgain": "Don't Show this dialog again.",
-  "passwordResetInfo": "You will receive an email with instructions on how to reset your password."
+  "passwordResetInfo": "You will receive an email with instructions on how to reset your password.",
+  "delteDataInfo": "Are you sure you want to delete your user? Your personal data and settings will be lost."
 }
