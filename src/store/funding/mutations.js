@@ -15,6 +15,7 @@ export function addNewFunding(state, payload) {
 export function deleteFunding(state, payload) {
   if (!!payload) {
     state.fundings = state.fundings.filter(funding => funding.id !== payload);
+    state.funding = {};
   }
 }
 
