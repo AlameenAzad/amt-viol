@@ -8,7 +8,7 @@
             Back
           </q-btn>
         </div>
-        <div class="col-12">
+        <div v-if="isAdmin" class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section class="row items-center justify-between q-pa-md">
@@ -16,7 +16,7 @@
                   <div class="row">
                     <div class="col-3">
                       <p class="font-14 no-margin text-blue-5">
-                        Date of Creation
+                        Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
@@ -28,19 +28,19 @@
                       </p>
                     </div>
                     <div class="col-3">
-                      <p class="font-14 no-margin text-blue-5">Owner</p>
+                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!funding.owner && funding.owner.username) || "" }}
                       </p>
                     </div>
                     <div class="col-3">
-                      <p class="font-14 no-margin text-blue-5">Type</p>
+                      <p class="font-14 no-margin text-blue-5">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Förderinfo
                       </p>
                     </div>
                     <div class="col-3">
-                      <p class="font-14 no-margin text-blue-5">Visibility</p>
+                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ funding.visibility || "" }}
                       </p>
@@ -92,6 +92,70 @@
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+        <div v-if="!isAdmin" class="col-12">
+          <div class="row">
+            <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
+              <q-card-section class="row items-center justify-between q-pa-md">
+                <div class="col-8">
+                  <div class="row">
+                    <div class="col-4">
+                      <p class="font-14 no-margin text-blue-5">
+                        Erstelldatum
+                      </p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{
+                          dateFormatter(
+                            !!funding.createdAt &&
+                              funding.createdAt.split("T"[0])
+                          ) || ""
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{ (!!funding.owner && funding.owner.username) || "" }}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        Förderinfo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row justify-end">
+                    <div class="col-auto">
+                      <q-btn
+                        @click="addToWatchlist()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        outline
+                        icon="star_outline"
+                        :loading="watchlistIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="addComment()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="comment"
+                        :loading="commentIsLoading"
                       />
                     </div>
                   </div>
@@ -162,10 +226,10 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <div
                   v-if="
-                    !!funding.info.streetNo ||
-                      !!funding.info.postalCode ||
-                      !!funding.info.phone ||
-                      !!funding.info.email
+                    (!!funding.info && funding.info.streetNo) ||
+                      (!!funding.info && funding.info.postalCode) ||
+                      (!!funding.info && funding.info.phone) ||
+                      (!!funding.info && funding.info.email)
                   "
                 >
                   <q-card-section>
@@ -174,16 +238,28 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{ funding.info.streetNo || "Street not found" }}
+                        {{
+                          (!!funding.info && funding.info.streetNo) ||
+                            "Street not found"
+                        }}
                       </p>
                       <p class="q-mb-sm">
-                        {{ funding.info.postalCode || "Postal Code not found" }}
+                        {{
+                          (!!funding.info && funding.info.postalCode) ||
+                            "Postal Code not found"
+                        }}
                       </p>
                       <p class="q-mb-sm">
-                        {{ funding.info.phone || "Phone not found" }}
+                        {{
+                          (!!funding.info && funding.info.phone) ||
+                            "Phone not found"
+                        }}
                       </p>
                       <p class="q-mb-sm text-overflow">
-                        {{ funding.info.email || "Email not found" }}
+                        {{
+                          (!!funding.info && funding.info.email) ||
+                            "Email not found"
+                        }}
                       </p>
                     </div>
                   </q-card-section>
@@ -355,11 +431,11 @@
             </div>
             <div
               v-if="
-                !!funding.details.goal ||
-                  !!funding.details.funded ||
-                  !!funding.details.notFunded ||
-                  !!funding.details.willBeFunded ||
-                  !!funding.details.condition
+                (!!funding.details && funding.details.goal) ||
+                  (!!funding.details && funding.details.funded) ||
+                  (!!funding.details && funding.details.notFunded) ||
+                  (!!funding.details && funding.details.willBeFunded) ||
+                  (!!funding.details && funding.details.condition)
               "
               class="col-12 q-mb-md"
             >
@@ -924,12 +1000,18 @@
       :dialogState="deleteDialog"
       @update="closeDialog($event), (itemId = null)"
     />
+    <CommentDialog
+      :fundingId="itemId"
+      :dialogState="commentDialog"
+      @update="(commentDialog = $event), (commentIsLoading = false)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import CommentDialog from "components/funding/view/CommentDialog.vue";
 export default {
   name: "FundingView",
   data() {
@@ -942,16 +1024,17 @@ export default {
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
-      watchlistIsLoading: false
+      watchlistIsLoading: false,
+      commentIsLoading: false,
+      commentDialog: false
     };
   },
   components: {
-    DeleteDialog
+    DeleteDialog,
+    CommentDialog
   },
   watch: {
     $route(to, from) {
-      console.log("to", to);
-      console.log("from", from);
       if (
         (to.params && to.params.id) !==
         (this.$store.state.funding.funding &&
@@ -965,16 +1048,33 @@ export default {
     dateFormatter,
     closeDialog(val) {
       this.deleteDialog = val;
-      this.$router.go(-1);
+      if (!!this.funding && !this.funding.id) {
+        this.$router.go(-1);
+      }
     },
     async getData() {
       console.log("this.$router", this.$router);
-      console.log("this.$route", this.$route);
+      const startLocation =
+        !!this.$router.history && this.$router.history._startLocation;
+      const funding =
+        !!this.$router.history &&
+        this.$router.history.current &&
+        this.$router.history.current.fullPath;
       if (
         (!!this.$route.params && Number(this.$route.params.id)) !==
         (!!this.$store.state.funding.funding &&
           this.$store.state.funding.funding.id)
       ) {
+        this.isLoading = true;
+        await this.$store.dispatch("funding/getSpecificFunding", {
+          id: Number(this.$route.params.id)
+        });
+        this.isLoading = false;
+      } else if (
+        startLocation.includes(`newFunding/${this.$route.params.id}`) &&
+        funding.includes(`newFunding/${this.$route.params.id}`)
+      ) {
+        console.log("HORSESSS");
         this.isLoading = true;
         await this.$store.dispatch("funding/getSpecificFunding", {
           id: Number(this.$route.params.id)
@@ -1058,6 +1158,18 @@ export default {
         id: id
       });
       this.archiveIsLoading = false;
+      this.$router.go(-1);
+    },
+    async addComment() {
+      this.commentIsLoading = true;
+      this.commentDialog = true;
+      this.itemId = !!this.funding && this.funding.id;
+
+      // await this.$store.dispatch("funding/getSpecificFunding", {
+      //   id: id
+      // });
+      // this.editIsLoading = false;
+      // this.$router.push({ path: `/user/newFunding/edit/${id}` });
     },
     async deleteFunding() {
       this.itemId = !!this.funding && this.funding.id;
@@ -1065,6 +1177,9 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },
