@@ -244,7 +244,20 @@ export async function manageRequest(context, payload) {
     }
   }
 }
-
+export async function deleteGuestRequest(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.delete(`/api/guest-requests/${id}`);
+    } catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}
 export async function getDataOverview(context) {
   try {
     const res = await api.get("/api/user/overview");
