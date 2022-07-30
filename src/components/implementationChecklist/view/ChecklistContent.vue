@@ -1,1753 +1,1968 @@
 <template>
-  <!-- TODO Turn everything into components -->
-  <div v-if="!!checklist" :class="!isDashboardView ? 'container' : ''">
-    <div class="row q-mt-xl">
-      <div v-if="!isDashboardView" class="col-12">
-        <q-btn @click="$router.go(-1)" color="back" align="left" flat no-caps>
-          <q-icon name="chevron_left" color="primary" class="on-left" />
-          Back
-        </q-btn>
+  <div>
+    <div v-if="!!checklist" :class="!isDashboardView ? 'container' : ''">
+      <div class="row">
+        <div v-if="!isDashboardView" class="col-12">
+          <q-btn @click="$router.go(-1)" color="back" align="left" flat no-caps>
+            <q-icon name="chevron_left" color="primary" class="on-left" />
+            Back
+          </q-btn>
+        </div>
+        <div v-if="isAdmin" class="col-12">
+          <div class="row">
+            <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
+              <q-card-section class="row items-center justify-between q-pa-md">
+                <div class="col-8">
+                  <div class="row q-col-gutter-x-xl">
+                    <div class="col-auto">
+                      <p class="font-14 no-margin text-blue-5">
+                        Erstelldatum
+                      </p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{
+                          dateFormatter(
+                            !!checklist.createdAt &&
+                              checklist.createdAt.split("T"[0])
+                          ) || ""
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-auto">
+                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{
+                          (!!checklist.owner && checklist.owner.username) || ""
+                        }}
+                      </p>
+                    </div>
+                    <div class="col-auto">
+                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        Umsetzungscheckliste
+                      </p>
+                    </div>
+                    <div class="col-auto">
+                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
+                      <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
+                        {{ checklist.visibility || "" }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row justify-between">
+                    <div class="col-auto">
+                      <q-btn
+                        @click="addToWatchlist()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        outline
+                        icon="star_outline"
+                        :loading="watchlistIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="editChecklist()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="edit"
+                        :loading="editIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="archiveChecklist()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="inventory"
+                        :loading="archiveIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="deleteChecklist()"
+                        color="red"
+                        unelevated
+                        class="radius-6 q-ml-md text-weight-600"
+                        no-caps
+                        icon="delete"
+                        :loading="deleteIsLoading"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
       </div>
-      <div class="col-12">
-        <h1 class="font-24 text-weight-600 q-my-none">
-          {{ checklist.title || "Title not found" }}
-        </h1>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="font-24 text-weight-regular q-my-none">
+            {{ checklist.title || "Title not found" }}
+          </h1>
+        </div>
       </div>
-    </div>
-    <div class="row q-col-gutter-lg">
-      <div class="col-12 col-md-4">
-        <div class="row">
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Idea Provider/giver
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ checklist.ideaProvider || "Provider not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Contact Person
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ checklist.info.contactName || "Contact not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{
-                      (checklist.municipality &&
-                        checklist.municipality.location) ||
-                        "Municipality not found"
-                    }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Contact details
-                </h4>
-                <div class="q-ml-md font-16">
-                  <p class="q-mb-sm">
-                    {{ checklist.info.streetNo || "Street not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ checklist.info.postalCode || "Postal Code not found" }}
-                  </p>
-                  <p class="q-mb-sm">
-                    {{ checklist.info.phone || "Phone not found" }}
-                  </p>
-                  <p class="q-mb-sm text-overflow">
-                    {{ checklist.info.email || "Email not found" }}
-                  </p>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Invite Editor
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="checklist.editors && checklist.editors.length > 0">
-                    <p
-                      v-for="(editor, index) in checklist.editors"
-                      :key="index"
-                      class="q-mb-sm"
-                    >
-                      {{ editor.username }}
+      <div class="row q-col-gutter-lg">
+        <div class="col-12 col-md-4">
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Idea Provider/giver
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ checklist.ideaProvider || "Provider not found" }}
                     </p>
                   </div>
-                  <div v-else>
-                    <p class="q-mb-sm">No editors Invited</p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Contact Person
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{
+                        (!!checklist.info && checklist.info.contactName) ||
+                          "Contact not found"
+                      }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{
+                        (!!checklist.municipality &&
+                          checklist.municipality.location) ||
+                          "Municipality not found"
+                      }}
+                    </p>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                  Link for Project Idea
-                </h4>
-                <div class="q-ml-md font-16">
-                  <div v-if="checklist.project && checklist.project.id">
-                    <a
-                      class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      @click.prevent="viewProject(checklist.project.id)"
-                      >{{ checklist.project.title }}</a
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Contact details
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{
+                        (!!checklist.info && checklist.info.streetNo) ||
+                          "Street not found"
+                      }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{
+                        (!!checklist.info && checklist.info.postalCode) ||
+                          "Postal Code not found"
+                      }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{
+                        (!!checklist.info && checklist.info.phone) ||
+                          "Phone not found"
+                      }}
+                    </p>
+                    <p class="q-mb-sm text-overflow">
+                      {{
+                        (!!checklist.info && checklist.info.email) ||
+                          "Email not found"
+                      }}
+                    </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Invite Editor
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div
+                      v-if="checklist.editors && checklist.editors.length > 0"
                     >
+                      <p
+                        v-for="(editor, index) in checklist.editors"
+                        :key="index"
+                        class="q-mb-sm"
+                      >
+                        {{ editor.username }}
+                      </p>
+                    </div>
+                    <div v-else>
+                      <p class="q-mb-sm">No editors Invited</p>
+                    </div>
                   </div>
-                  <div v-else>
-                    <p class="q-mb-sm">No Project Idea linked</p>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    Link for Project Idea
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <div v-if="checklist.project && checklist.project.id">
+                      <a
+                        class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        @click.prevent="viewProject(checklist.project.id)"
+                        >{{ checklist.project.title }}</a
+                      >
+                    </div>
+                    <div v-else>
+                      <p class="q-mb-sm">No Project Idea linked</p>
+                    </div>
                   </div>
-                </div>
-              </q-card-section>
-            </q-card>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-12 col-md-8">
-        <div class="row">
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section v-if="checklist.media">
-                <q-carousel
-                  swipeable
-                  animated
-                  v-model="slide"
-                  infinite
-                  class="radius-10"
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section v-if="checklist.media">
+                  <q-carousel
+                    swipeable
+                    animated
+                    v-model="slide"
+                    infinite
+                    class="radius-10"
+                  >
+                    <q-carousel-slide
+                      class="imageStyling"
+                      v-for="(item, index) in checklist.media"
+                      :key="index"
+                      :name="index + 1"
+                      :img-src="`${appUrl}${item.url}`"
+                    />
+                  </q-carousel>
+                  <div class="row justify-center">
+                    <div class="col-9">
+                      <q-tabs
+                        swipeable
+                        v-model="slide"
+                        indicator-color="transparent"
+                        outside-arrows
+                        inline-label
+                        mobile-arrows
+                        align="center"
+                        active-class="opacity-50"
+                        class="no-padding q-mt-md carouselThumbnails"
+                      >
+                        <q-tab
+                          :name="index + 1"
+                          @click="slide = index + 1"
+                          v-for="(item, index) in checklist.media"
+                          :key="index"
+                          class="no-padding q-mx-sm radius-10"
+                          content-class="no-padding overflow-hidden"
+                        >
+                          <div
+                            class="no-padding radius-10 overflow-hidden"
+                            style="width:100px; height:100px"
+                          >
+                            <q-card-section class="no-padding">
+                              <q-img
+                                class="tabStyling"
+                                :src="`${appUrl}${item.url}`"
+                                height="100px"
+                                width="100px"
+                              />
+                            </q-card-section>
+                          </div>
+                        </q-tab>
+                      </q-tabs>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-section
+                  class="flex flex-center"
+                  v-else
+                  style="height: 548px"
                 >
-                  <q-carousel-slide
-                    class="imageStyling"
-                    v-for="(item, index) in checklist.media"
-                    :key="index"
-                    :name="index + 1"
-                    :img-src="`${appUrl}${item.url}`"
-                  />
-                </q-carousel>
-                <div class="row justify-center">
-                  <div class="col-9">
-                    <q-tabs
-                      swipeable
-                      v-model="slide"
-                      indicator-color="transparent"
-                      outside-arrows
-                      inline-label
-                      mobile-arrows
-                      align="center"
-                      active-class="opacity-50"
-                      class="no-padding q-mt-md carouselThumbnails"
-                    >
-                      <q-tab
-                        :name="index + 1"
-                        @click="slide = index + 1"
-                        v-for="(item, index) in checklist.media"
-                        :key="index"
-                        class="no-padding q-mx-sm radius-10"
-                        content-class="no-padding overflow-hidden"
-                      >
-                        <div
-                          class="no-padding radius-10 overflow-hidden"
-                          style="width:100px; height:100px"
-                        >
-                          <q-card-section class="no-padding">
-                            <q-img
-                              class="tabStyling"
-                              :src="`${appUrl}${item.url}`"
-                              height="100px"
-                              width="100px"
-                            />
-                          </q-card-section>
-                        </div>
-                      </q-tab>
-                    </q-tabs>
+                  <div>
+                    <h6 class="text-grey">No Images</h6>
                   </div>
-                </div>
-              </q-card-section>
-              <q-card-section
-                class="flex flex-center"
-                v-else
-                style="height: 548px"
-              >
-                <div>
-                  <h6 class="text-grey">No Images</h6>
-                </div>
-              </q-card-section>
-            </q-card>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-12 q-pt-none">
-        <div class="row">
-          <div class="col-12 q-mb-md">
-            <q-card class="shadow-1 radius-20">
-              <q-card-section horizontal class="q-pa-md">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Categories
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-md font-16">
-                    <div
-                      v-if="
-                        checklist.categories && checklist.categories.length > 0
-                      "
-                    >
-                      <q-chip
-                        v-for="(category, index) in checklist.categories"
-                        :key="index"
-                        square
-                        size="16px"
-                        color="yellow-10"
-                        text-color="blue"
+        <div class="col-12 q-pt-none">
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-card class="shadow-1 radius-20">
+                <q-card-section horizontal class="q-pa-md">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Categories
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-md font-16">
+                      <div
+                        v-if="
+                          checklist.categories &&
+                            checklist.categories.length > 0
+                        "
                       >
-                        {{ category.title }}
-                      </q-chip>
-                    </div>
-                    <div v-else>
-                      <p class="q-mt-sm q-mb-sm">
-                        No categories set
-                      </p>
+                        <q-chip
+                          v-for="(category, index) in checklist.categories"
+                          :key="index"
+                          square
+                          size="16px"
+                          color="yellow-10"
+                          text-color="blue"
+                        >
+                          {{ category.title }}
+                        </q-chip>
+                      </div>
+                      <div v-else>
+                        <p class="q-mt-sm q-mb-sm">
+                          No categories set
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-              <q-card-section horizontal class="q-pa-md">
-                <div class="col-4">
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Tags
-                  </h4>
-                </div>
-                <div class="col-8">
-                  <div class="q-ml-md font-16">
-                    <div v-if="checklist.tags && checklist.tags.length > 0">
-                      <q-chip
-                        v-for="(tag, index) in checklist.tags"
-                        :key="index"
-                        square
-                        size="16px"
-                        color="yellow-10"
-                        text-color="blue"
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section horizontal class="q-pa-md">
+                  <div class="col-4">
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Tags
+                    </h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="q-ml-md font-16">
+                      <div v-if="checklist.tags && checklist.tags.length > 0">
+                        <q-chip
+                          v-for="(tag, index) in checklist.tags"
+                          :key="index"
+                          square
+                          size="16px"
+                          color="yellow-10"
+                          text-color="blue"
+                        >
+                          {{ tag.title }}
+                        </q-chip>
+                      </div>
+                      <div v-else>
+                        <p class="q-mt-sm q-mb-sm">
+                          No Tags Set
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div
+              v-if="
+                (!!checklist.initialContact &&
+                  !!checklist.initialContact.captureIdea.active) ||
+                  (!!checklist.initialContact &&
+                    !!checklist.initialContact.caputreContect.active)
+              "
+              class="col-12 q-mb-md"
+            >
+              <q-card
+                class="shadow-1 radius-20"
+                :class="
+                  checkProgress(
+                    checklist.initialContact.start,
+                    checklist.initialContact.end
+                  )
+                "
+              >
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Initial discussion with the politics
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.initialContact &&
+                                checklist.initialContact.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.initialContact &&
+                                checklist.initialContact.end
+                            )
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div
+                      v-for="(card, propertyName) in checklist.initialContact"
+                      :key="card.sortPosition"
+                    >
+                      <div
+                        v-if="
+                          (propertyName !== 'end' ||
+                            propertyName !== 'start' ||
+                            propertyName !== 'id') &&
+                            card.active === true
+                        "
                       >
-                        {{ tag.title }}
-                      </q-chip>
-                    </div>
-                    <div v-else>
-                      <p class="q-mt-sm q-mb-sm">
-                        No Tags Set
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div
-            v-if="
-              !!checklist.initialContact.captureIdea.active ||
-                !!checklist.initialContact.caputreContect.active
-            "
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              class="shadow-1 radius-20"
-              :class="
-                checkProgress(
-                  checklist.initialContact.start,
-                  checklist.initialContact.end
-                )
-              "
-            >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
-              >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Initial discussion with the politics
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.initialContact &&
-                              checklist.initialContact.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.initialContact &&
-                              checklist.initialContact.end
-                          )
-                        }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card, propertyName) in checklist.initialContact"
-                    :key="card.sortPosition"
-                  >
-                    <div
-                      v-if="
-                        (propertyName !== 'end' ||
-                          propertyName !== 'start' ||
-                          propertyName !== 'id') &&
-                          card.active === true
-                      "
-                    >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "captureIdea"
-                                    ? "Capture Project Idea"
-                                    : "Capture Content"
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.initialContact.start,
-                                  checklist.initialContact.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.initialContact.start,
-                                  checklist.initialContact.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
-                            </div>
-                          </div>
-                          <div class="row items-center q-mb-md">
-                            <div
-                              v-if="
-                                propertyName === 'captureIdea' &&
-                                  !!card.project &&
-                                  card.project.id
-                              "
-                            >
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                link for project idea
-                              </p>
-                              <a
-                                class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                @click.prevent="viewProject(card.project.id)"
-                                >{{ card.project.title }}</a
-                              >
-                            </div>
-                          </div>
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'captureIdea'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
+                                >
+                                  {{
+                                    propertyName === "captureIdea"
+                                      ? "Capture Project Idea"
+                                      : "Capture Content"
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="
+                                  checkProgress(
+                                    checklist.initialContact.start,
+                                    checklist.initialContact.end
+                                  ) !== 'notStarted'
+                                "
                               >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.initialContact.start,
+                                    checklist.initialContact.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
+                              </div>
+                            </div>
+                            <div class="row items-center q-mb-md">
+                              <div
+                                v-if="
+                                  propertyName === 'captureIdea' &&
+                                    !!card.project &&
+                                    card.project.id
+                                "
+                              >
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  link for project idea
+                                </p>
                                 <a
-                                  class="q-mb-md text-blue block text-weight-600"
+                                  class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                  @click.prevent="viewProject(card.project.id)"
+                                  >{{ card.project.title }}</a
                                 >
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'caputreContect'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+                            <div v-if="propertyName === 'captureIdea'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
+                            </div>
+                            <div v-if="propertyName === 'caputreContect'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
-          </div>
-
-          <div
-            v-if="
-              !!checklist.preparation.inspection.active ||
-                !!checklist.preparation.captureRequirements.active ||
-                !!checklist.preparation.captureNeeds.active
-            "
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              class="shadow-1 radius-20"
-              :class="
-                checkProgress(
-                  checklist.preparation.start,
-                  checklist.preparation.end
-                )
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
+            <div
+              v-if="
+                (!!checklist.preparation &&
+                  !!checklist.preparation.inspection.active) ||
+                  (!!checklist.preparation &&
+                    !!checklist.preparation.captureRequirements.active) ||
+                  (!!checklist.preparation &&
+                    !!checklist.preparation.captureNeeds.active)
               "
+              class="col-12 q-mb-md"
             >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
+              <q-card
+                class="shadow-1 radius-20"
+                :class="
+                  checkProgress(
+                    checklist.preparation.start,
+                    checklist.preparation.end
+                  )
+                "
               >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Preparation of the project idea outline with internal
-                        coordination
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.preparation &&
-                              checklist.preparation.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.preparation && checklist.preparation.end
-                          )
-                        }}
-                      </p>
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Preparation of the project idea outline with internal
+                          coordination
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.preparation &&
+                                checklist.preparation.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.preparation &&
+                                checklist.preparation.end
+                            )
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card, propertyName) in checklist.preparation"
-                    :key="card.sortPosition"
-                  >
+                  <div class="col-8">
                     <div
-                      v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
-                          card.active === true
-                      "
+                      v-for="(card, propertyName) in checklist.preparation"
+                      :key="card.sortPosition"
                     >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "inspection"
-                                    ? "Inspection"
-                                    : propertyName === "captureRequirements"
-                                    ? "Capture requirements"
-                                    : propertyName === "captureNeeds"
-                                    ? "Capture Needs"
-                                    : ""
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                      <div
+                        v-if="
+                          (propertyName != 'end' ||
+                            propertyName != 'start' ||
+                            propertyName != 'id') &&
+                            card.active === true
+                        "
+                      >
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.preparation.start,
-                                  checklist.preparation.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.preparation.start,
-                                  checklist.preparation.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
+                                >
+                                  {{
+                                    propertyName === "inspection"
+                                      ? "Inspection"
+                                      : propertyName === "captureRequirements"
+                                      ? "Capture requirements"
+                                      : propertyName === "captureNeeds"
+                                      ? "Capture Needs"
+                                      : ""
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
+                              <div
+                                v-if="
+                                  checkProgress(
+                                    checklist.preparation.start,
+                                    checklist.preparation.end
+                                  ) !== 'notStarted'
+                                "
+                              >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.preparation.start,
+                                    checklist.preparation.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
+                              </div>
                             </div>
-                          </div>
 
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'inspection'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'captureRequirements'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'inspection'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'captureNeeds'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'captureRequirements'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+                            <div v-if="propertyName === 'captureNeeds'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
-          </div>
-
-          <div
-            v-if="
-              !!checklist.fundingResearch.checkDatabase.active ||
-                !!checklist.fundingResearch.checkForFunding.active ||
-                !!checklist.fundingResearch.checkWithFunding.active ||
-                !!checklist.fundingResearch.checkGuildlines.active
-            "
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              :class="
-                checkProgress(
-                  checklist.fundingResearch.start,
-                  checklist.fundingResearch.end
-                )
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
+            <div
+              v-if="
+                (!!checklist.fundingResearch &&
+                  !!checklist.fundingResearch.checkDatabase.active) ||
+                  (!!checklist.fundingResearch &&
+                    !!checklist.fundingResearch.checkForFunding.active) ||
+                  (!!checklist.fundingResearch &&
+                    !!checklist.fundingResearch.checkWithFunding.active) ||
+                  (!!checklist.fundingResearch &&
+                    !!checklist.fundingResearch.checkGuildlines.active)
               "
-              class="shadow-1 radius-20"
+              class="col-12 q-mb-md"
             >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
+              <q-card
+                :class="
+                  checkProgress(
+                    checklist.fundingResearch.start,
+                    checklist.fundingResearch.end
+                  )
+                "
+                class="shadow-1 radius-20"
               >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Funding research
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.fundingResearch &&
-                              checklist.fundingResearch.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.fundingResearch &&
-                              checklist.fundingResearch.end
-                          )
-                        }}
-                      </p>
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Funding research
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.fundingResearch &&
+                                checklist.fundingResearch.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.fundingResearch &&
+                                checklist.fundingResearch.end
+                            )
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card, propertyName) in checklist.fundingResearch"
-                    :key="card.sortPosition"
-                  >
+                  <div class="col-8">
                     <div
-                      v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
-                          card.active === true
-                      "
+                      v-for="(card, propertyName) in checklist.fundingResearch"
+                      :key="card.sortPosition"
                     >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "checkDatabase"
-                                    ? "Check database “Fundings”"
-                                    : propertyName === "checkForFunding"
-                                    ? "Check for funding scouting"
-                                    : propertyName === "checkWithFunding"
-                                    ? "Joint research for funding or check of the project idea"
-                                    : propertyName === "checkGuildlines"
-                                    ? "Check Guidlines (long version)"
-                                    : ""
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                      <div
+                        v-if="
+                          (propertyName != 'end' ||
+                            propertyName != 'start' ||
+                            propertyName != 'id') &&
+                            card.active === true
+                        "
+                      >
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.fundingResearch.start,
-                                  checklist.fundingResearch.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.fundingResearch.start,
-                                  checklist.fundingResearch.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
-                            </div>
-                          </div>
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkDatabase'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
                                 >
+                                  {{
+                                    propertyName === "checkDatabase"
+                                      ? "Check database “Fundings”"
+                                      : propertyName === "checkForFunding"
+                                      ? "Check for funding scouting"
+                                      : propertyName === "checkWithFunding"
+                                      ? "Joint research for funding or check of the project idea"
+                                      : propertyName === "checkGuildlines"
+                                      ? "Check Guidlines (long version)"
+                                      : ""
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
+                              <div
+                                v-if="
+                                  checkProgress(
+                                    checklist.fundingResearch.start,
+                                    checklist.fundingResearch.end
+                                  ) !== 'notStarted'
+                                "
+                              >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.fundingResearch.start,
+                                    checklist.fundingResearch.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkForFunding'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkWithFunding'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'checkDatabase'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkGuildlines'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'checkForFunding'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+                            <div v-if="propertyName === 'checkWithFunding'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
+                            </div>
+                            <div v-if="propertyName === 'checkGuildlines'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
-          </div>
-
-          <div
-            v-if="
-              !!checklist.preparationOfProject.checkContent.active ||
-                !!checklist.preparationOfProject.checkCooperations.active ||
-                !!checklist.preparationOfProject.checkSimilarProejcts.active ||
-                !!checklist.preparationOfProject.checkPlanning.active
-            "
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              :class="
-                checkProgress(
-                  checklist.preparationOfProject.start,
-                  checklist.preparationOfProject.end
-                )
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
+            <div
+              v-if="
+                (!!checklist.preparationOfProject &&
+                  !!checklist.preparationOfProject.checkContent.active) ||
+                  (!!checklist.preparationOfProject &&
+                    !!checklist.preparationOfProject.checkCooperations
+                      .active) ||
+                  (!!checklist.preparationOfProject &&
+                    !!checklist.preparationOfProject.checkSimilarProejcts
+                      .active) ||
+                  (!!checklist.preparationOfProject &&
+                    !!checklist.preparationOfProject.checkPlanning.active)
               "
-              class="shadow-1 radius-20"
+              class="col-12 q-mb-md"
             >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
+              <q-card
+                :class="
+                  checkProgress(
+                    checklist.preparationOfProject.start,
+                    checklist.preparationOfProject.end
+                  )
+                "
+                class="shadow-1 radius-20"
               >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Preparation/optimisation of project documents
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.preparationOfProject &&
-                              checklist.preparationOfProject.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.preparationOfProject &&
-                              checklist.preparationOfProject.end
-                          )
-                        }}
-                      </p>
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Preparation/optimisation of project documents
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.preparationOfProject &&
+                                checklist.preparationOfProject.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.preparationOfProject &&
+                                checklist.preparationOfProject.end
+                            )
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card,
-                    propertyName) in checklist.preparationOfProject"
-                    :key="card.sortPosition"
-                  >
+                  <div class="col-8">
                     <div
-                      v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
-                          card.active === true
-                      "
+                      v-for="(card,
+                      propertyName) in checklist.preparationOfProject"
+                      :key="card.sortPosition"
                     >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "checkContent"
-                                    ? "Check Content with Guidlines"
-                                    : propertyName === "checkCooperations"
-                                    ? "If necessary check cooperations"
-                                    : propertyName === "checkSimilarProejcts"
-                                    ? "If necessary check similar projects"
-                                    : propertyName === "checkPlanning"
-                                    ? "Check planning and financing with all relevant departments"
-                                    : ""
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                      <div
+                        v-if="
+                          (propertyName != 'end' ||
+                            propertyName != 'start' ||
+                            propertyName != 'id') &&
+                            card.active === true
+                        "
+                      >
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.preparationOfProject.start,
-                                  checklist.preparationOfProject.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.preparationOfProject.start,
-                                  checklist.preparationOfProject.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
-                            </div>
-                          </div>
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkContent'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
                                 >
+                                  {{
+                                    propertyName === "checkContent"
+                                      ? "Check Content with Guidlines"
+                                      : propertyName === "checkCooperations"
+                                      ? "If necessary check cooperations"
+                                      : propertyName === "checkSimilarProejcts"
+                                      ? "If necessary check similar projects"
+                                      : propertyName === "checkPlanning"
+                                      ? "Check planning and financing with all relevant departments"
+                                      : ""
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
+                              <div
+                                v-if="
+                                  checkProgress(
+                                    checklist.preparationOfProject.start,
+                                    checklist.preparationOfProject.end
+                                  ) !== 'notStarted'
+                                "
+                              >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.preparationOfProject.start,
+                                    checklist.preparationOfProject.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkCooperations'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkSimilarProejcts'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'checkContent'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'checkPlanning'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'checkCooperations'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+                            <div v-if="propertyName === 'checkSimilarProejcts'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
+                            </div>
+                            <div v-if="propertyName === 'checkPlanning'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
-          </div>
-
-          <div
-            v-if="!!checklist.legitimation.template.active"
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              :class="
-                checkProgress(
-                  checklist.legitimation.start,
-                  checklist.legitimation.end
-                )
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
+            <div
+              v-if="
+                !!checklist.legitimation &&
+                  !!checklist.legitimation.template.active
               "
-              class="shadow-1 radius-20"
+              class="col-12 q-mb-md"
             >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
+              <q-card
+                :class="
+                  checkProgress(
+                    checklist.legitimation.start,
+                    checklist.legitimation.end
+                  )
+                "
+                class="shadow-1 radius-20"
               >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Legitimation for submission
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.legitimation &&
-                              checklist.legitimation.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.legitimation &&
-                              checklist.legitimation.end
-                          )
-                        }}
-                      </p>
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Legitimation for submission
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.legitimation &&
+                                checklist.legitimation.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.legitimation &&
+                                checklist.legitimation.end
+                            )
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card, propertyName) in checklist.legitimation"
-                    :key="card.sortPosition"
-                  >
+                  <div class="col-8">
                     <div
-                      v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
-                          card.active === true
-                      "
+                      v-for="(card, propertyName) in checklist.legitimation"
+                      :key="card.sortPosition"
                     >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "template"
-                                    ? "Presentation/discussion of the project documents"
-                                    : ""
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                      <div
+                        v-if="
+                          (propertyName != 'end' ||
+                            propertyName != 'start' ||
+                            propertyName != 'id') &&
+                            card.active === true
+                        "
+                      >
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.legitimation.start,
-                                  checklist.legitimation.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.legitimation.start,
-                                  checklist.legitimation.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
-                            </div>
-                          </div>
-
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'template'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
                                 >
+                                  {{
+                                    propertyName === "template"
+                                      ? "Presentation/discussion of the project documents"
+                                      : ""
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
+                              <div
+                                v-if="
+                                  checkProgress(
+                                    checklist.legitimation.start,
+                                    checklist.legitimation.end
+                                  ) !== 'notStarted'
+                                "
+                              >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.legitimation.start,
+                                    checklist.legitimation.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
+                              </div>
+                            </div>
+                            <div v-if="propertyName === 'template'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
-          </div>
-
-          <div
-            v-if="
-              !!checklist.finalExamination.signatures.active ||
-                !!checklist.finalExamination.revision.active 
-            "
-            class="col-12 q-mb-md"
-          >
-            <q-card
-              :class="
-                checkProgress(
-                  checklist.finalExamination.start,
-                  checklist.finalExamination.end
-                )
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
+            <div
+              v-if="
+                (!!checklist.finalExamination &&
+                  !!checklist.finalExamination.signatures.active) ||
+                  (!!checklist.finalExamination &&
+                    !!checklist.finalExamination.revision.active)
               "
-              class="shadow-1 radius-20"
+              class="col-12 q-mb-md"
             >
-              <q-card-section
-                horizontal
-                class="q-pa-md items-start q-col-gutter-x-sm"
+              <q-card
+                :class="
+                  checkProgress(
+                    checklist.finalExamination.start,
+                    checklist.finalExamination.end
+                  )
+                "
+                class="shadow-1 radius-20"
               >
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                        Final examination of the project documents
-                      </h4>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mb-none font-16">Start</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mb-none font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.finalExamination &&
-                              checklist.finalExamination.start
-                          )
-                        }}
-                      </p>
-                    </div>
-                    <div class="col-2">
-                      <p class="q-mt-sm font-16">End</p>
-                    </div>
-                    <div class="col-10">
-                      <p class="q-mt-sm font-16">
-                        {{
-                          dateFormatter(
-                            !!checklist.finalExamination &&
-                              checklist.finalExamination.end
-                          )
-                        }}
-                      </p>
+                <q-card-section
+                  horizontal
+                  class="q-pa-md items-start q-col-gutter-x-sm"
+                >
+                  <div class="col-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
+                          Final examination of the project documents
+                        </h4>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mb-none font-16">Start</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mb-none font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.finalExamination &&
+                                checklist.finalExamination.start
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div class="col-2">
+                        <p class="q-mt-sm font-16">End</p>
+                      </div>
+                      <div class="col-10">
+                        <p class="q-mt-sm font-16">
+                          {{
+                            dateFormatter(
+                              !!checklist.finalExamination &&
+                                checklist.finalExamination.end
+                            )
+                          }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-8">
-                  <div
-                    v-for="(card, propertyName) in checklist.finalExamination"
-                    :key="card.sortPosition"
-                  >
+                  <div class="col-8">
                     <div
-                      v-if="
-                        (propertyName != 'end' ||
-                          propertyName != 'start' ||
-                          propertyName != 'id') &&
-                          card.active === true
-                      "
+                      v-for="(card, propertyName) in checklist.finalExamination"
+                      :key="card.sortPosition"
                     >
-                      <div class="q-mb-sm" style="background:#16428B1A">
-                        <div class="q-pa-md font-16">
-                          <div class="row justify-between items-start q-mb-md">
-                            <div>
-                              <p
-                                class="font-18 text-blue text-weight-600 q-ma-none"
-                              >
-                                {{
-                                  propertyName === "signatures"
-                                    ? "Collection of signatures"
-                                    : propertyName === "revision"
-                                    ? "Revision of project documents"
-                                    : ""
-                                }}
-                              </p>
-                              <p class="font-14 q-ma-none">
-                                {{ card.name || "No name filled" }}
-                              </p>
-                            </div>
+                      <div
+                        v-if="
+                          (propertyName != 'end' ||
+                            propertyName != 'start' ||
+                            propertyName != 'id') &&
+                            card.active === true
+                        "
+                      >
+                        <div class="q-mb-sm" style="background:#16428B1A">
+                          <div class="q-pa-md font-16">
                             <div
-                              v-if="
-                                checkProgress(
-                                  checklist.finalExamination.start,
-                                  checklist.finalExamination.end
-                                ) !== 'notStarted'
-                              "
+                              class="row justify-between items-start q-mb-md"
                             >
-                              <q-chip square class="text-weight-600">{{
-                                checkProgress(
-                                  checklist.finalExamination.start,
-                                  checklist.finalExamination.end
-                                ) === "done"
-                                  ? "Done"
-                                  : "In Progress"
-                              }}</q-chip>
+                              <div>
+                                <p
+                                  class="font-18 text-blue text-weight-600 q-ma-none"
+                                >
+                                  {{
+                                    propertyName === "signatures"
+                                      ? "Collection of signatures"
+                                      : propertyName === "revision"
+                                      ? "Revision of project documents"
+                                      : ""
+                                  }}
+                                </p>
+                                <p class="font-14 q-ma-none">
+                                  {{ card.name || "No name filled" }}
+                                </p>
+                              </div>
+                              <div
+                                v-if="
+                                  checkProgress(
+                                    checklist.finalExamination.start,
+                                    checklist.finalExamination.end
+                                  ) !== 'notStarted'
+                                "
+                              >
+                                <q-chip square class="text-weight-600">{{
+                                  checkProgress(
+                                    checklist.finalExamination.start,
+                                    checklist.finalExamination.end
+                                  ) === "done"
+                                    ? "Done"
+                                    : "In Progress"
+                                }}</q-chip>
+                              </div>
                             </div>
-                          </div>
 
-                          <div class="row items-center q-mb-md">
-                            <div>
-                              <p class="font-16 text-blue-5 q-ma-none">
-                                Description
-                              </p>
-                              <p class="font-16 q-ma-none text-block">
-                                {{ card.text || "No description filled" }}
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'signatures'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
-                              <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
-                              >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                            <div class="row items-center q-mb-md">
+                              <div>
+                                <p class="font-16 text-blue-5 q-ma-none">
+                                  Description
+                                </p>
+                                <p class="font-16 q-ma-none text-block">
+                                  {{ card.text || "No description filled" }}
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
-                            </div>
-                          </div>
-                          <div v-if="propertyName === 'revision'">
-                            <div
-                              v-if="card.file && card.file.length > 0"
-                              class="row items-center q-mb-none"
-                            >
+                            <div v-if="propertyName === 'signatures'">
                               <div
-                                v-for="(file, index) in card.file"
-                                :key="index"
-                                class="col-auto q-mr-md"
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
                               >
-                                <a
-                                  class="q-mb-md text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
                                 >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
                               </div>
                             </div>
-                            <div v-else>
-                              <p class="q-mt-sm q-mb-sm">
-                                No Files Uploaded
-                              </p>
+                            <div v-if="propertyName === 'revision'">
+                              <div
+                                v-if="card.file && card.file.length > 0"
+                                class="row items-center q-mb-none"
+                              >
+                                <div
+                                  v-for="(file, index) in card.file"
+                                  :key="index"
+                                  class="col-auto q-mr-md"
+                                >
+                                  <a
+                                    class="q-mb-md text-blue block text-weight-600"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    :href="`${appUrl}${file.url}`"
+                                    >{{ file.name }}</a
+                                  >
+                                </div>
+                              </div>
+                              <div v-else>
+                                <p class="q-mt-sm q-mb-sm">
+                                  No Files Uploaded
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="!!card.tasks && card.tasks.length > 0">
-                        <q-expansion-item
-                          expand-icon-class="text-blue"
-                          v-for="task in card.tasks"
-                          :key="task.sortPosition"
-                          style="background:#FDD50033"
-                          class="q-mb-sm"
-                          v-show="task.active === true"
-                        >
-                          <template v-slot:header>
-                            <q-item-section>
-                              <p class="font-18 text-weight-600 q-ma-none">
-                                {{ task.name }}
-                              </p>
-                            </q-item-section>
-                          </template>
-                          <q-card>
-                            <div
-                              v-if="!!task.children && task.children.length > 0"
-                            >
-                              <q-card-section
-                                horizontal
-                                v-for="item in task.children"
-                                :key="item.sortPosition"
-                                class="q-pl-none q-py-sm q-pr-none"
+                        <div v-if="!!card.tasks && card.tasks.length > 0">
+                          <q-expansion-item
+                            expand-icon-class="text-blue"
+                            v-for="task in card.tasks"
+                            :key="task.sortPosition"
+                            style="background:#FDD50033"
+                            class="q-mb-sm"
+                            v-show="task.active === true"
+                          >
+                            <template v-slot:header>
+                              <q-item-section>
+                                <p class="font-18 text-weight-600 q-ma-none">
+                                  {{ task.name }}
+                                </p>
+                              </q-item-section>
+                            </template>
+                            <q-card>
+                              <div
+                                v-if="
+                                  !!task.children && task.children.length > 0
+                                "
                               >
-                                <div class="col-12">
-                                  <div class="row justify-between items-center">
-                                    <div class="col-11">
-                                      <p class="font-14 q-ma-none">
-                                        {{ item.name }}
-                                      </p>
-                                    </div>
-                                    <div class="col-auto">
-                                      <q-checkbox
-                                        disable
-                                        color="primary"
-                                        class="isActiveCheckbox font-16 q-py-none"
-                                        :value="item.active"
-                                      />
+                                <q-card-section
+                                  horizontal
+                                  v-for="item in task.children"
+                                  :key="item.sortPosition"
+                                  class="q-pl-none q-py-sm q-pr-none"
+                                >
+                                  <div class="col-12">
+                                    <div
+                                      class="row justify-between items-center"
+                                    >
+                                      <div class="col-11">
+                                        <p class="font-14 q-ma-none">
+                                          {{ item.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-auto">
+                                        <q-checkbox
+                                          disable
+                                          color="primary"
+                                          class="isActiveCheckbox font-16 q-py-none"
+                                          :value="item.active"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </q-card-section>
-                            </div>
-                          </q-card>
-                        </q-expansion-item>
+                                </q-card-section>
+                              </div>
+                            </q-card>
+                          </q-expansion-item>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </q-card-section>
-              <q-separator inset class="bg-blue opacity-10" />
-            </q-card>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+              </q-card>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="closeDialog($event), (itemId = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
+import DeleteDialog from "components/data/DeleteDialog.vue";
+
 export default {
   name: "checklistContent",
   data() {
     return {
       slide: 1,
-      isLoading: false
+      isLoading: false,
+      itemId: null,
+      tab: "implementationChecklist",
+      deleteDialog: false,
+      editIsLoading: false,
+      deleteIsLoading: false,
+      archiveIsLoading: false,
+      watchlistIsLoading: false
     };
   },
-  watch: {
-    $route(to, from) {
-      if (
-        (to.params && to.params.id) !==
-        (this.$store.state.implementationChecklist.checklist &&
-          this.$store.state.implementationChecklist.checklist.id)
-      ) {
-        this.getNewData(to.params.id);
-      }
-    }
+  components: {
+    DeleteDialog
   },
   methods: {
     dateFormatter,
+    closeDialog(val) {
+      this.deleteDialog = val;
+      if (!!this.checklist && !this.checklist.id) {
+        this.$router.go(-1);
+      }
+    },
+    async getData() {
+      const startLocation =
+        !!this.$router.history && this.$router.history._startLocation;
+      const checklist =
+        !!this.$router.history &&
+        this.$router.history.current &&
+        this.$router.history.current.fullPath;
+      if (
+        (!!this.$route.params && Number(this.$route.params.id)) !==
+        (!!this.$store.state.implementationChecklist.checklist &&
+          this.$store.state.implementationChecklist.checklist.id)
+      ) {
+        this.isLoading = true;
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: Number(this.$route.params.id)
+          }
+        );
+        this.isLoading = false;
+      } else if (
+        startLocation.includes(`newChecklist/${this.$route.params.id}`) ===
+        checklist.includes(`newChecklist/${this.$route.params.id}`)
+      ) {
+        this.isLoading = true;
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: Number(this.$route.params.id)
+          }
+        );
+        this.isLoading = false;
+      } else {
+      }
+    },
     checkProgress(start, end) {
       const currentDate = new Date();
       const startDate = new Date(start);
@@ -1783,19 +1998,44 @@ export default {
     async viewChecklist() {
       console.log("Not yet implemented");
     },
-    async getNewData(id) {
-      console.log("url id", this.$route.params.id);
-      console.log("funding Id", this.$store.state.funding.funding.id);
-      if (!!id) {
-        this.isLoading = true;
-        await this.$store.dispatch("funding/getSpecificFunding", {
+    async addToWatchlist() {
+      this.watchlistIsLoading = true;
+      const id = !!this.checklist && this.checklist.id;
+      await this.$store.dispatch("implementationChecklist/addToWatchlist", {
+        id: id
+      });
+      this.watchlistIsLoading = false;
+    },
+    async editChecklist() {
+      this.editIsLoading = true;
+      const id = !!this.checklist && this.checklist.id;
+      await this.$store.dispatch(
+        "implementationChecklist/getSpecificChecklist",
+        {
           id: id
-        });
-        this.isLoading = false;
-      }
+        }
+      );
+      this.editIsLoading = false;
+      this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+    },
+    async archiveChecklist() {
+      this.archiveIsLoading = true;
+      const id = !!this.checklist && this.checklist.id;
+      await this.$store.dispatch("implementationChecklist/archiveChecklist", {
+        id: id
+      });
+      this.archiveIsLoading = false;
+      this.$router.go(-1);
+    },
+    async deleteChecklist() {
+      this.itemId = !!this.checklist && this.checklist.id;
+      this.deleteDialog = true;
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },
@@ -1808,6 +2048,9 @@ export default {
     checklist() {
       return this.$store.state.implementationChecklist.checklist;
     }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
