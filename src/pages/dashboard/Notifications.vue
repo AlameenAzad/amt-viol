@@ -1,9 +1,26 @@
 <template>
   <q-page class="q-mx-xl q-mt-lg q-pb-md">
+    <q-card v-if="data.length == 0" class="full-height full-width bg-white radius-20 shadow-1">
+      <q-card-section>
+        <div class="row">
+          <div class="col-12 text-center">
+            <q-icon name="notifications_active" size="xl" />
+          </div>
+          <div class="col-12 text-center">
+            <h3 class="font-16 text-weight-bold q-mb-none">
+              {{ $t('noNotifications') }}
+            </h3>
+            <p class="q-mb-none textColor">
+              {{ $t('noNotificationsDesc') }}
+            </p>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
     <div v-for="(cluster, index) in data" :key="index">
       <p class="font-16">{{ getIndex(index) }}</p>
-      <q-card v-for="(noti, index) in cluster" :key="noti.id+noti.typeOfNoti" class="shadow-1 radius-20 q-mb-md q-pa-sm"
-        flat>
+      <q-card v-for="(noti, index) in cluster" :key="noti.id + noti.typeOfNoti"
+        class="shadow-1 radius-20 q-mb-md q-pa-sm" flat>
         <q-card-section class="row">
           <q-icon :name="getIcon(noti.typeOfNoti)" size="md" color="blue-5" class="q-mr-sm" />
           <div class="col">
@@ -15,7 +32,8 @@
               made by | `:"" }}
 
               <span class="text-blue">{{ noti.typeOfNoti == "fundingExpirey" ? noti.plannedEnd :
-                noti.typeOfNoti == "fundingComments" ? noti.owner.username : noti.typeOfNoti == 'requests'?
+                noti.typeOfNoti == "fundingComments" && noti.owner.username ? noti.owner!=null : noti.typeOfNoti ==
+                'requests' && noti.user !=null?
                 noti.user.username : "" }}</span>
 
             </p>
