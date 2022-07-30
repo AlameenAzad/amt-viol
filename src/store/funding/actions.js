@@ -314,7 +314,6 @@ export async function addComment(context, payload) {
       const res = await api.post("/api/funding-comments", {
         data: { comment, funding: fundingId, owner: userId }
       });
-      console.log("res", res);
       Notify.create({
         message: "Added comment to Funding",
         type: "positive"
