@@ -305,6 +305,31 @@ export async function addToWatchlist(context, payload) {
   }
 }
 
+export async function addComment(context, payload) {
+  const { comment } = payload;
+  const { fundingId } = payload;
+  const { userId } = payload;
+  if (!!comment && !!fundingId && !!userId) {
+    try {
+      const res = await api.post("/api/funding-comments", {
+        data: { comment, funding: fundingId, owner: userId }
+      });
+      console.log("res", res);
+      Notify.create({
+        message: "Added comment to Funding",
+        type: "positive"
+      });
+      context.dispatch("getSpecificFunding", { id: fundingId });
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function removeFromWatchlist(context, payload) {
   const { id } = payload;
   if (!!id) {
