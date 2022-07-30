@@ -22,7 +22,8 @@
   "notificationsUser": {
     "viewBtn": "Ansehen",
     "acceptBtn": "Annehmen",
-    "declineBtn": "Ablehnen"
+    "declineBtn": "Ablehnen",
+    "viewFundingBtn": "Förderung ansehen"
   },
   "personalData": {
     "personalData": "Persönliche Daten",

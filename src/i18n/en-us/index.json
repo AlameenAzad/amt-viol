@@ -22,7 +22,8 @@
   "notificationsUser": {
     "viewBtn": "View",
     "acceptBtn": "Accept",
-    "declineBtn": "Decline"
+    "declineBtn": "Decline",
+    "viewFundingBtn": "View Funding"
   },
   "personalData": {
     "personalData": "Personal Data",
