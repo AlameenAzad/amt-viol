@@ -60,7 +60,7 @@
     <q-dialog v-if="dialog" v-model="dialog">
       <q-card>
         <q-card-section>
-          <div class="text-h6">New Comment on Funding "{{ currentFundingComment.funding.title }}""</div>
+          <div class="text-h6">New Comment on Funding "{{ currentFundingComment.funding.title }}"</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -147,7 +147,7 @@ export default {
     },
     async view(noti, isFunding = false){
       if (noti.typeOfNoti == "fundingComments" && isFunding){
-        this.$router.push({ path: `/user/newFunding/${noti.id}` });
+        this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
       }
       else if (noti.typeOfNoti == "fundingComments"){
         this.dialog = true;
@@ -157,7 +157,7 @@ export default {
         // await this.$store.dispatch("funding/getSpecificFunding", {
         //   id: noti.id
         // });
-        this.$router.push({ path: `/user/newFunding/${noti.id}` });
+        this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
       } else if (noti.typeOfNoti == 'requests'){
         if(noti.project != null){
           this.$router.push({ path: `/user/newProjectIdea/${noti.project.id}` });
