@@ -1112,42 +1112,7 @@ export default {
       });
       this.$q.loading.hide();
     },
-    // async getData() {
-    //   console.log("this.$router", this.$router);
-    //   const startLocation =
-    //     !!this.$router.history && this.$router.history._startLocation;
-    //   const funding =
-    //     !!this.$router.history &&
-    //     this.$router.history.current &&
-    //     this.$router.history.current.fullPath;
-    //   if (
-    //     (!!this.$route.params && Number(this.$route.params.id)) !==
-    //     (!!this.$store.state.funding.funding &&
-    //       this.$store.state.funding.funding.id)
-    //   ) {
-    //     this.isLoading = true;
-    //     await this.$store.dispatch("funding/getSpecificFunding", {
-    //       id: Number(this.$route.params.id)
-    //     });
-    //     this.isLoading = false;
-    //   } else if (
-    //     startLocation.includes(`newFunding/${this.$route.params.id}`) &&
-    //     funding.includes(`newFunding/${this.$route.params.id}`)
-    //   ) {
-    //     console.log("HORSESSS");
-    //     this.isLoading = true;
-    //     await this.$store.dispatch("funding/getSpecificFunding", {
-    //       id: Number(this.$route.params.id)
-    //     });
-    //     this.isLoading = false;
-    //   } else {
-    //     this.isLoading = true;
-    //     await this.$store.dispatch("funding/getSpecificFunding", {
-    //       id: Number(this.$route.params.id)
-    //     });
-    //     this.isLoading = false;
-    //   }
-    // },
+
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
@@ -1168,12 +1133,10 @@ export default {
     },
     async viewProject(id) {
       if (!!id) {
-        //  this.viewIsLoading = true;
-        // const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
-        // this.viewIsLoading = false;
+        // await this.$store.dispatch("project/viewProject", {
+        //   id: id
+        // });
+        this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
     },
     async viewChecklist(id) {
@@ -1181,12 +1144,12 @@ export default {
         // if (!!this.loading[index]) {
         //   this.loading[index].loading = true;
         // }
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
-          }
-        );
+        // await this.$store.dispatch(
+        //   "implementationChecklist/getSpecificChecklist",
+        //   {
+        //     id: id
+        //   }
+        // );
         // if (!!this.loading[index]) {
         //   this.loading[index].loading = false;
         // }

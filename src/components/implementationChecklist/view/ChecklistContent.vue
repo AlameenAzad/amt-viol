@@ -1993,41 +1993,6 @@ export default {
       );
       this.$q.loading.hide();
     },
-    // async getData() {
-    //   const startLocation =
-    //     !!this.$router.history && this.$router.history._startLocation;
-    //   const checklist =
-    //     !!this.$router.history &&
-    //     this.$router.history.current &&
-    //     this.$router.history.current.fullPath;
-    //   if (
-    //     (!!this.$route.params && Number(this.$route.params.id)) !==
-    //     (!!this.$store.state.implementationChecklist.checklist &&
-    //       this.$store.state.implementationChecklist.checklist.id)
-    //   ) {
-    //     this.isLoading = true;
-    //     await this.$store.dispatch(
-    //       "implementationChecklist/getSpecificChecklist",
-    //       {
-    //         id: Number(this.$route.params.id)
-    //       }
-    //     );
-    //     this.isLoading = false;
-    //   } else if (
-    //     startLocation.includes(`newChecklist/${this.$route.params.id}`) ===
-    //     checklist.includes(`newChecklist/${this.$route.params.id}`)
-    //   ) {
-    //     this.isLoading = true;
-    //     await this.$store.dispatch(
-    //       "implementationChecklist/getSpecificChecklist",
-    //       {
-    //         id: Number(this.$route.params.id)
-    //       }
-    //     );
-    //     this.isLoading = false;
-    //   } else {
-    //   }
-    // },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
@@ -2062,14 +2027,12 @@ export default {
       if (!!id) {
         //  this.viewIsLoading = true;
         // const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
+        // await this.$store.dispatch("project/viewProject", {
+        //   id: id
+        // });
         // this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
-    },
-    async viewChecklist() {
-      console.log("Not yet implemented");
     },
     async addToWatchlist() {
       this.watchlistIsLoading = true;
