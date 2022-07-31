@@ -586,62 +586,150 @@ export default {
     },
     dateFormatter,
     async view(row) {
+      const id = row && row.id;
+      this.viewIsLoading = true;
       if (row.type === "project") {
-        this.viewIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
-        this.viewIsLoading = false;
-      } else if (row.type === "funding") {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/${id}` });
-      } else {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        console.log("row", row);
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
           }
-        );
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/${id}` });
+        }
+      } else if (row.type === "funding") {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/${id}` });
+        }
+      } else {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/${id}` });
+        }
       }
+      this.viewIsLoading = false;
     },
     async editItem(row) {
+      this.editIsLoading = true;
+      const id = row && row.id;
       if (row.type === "project") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/editProject", {
-          id: id
-        });
-        this.editIsLoading = false;
-      } else if (row.type === "funding") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/edit/${id}` });
-      } else {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        console.log("row", row);
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
           }
-        );
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+        }
+      } else if (row.type === "funding") {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/edit/${id}` });
+        }
+      } else {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        }
       }
+      this.editIsLoading = false;
     },
     async deleteItem(row) {
       if (row.type === "project") {

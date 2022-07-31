@@ -238,7 +238,12 @@
                     ></q-item-section>
                   </q-item>
                   <q-item
-                    v-if="isAdmin || tab !== 'fundings'"
+                    v-if="
+                      isAdmin ||
+                        (tab !== 'fundings' &&
+                          (!!props.row.owner && props.row.owner.id) ===
+                            (!!loggedInUser && loggedInUser.id))
+                    "
                     clickable
                     v-close-popup
                     @click="archiveItem(props.row)"
@@ -326,7 +331,6 @@ export default {
         "title",
         "categories",
         "status",
-        "carbs",
         "plannedStart",
         "plannedEnd"
       ],
@@ -344,68 +348,148 @@ export default {
   methods: {
     dateFormatter,
     async view(row) {
+      const id = row && row.id;
+      this.viewIsLoading = true;
       if (this.tab === "projectIdeas") {
-        this.viewIsLoading = true;
-        const id = row && row.id;
-        const res = await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
-        if (res === "unauthorized") {
-          this.itemId = row && row.id;
-          this.type = "view";
-          this.requestDialog = true;
-        }
-        this.viewIsLoading = false;
-      } else if (this.tab === "fundings") {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        // TODO check if unauthorized
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/${id}` });
-      } else {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
           }
-        );
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/${id}` });
+        }
+      } else if (this.tab === "fundings") {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/${id}` });
+        }
+      } else {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/${id}` });
+        }
       }
+      this.viewIsLoading = false;
     },
     async editItem(row) {
+      this.editIsLoading = true;
+      const id = row && row.id;
       if (this.tab === "projectIdeas") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/editProject", {
-          id: id
-        });
-        this.editIsLoading = false;
-      } else if (this.tab === "fundings") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/edit/${id}` });
-      } else {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
           }
-        );
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+        }
+      } else if (this.tab === "fundings") {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/edit/${id}` });
+        }
+      } else {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.type = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        }
       }
+      this.editIsLoading = false;
     },
     async deleteItem(row) {
       this.itemId = row && row.id;
@@ -467,6 +551,10 @@ export default {
         this.$store.commit("funding/setSpecificFunding", null);
         this.$router.push({ path: "/user/newFunding" });
       } else {
+        this.$store.commit(
+          "implementationChecklist/setSpecificChecklist",
+          null
+        );
         this.$router.push({ path: "/user/newChecklist" });
       }
     },
@@ -500,6 +588,12 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     },
     isInPage() {
       return this.$router.currentRoute.path == "/user/data";
