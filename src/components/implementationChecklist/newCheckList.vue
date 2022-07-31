@@ -920,6 +920,32 @@
           </div>
         </q-form>
       </div>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-fab
+          :loading="isLoading"
+          icon="keyboard_arrow_left"
+          direction="left"
+          color="primary"
+        >
+          <q-fab-action
+            @click="
+              !!checklist ? editChecklist(true) : submitNewChecklist(true)
+            "
+            color="primary"
+            icon="add"
+            :label="$t('publishButton.publish')"
+          />
+          <q-fab-action
+            @click="
+              !!checklist ? editChecklist(false) : submitNewChecklist(false)
+            "
+            color="primary"
+            icon="edit"
+            outline
+            :label="$t('draftButton.saveAsDraft')"
+          />
+        </q-fab>
+      </q-page-sticky>
     </div>
   </q-page>
 </template>

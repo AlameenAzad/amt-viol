@@ -165,7 +165,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 250px">
-                  <q-item clickable @click="view(props.row)">
+                  <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myWatchListTableOptions.view") }}
@@ -186,6 +186,7 @@
                   <q-item
                     v-if="isAdmin || !props.row.hasOwnProperty('funding')"
                     clickable
+                    v-close-popup
                     @click="editItem(props.row)"
                   >
                     <q-item-section
@@ -228,7 +229,22 @@
                     ></q-item-section>
                   </q-item>
                   <q-item
-                    v-if="isAdmin || !props.row.hasOwnProperty('funding')"
+                    v-if="
+                      isAdmin ||
+                        (!props.row.hasOwnProperty('funding') &&
+                          (!!props.row.funding &&
+                            !!props.row.funding.owner &&
+                            props.row.funding.owner.id) ===
+                            (!!loggedInUser && loggedInUser.id)) ||
+                        (!!props.row.project &&
+                          !!props.row.project.owner &&
+                          props.row.project.owner.id) ===
+                          (!!loggedInUser && loggedInUser.id) ||
+                        (!!props.row.checklist &&
+                          !!props.row.checklist.owner &&
+                          props.row.checklist.owner.id) ===
+                          (!!loggedInUser && loggedInUser.id)
+                    "
                     clickable
                     v-close-popup
                     @click="archiveItem(props.row)"
@@ -288,16 +304,31 @@
       :dialogState="deleteDialog"
       @update="closeDialog($event), (itemId = null), (editingType = null)"
     />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="itemType"
+      :type="type"
+      :dialogState="requestDialog"
+      @update="
+        (requestDialog = $event),
+          (itemId = null),
+          (type = null),
+          (itemType = null)
+      "
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+
 export default {
   name: "watchlists",
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   data() {
     return {
@@ -320,7 +351,10 @@ export default {
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
-      watchlistIsLoading: false
+      watchlistIsLoading: false,
+      requestDialog: false,
+      type: null,
+      itemType: null
     };
   },
   methods: {
@@ -330,64 +364,170 @@ export default {
       this.getData();
     },
     async view(row) {
+      this.viewIsLoading = true;
       if (!!row && row.hasOwnProperty("project")) {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(!!row.project && row.project.id));
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
-        this.viewIsLoading = false;
-      } else if (!!row && row.hasOwnProperty("funding")) {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(!!row.funding && row.funding.id));
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/${id}` });
-      } else {
-        this.viewIsLoading = true;
-        const id = JSON.parse(
-          JSON.stringify(!!row.checklist && row.checklist.id)
-        );
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        const id = !!row.project && row.project.id;
+        if (
+          row.project.visibility === "listed only" &&
+          (!!row.project && !!row.project.owner && row.project.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.project &&
+            !!row.project.readers &&
+            row.project.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          } else {
+            this.itemId = !!row.project && row.project.id;
+            this.type = "view";
+            this.itemType = "projectIdeas";
+            this.requestDialog = true;
           }
-        );
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/${id}` });
+        }
+      } else if (!!row && row.hasOwnProperty("funding")) {
+        const id = !!row.funding && row.funding.id;
+        if (
+          row.funding.visibility === "listed only" &&
+          (!!row.funding && !!row.funding.owner && row.funding.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.funding &&
+            !!row.funding.readers &&
+            row.funding.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/${id}` });
+          } else {
+            this.itemId = !!row.funding && row.funding.id;
+            this.type = "view";
+            this.itemType = "fundings";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/${id}` });
+        }
+      } else {
+        const id = !!row.checklist && row.checklist.id;
+        if (
+          row.checklist.visibility === "listed only" &&
+          (!!row.checklist &&
+            !!row.checklist.owner &&
+            row.checklist.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.checklist &&
+            !!row.checklist.readers &&
+            row.checklist.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          console.log("hasReaderAccess", hasReaderAccess);
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/${id}` });
+          } else {
+            this.itemId = !!row.checklist && row.checklist.id;
+            this.type = "view";
+            this.itemType = "implementationChecklist";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/${id}` });
+        }
       }
+      this.viewIsLoading = false;
     },
     async editItem(row) {
+      console.log("row", row);
+      this.editIsLoading = true;
       if (!!row && row.hasOwnProperty("project")) {
-        this.editIsLoading = true;
         const id = !!row.project && row.project.id;
-        await this.$store.dispatch("project/editProject", {
-          id: id
-        });
-        this.editIsLoading = false;
-      } else if (!!row && row.hasOwnProperty("funding")) {
-        this.editIsLoading = true;
-        const id = !!row.funding && row.funding.id;
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/edit/${id}` });
-      } else {
-        this.editIsLoading = true;
-        const id = !!row.checklist && row.checklist.id;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        if (
+          row.project.visibility === "listed only" &&
+          (!!row.project && !!row.project.owner && row.project.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.project &&
+            !!row.project.editors &&
+            row.project.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+          } else {
+            this.itemId = !!row.project && row.project.id;
+            this.type = "edit";
+            this.itemType = "projectIdeas";
+            this.requestDialog = true;
           }
-        );
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+        }
+      } else if (!!row && row.hasOwnProperty("funding")) {
+        const id = !!row.funding && row.funding.id;
+        if (
+          row.funding.visibility === "listed only" &&
+          (!!row.funding && !!row.funding.owner && row.funding.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.funding &&
+            !!row.funding.editors &&
+            row.funding.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/edit/${id}` });
+          } else {
+            this.itemId = !!row.funding && row.funding.id;
+            this.type = "edit";
+            this.itemType = "fundings";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/edit/${id}` });
+        }
+      } else {
+        const id = !!row.checklist && row.checklist.id;
+        if (
+          row.checklist.visibility === "listed only" &&
+          (!!row.checklist &&
+            !!row.checklist.owner &&
+            row.checklist.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.checklist &&
+            !!row.checklist.editors &&
+            row.checklist.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+          } else {
+            this.itemId = !!row.checklist && row.checklist.id;
+            this.type = "edit";
+            this.itemType = "implementationChecklist";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        }
       }
+      this.editIsLoading = false;
     },
     async deleteItem(row) {
       if (!!row && row.hasOwnProperty("project")) {
@@ -473,6 +613,12 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     },
     isInPage() {
       return this.$router.currentRoute.path == "/watchlist";
