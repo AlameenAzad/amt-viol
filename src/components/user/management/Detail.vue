@@ -153,7 +153,10 @@ export default {
       return this.$store.getters["userCenter/isAdmin"];
     },
     loggedInUser() {
-      return this.$store.state.userCenter.user.user;
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     }
   },
   mounted() {

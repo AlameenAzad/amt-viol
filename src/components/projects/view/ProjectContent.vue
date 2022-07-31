@@ -740,29 +740,36 @@ export default {
       }
     },
     async getData() {
-      if (
-        (!!this.$route.params && Number(this.$route.params.id)) !==
-        (!!this.$store.state.project.project &&
-          this.$store.state.project.project.id)
-      ) {
-        await this.$store.dispatch("project/getSpecificProject", {
-          id: Number(this.$route.params.id)
-        });
-      } else if (
-        (!!this.$route.params && Number(this.$route.params.id)) ===
-        (!!this.$store.state.project.project &&
-          this.$store.state.project.project.id)
-      ) {
-        await this.$store.dispatch("project/getSpecificProject", {
-          id: Number(this.$route.params.id)
-        });
-      }
+      await this.$store.dispatch("project/getSpecificProject", {
+        id: Number(this.$route.params.id)
+      });
+      this.$q.loading.hide();
     },
+    // async getData() {
+    //   if (
+    //     (!!this.$route.params && Number(this.$route.params.id)) !==
+    //     (!!this.$store.state.project.project &&
+    //       this.$store.state.project.project.id)
+    //   ) {
+    //     await this.$store.dispatch("project/getSpecificProject", {
+    //       id: Number(this.$route.params.id)
+    //     });
+    //   } else if (
+    //     (!!this.$route.params && Number(this.$route.params.id)) ===
+    //     (!!this.$store.state.project.project &&
+    //       this.$store.state.project.project.id)
+    //   ) {
+    //     await this.$store.dispatch("project/getSpecificProject", {
+    //       id: Number(this.$route.params.id)
+    //     });
+    //   }
+    // },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
         val
       });
+      // TODO refresh page on success
       console.log("res", res);
     },
     async viewFunding(index, id) {
@@ -840,8 +847,9 @@ export default {
     }
   },
   mounted() {
-    this.setLoadingData();
+    this.$q.loading.show();
     this.getData();
+    this.setLoadingData();
   }
 };
 </script>

@@ -548,9 +548,9 @@ export default {
             row.hasOwnProperty("project")
               ? this.$t(row.project.type)
               : row.hasOwnProperty("funding")
-                ? this.$t(row.funding.type)
+              ? this.$t(row.funding.type)
               : row.hasOwnProperty("checklist")
-                  ? this.$t(row.checklist.type)
+              ? this.$t(row.checklist.type)
               : "",
           sortable: true
         },

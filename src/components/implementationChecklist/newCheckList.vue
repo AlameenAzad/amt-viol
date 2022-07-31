@@ -1,892 +1,925 @@
 <template>
   <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
-    <p class="text-center font-36 text-weight-regular q-my-lg">
-      Umsetzungscheckliste
-    </p>
-    <div
-      class="bg-white radius-20 q-py-lg"
-      :class="{ 'q-px-md': $q.screen.gt.sm }"
-    >
-      <q-form
-        ref="newChecklistForm"
-        @validation-error="scrollToInvalidElement"
-        class="q-gutter-lg q-px-md q-mb-md"
+    <div v-if="dataLoaded">
+      <p class="text-center font-36 text-weight-regular q-my-lg">
+        Umsetzungscheckliste
+      </p>
+      <div
+        class="bg-white radius-20 q-py-lg"
+        :class="{ 'q-px-md': $q.screen.gt.sm }"
       >
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Project Name
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <q-input
-              outlined
-              dense
-              class="no-shadow input-radius-6"
-              placeholder="Title"
-              v-model="form.title"
-              :rules="[val => !!val || 'Required']"
-            />
-          </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Ideengeber*in
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <q-btn-toggle
-              v-model="form.ideaProvider"
-              spread
-              no-caps
-              toggle-color="yellow"
-              padding="12px 10px"
-              color="transparent"
-              toggle-text-color="black"
-              text-color="black"
-              class="no-shadow toggleGap"
-              :options="ideaProviderOptions"
-            />
-          </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Ansprechpartner*in*
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="Name, Nachname"
-                  :value="
-                    !!checklist
-                      ? form.info.contactName
-                      : !!userDetails && userDetails.fullName
-                  "
-                  :rules="[]"
-                  disable
-                />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  dense
-                  disable
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="Gemeinde/Verwaltung"
-                  :value="
-                    !!checklist
-                      ? form.municipality.title
-                      : !!userDetails && userDetails.municipality.title
-                  "
-                  :rules="[]"
-                />
-              </div>
+        <q-form
+          ref="newChecklistForm"
+          @validation-error="scrollToInvalidElement"
+          class="q-gutter-lg q-px-md q-mb-md"
+        >
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Project Name
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <q-input
+                outlined
+                dense
+                class="no-shadow input-radius-6"
+                placeholder="Title"
+                v-model="form.title"
+                :rules="[val => !!val || 'Required']"
+              />
             </div>
           </div>
-        </div>
-        <div class="row items-baseline">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Contact Details (optional)
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  disable
-                  dense
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="Steet, Nr."
-                  :value="
-                    !!checklist
-                      ? form.info.streetNo
-                      : !!userDetails && userDetails.streetNo
-                  "
-                  :rules="[]"
-                />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  dense
-                  disable
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="Postal Code, City"
-                  :value="
-                    !!checklist
-                      ? form.info.postalCode
-                      : !!userDetails && userDetails.postalCode
-                  "
-                  :rules="[]"
-                />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="Telefon"
-                  :value="
-                    !!checklist
-                      ? form.info.phone
-                      : !!userDetails && userDetails.phone
-                  "
-                  :rules="[]"
-                  disable
-                />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input
-                  outlined
-                  dense
-                  class="no-shadow input-radius-6 disabledClass"
-                  placeholder="E-Mail"
-                  :value="!!checklist ? form.info.email : !!user && user.email"
-                  :rules="[]"
-                  disable
-                />
-              </div>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Ideengeber*in
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <q-btn-toggle
+                v-model="form.ideaProvider"
+                spread
+                no-caps
+                toggle-color="yellow"
+                padding="12px 10px"
+                color="transparent"
+                toggle-text-color="black"
+                text-color="black"
+                class="no-shadow toggleGap"
+                :options="ideaProviderOptions"
+              />
             </div>
           </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Link for Project Idea
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <ProjectIdeas
-              :isInChecklist="true"
-              :editing="checklist.project"
-              @update:linkToProject="form.project = $event"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Invite Editor
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <UserSelect
-              :editing="checklist.editors"
-              @update:user="form.editors = $event"
-            />
-          </div>
-        </div>
-        <div class="row items-baseline">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">Visibility</p>
-          </div>
-          <div class="col-12 col-md-8">
-            <q-select
-              outlined
-              dense
-              v-model="form.visibility"
-              :options="visibilityOptions"
-              class="no-shadow input-radius-6"
-              options-selected-class="text-primary"
-            >
-              <template v-slot:selected>
-                <template v-if="form.visibility">
-                  {{ form.visibility }}
-                </template>
-                <template v-else>
-                  <span class="text-grey">Auf Anfrage</span>
-                </template>
-              </template></q-select
-            >
-            <p class="font-16 q-mb-none q-mt-md text-grey">
-              <!-- TODO make this text dynamic -->
-              Dieses Dokument ist nur für Sie sichtbar. Wenn Sie möchten, dass
-              andere Benutzer dieses Dokument sehen können, können Sie "Auf
-              Anfrage" oder "Für alle Benutzer" auswählen.
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <q-separator class="bg-blue opacity-10" />
-          </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">Filter Categories</p>
-          </div>
-          <div class="col-12 col-md-8">
-            <Categories
-              :requiresValidation="true"
-              :editing="checklist.categories"
-              @update:category="form.categories = $event"
-            />
-          </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">Tags*</p>
-          </div>
-          <div class="col-12 col-md-8">
-            <Tags
-              :requiresValidation="true"
-              :editing="checklist.tags"
-              @update:tag="form.tags = $event"
-            />
-          </div>
-        </div>
-        <div class="row items-center">
-          <div class="col-12 col-md-4">
-            <p class="font-16 no-margin">
-              Uploads
-            </p>
-          </div>
-          <div class="col-12 col-md-8">
-            <div class="row q-col-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-file
-                  flat
-                  v-model="form.media"
-                  class="uploadInput input-radius-6 text-white"
-                  label-color="white"
-                  dark
-                  bg-color="primary"
-                  :label="
-                    !!form.media && form.media.length > 0
-                      ? 'Add Images'
-                      : 'Select Images'
-                  "
-                  multiple
-                  display-value=""
-                  append
-                >
-                  <template v-slot:prepend>
-                    <q-icon color="white" class="on-right" name="upload" />
-                  </template>
-                </q-file>
-                <div class="q-mt-sm" v-if="form.media && form.media.length > 0">
-                  <q-item
-                    class="radius-6"
-                    v-for="(image, index) in form.media"
-                    :key="index"
-                    clickable
-                  >
-                    <q-item-section side>
-                      <q-avatar rounded size="48px">
-                        <q-img
-                          :ratio="1"
-                          contain
-                          :src="imgPreview(image).url"
-                        />
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label class="ellipsis" caption>{{
-                        imgPreview(image).name
-                      }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-btn
-                        icon="delete"
-                        @click.prevent.stop="removeImg(index)"
-                        size="sm"
-                        round
-                        text-color="red"
-                        dense
-                      >
-                      </q-btn>
-                    </q-item-section>
-                  </q-item>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Ansprechpartner*in*
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    dense
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="Name, Nachname"
+                    :value="
+                      !!checklist
+                        ? form.info.contactName
+                        : !!userDetails && userDetails.fullName
+                    "
+                    :rules="[]"
+                    disable
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    dense
+                    disable
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="Gemeinde/Verwaltung"
+                    :value="
+                      !!checklist
+                        ? form.municipality.title
+                        : !!userDetails && userDetails.municipality.title
+                    "
+                    :rules="[]"
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
-          <q-card-section class="q-pa-md font-16 text-weight-600"
-            >project activity</q-card-section
-          >
-        </q-card>
-        <div
-          v-for="(card, index) in form.items"
-          :key="index"
-          class="row items-start"
-        >
-          <div class="col-12 col-md-4 q-pr-sm">
-            <p class="font-16 no-margin text-weight-600">
-              {{ card.cardTitle }}
-            </p>
-            <div class="flex items-center row q-mt-md">
-              <div class="col-2">
-                <p class="font-14 no-margin">Start</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  :disable="disableDate(index)"
-                  :rules="[val => !!val || 'Required']"
-                  class="no-shadow input-radius-6"
-                  :value="disableDate(index) ? '' : dateFormatter(card.start)"
-                  readonly
-                  color="primary"
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
-                  @click="$refs.startDateProxy[index].show()"
-                  ref="startDate"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        :ref="'startDateProxy'"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          :options="plannedStartOptions"
-                          v-model="card.start"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.startDateProxy[index].hide()"
-                          first-day-of-week="1"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
+          <div class="row items-baseline">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Contact Details (optional)
+              </p>
             </div>
-            <div class="flex items-center row q-mt-md  ">
-              <div class="col-2">
-                <p class="font-14 no-margin">End</p>
-              </div>
-              <div>
-                <q-input
-                  outlined
-                  dense
-                  :disable="disableDate(index)"
-                  :rules="[val => !!val || 'Required']"
-                  class="no-shadow input-radius-6"
-                  :value="disableDate(index) ? '' : dateFormatter(card.end)"
-                  color="primary"
-                  readonly
-                  bg-color="white"
-                  :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
-                  @click="$refs.endDateProxy[index].show()"
-                  ref="endDate"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" color="blue-5" class="cursor-pointer">
-                      <q-popup-proxy
-                        :ref="'endDateProxy'"
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date
-                          :options="plannedEndOptions"
-                          v-model="card.end"
-                          mask="YYYY-MM-DD"
-                          @input="$refs.endDateProxy[index].hide()"
-                          first-day-of-week="1"
-                        >
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
+            <div class="col-12 col-md-8">
+              <div class="row q-col-gutter-x-md q-col-gutter-y-lg">
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    disable
+                    dense
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="Steet, Nr."
+                    :value="
+                      !!checklist
+                        ? form.info.streetNo
+                        : !!userDetails && userDetails.streetNo
+                    "
+                    :rules="[]"
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    dense
+                    disable
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="Postal Code, City"
+                    :value="
+                      !!checklist
+                        ? form.info.postalCode
+                        : !!userDetails && userDetails.postalCode
+                    "
+                    :rules="[]"
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    dense
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="Telefon"
+                    :value="
+                      !!checklist
+                        ? form.info.phone
+                        : !!userDetails && userDetails.phone
+                    "
+                    :rules="[]"
+                    disable
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <q-input
+                    outlined
+                    dense
+                    class="no-shadow input-radius-6 disabledClass"
+                    placeholder="E-Mail"
+                    :value="
+                      !!checklist ? form.info.email : !!user && user.email
+                    "
+                    :rules="[]"
+                    disable
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-8">
-            <draggable
-              handle=".handle"
-              class="col-12 col-md-8"
-              v-model="card.items"
-              ghost-class="movingClass"
-              @change="onChange($event, card.items)"
-              :force-fallback="true"
-              :move="onMove"
-            >
-              <transition-group type="transition" tag="div" name="flip-list">
-                <q-card
-                  v-for="(element, secondIndex) in card.items"
-                  :key="element.objectId"
-                  class="q-pa-none shadow-0"
-                  :class="secondIndex > 0 ? 'q-mt-xs' : ''"
-                >
-                  <div style="background:#16428B1A">
-                    <q-card-section
-                      horizontal
-                      class="items-center justify-between q-pa-sm"
-                    >
-                      <div class="col-auto">
-                        <q-icon
-                          size="sm"
-                          color="blue-5"
-                          class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                          :name="!!element.fixed ? 'lock' : 'reorder'"
-                        />
-                      </div>
-                      <div class="col-10">
-                        <div class="row items-center">
-                          <div class="col-11 q-pr-sm">
-                            <div class="row">
-                              <div class="col-12">
-                                <p
-                                  class="no-margin font-18 text-blue text-weight-600"
-                                >
-                                  {{ element.objectTitle }}
-                                </p>
-                              </div>
-                              <div v-show="!!element.desc" class="col-12">
-                                <p class="no-margin font-14 text-italic">
-                                  {{ element.desc }}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-1">
-                            <div
-                              v-show="!!element.info && element.info.length > 0"
-                              class="col-auto"
-                            >
-                              <q-btn
-                                flat
-                                round
-                                class="q-pa-none"
-                                icon="help_outline"
-                                color="primary"
-                              >
-                                <q-tooltip
-                                  content-class="bg-transparent shadow-2 text-black q-pa-none"
-                                  content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
-                                  anchor="top left"
-                                  self="bottom right"
-                                  :offset="[-50, 10]"
-                                >
-                                  <q-card>
-                                    <q-card-section class="q-pb-xs">
-                                      <p
-                                        class="no-margin font-16 text-weight-600"
-                                      >
-                                        Prüffrage:
-                                      </p>
-                                    </q-card-section>
-                                    <q-card-section horizontal class="q-pr-md">
-                                      <ul class="listClass">
-                                        <li
-                                          v-for="(info, index) in element.info"
-                                          :key="index"
-                                        >
-                                          {{ info }}
-                                        </li>
-                                      </ul>
-                                    </q-card-section>
-                                  </q-card>
-                                </q-tooltip>
-                              </q-btn>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <q-toggle
-                          size="lg"
-                          color="primary"
-                          class="customToggle"
-                          @input="disableDate(index)"
-                          v-model="element.active"
-                        />
-                      </div>
-                    </q-card-section>
-                    <q-card-section>
-                      <div class="row q-col-gutter-md">
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            bg-color="white"
-                            dense
-                            class="no-shadow input-radius-6"
-                            placeholder="Name"
-                            v-model="element.name"
-                          />
-                        </div>
-
-                        <div
-                          v-if="element.hasOwnProperty('project')"
-                          class="col-12"
-                        >
-                          <ProjectIdeas
-                            :isInChecklist="true"
-                            :editing="
-                              !!checklist
-                                ? checklist.initialContact.captureIdea.project
-                                : form.items
-                                    .find(
-                                      item => item.cardName === 'initialContact'
-                                    )
-                                    .items.find(
-                                      item => item.objectName === 'captureIdea'
-                                    ).project
-                            "
-                            @update:linkToProject="element.project = $event"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <q-input
-                            outlined
-                            type="textarea"
-                            rows="10"
-                            bg-color="white"
-                            class="no-shadow input-radius-6"
-                            placeholder="text"
-                            v-model="element.text"
-                          />
-                        </div>
-                        <div class="col-12">
-                          <div class="row items-center q-col-gutter-x-sm">
-                            <div class="col-12 col-md-4">
-                              <q-file
-                                outlined
-                                bg-color="transparent"
-                                v-model="element.file"
-                                class="uploadInput input-radius-6"
-                                label-color="primary"
-                                :label="
-                                  !!element.file && element.file.length > 0
-                                    ? 'Add file'
-                                    : 'Upload File'
-                                "
-                                multiple
-                                display-value=""
-                                append
-                              >
-                                <template v-slot:prepend>
-                                  <q-icon
-                                    color="primary"
-                                    class="on-right"
-                                    name="upload"
-                                  />
-                                </template>
-                              </q-file>
-                            </div>
-                            <div
-                              class="col-12 q-mt-sm"
-                              v-if="element.file && element.file.length > 0"
-                            >
-                              <q-item
-                                class="q-py-none q-pl-none inline radius-6 items-center"
-                                v-for="(file, index) in element.file"
-                                :key="index"
-                                clickable
-                              >
-                                <q-item-section side class="col-auto q-pr-xs">
-                                  <q-avatar rounded size="48px">
-                                    <p class="font-16 no-margin">
-                                      {{ imgPreview(file).name.split(".")[1] }}
-                                    </p>
-                                  </q-avatar>
-                                </q-item-section>
-                                <q-item-section class="col-auto ">
-                                  <q-item-label class="ellipsis" caption>{{
-                                    imgPreview(file).name
-                                  }}</q-item-label>
-                                </q-item-section>
-                                <q-item-section side>
-                                  <q-btn
-                                    icon="delete"
-                                    @click.prevent.stop="
-                                      removeFile(card, element, index)
-                                    "
-                                    size="sm"
-                                    round
-                                    text-color="red"
-                                    dense
-                                  >
-                                  </q-btn>
-                                </q-item-section>
-                              </q-item>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </q-card-section>
-                  </div>
-                  <draggable
-                    v-if="element.active === true"
-                    handle=".handle"
-                    class="col-8"
-                    v-model="element.tasks"
-                    ghost-class="movingClass"
-                    @change="onChange($event, element.tasks)"
-                    :force-fallback="true"
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Link for Project Idea
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <!-- <template v-if="dataLoaded"> -->
+              <ProjectIdeas
+                :isInChecklist="true"
+                :editing="checklist.project"
+                @update:linkToProject="form.project = $event"
+              />
+              <!-- </template> -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Invite Editor
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <!-- <template v-if="dataLoaded"> -->
+              <UserSelect
+                :editing="checklist.editors"
+                @update:user="form.editors = $event"
+              />
+              <!-- </template> -->
+            </div>
+          </div>
+          <div class="row items-baseline">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">Visibility</p>
+            </div>
+            <div class="col-12 col-md-8">
+              <q-select
+                outlined
+                dense
+                v-model="form.visibility"
+                :options="visibilityOptions"
+                class="no-shadow input-radius-6"
+                options-selected-class="text-primary"
+              >
+                <template v-slot:selected>
+                  <template v-if="form.visibility">
+                    {{ form.visibility }}
+                  </template>
+                  <template v-else>
+                    <span class="text-grey">Auf Anfrage</span>
+                  </template>
+                </template></q-select
+              >
+              <p class="font-16 q-mb-none q-mt-md text-grey">
+                <!-- TODO make this text dynamic -->
+                Dieses Dokument ist nur für Sie sichtbar. Wenn Sie möchten, dass
+                andere Benutzer dieses Dokument sehen können, können Sie "Auf
+                Anfrage" oder "Für alle Benutzer" auswählen.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <q-separator class="bg-blue opacity-10" />
+            </div>
+          </div>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">Filter Categories</p>
+            </div>
+            <div class="col-12 col-md-8">
+              <Categories
+                :requiresValidation="true"
+                :editing="checklist.categories"
+                @update:category="form.categories = $event"
+              />
+            </div>
+          </div>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">Tags*</p>
+            </div>
+            <div class="col-12 col-md-8">
+              <Tags
+                :requiresValidation="true"
+                :editing="checklist.tags"
+                @update:tag="form.tags = $event"
+              />
+            </div>
+          </div>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                Uploads
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <div class="row q-col-gutter-md">
+                <div class="col-12 col-md-6">
+                  <q-file
+                    flat
+                    v-model="form.media"
+                    class="uploadInput input-radius-6 text-white"
+                    label-color="white"
+                    dark
+                    bg-color="primary"
+                    :label="
+                      !!form.media && form.media.length > 0
+                        ? 'Add Images'
+                        : 'Select Images'
+                    "
+                    multiple
+                    display-value=""
+                    append
                   >
-                    <transition-group
-                      type="transition"
-                      tag="div"
-                      name="flip-list"
+                    <template v-slot:prepend>
+                      <q-icon color="white" class="on-right" name="upload" />
+                    </template>
+                  </q-file>
+                  <div
+                    class="q-mt-sm"
+                    v-if="form.media && form.media.length > 0"
+                  >
+                    <q-item
+                      class="radius-6"
+                      v-for="(image, index) in form.media"
+                      :key="index"
+                      clickable
                     >
-                      <q-card
-                        v-for="item in element.tasks"
-                        :key="item.objectId"
-                        class="shadow-0 q-my-xs"
-                      >
-                        <q-card-section
-                          style="background:#FDD50033"
-                          class="q-pa-sm items-center justify-between"
-                          horizontal
+                      <q-item-section side>
+                        <q-avatar rounded size="48px">
+                          <q-img
+                            :ratio="1"
+                            contain
+                            :src="imgPreview(image).url"
+                          />
+                        </q-avatar>
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label class="ellipsis" caption>{{
+                          imgPreview(image).name
+                        }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-btn
+                          icon="delete"
+                          @click.prevent.stop="removeImg(index)"
+                          size="sm"
+                          round
+                          text-color="red"
+                          dense
                         >
-                          <div class="col-auto">
-                            <q-icon
-                              size="sm"
-                              color="blue-5"
-                              class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                              name="reorder"
-                            />
-                          </div>
-                          <div class="col-10">
-                            <div class="row items-center">
-                              <div class="col-11 q-pr-sm">
-                                <div class="row">
-                                  <div class="col-12">
-                                    <p
-                                      class="no-margin font-18 text-blue text-weight-600"
-                                    >
-                                      {{ item.name }}
-                                    </p>
-                                  </div>
-                                  <div v-show="!!item.desc" class="col-12">
-                                    <p class="no-margin font-14 text-italic">
-                                      {{ item.desc }}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-1">
-                                <div
-                                  v-show="!!item.info && item.info.length > 0"
-                                  class="col-auto"
-                                >
-                                  <q-btn
-                                    flat
-                                    round
-                                    class="q-pa-none"
-                                    icon="help_outline"
-                                    color="primary"
+                        </q-btn>
+                      </q-item-section>
+                    </q-item>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
+            <q-card-section class="q-pa-md font-16 text-weight-600"
+              >project activity</q-card-section
+            >
+          </q-card>
+          <div
+            v-for="(card, index) in form.items"
+            :key="index"
+            class="row items-start"
+          >
+            <div class="col-12 col-md-4 q-pr-sm">
+              <p class="font-16 no-margin text-weight-600">
+                {{ card.cardTitle }}
+              </p>
+              <div class="flex items-center row q-mt-md">
+                <div class="col-2">
+                  <p class="font-14 no-margin">Start</p>
+                </div>
+                <div>
+                  <q-input
+                    outlined
+                    dense
+                    :disable="disableDate(index)"
+                    :rules="[val => !!val || 'Required']"
+                    class="no-shadow input-radius-6"
+                    :value="disableDate(index) ? '' : dateFormatter(card.start)"
+                    readonly
+                    color="primary"
+                    bg-color="white"
+                    :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
+                    @click="$refs.startDateProxy[index].show()"
+                    ref="startDate"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        name="event"
+                        color="blue-5"
+                        class="cursor-pointer"
+                      >
+                        <q-popup-proxy
+                          :ref="'startDateProxy'"
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <q-date
+                            :options="plannedStartOptions"
+                            v-model="card.start"
+                            mask="YYYY-MM-DD"
+                            @input="$refs.startDateProxy[index].hide()"
+                            first-day-of-week="1"
+                          >
+                            <div class="row items-center justify-end">
+                              <q-btn
+                                v-close-popup
+                                label="Close"
+                                color="primary"
+                                flat
+                              />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+              </div>
+              <div class="flex items-center row q-mt-md  ">
+                <div class="col-2">
+                  <p class="font-14 no-margin">End</p>
+                </div>
+                <div>
+                  <q-input
+                    outlined
+                    dense
+                    :disable="disableDate(index)"
+                    :rules="[val => !!val || 'Required']"
+                    class="no-shadow input-radius-6"
+                    :value="disableDate(index) ? '' : dateFormatter(card.end)"
+                    color="primary"
+                    readonly
+                    bg-color="white"
+                    :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
+                    @click="$refs.endDateProxy[index].show()"
+                    ref="endDate"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        name="event"
+                        color="blue-5"
+                        class="cursor-pointer"
+                      >
+                        <q-popup-proxy
+                          :ref="'endDateProxy'"
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <q-date
+                            :options="plannedEndOptions"
+                            v-model="card.end"
+                            mask="YYYY-MM-DD"
+                            @input="$refs.endDateProxy[index].hide()"
+                            first-day-of-week="1"
+                          >
+                            <div class="row items-center justify-end">
+                              <q-btn
+                                v-close-popup
+                                label="Close"
+                                color="primary"
+                                flat
+                              />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <draggable
+                handle=".handle"
+                class="col-12 col-md-8"
+                v-model="card.items"
+                ghost-class="movingClass"
+                @change="onChange($event, card.items)"
+                :force-fallback="true"
+                :move="onMove"
+              >
+                <transition-group type="transition" tag="div" name="flip-list">
+                  <q-card
+                    v-for="(element, secondIndex) in card.items"
+                    :key="element.objectId"
+                    class="q-pa-none shadow-0"
+                    :class="secondIndex > 0 ? 'q-mt-xs' : ''"
+                  >
+                    <div style="background:#16428B1A">
+                      <q-card-section
+                        horizontal
+                        class="items-center justify-between q-pa-sm"
+                      >
+                        <div class="col-auto">
+                          <q-icon
+                            size="sm"
+                            color="blue-5"
+                            class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
+                            :name="!!element.fixed ? 'lock' : 'reorder'"
+                          />
+                        </div>
+                        <div class="col-10">
+                          <div class="row items-center">
+                            <div class="col-11 q-pr-sm">
+                              <div class="row">
+                                <div class="col-12">
+                                  <p
+                                    class="no-margin font-18 text-blue text-weight-600"
                                   >
-                                    <q-tooltip
-                                      content-class="bg-transparent shadow-2 text-black q-pa-none"
-                                      content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
-                                      anchor="top left"
-                                      self="bottom right"
-                                      :offset="[-50, 10]"
-                                    >
-                                      <q-card>
-                                        <q-card-section class="q-pb-xs">
-                                          <p
-                                            class="no-margin font-16 text-weight-600"
-                                          >
-                                            Prüffrage:
-                                          </p>
-                                        </q-card-section>
-                                        <q-card-section
-                                          horizontal
-                                          class="q-pr-md"
-                                        >
-                                          <ul class="listClass">
-                                            <li
-                                              v-for="(info, index) in item.info"
-                                              :key="index"
-                                            >
-                                              {{ info }}
-                                            </li>
-                                          </ul>
-                                        </q-card-section>
-                                      </q-card>
-                                    </q-tooltip>
-                                  </q-btn>
+                                    {{ element.objectTitle }}
+                                  </p>
+                                </div>
+                                <div v-show="!!element.desc" class="col-12">
+                                  <p class="no-margin font-14 text-italic">
+                                    {{ element.desc }}
+                                  </p>
                                 </div>
                               </div>
                             </div>
+                            <div class="col-1">
+                              <div
+                                v-show="
+                                  !!element.info && element.info.length > 0
+                                "
+                                class="col-auto"
+                              >
+                                <q-btn
+                                  flat
+                                  round
+                                  class="q-pa-none"
+                                  icon="help_outline"
+                                  color="primary"
+                                >
+                                  <q-tooltip
+                                    content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                    content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                    anchor="top left"
+                                    self="bottom right"
+                                    :offset="[-50, 10]"
+                                  >
+                                    <q-card>
+                                      <q-card-section class="q-pb-xs">
+                                        <p
+                                          class="no-margin font-16 text-weight-600"
+                                        >
+                                          Prüffrage:
+                                        </p>
+                                      </q-card-section>
+                                      <q-card-section
+                                        horizontal
+                                        class="q-pr-md"
+                                      >
+                                        <ul class="listClass">
+                                          <li
+                                            v-for="(info,
+                                            index) in element.info"
+                                            :key="index"
+                                          >
+                                            {{ info }}
+                                          </li>
+                                        </ul>
+                                      </q-card-section>
+                                    </q-card>
+                                  </q-tooltip>
+                                </q-btn>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-auto">
-                            <q-toggle
-                              size="lg"
-                              color="primary"
-                              class="customToggle"
-                              v-model="item.active"
+                        </div>
+                        <div class="col-auto">
+                          <q-toggle
+                            size="lg"
+                            color="primary"
+                            class="customToggle"
+                            @input="disableDate(index)"
+                            v-model="element.active"
+                          />
+                        </div>
+                      </q-card-section>
+                      <q-card-section>
+                        <div class="row q-col-gutter-md">
+                          <div class="col-12">
+                            <q-input
+                              outlined
+                              bg-color="white"
+                              dense
+                              class="no-shadow input-radius-6"
+                              placeholder="Name"
+                              v-model="element.name"
                             />
                           </div>
-                        </q-card-section>
-                        <draggable
-                          v-if="item.active === true"
-                          handle=".handle"
-                          class="col-8 q-ml-lg"
-                          v-model="item.children"
-                          ghost-class="movingClass"
-                          @change="onChange($event, item.children)"
-                          :force-fallback="true"
-                        >
-                          <transition-group
-                            type="transition"
-                            tag="div"
-                            name="flip-list"
+
+                          <div
+                            v-if="element.hasOwnProperty('project')"
+                            class="col-12"
                           >
-                            <q-card
-                              v-for="child in item.children"
-                              :key="child.objectId"
-                              class="shadow-0"
-                            >
-                              <q-card-section
-                                horizontal
-                                class="items-center q-pa-xs justify-evenly"
+                            <ProjectIdeas
+                              :isInChecklist="true"
+                              :editing="
+                                !!checklist
+                                  ? checklist.initialContact.captureIdea.project
+                                  : form.items
+                                      .find(
+                                        item =>
+                                          item.cardName === 'initialContact'
+                                      )
+                                      .items.find(
+                                        item =>
+                                          item.objectName === 'captureIdea'
+                                      ).project
+                              "
+                              @update:linkToProject="element.project = $event"
+                            />
+                          </div>
+                          <div class="col-12">
+                            <q-input
+                              outlined
+                              type="textarea"
+                              rows="10"
+                              bg-color="white"
+                              class="no-shadow input-radius-6"
+                              placeholder="text"
+                              v-model="element.text"
+                            />
+                          </div>
+                          <div class="col-12">
+                            <div class="row items-center q-col-gutter-x-sm">
+                              <div class="col-12 col-md-4">
+                                <q-file
+                                  outlined
+                                  bg-color="transparent"
+                                  v-model="element.file"
+                                  class="uploadInput input-radius-6"
+                                  label-color="primary"
+                                  :label="
+                                    !!element.file && element.file.length > 0
+                                      ? 'Add file'
+                                      : 'Upload File'
+                                  "
+                                  multiple
+                                  display-value=""
+                                  append
+                                >
+                                  <template v-slot:prepend>
+                                    <q-icon
+                                      color="primary"
+                                      class="on-right"
+                                      name="upload"
+                                    />
+                                  </template>
+                                </q-file>
+                              </div>
+                              <div
+                                class="col-12 q-mt-sm"
+                                v-if="element.file && element.file.length > 0"
                               >
-                                <div class="col-auto ">
-                                  <q-icon
-                                    size="sm"
-                                    color="blue-5"
-                                    class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
-                                    name="reorder"
-                                  />
-                                </div>
-                                <div class="col-10">
-                                  <div class="row items-center">
-                                    <div class="col-11">
+                                <q-item
+                                  class="q-py-none q-pl-none inline radius-6 items-center"
+                                  v-for="(file, index) in element.file"
+                                  :key="index"
+                                  clickable
+                                >
+                                  <q-item-section side class="col-auto q-pr-xs">
+                                    <q-avatar rounded size="48px">
+                                      <p class="font-16 no-margin">
+                                        {{
+                                          imgPreview(file).name.split(".")[1]
+                                        }}
+                                      </p>
+                                    </q-avatar>
+                                  </q-item-section>
+                                  <q-item-section class="col-auto ">
+                                    <q-item-label class="ellipsis" caption>{{
+                                      imgPreview(file).name
+                                    }}</q-item-label>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    <q-btn
+                                      icon="delete"
+                                      @click.prevent.stop="
+                                        removeFile(card, element, index)
+                                      "
+                                      size="sm"
+                                      round
+                                      text-color="red"
+                                      dense
+                                    >
+                                    </q-btn>
+                                  </q-item-section>
+                                </q-item>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </q-card-section>
+                    </div>
+                    <draggable
+                      v-if="element.active === true"
+                      handle=".handle"
+                      class="col-8"
+                      v-model="element.tasks"
+                      ghost-class="movingClass"
+                      @change="onChange($event, element.tasks)"
+                      :force-fallback="true"
+                    >
+                      <transition-group
+                        type="transition"
+                        tag="div"
+                        name="flip-list"
+                      >
+                        <q-card
+                          v-for="item in element.tasks"
+                          :key="item.objectId"
+                          class="shadow-0 q-my-xs"
+                        >
+                          <q-card-section
+                            style="background:#FDD50033"
+                            class="q-pa-sm items-center justify-between"
+                            horizontal
+                          >
+                            <div class="col-auto">
+                              <q-icon
+                                size="sm"
+                                color="blue-5"
+                                class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
+                                name="reorder"
+                              />
+                            </div>
+                            <div class="col-10">
+                              <div class="row items-center">
+                                <div class="col-11 q-pr-sm">
+                                  <div class="row">
+                                    <div class="col-12">
                                       <p
-                                        class="no-margin font-14 text-overflow"
+                                        class="no-margin font-18 text-blue text-weight-600"
                                       >
-                                        {{ child.name }}
+                                        {{ item.name }}
                                       </p>
                                     </div>
-                                    <div class="col-1">
-                                      <div
-                                        v-show="
-                                          !!child.info && child.info.length > 0
-                                        "
-                                        class="col-auto"
+                                    <div v-show="!!item.desc" class="col-12">
+                                      <p class="no-margin font-14 text-italic">
+                                        {{ item.desc }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-1">
+                                  <div
+                                    v-show="!!item.info && item.info.length > 0"
+                                    class="col-auto"
+                                  >
+                                    <q-btn
+                                      flat
+                                      round
+                                      class="q-pa-none"
+                                      icon="help_outline"
+                                      color="primary"
+                                    >
+                                      <q-tooltip
+                                        content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                        content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                        anchor="top left"
+                                        self="bottom right"
+                                        :offset="[-50, 10]"
                                       >
-                                        <q-btn
-                                          flat
-                                          round
-                                          class="q-pa-none"
-                                          icon="help_outline"
-                                          color="primary"
-                                        >
-                                          <q-tooltip
-                                            content-class="bg-transparent shadow-2 text-black q-pa-none"
-                                            content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
-                                            anchor="top left"
-                                            self="bottom right"
-                                            :offset="[-50, 10]"
+                                        <q-card>
+                                          <q-card-section class="q-pb-xs">
+                                            <p
+                                              class="no-margin font-16 text-weight-600"
+                                            >
+                                              Prüffrage:
+                                            </p>
+                                          </q-card-section>
+                                          <q-card-section
+                                            horizontal
+                                            class="q-pr-md"
                                           >
-                                            <q-card>
-                                              <q-card-section class="q-pb-xs">
-                                                <p
-                                                  class="no-margin font-16 text-weight-600"
-                                                >
-                                                  Prüffrage:
-                                                </p>
-                                              </q-card-section>
-                                              <q-card-section
-                                                horizontal
-                                                class="q-pr-md"
+                                            <ul class="listClass">
+                                              <li
+                                                v-for="(info,
+                                                index) in item.info"
+                                                :key="index"
                                               >
-                                                <ul class="listClass">
-                                                  <li
-                                                    v-for="(info,
-                                                    index) in child.info"
-                                                    :key="index"
+                                                {{ info }}
+                                              </li>
+                                            </ul>
+                                          </q-card-section>
+                                        </q-card>
+                                      </q-tooltip>
+                                    </q-btn>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-auto">
+                              <q-toggle
+                                size="lg"
+                                color="primary"
+                                class="customToggle"
+                                v-model="item.active"
+                              />
+                            </div>
+                          </q-card-section>
+                          <draggable
+                            v-if="item.active === true"
+                            handle=".handle"
+                            class="col-8 q-ml-lg"
+                            v-model="item.children"
+                            ghost-class="movingClass"
+                            @change="onChange($event, item.children)"
+                            :force-fallback="true"
+                          >
+                            <transition-group
+                              type="transition"
+                              tag="div"
+                              name="flip-list"
+                            >
+                              <q-card
+                                v-for="child in item.children"
+                                :key="child.objectId"
+                                class="shadow-0"
+                              >
+                                <q-card-section
+                                  horizontal
+                                  class="items-center q-pa-xs justify-evenly"
+                                >
+                                  <div class="col-auto ">
+                                    <q-icon
+                                      size="sm"
+                                      color="blue-5"
+                                      class="handle q-mr-md q-py-sm bg-white radius-6 cursor-pointer"
+                                      name="reorder"
+                                    />
+                                  </div>
+                                  <div class="col-10">
+                                    <div class="row items-center">
+                                      <div class="col-11">
+                                        <p
+                                          class="no-margin font-14 text-overflow"
+                                        >
+                                          {{ child.name }}
+                                        </p>
+                                      </div>
+                                      <div class="col-1">
+                                        <div
+                                          v-show="
+                                            !!child.info &&
+                                              child.info.length > 0
+                                          "
+                                          class="col-auto"
+                                        >
+                                          <q-btn
+                                            flat
+                                            round
+                                            class="q-pa-none"
+                                            icon="help_outline"
+                                            color="primary"
+                                          >
+                                            <q-tooltip
+                                              content-class="bg-transparent shadow-2 text-black q-pa-none"
+                                              content-style="min-width: 600px; max-width: 600px; max-height: 400px;"
+                                              anchor="top left"
+                                              self="bottom right"
+                                              :offset="[-50, 10]"
+                                            >
+                                              <q-card>
+                                                <q-card-section class="q-pb-xs">
+                                                  <p
+                                                    class="no-margin font-16 text-weight-600"
                                                   >
-                                                    {{ info }}
-                                                  </li>
-                                                </ul>
-                                              </q-card-section>
-                                            </q-card>
-                                          </q-tooltip>
-                                        </q-btn>
+                                                    Prüffrage:
+                                                  </p>
+                                                </q-card-section>
+                                                <q-card-section
+                                                  horizontal
+                                                  class="q-pr-md"
+                                                >
+                                                  <ul class="listClass">
+                                                    <li
+                                                      v-for="(info,
+                                                      index) in child.info"
+                                                      :key="index"
+                                                    >
+                                                      {{ info }}
+                                                    </li>
+                                                  </ul>
+                                                </q-card-section>
+                                              </q-card>
+                                            </q-tooltip>
+                                          </q-btn>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                                <div class="col-auto">
-                                  <q-toggle
-                                    size="lg"
-                                    color="primary"
-                                    class="customToggle"
-                                    v-model="child.active"
-                                  />
-                                </div>
-                              </q-card-section>
-                              <q-separator class="bg-blue q-mb-sm opacity-10" />
-                            </q-card>
-                          </transition-group>
-                        </draggable>
-                      </q-card>
-                    </transition-group>
-                  </draggable>
-                </q-card>
-              </transition-group>
-            </draggable>
+                                  <div class="col-auto">
+                                    <q-toggle
+                                      size="lg"
+                                      color="primary"
+                                      class="customToggle"
+                                      v-model="child.active"
+                                    />
+                                  </div>
+                                </q-card-section>
+                                <q-separator
+                                  class="bg-blue q-mb-sm opacity-10"
+                                />
+                              </q-card>
+                            </transition-group>
+                          </draggable>
+                        </q-card>
+                      </transition-group>
+                    </draggable>
+                  </q-card>
+                </transition-group>
+              </draggable>
+            </div>
+            <div class="col-12">
+              <q-separator class="bg-blue q-mt-md opacity-10" />
+            </div>
           </div>
-          <div class="col-12">
-            <q-separator class="bg-blue q-mt-md opacity-10" />
+          <div class="row justify-center">
+            <div class="col-5 col-md-2 q-mr-sm">
+              <q-btn
+                :label="$t('draftButton.saveAsDraft')"
+                @click="
+                  !!checklist ? editChecklist(false) : submitNewChecklist(false)
+                "
+                size="16px"
+                outline
+                color="primary"
+                :loading="isLoading"
+                no-caps
+                class="radius-6 q-py-xs full-width"
+              />
+            </div>
+            <div class="col-5 col-md-2 q-ml-sm">
+              <q-btn
+                :label="$t('publishButton.publish')"
+                @click="
+                  !!checklist ? editChecklist(true) : submitNewChecklist(true)
+                "
+                size="16px"
+                color="primary"
+                :loading="isLoading"
+                no-caps
+                class="radius-6 q-py-xs full-width"
+              />
+            </div>
           </div>
-        </div>
-        <div class="row justify-center">
-          <div class="col-5 col-md-2 q-mr-sm">
-            <q-btn
-              :label="$t('draftButton.saveAsDraft')"
-              @click="
-                !!checklist ? editChecklist(false) : submitNewChecklist(false)
-              "
-              size="16px"
-              outline
-              color="primary"
-              :loading="isLoading"
-              no-caps
-              class="radius-6 q-py-xs full-width"
-            />
-          </div>
-          <div class="col-5 col-md-2 q-ml-sm">
-            <q-btn
-              :label="$t('publishButton.publish')"
-              @click="
-                !!checklist ? editChecklist(true) : submitNewChecklist(true)
-              "
-              size="16px"
-              color="primary"
-              :loading="isLoading"
-              no-caps
-              class="radius-6 q-py-xs full-width"
-            />
-          </div>
-        </div>
-      </q-form>
+        </q-form>
+      </div>
     </div>
   </q-page>
 </template>
@@ -918,7 +951,6 @@ export default {
         ideaProvider: "volunteering",
         project: {},
         visibility: "only for me",
-        editors: [],
         items: [
           {
             cardName: "initialContact",
@@ -2330,6 +2362,7 @@ export default {
           postalCode: ""
         },
         municipality: "",
+        editors: [],
         categories: [],
         tags: [],
         media: null
@@ -2339,7 +2372,8 @@ export default {
         { label: "Volunteering", value: "volunteering" },
         { label: "Main Office", value: "mainOffice" }
       ],
-      isLoading: false
+      isLoading: false,
+      dataLoaded: true
     };
   },
   computed: {
@@ -2516,38 +2550,57 @@ export default {
       });
     },
     async setData() {
-      console.log("this.form", this.form);
-      const specificChecklist = JSON.parse(JSON.stringify(this.checklist));
-      console.log("specificChecklist :>> ", specificChecklist);
-      this.form = {
-        ...this.form,
-        ...specificChecklist
-      };
-      await this.setItems(specificChecklist);
+      if (!!this.$route.params && this.$route.params.id) {
+        this.dataLoaded = false;
+        this.$q.loading.show();
+        await this.$store.dispatch(
+          "implementationChecklist/getSpecificChecklist",
+          {
+            id: Number(this.$route.params.id)
+          }
+        );
+        this.form = {
+          ...this.form,
+          ...this.checklist
+        };
+        await this.setItems(this.checklist);
+        this.$q.loading.hide();
+        this.dataLoaded = true;
+      }
     },
+    // async setData() {
+    //   console.log("this.form", this.form);
+    //   const specificChecklist = JSON.parse(JSON.stringify(this.checklist));
+    //   console.log("specificChecklist :>> ", specificChecklist);
+    //   this.form = {
+    //     ...this.form,
+    //     ...specificChecklist
+    //   };
+    //   await this.setItems(specificChecklist);
+    // },
     async setItems(checklist) {
       this.form.items = [
         {
-          ...this.setInitialContact(checklist)
+          ...(await this.setInitialContact(checklist))
         },
         {
-          ...this.setPreparation(checklist)
+          ...(await this.setPreparation(checklist))
         },
         {
-          ...this.setFundingResearch(checklist)
+          ...(await this.setFundingResearch(checklist))
         },
         {
-          ...this.setPreparationOfProject(checklist)
+          ...(await this.setPreparationOfProject(checklist))
         },
         {
-          ...this.setLegitimation(checklist)
+          ...(await this.setLegitimation(checklist))
         },
         {
-          ...this.setFinalExamination(checklist)
+          ...(await this.setFinalExamination(checklist))
         }
       ];
     },
-    setInitialContact(checklist) {
+    async setInitialContact(checklist) {
       return {
         ...this.form.items.find(item => item.cardName === "initialContact"),
         start: checklist.initialContact.start,
@@ -2581,7 +2634,7 @@ export default {
         ]
       };
     },
-    setPreparation(checklist) {
+    async setPreparation(checklist) {
       return {
         ...this.form.items.find(item => item.cardName === "preparation"),
         start: checklist.preparation.start,
@@ -2627,7 +2680,7 @@ export default {
         ]
       };
     },
-    setFundingResearch(checklist) {
+    async setFundingResearch(checklist) {
       return {
         ...this.form.items.find(item => item.cardName === "fundingResearch"),
         start: checklist.fundingResearch.start,
@@ -2687,7 +2740,7 @@ export default {
         ]
       };
     },
-    setPreparationOfProject(checklist) {
+    async setPreparationOfProject(checklist) {
       return {
         ...this.form.items.find(
           item => item.cardName === "preparationOfProject"
@@ -2750,7 +2803,7 @@ export default {
         ]
       };
     },
-    setLegitimation(checklist) {
+    async setLegitimation(checklist) {
       return {
         ...this.form.items.find(item => item.cardName === "legitimation"),
         start: checklist.legitimation.start,
@@ -2772,7 +2825,7 @@ export default {
         ]
       };
     },
-    setFinalExamination(checklist) {
+    async setFinalExamination(checklist) {
       return {
         ...this.form.items.find(item => item.cardName === "finalExamination"),
         start: checklist.finalExamination.start,
@@ -2807,10 +2860,10 @@ export default {
       };
     }
   },
-  mounted() {
-    if (!!this.checklist && !!this.$route.params.id) {
-      this.setData();
-    }
+  beforeMount() {
+    // if (!!this.checklist && !!this.$route.params.id) {
+    this.setData();
+    // }
   }
 };
 </script>

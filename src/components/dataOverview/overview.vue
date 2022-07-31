@@ -1,22 +1,41 @@
 <template>
-  <div class="q-my-lg ">
-    <q-table class="radius-20 shadow-1 pagination-no-shadow" :class="expanded ? 'yellowBg' : ''" :data="data"
-      :columns="columns" row-key="name" :hide-bottom="!isInPage && data.length > 0" :hide-header="!isInPage"
-      :visible-columns="isInPage ? visibleColumns : ['title']" :filter="filter" :filter-method="filterTable"
+  <div class="q-my-lg">
+    <q-table
+      class="radius-20 shadow-1 pagination-no-shadow"
+      :class="expanded ? 'yellowBg' : ''"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :hide-bottom="!isInPage && data.length > 0"
+      :hide-header="!isInPage"
+      :visible-columns="isInPage ? visibleColumns : ['title']"
+      :filter="filter"
+      :filter-method="filterTable"
       :pagination="{
         sortBy: 'id',
         descending: true,
         page: 1,
         rowsPerPage: isInPage ? 50 : 5
-      }">
+      }"
+    >
       <template v-slot:top>
         <div class="col-12">
-          <q-expansion-item header-class="no-padding items-center" expand-icon-class="hidden" v-model="expanded"
-            expand-icon-toggle>
+          <q-expansion-item
+            header-class="no-padding items-center"
+            expand-icon-class="hidden"
+            v-model="expanded"
+            expand-icon-toggle
+          >
             <template v-slot:header>
               <div v-if="isInPage" class="col-12 col-md-4">
-                <q-input borderless outlined class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm" v-model="search"
-                  placeholder="Search" dense>
+                <q-input
+                  borderless
+                  outlined
+                  class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm"
+                  v-model="search"
+                  placeholder="Search"
+                  dense
+                >
                   <template v-slot:prepend>
                     <q-icon name="search" />
                   </template>
@@ -24,7 +43,13 @@
               </div>
               <q-space />
               <div class="col-md-4 text-right">
-                <q-btn @click="expanded = !expanded" icon="filter_alt" color="primary" flat round>
+                <q-btn
+                  @click="expanded = !expanded"
+                  icon="filter_alt"
+                  color="primary"
+                  flat
+                  round
+                >
                 </q-btn>
               </div>
             </template>
@@ -33,46 +58,98 @@
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.type") }}
                 </p>
-                <q-select clearable class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
-                  placeholder="Search" filled :options="typeOptions" v-model="type">
+                <q-select
+                  clearable
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  placeholder="Search"
+                  filled
+                  :options="typeOptions"
+                  v-model="type"
+                >
                 </q-select>
               </div>
               <div class="col-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.categories") }}
                 </p>
-                <q-select class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" placeholder="Search"
-                  filled clearable :options="categoryOptions" v-model="category">
+                <q-select
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  placeholder="Search"
+                  filled
+                  clearable
+                  :options="categoryOptions"
+                  v-model="category"
+                >
                 </q-select>
               </div>
               <div class="col-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.tags/keywords") }}
                 </p>
-                <q-select class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" placeholder="Search"
-                  filled clearable :options="tagKeywordsOptions" v-model="tagsKeywords">
+                <q-select
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  placeholder="Search"
+                  filled
+                  clearable
+                  :options="tagKeywordsOptions"
+                  v-model="tagsKeywords"
+                >
                 </q-select>
               </div>
               <div class="col-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.projectCoordinator") }}
                 </p>
-                <q-select class="no-shadow q-mb-lg input-radius-4" color="primary" clearable bg-color="white"
-                  placeholder="Search" filled :options="projectCoordinatorOptions" v-model="projectCoordinator">
+                <q-select
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  clearable
+                  bg-color="white"
+                  placeholder="Search"
+                  filled
+                  :options="projectCoordinatorOptions"
+                  v-model="projectCoordinator"
+                >
                 </q-select>
               </div>
               <div class="col-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.publishDate") }}
                 </p>
-                <q-input filled clearable v-model="publishDateStart" class="no-shadow q-mb-lg input-radius-4"
-                  color="primary" bg-color="white" :placeholder="$t('From')">
+                <q-input
+                  filled
+                  clearable
+                  v-model="publishDateStart"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('From')"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="publishDateStart" mask="DD.MM.YYYY" first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          v-model="publishDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -82,14 +159,35 @@
               </div>
               <div class="col-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
-                <q-input clearable filled :disable="!publishDateStart" v-model="publishDateEnd"
-                  class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" :placeholder="$t('Until')">
+                <q-input
+                  clearable
+                  filled
+                  :disable="!publishDateStart"
+                  v-model="publishDateEnd"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('Until')"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="publishDateEnd" mask="DD.MM.YYYY" first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          v-model="publishDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -101,14 +199,34 @@
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
                 </p>
-                <q-input clearable filled v-model="endDateStart" class="no-shadow q-mb-lg input-radius-4"
-                  color="primary" bg-color="white" :placeholder="$t('From')">
+                <q-input
+                  clearable
+                  filled
+                  v-model="endDateStart"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('From')"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="endDateStart" mask="DD.MM.YYYY" first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          v-model="endDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -118,14 +236,35 @@
               </div>
               <div class="col-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
-                <q-input clearable filled :disable="!endDateStart" v-model="endDateEnd"
-                  class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" :placeholder="$t('Until')">
+                <q-input
+                  clearable
+                  filled
+                  :disable="!endDateStart"
+                  v-model="endDateEnd"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('Until')"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="endDateEnd" mask="DD.MM.YYYY" first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          v-model="endDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -139,7 +278,12 @@
       </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14"
+          >
             {{ col.label }}
           </q-th>
           <q-th auto-width />
@@ -147,7 +291,13 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td auto-width v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
+          <q-td
+            auto-width
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14"
+          >
             {{ col.value }}
           </q-td>
           <q-td class="text-right" auto-width>
@@ -155,43 +305,124 @@
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable @click="view(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.view") }}
-                        <q-icon v-if="!viewIsLoading" size="sm" class="text-blue" name="visibility" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!viewIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="visibility"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="editItem(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item
+                    v-if="
+                      isAdmin || (props.row && props.row.type !== 'funding')
+                    "
+                    clickable
+                    @click="editItem(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.edit") }}
 
-                        <q-icon v-if="!editIsLoading" size="sm" class="text-blue" name="edit" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!editIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="addToWatchlist(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="addToWatchlist(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.bookmark") }}
 
-                        <q-icon v-if="!watchlistIsLoading" size="sm" class="text-blue" name="star_rate" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!watchlistIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="star_rate"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="archiveItem(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="archiveItem(props.row)"
+                    v-if="
+                      isAdmin ||
+                        (props.row &&
+                          props.row.type !== 'funding' &&
+                          (!!props.row.owner && props.row.owner.id) ===
+                            (!!loggedInUser && loggedInUser.id))
+                    "
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.archive") }}
 
-                        <q-icon v-if="!archiveIsLoading" size="sm" class="text-blue" name="inventory" />
-                        <q-spinner v-else color="red" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!archiveIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="inventory"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item v-if="isAdmin" clickable v-close-popup @click="deleteItem(props.row)">
-                    <q-item-section><span class="text-right font-14 text-red">
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="deleteItem(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14 text-red">
                         {{ $t("myDataTableOptions.delete") }}
 
-                        <q-icon v-if="!deleteIsLoading" size="sm" class="text-red" name="delete" />
-                        <q-spinner v-else color="red" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!deleteIsLoading"
+                          size="sm"
+                          class="text-red"
+                          name="delete"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -200,24 +431,39 @@
         </q-tr>
       </template>
     </q-table>
-    <DeleteDialog :id="itemId" :tab="tab" :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null), (tab = null)" />
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="closeDialog($event), (itemId = null), (tab = null)"
+    />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="itemType"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null), (type = null)"
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+
 export default {
   name: "dataOverview",
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   data() {
     return {
       deleteDialog: false,
       itemId: null,
       tab: null,
+      itemType: null,
       expanded: false,
       search: "",
       type: "",
@@ -240,7 +486,8 @@ export default {
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
-      watchlistIsLoading: false
+      watchlistIsLoading: false,
+      requestDialog: false
     };
   },
   methods: {
@@ -366,62 +613,156 @@ export default {
     },
     dateFormatter,
     async view(row) {
+      const id = row && row.id;
+      this.itemId = row && row.id;
+      this.viewIsLoading = true;
       if (row.type === "project") {
-        this.viewIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
-        this.viewIsLoading = false;
-      } else if (row.type === "funding") {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/${id}` });
-      } else {
-        this.viewIsLoading = true;
-        const id = JSON.parse(JSON.stringify(row && row.id));
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        this.tab = "projectIdeas";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "view";
+            this.requestDialog = true;
           }
-        );
-        this.viewIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/${id}` });
+        }
+      } else if (row.type === "funding") {
+        this.tab = "fundings";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/${id}` });
+        }
+      } else {
+        this.tab = "implementationChecklist";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasReaderAccess =
+            !!row.readers &&
+            row.readers.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "view";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/${id}` });
+        }
       }
+      this.viewIsLoading = false;
     },
     async editItem(row) {
+      const id = row && row.id;
+      this.itemId = row && row.id;
+      this.editIsLoading = true;
       if (row.type === "project") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("project/editProject", {
-          id: id
-        });
-        this.editIsLoading = false;
-      } else if (row.type === "funding") {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newFunding/edit/${id}` });
-      } else {
-        this.editIsLoading = true;
-        const id = row && row.id;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: id
+        this.tab = "projectIdeas";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "edit";
+            this.requestDialog = true;
           }
-        );
-        this.editIsLoading = false;
-        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+        }
+      } else if (row.type === "funding") {
+        this.tab = "fundings";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newFunding/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newFunding/edit/${id}` });
+        }
+      } else {
+        this.tab = "implementationChecklist";
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasEditorAccess.length > 0) {
+            this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+          } else {
+            this.itemId = row && row.id;
+            this.itemType = "edit";
+            this.requestDialog = true;
+          }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        }
       }
+      this.editIsLoading = false;
     },
     async deleteItem(row) {
       if (row.type === "project") {
@@ -490,17 +831,17 @@ export default {
         this.getData();
       }
     },
-    goToPage(page) {
-      if (page === "projectIdeas") {
-        this.$store.commit("project/setSpecificProject", null);
-        this.$router.push({ path: "/user/newProjectIdea" });
-      } else if (page === "fundings") {
-        this.$store.commit("funding/setSpecificFunding", null);
-        this.$router.push({ path: "/user/newFunding" });
-      } else {
-        this.$router.push({ path: "/user/newChecklist" });
-      }
-    },
+    // goToPage(page) {
+    //   if (page === "projectIdeas") {
+    //     this.$store.commit("project/setSpecificProject", null);
+    //     this.$router.push({ path: "/user/newProjectIdea" });
+    //   } else if (page === "fundings") {
+    //     this.$store.commit("funding/setSpecificFunding", null);
+    //     this.$router.push({ path: "/user/newFunding" });
+    //   } else {
+    //     this.$router.push({ path: "/user/newChecklist" });
+    //   }
+    // },
     getData() {
       this.$store.dispatch("userCenter/getDataOverview");
     }
@@ -552,6 +893,12 @@ export default {
     },
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     },
     isInPage() {
       return true;

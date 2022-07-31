@@ -1111,14 +1111,57 @@ export async function getSpecificChecklist(context, payload) {
   if (id) {
     try {
       const res = await api.get(`/api/checklists/${id}`);
+      console.log("res :>> ", res);
       context.commit("setSpecificChecklist", res.data);
       // return res.data.id;
     } catch (error) {
+      console.log("error", error);
+      // if (error.response.status !== 401) {
       Notify.create({
-        position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
+      // }
+      // if (error.response.status === 401) {
+      //   return "unauthorized";
+      // } else {
+      //   return false;
+      // }
+    }
+  }
+}
+
+export async function requestAccess(context, payload) {
+  const { id } = payload;
+  const { userId } = payload;
+  const { type } = payload;
+  console.log("id", id);
+  console.log("userId", userId);
+  console.log("type", type);
+  if (!!id && !!userId && !!type) {
+    try {
+      const res = await api.post("/api/requests", {
+        data: {
+          user: {
+            id: userId
+          },
+          checklist: {
+            id: id
+          },
+          type: type
+        }
+      });
+      Notify.create({
+        message: "Checklist access request sent",
+        type: "positive"
+      });
+      context.dispatch("getChecklists");
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
     }
   }
 }

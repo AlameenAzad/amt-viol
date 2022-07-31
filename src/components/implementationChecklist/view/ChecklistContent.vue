@@ -8,6 +8,62 @@
             Back
           </q-btn>
         </div>
+        <div
+          class="col-12"
+          v-if="
+            isAdmin && !!checklist.requests && checklist.requests.length > 0
+          "
+        >
+          <div
+            v-for="request in checklist.requests"
+            :key="request.id"
+            class="row"
+          >
+            <q-card class="col-12 shadow-1 radius-20 q-mb-md q-pa-none">
+              <q-card-section class="row items-center">
+                <q-icon
+                  name="description"
+                  size="md"
+                  color="blue-5"
+                  class="q-mr-sm"
+                />
+                <div class="col">
+                  <p class="font-16 text-weight-600 q-mb-none">
+                    {{ !!request.user && request.user.username }} would like to
+                    access document
+                  </p>
+                  <p class="font-14 q-mb-none">
+                    {{ !!request.checklist && request.checklist.title }}
+                  </p>
+                </div>
+                <div class="text-right">
+                  <q-btn
+                    @click="handleRequest(true, request.id)"
+                    color="blue"
+                    unelevated
+                    class="radius-6 q-ml-md text-weight-600"
+                    no-caps
+                  >
+                    <p class="q-mb-none q-mx-xl q-my-sm">
+                      {{ $t("notificationsUser.acceptBtn") }}
+                    </p>
+                  </q-btn>
+                  <q-btn
+                    @click="handleRequest(false, request.id)"
+                    color="red"
+                    unelevated
+                    class="radius-6 q-ml-md text-weight-600"
+                    no-caps
+                  >
+                    <p class="q-mb-none q-mx-xl q-my-sm">
+                      {{ $t("notificationsUser.declineBtn") }}
+                    </p>
+                  </q-btn>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
         <div v-if="isAdmin" class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
@@ -1929,39 +1985,21 @@ export default {
       }
     },
     async getData() {
-      const startLocation =
-        !!this.$router.history && this.$router.history._startLocation;
-      const checklist =
-        !!this.$router.history &&
-        this.$router.history.current &&
-        this.$router.history.current.fullPath;
-      if (
-        (!!this.$route.params && Number(this.$route.params.id)) !==
-        (!!this.$store.state.implementationChecklist.checklist &&
-          this.$store.state.implementationChecklist.checklist.id)
-      ) {
-        this.isLoading = true;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: Number(this.$route.params.id)
-          }
-        );
-        this.isLoading = false;
-      } else if (
-        startLocation.includes(`newChecklist/${this.$route.params.id}`) ===
-        checklist.includes(`newChecklist/${this.$route.params.id}`)
-      ) {
-        this.isLoading = true;
-        await this.$store.dispatch(
-          "implementationChecklist/getSpecificChecklist",
-          {
-            id: Number(this.$route.params.id)
-          }
-        );
-        this.isLoading = false;
-      } else {
-      }
+      await this.$store.dispatch(
+        "implementationChecklist/getSpecificChecklist",
+        {
+          id: Number(this.$route.params.id)
+        }
+      );
+      this.$q.loading.hide();
+    },
+    async handleRequest(val, id) {
+      const res = await this.$store.dispatch("userCenter/manageRequest", {
+        id,
+        val
+      });
+      // TODO refresh page on success
+      console.log("res", res);
     },
     checkProgress(start, end) {
       const currentDate = new Date();
@@ -1989,14 +2027,12 @@ export default {
       if (!!id) {
         //  this.viewIsLoading = true;
         // const id = row && row.id;
-        await this.$store.dispatch("project/viewProject", {
-          id: id
-        });
+        // await this.$store.dispatch("project/viewProject", {
+        //   id: id
+        // });
         // this.viewIsLoading = false;
+        this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
-    },
-    async viewChecklist() {
-      console.log("Not yet implemented");
     },
     async addToWatchlist() {
       this.watchlistIsLoading = true;
@@ -2050,6 +2086,7 @@ export default {
     }
   },
   mounted() {
+    this.$q.loading.show();
     this.getData();
   }
 };
