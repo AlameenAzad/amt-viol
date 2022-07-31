@@ -99,16 +99,25 @@
                       /></span>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
-                    <q-item-section @click="prepEditDialog(props.row)">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="prepEditDialog(props.row)"
+                  >
+                    <q-item-section>
                       <span class="text-right font-14">
                         {{ $t("administrativeAreas.edit") }}
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
 
-                  <q-item v-if="isAdmin" clickable v-close-popup>
-                    <q-item-section @click="prepDeleteDialog(props.row)"
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="prepDeleteDialog(props.row)"
+                  >
+                    <q-item-section
                       ><span class="text-right font-14 text-red">
                         {{ $t("administrativeAreas.delete") }}
                         <q-icon size="sm" name="delete"/></span
@@ -223,7 +232,8 @@ export default {
           name: "project coordinators",
           label: this.$t("administrativeAreas.projectCoordinator"),
           field: row =>
-            (!!row.users && row.users.substring(0, 25) + "...") || this.$t("noUsers"),
+            (!!row.users && row.users.substring(0, 25) + "...") ||
+            this.$t("noUsers"),
           sortable: true,
           align: "left"
         }
