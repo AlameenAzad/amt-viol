@@ -442,7 +442,7 @@
       :tab="tab"
       :type="itemType"
       :dialogState="requestDialog"
-      @update="(requestDialog = $event), (itemId = null), (type = null)"
+      @update="(requestDialog = $event), (itemId = null), (itemType = null)"
     />
   </div>
 </template>
