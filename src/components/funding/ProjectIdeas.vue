@@ -1,15 +1,7 @@
 <template>
-  <q-select
-    outlined
-    :bg-color="isInChecklist ? 'white' : ''"
-    dense
-    v-model="model"
-    :multiple="isInChecklist === false"
-    :options="projects"
-    options-selected-class="text-primary text-weight-600"
-    class="no-shadow input-radius-6"
-    @input="onSelect"
-  >
+  <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model" :multiple="isInChecklist === false"
+    :options="projects" options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6"
+    @input="onSelect">
     <template v-slot:selected>
       <div v-if="!isInChecklist">
         <template v-if="model && model.length > 0">
@@ -20,7 +12,7 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            Select Projects
+            {{$t('Select Projects')}}
           </span>
         </template>
       </div>
@@ -32,7 +24,7 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            Select Project
+            {{$t('Select Projects')}}
           </span>
         </template>
       </div>
