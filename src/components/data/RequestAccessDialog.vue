@@ -10,9 +10,9 @@
             tab == "projectIdeas"
               ? "You don't have access to this Project Idea"
               : tab === "fundings"
-              ? "Delete Funding"
+              ? "You don't have access to this Funding"
               : tab === "implementationChecklist"
-              ? "Delete Checklist"
+              ? "You don't have access to this Checklist"
               : ""
           }}
         </h6>
@@ -24,9 +24,9 @@
               tab == "projectIdeas"
                 ? `Would you like to request ${type} access?`
                 : tab === "fundings"
-                ? "Are you sure you want to delete this Funding? It will be removed from all documents."
+                ? `Would you like to request ${type} access?`
                 : tab === "implementationChecklist"
-                ? "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents."
+                ? `Would you like to request ${type} access?`
                 : ""
             }}
           </p>
@@ -88,9 +88,10 @@ export default {
         }
       } else if (this.tab === "fundings") {
         this.isLoading = true;
-        const id = this.id;
-        const res = await this.$store.dispatch("funding/deleteFunding", {
-          id: id
+        const res = await this.$store.dispatch("funding/requestAccess", {
+          id: this.id,
+          userId: !!this.loggedInUser && this.loggedInUser.id,
+          type: this.type
         });
         this.isLoading = false;
         if (res !== false) {
@@ -98,11 +99,12 @@ export default {
         }
       } else {
         this.isLoading = true;
-        const id = this.id;
         const res = await this.$store.dispatch(
-          "implementationChecklist/deleteChecklist",
+          "implementationChecklist/requestAccess",
           {
-            id: id
+            id: this.id,
+            userId: !!this.loggedInUser && this.loggedInUser.id,
+            type: this.type
           }
         );
         this.isLoading = false;
