@@ -546,11 +546,11 @@ export default {
           align: "left",
           field: row =>
             row.hasOwnProperty("project")
-              ? row.project.type
+              ? this.$t(row.project.type)
               : row.hasOwnProperty("funding")
-              ? row.funding.type
+                ? this.$t(row.funding.type)
               : row.hasOwnProperty("checklist")
-              ? row.checklist.type
+                  ? this.$t(row.checklist.type)
               : "",
           sortable: true
         },
@@ -565,21 +565,21 @@ export default {
                   row.project.categories
                     .map(category => category.title)
                     .join(", ")) ||
-                "No Categories"
+                this.$t("NoCategories")
               : row.hasOwnProperty("funding")
               ? (!!row.funding &&
                   !!row.funding.categories &&
                   row.funding.categories
                     .map(category => category.title)
                     .join(", ")) ||
-                "No Categories"
+                this.$t("NoCategories")
               : row.hasOwnProperty("checklist")
               ? (!!row.checklist &&
                   !!row.checklist.categories &&
                   row.checklist.categories
                     .map(category => category.title)
                     .join(", ")) ||
-                "No Categories"
+                this.$t("NoCategories")
               : "",
           sortable: true
         },
@@ -600,7 +600,7 @@ export default {
         },
         {
           name: "owner",
-          label: "Owner",
+          label: this.$t("Owner"),
           align: "left",
           field: row =>
             row.hasOwnProperty("project")
@@ -641,7 +641,7 @@ export default {
           name: "type",
           label: this.$t("statsTable.type"),
           align: "left",
-          field: row => !!row.project && row.project.type,
+          field: row => !!row.project && this.$t(row.project.type),
           sortable: true
         },
         {
@@ -659,7 +659,7 @@ export default {
         },
         {
           name: "owner",
-          label: "Owner",
+          label: this.$t("Owner"),
           align: "left",
           field: row =>
             !!row.project && !!row.project.owner && row.project.owner.username,
@@ -687,7 +687,7 @@ export default {
           name: "type",
           label: this.$t("statsTable.type"),
           align: "left",
-          field: row => !!row.funding && row.funding.type,
+          field: row => !!row.funding && this.$t(row.funding.type),
           sortable: true
         },
         {
@@ -700,7 +700,7 @@ export default {
               row.funding.categories
                 .map(category => category.title)
                 .join(", ")) ||
-            "No Categories",
+            this.$t("NoCategories"),
           sortable: true
         },
         {
@@ -720,7 +720,7 @@ export default {
         },
         {
           name: "owner",
-          label: "Owner",
+          label: this.$t("Owner"),
           align: "left",
           field: row =>
             !!row.funding && !!row.funding.owner && row.funding.owner.username,
@@ -748,7 +748,7 @@ export default {
           name: "type",
           label: this.$t("statsTable.type"),
           align: "left",
-          field: row => !!row.checklist && row.checklist.type,
+          field: row => !!row.checklist && this.$t(row.checklist.type),
           sortable: true
         },
         {
@@ -761,12 +761,12 @@ export default {
               row.checklist.categories
                 .map(category => category.title)
                 .join(", ")) ||
-            "No Categories",
+            this.$t("NoCategories"),
           sortable: true
         },
         {
           name: "owner",
-          label: "Owner",
+          label: this.$t("Owner"),
           align: "left",
           field: row =>
             !!row.checklist &&

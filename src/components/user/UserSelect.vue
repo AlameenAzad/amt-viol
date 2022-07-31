@@ -82,7 +82,7 @@
         icon="add"
         size="md"
         color="primary"
-        label="Add More Editors"
+        :label="$t('addEditors')"
       />
     </div>
   </div>

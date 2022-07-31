@@ -1,12 +1,8 @@
 <template>
   <q-page class="column items-center q-mt-xl">
-    <h3 class="text-center  q-mt-md">User Details</h3>
+    <h3 class="text-center  q-mt-md">{{ $t('User Details')}}</h3>
     <q-card class="q-pa-lg radius-10">
-      <q-form
-        @submit.prevent="updateUserInformation"
-        ref="updateUserForm"
-        class="q-gutter-lg q-px-md q-mb-md "
-      >
+      <q-form @submit.prevent="updateUserInformation" ref="updateUserForm" class="q-gutter-lg q-px-md q-mb-md ">
         <div class="row items-center ">
           <div class="col-3">
             <p class="font-14 no-margin">
@@ -14,27 +10,19 @@
             </p>
           </div>
           <div class="col-9">
-            <q-input
-              outlined
-              dense
-              class="no-shadow input-radius-6"
-              v-model="form.username"
-              :rules="[]"
-              placeholder="Name"
-            />
+            <q-input outlined dense class="no-shadow input-radius-6" v-model="form.username" :rules="[]"
+              placeholder="Name" />
           </div>
         </div>
         <div class="row items-center ">
           <div class="col-3 ">
             <p class="font-14 no-margin ">
-              Administration
+              {{ $t("userAdministration.administration") }}
             </p>
           </div>
           <div class="col-9">
-            <MunicipalitySelect
-              :currentMunicipality="form.municipality"
-              @update:municipality="form.municipality = $event"
-            />
+            <MunicipalitySelect :currentMunicipality="form.municipality"
+              @update:municipality="form.municipality = $event" />
           </div>
         </div>
         <div class="row items-center">
@@ -44,106 +32,51 @@
             </p>
           </div>
           <div class="col-9">
-            <q-input
-              outlined
-              dense
-              class="no-shadow input-radius-6"
-              v-model="form.email"
-              :rules="[]"
-              placeholder="wilson.culhane@mail.com"
-            />
+            <q-input outlined dense class="no-shadow input-radius-6" v-model="form.email" :rules="[]"
+              placeholder="wilson.culhane@mail.com" />
           </div>
         </div>
         <div class="row items-center justify-evenly">
           <div class="col-3">
             <p class="font-14 no-margin">
-              Role
+              {{ $t("userAdministration.role") }}
             </p>
           </div>
           <div class="col-9">
-            <q-select
-              :disable="
-                (!!currentUser && currentUser.id) ===
-                  (!!loggedInUser && loggedInUser.id)
-              "
-              outlined
-              dense
-              :options="options"
-              options-selected-class="text-primary text-weight-600"
-              class="no-shadow input-radius-6"
-              v-model="form.role"
-              :rules="[]"
-              placeholder="Role"
-            />
+            <q-select :disable="
+              (!!currentUser && currentUser.id) ===
+                (!!loggedInUser && loggedInUser.id)
+            " outlined dense :options="options" options-selected-class="text-primary text-weight-600"
+              class="no-shadow input-radius-6" v-model="form.role" :rules="[]" placeholder="Role" />
           </div>
         </div>
         <div class="row justify-center q-ml-lg ">
-          <q-btn
-            type="submit"
-            label="Save Changes"
-            size="16px"
-            color="primary"
-            no-caps
-            unelevated
-            class="no-shadow radius-6 q-px-xl q-mr-sm"
-          />
-          <q-btn
-            label="Delete User"
-            outline
-            @click="showDialog = true"
-            size="16px"
-            color="red"
-            no-caps
-            class="no-shadow radius-6 q-px-xl"
-          />
+          <q-btn type="submit" :label="$t('personalData.saveChanges')" size="16px" color="primary" no-caps unelevated
+            class="no-shadow radius-6 q-px-xl q-mr-sm" />
+          <q-btn :label="$t('delete user')" outline @click="showDialog = true" size="16px" color="red" no-caps
+            class="no-shadow radius-6 q-px-xl" />
         </div>
       </q-form>
     </q-card>
     <q-dialog v-model="showDialog">
       <q-card class="q-pa-lg radius-10 column  justify-center">
-        <h6 class="text-center  q-mt-md q-mb-lg">Delete User</h6>
-        <p
-          class="text-center text-weight-light font-16
-"
-        >
-          Do you really want to delete this user? All data and rights will be
-          transferred to another user.
+        <h6 class="text-center  q-mt-md q-mb-lg">{{ $t('delete user') }}</h6>
+        <p class="text-center text-weight-light font-16
+">
+          {{ $t('delteDataInfo')}}
         </p>
         <div class="q-mt-sm q-ml-lg">
           <p class="q-mb-none font-16">
-            Select account to transfer the data and rights.
+            {{ $t('selectaccountanddata')}}
           </p>
-          <q-select
-            outlined
-            :options="options"
-            class="no-shadow input-radius-6 "
-            v-model="dataRight"
-            :rules="[]"
-            label="Alfonso Lipshutz"
-            dense
-          />
+          <q-select outlined :options="options" class="no-shadow input-radius-6 " v-model="dataRight" :rules="[]"
+            :label="$t('select')" dense />
         </div>
         <div class="row justify-center q-ml-lg q-mt-lg ">
-          <q-btn
-            label="Cancel"
-            outline
-            v-close-popup
-            type="submit"
-            size="16px"
-            color="primary"
-            no-caps
-            class="no-shadow radius-6 q-px-xl q-mr-sm"
-            :loading="isLoading"
-          />
-          <q-btn
-            label="Confirm"
-            type="submit"
-            size="16px"
-            color="red"
-            no-caps
-            class="no-shadow radius-6 q-px-xl"
-            :loading="isLoading"
-          />
+          <q-btn :label="$t('userAdministration.cancel')" outline v-close-popup type="submit" size="16px"
+            color="primary" no-caps class="no-shadow radius-6 q-px-xl q-mr-sm" :loading="isLoading" />
+          <q-btn :label="$t('confirm')" type="submit" size="16px" color="red" no-caps class="no-shadow radius-6 q-px-xl"
+            :loading="isLoading" />
         </div>
       </q-card>
     </q-dialog>

@@ -187,7 +187,7 @@ export default {
         },
         {
           name: "title",
-          label: "Title",
+          label: this.$t("myData.title"),
           field: row => row.title,
           sortable: true,
           align: "left"
@@ -195,21 +195,21 @@ export default {
         {
           name: "projectIdeas",
           align: "left",
-          label: "Project ideas",
+          label: this.$t("myData.projectIdeas"),
           field: row => (!!row.dataSet.projects && row.dataSet.projects) || 0,
           sortable: true
         },
         {
           name: "fundings",
           align: "left",
-          label: "Fundings",
+          label: this.$t("myData.fundings"),
           field: row => (!!row.dataSet.fundings && row.dataSet.fundings) || 0,
           sortable: true
         },
         {
           name: "checklists",
           align: "left",
-          label: "Implementation Checklist",
+          label: this.$t("myData.implementationChecklist"),
           field: row => (!!row.dataSet.checklist && row.dataSet.checklist) || 0,
           sortable: true
         }

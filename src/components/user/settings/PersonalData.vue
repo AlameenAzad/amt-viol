@@ -3,41 +3,23 @@
     <h6 class="text-center font-24 q-mt-md">
       {{ $t("personalData.personalData") }}
     </h6>
-    <q-form
-      ref="personalDataForm"
-      @submit.prevent="savePersonalData"
-      class="q-gutter-lg q-px-md q-mb-md"
-    >
+    <q-form ref="personalDataForm" @submit.prevent="savePersonalData" class="q-gutter-lg q-px-md q-mb-md">
       <div class="row justify-center">
         <div class="col-12 text-center">
-          <q-img
-            v-if="profileImage"
-            class="radius-10 profileImage"
-            spinner-color="primary"
-            :src="`${appUrl}${profileImage}`"
-            style="height: 160px; max-width: 160px"
-          />
+          <q-img v-if="profileImage" class="radius-10 profileImage" spinner-color="primary"
+            :src="`${appUrl}${profileImage}`" style="height: 160px; max-width: 160px" />
           <div class="flex flex-center" v-else style="height: 160px">
-            <h6 class="text-grey">No Profile Image</h6>
+            <h6 class="text-grey">{{ $t('No Profile Image')}}</h6>
           </div>
         </div>
       </div>
       <div class="row justify-center q-mt-sm">
-        <div
-          class="flex justify-between"
-          style="width: 160px; max-width: 160px"
-        >
-          <a
-            @click.prevent="changeImage()"
-            class="font-16 text-primary text-weight-600 cursor-pointer text-underline"
-            >{{ $t("personalData.change") }}</a
-          >
-          <a
-            @click.prevent="deleteImage()"
-            class="font-16 text-red text-weight-600 cursor-pointer text-underline"
-          >
-            {{ $t("personalData.delete") }}</a
-          >
+        <div class="flex justify-between" style="width: 160px; max-width: 160px">
+          <a @click.prevent="changeImage()"
+            class="font-16 text-primary text-weight-600 cursor-pointer text-underline">{{ $t("personalData.change")
+            }}</a>
+          <a @click.prevent="deleteImage()" class="font-16 text-red text-weight-600 cursor-pointer text-underline">
+            {{ $t("personalData.delete") }}</a>
           <!-- <q-btn
                 label="Delete"
                 size="16px"
@@ -58,13 +40,7 @@
               /> -->
         </div>
       </div>
-      <q-file
-        class="hidden"
-        ref="profileImg"
-        outlined
-        v-model="newImg"
-        label="Outlined"
-      />
+      <q-file class="hidden" ref="profileImg" outlined v-model="newImg" label="Outlined" />
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
@@ -72,12 +48,7 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.fullName"
-            :rules="[]"
-          />
+          <q-input outlined class="no-shadow input-radius-6" v-model="form.fullName" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
@@ -87,13 +58,7 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            disable
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.administration"
-            :rules="[]"
-          />
+          <q-input disable outlined class="no-shadow input-radius-6" v-model="form.administration" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
@@ -103,13 +68,7 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            disable
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.email"
-            :rules="[]"
-          />
+          <q-input disable outlined class="no-shadow input-radius-6" v-model="form.email" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
@@ -119,12 +78,7 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.telephone"
-            :rules="[]"
-          />
+          <q-input outlined class="no-shadow input-radius-6" v-model="form.telephone" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
@@ -134,44 +88,28 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.location"
-            :rules="[]"
-          />
+          <q-input outlined class="no-shadow input-radius-6" v-model="form.location" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            Street No
-            <!-- TODO translate this {{ $t("personalData.location") }} -->
+            {{ $t('projectIdeaPlaceholder.streetNr')}}
+
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.streetNo"
-            :rules="[]"
-          />
+          <q-input outlined class="no-shadow input-radius-6" v-model="form.streetNo" :rules="[]" />
         </div>
       </div>
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            PostalCode
-            <!-- TODO translate this {{ $t("personalData.location") }} -->
+            {{ $t('projectIdeaPlaceholder.postalCity/place')}}
           </p>
         </div>
         <div class="col-9">
-          <q-input
-            outlined
-            class="no-shadow input-radius-6"
-            v-model="form.postalCode"
-            :rules="[]"
-          />
+          <q-input outlined class="no-shadow input-radius-6" v-model="form.postalCode" :rules="[]" />
         </div>
       </div>
       <!-- <div class="row items-center">
@@ -187,14 +125,7 @@
         </div>
       </div> -->
       <div class="row justify-center">
-        <q-btn
-          type="submit"
-          :loading="isLoading"
-          size="16px"
-          color="primary"
-          no-caps
-          class="radius-6 q-px-xl q-py-sm"
-        >
+        <q-btn type="submit" :loading="isLoading" size="16px" color="primary" no-caps class="radius-6 q-px-xl q-py-sm">
           {{ $t("personalData.saveChanges") }}
         </q-btn>
       </div>

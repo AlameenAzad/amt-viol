@@ -33,7 +33,7 @@ const routes = [
         name: "Home",
         meta: {
           title: "Home",
-          // title: i18n.t("notifications.updateRequest"),
+          titleDE: "Home",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: false
@@ -46,6 +46,7 @@ const routes = [
         name: "DataOverview",
         meta: {
           title: "Data Overview",
+          titleDE: "Datenübersicht",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: false
@@ -58,6 +59,7 @@ const routes = [
         name: "watchlist",
         meta: {
           title: "My Watchlist",
+          titleDE: "Meine Merklisten",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: false
@@ -82,6 +84,7 @@ const routes = [
         name: "CatKeyTags",
         meta: {
           title: "Categories & Keywords/Tags",
+          titleDE: "Kategorien & Schlagwörter",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: true
@@ -94,6 +97,7 @@ const routes = [
         name: "AdministationUser",
         meta: {
           title: "User Administration",
+          titleDE: "Benutzer*innen-Verwaltung",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: true
@@ -106,6 +110,7 @@ const routes = [
         name: "AdministationUserDetails",
         meta: {
           title: "User Administation",
+          titleDE: "Benutzer*innen-Verwaltung",
           showInNavigation: false,
           backLink: "/Administation/User",
           requireAuth: true,
@@ -119,6 +124,7 @@ const routes = [
         name: "Network",
         meta: {
           title: "My Network",
+          titleDE: "Mein Netzwerk",
           showInNavigation: false,
           requireAuth: true,
           requireAdmin: false
@@ -144,6 +150,7 @@ const routes = [
         name: "AdministationAreas",
         meta: {
           title: "Administrative areas",
+          titleDE: "Verwaltungsbereiche",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: false
@@ -168,6 +175,7 @@ const routes = [
         name: "Statistics&Archive",
         meta: {
           title: "Statistics & Archive",
+          titleDE: "Statistik & Archiv",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: true

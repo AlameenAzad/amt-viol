@@ -1,96 +1,29 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black text-white">
-      <q-toolbar
-        class="q-my-sm justify-between"
-        :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-sm'"
-      >
-        <q-btn
-          class="lt-md"
-          flat
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          round
-          dense
-          color="primary"
-          icon="menu"
-        />
+      <q-toolbar class="q-my-sm justify-between" :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-sm'">
+        <q-btn class="lt-md" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense color="primary" icon="menu" />
         <div class="col-4 col-md-auto">
-          <q-toolbar-title
-            class="text-weight-600"
-            :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
-            @click="$router.go(-1)"
-          >
-            <q-icon
-              v-if="$router.currentRoute.meta.backLink"
-              name="chevron_left"
-              size="sm"
-              color="primary"
-              class="q-mb-"
-            />
-            {{ $router.currentRoute.meta.title }}
+          <q-toolbar-title class="text-weight-600" :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
+            @click="$router.go(-1)">
+            <q-icon v-if="$router.currentRoute.meta.backLink" name="chevron_left" size="sm" color="primary"
+              class="q-mb-" />
+            {{ $i18n.locale === "en-us" ? $router.currentRoute.meta.title : $router.currentRoute.meta.titleDE }}
           </q-toolbar-title>
         </div>
         <div class="col-auto">
-          <q-btn
-            flat
-            round
-            dark
-            no-caps
-            color="blue"
-            @click="switchLang"
-            class="mr-0 text-weight-bold"
-            >{{ $i18n.locale === "en-us" ? "EN" : "DE" }}
+          <q-btn flat round dark no-caps color="blue" @click="switchLang" class="mr-0 text-weight-bold">{{ $i18n.locale
+          === "en-us" ? "EN" : "DE" }}
           </q-btn>
-          <q-btn
-            :icon="themeIcon"
-            flat
-            round
-            dark
-            color="blue"
-            @click="toggleDarkMode"
-            class="mr-0"
-          >
+          <q-btn :icon="themeIcon" flat round dark color="blue" @click="toggleDarkMode" class="mr-0">
           </q-btn>
-          <q-btn
-            icon="notifications"
-            to="/user/notifications"
-            flat
-            round
-            dark
-            color="blue"
-            class="mr-0"
-          >
+          <q-btn icon="notifications" to="/user/notifications" flat round dark color="blue" class="mr-0">
           </q-btn>
-          <q-btn
-            icon="person"
-            to="/user/data?tab=projectIdeas"
-            flat
-            round
-            dark
-            color="blue"
-            class="mr-0"
-          >
+          <q-btn icon="person" to="/user/data?tab=projectIdeas" flat round dark color="blue" class="mr-0">
           </q-btn>
-          <q-btn
-            icon="settings"
-            to="/user/settings"
-            flat
-            round
-            dark
-            color="blue"
-            class="mr-0"
-          >
+          <q-btn icon="settings" to="/user/settings" flat round dark color="blue" class="mr-0">
           </q-btn>
-          <q-btn
-            v-if="$q.screen.gt.sm"
-            icon="logout"
-            flat
-            round
-            dark
-            color="red"
-            class="mr-0"
-            @click="logout"
-          >
+          <q-btn v-if="$q.screen.gt.sm" icon="logout" flat round dark color="red" class="mr-0" @click="logout">
           </q-btn>
         </div>
 
@@ -98,13 +31,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="leftDrawer text-white"
-      content-class="bg-blue"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="leftDrawer text-white" content-class="bg-blue">
       <div class="q-px-lg q-pt-sm">
         <p class="font-20 ">
           <small class="q-mr-xs">Hello,</small><br />

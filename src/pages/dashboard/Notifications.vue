@@ -25,14 +25,13 @@
           <q-icon :name="getIcon(noti.typeOfNoti)" size="md" color="blue-5" class="q-mr-sm" />
           <div class="col">
             <p class="font-16 text-weight-600 q-mb-none">
-              {{ noti.typeOfNoti == "fundingExpirey" ? "Funding opportunity expires | " :
-              noti.typeOfNoti == "guest" ? "New user request access to the platform": noti.typeOfNoti ==
+              {{ noti.typeOfNoti == "fundingExpirey" ? $t("Funding opportunity expires | ") :
+              noti.typeOfNoti == "guest" ? $t("New user request access to the platform"): noti.typeOfNoti ==
               "fundingComments" ?
-              "Comment to a funding made by | " : noti.typeOfNoti == 'requests' ? `Request to ${noti.type} a document
-              made by | `:"" }}
+              $t("Comment to a funding made by | ") : noti.typeOfNoti == 'requests' ? $t(`Request to ${noti.type} a document made by | `):"" }}
 
               <span class="text-blue">{{ noti.typeOfNoti == "fundingExpirey" ? noti.plannedEnd :
-                noti.typeOfNoti == "fundingComments" && noti.owner.username ? noti.owner!=null : noti.typeOfNoti ==
+                noti.typeOfNoti == "fundingComments" && noti.owner != null ? noti.owner.username : noti.typeOfNoti ==
                 'requests' && noti.user !=null?
                 noti.user.username : "" }}</span>
 
@@ -78,11 +77,11 @@
     <q-dialog v-if="dialog" v-model="dialog">
       <q-card>
         <q-card-section>
-          <div class="text-h6">New Comment on Funding "{{ currentFundingComment.funding.title }}"</div>
+          <div class="text-h6">{{$t("New Comment on Funding")}} "{{ currentFundingComment.funding.title }}"</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          {{ currentFundingComment.owner.username }} says: <br /> {{ currentFundingComment.comment }}
+          {{ currentFundingComment.owner.username }} {{$t("says")}}: <br /> {{ currentFundingComment.comment }}
         </q-card-section>
 
         <q-card-actions align="right">
