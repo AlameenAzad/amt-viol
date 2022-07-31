@@ -51,7 +51,7 @@
         icon="add"
         size="md"
         color="primary"
-        label="Add funding rate"
+        :label="$t('Add funding rate')"
       />
     </div>
   </div>
