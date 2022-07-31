@@ -8,21 +8,33 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab class="q-pa-lg q-mr-lg radius-10 border-yellow" name="generalData">
+      <q-route-tab
+        :to="{ query: { tab: 'generalData' } }"
+        exact
+        replace
+        class="q-pa-lg q-mr-lg radius-10 border-yellow"
+        name="generalData"
+      >
         <p class="font-20 no-margin">{{ $t("settingsTab.generalData") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'personalData' } }"
+        exact
+        replace
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="personalData"
       >
         <p class="font-20 no-margin">{{ $t("settingsTab.personalData") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'notifications' } }"
+        exact
+        replace
         class="q-pa-lg q-mr-lg radius-10 border-yellow"
         name="notifications"
       >
         <p class="font-20 no-margin">{{ $t("settingsTab.notifications") }}</p>
-      </q-tab>
+      </q-route-tab>
     </q-tabs>
 
     <div class="overflow-hidden">
@@ -63,8 +75,13 @@ export default {
   },
   data() {
     return {
-      tab: "generalData"
+      tab: this.$router.currentRoute.query.tab || "generalData"
     };
+  },
+  watch: {
+    tab() {
+      this.getData();
+    }
   },
   methods: {
     getData() {
