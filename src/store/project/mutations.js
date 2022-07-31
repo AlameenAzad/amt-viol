@@ -15,6 +15,7 @@ export function editProjectIdea(state, payload) {
 export function deleteProjectIdea(state, payload) {
   if (!!payload) {
     state.projects = state.projects.filter(project => project.id !== payload);
+    state.project = {};
   }
 }
 

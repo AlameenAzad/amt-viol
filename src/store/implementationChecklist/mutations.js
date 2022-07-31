@@ -17,5 +17,6 @@ export function deleteChecklist(state, payload) {
     state.checklists = state.checklists.filter(
       checklist => checklist.id !== payload
     );
+    state.checklist = {};
   }
 }

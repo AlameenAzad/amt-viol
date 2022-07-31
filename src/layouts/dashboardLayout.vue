@@ -92,10 +92,6 @@ export default {
           sepia: 10
         });
     },
-    goBack() {
-      this.$router.currentRoute.meta.backLink &&
-        this.$router.push(this.$router.currentRoute.meta.backLink);
-    },
     logout() {
       console.log(localStorage.getItem("showLogoutDialog"));
       localStorage.getItem("showLogoutDialog") == "false"

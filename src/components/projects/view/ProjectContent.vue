@@ -10,7 +10,7 @@
         </div>
         <div
           class="col-12"
-          v-if="!!project.requests && project.requests.length > 0"
+          v-if="isAdmin && !!project.requests && project.requests.length > 0"
         >
           <div
             v-for="request in project.requests"
@@ -62,7 +62,7 @@
             </q-card>
           </div>
         </div>
-        <div class="col-12">
+        <div v-if="isAdmin" class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section class="row items-center justify-between q-pa-md">
@@ -173,11 +173,15 @@
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{ project.info.contactName || "Contact not found" }}
+                      {{
+                        (!!project.info && project.info.contactName) ||
+                          "Contact not found"
+                      }}
                     </p>
                     <p class="q-mb-sm">
                       {{
-                        project.municipality.location ||
+                        (!!project.municipality &&
+                          project.municipality.location) ||
                           "Municipality not found"
                       }}
                     </p>
@@ -190,29 +194,44 @@
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{ project.info.streetNo || "Street not found" }}
+                      {{
+                        (!!project.info && project.info.streetNo) ||
+                          "Street not found"
+                      }}
                     </p>
                     <p class="q-mb-sm">
-                      {{ project.info.postalCode || "Postal Code not found" }}
+                      {{
+                        (!!project.info && project.info.postalCode) ||
+                          "Postal Code not found"
+                      }}
                     </p>
                     <p class="q-mb-sm">
-                      {{ project.info.phone || "Phone not found" }}
+                      {{
+                        (!!project.info && project.info.phone) ||
+                          "Phone not found"
+                      }}
                     </p>
                     <p class="q-mb-sm">
-                      {{ project.info.email || "Email not found" }}
+                      {{
+                        (!!project.info && project.info.email) ||
+                          "Email not found"
+                      }}
                     </p>
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <div>
-                  <q-card-section v-if="!!project.info.location">
+                  <q-card-section
+                    v-if="!!project.info && !!project.info.location"
+                  >
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                       {{ $t("projectContent.locationOfProject") }}
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
                         {{
-                          project.info.location || "Project Location not set"
+                          (!!project.info && project.info.location) ||
+                            "Project Location not set"
                         }}
                       </p>
                     </div>
@@ -301,9 +320,10 @@
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
                       {{
-                        project.details.investive === true
+                        !!project.details && project.details.investive === true
                           ? "Investive"
-                          : project.details.investive === false
+                          : !!project.details &&
+                            project.details.investive === false
                           ? "Non-Investive"
                           : "Not Set"
                       }}
@@ -312,9 +332,7 @@
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <div
-                  v-if="
-                    !!project.details.status && project.details.satus !== ''
-                  "
+                  v-if="!!project.details && project.details.status !== null"
                 >
                   <q-card-section>
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -323,8 +341,7 @@
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
                         {{
-                          !!project.details.status &&
-                          project.details.satus !== ""
+                          !!project.details && project.details.satus !== ""
                             ? project.details.status
                             : "Not Set"
                         }}
@@ -621,7 +638,7 @@
                     <p
                       class="q-mb-sm text-block"
                       v-html="
-                        !!project.details.goals
+                        !!project.details
                           ? project.details.goals
                           : 'No Project Goals found'
                       "
@@ -638,14 +655,15 @@
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
                       {{
-                        project.details.valuesAndBenefits ||
+                        (!!project.details &&
+                          project.details.valuesAndBenefits) ||
                           "No Project Values and Benefits found"
                       }}
                     </p>
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
-                <div v-if="!!project.details.partner">
+                <div v-if="!!project.details && project.details.partner">
                   <q-card-section>
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                       {{ $t("projectContent.CooperationPartner") }}
@@ -653,7 +671,8 @@
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
                         {{
-                          project.details.partner || "No Project Partners found"
+                          (!!project.details && project.details.partner) ||
+                            "No Project Partners found"
                         }}
                       </p>
                     </div>
@@ -668,14 +687,11 @@
                     <p
                       class="q-mb-sm text-block"
                       v-html="
-                        !!project.details.content
+                        !!project.details && !!project.details.content
                           ? project.details.content
                           : 'No Project Content found'
                       "
                     ></p>
-                    <!-- <p class="q-mb-sm">
-                    {{ project.details.content || "No Project Content found" }}
-                  </p> -->
                   </div>
                 </q-card-section>
               </q-card>
@@ -719,7 +735,9 @@ export default {
     dateFormatter,
     closeDialog(val) {
       this.deleteDialog = val;
-      this.$router.go(-1);
+      if (!!this.project && !this.project.id) {
+        this.$router.go(-1);
+      }
     },
     async getData() {
       if (
@@ -797,6 +815,7 @@ export default {
         id: id
       });
       this.archiveIsLoading = false;
+      this.$router.go(-1);
     },
     async deleteProject() {
       this.itemId = !!this.project && this.project.id;
@@ -804,6 +823,9 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },

@@ -120,20 +120,25 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup>
-                    <q-item-section @click="prepEditDialog(props.row)"
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="prepEditDialog(props.row)"
+                  >
+                    <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("category&Keyword.edit") }}
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="prepDeleteDialog(props.row)"
+                  >
                     <q-item-section
-                      ><span
-                        class="text-right font-14 text-red"
-                        @click="prepDeleteDialog(props.row)"
-                      >
+                      ><span class="text-right font-14 text-red">
                         {{ $t("category&Keyword.delete") }}
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
