@@ -45,6 +45,7 @@
               </div>
             </div>
             <q-btn
+              v-if="isAdmin"
               class="more"
               size="md"
               color="primary"
@@ -78,15 +79,18 @@
       </div>
     </div>
     <q-table
-      class="radius-20 shadow-1 q-mt-md"
+      class="radius-20 shadow-1 q-mt-md pagination-no-shadow"
       :title="$t('DetailsAdministration.data')"
       :data="!!municipality && municipality.data"
       :columns="columns"
       row-key="name"
-      :hide-bottom="municipality.data && municipality.data.length > 0"
+      :visible-columns="visibleColumns"
       no-data-label="No data for this municipality"
       :pagination="{
-        rowsPerPage: 0
+        sortBy: 'id',
+        descending: true,
+        page: 1,
+        rowsPerPage: 50
       }"
     >
       <template v-slot:header="props">
@@ -117,7 +121,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup>
+                  <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.view") }}
@@ -159,7 +163,6 @@
                     <q-item-section
                       ><span class="text-right font-14 text-red">
                         {{ $t("DetailsAdministration.delete") }}
-
                         <q-icon size="sm" name="delete"/></span
                     ></q-item-section>
                   </q-item>
@@ -177,6 +180,7 @@
 export default {
   data() {
     return {
+      visibleColumns: ["title", "type", "categories", "users"],
       municipality: {}
     };
   },
@@ -204,6 +208,9 @@ export default {
       } else {
         this.$router.push("/Administation/Areas");
       }
+    },
+    view(row) {
+      console.log("row", row);
     }
   },
   mounted() {
@@ -212,6 +219,13 @@ export default {
   computed: {
     columns() {
       return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
         {
           name: "title",
           required: true,
@@ -245,6 +259,15 @@ export default {
           align: "left"
         }
       ];
+    },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     }
   }
 };
