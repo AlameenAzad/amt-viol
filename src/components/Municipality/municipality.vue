@@ -223,7 +223,7 @@ export default {
           name: "project coordinators",
           label: this.$t("administrativeAreas.projectCoordinator"),
           field: row =>
-            (!!row.users && row.users.substring(0, 25) + "...") || "No Users",
+            (!!row.users && row.users.substring(0, 25) + "...") || this.$t("noUsers"),
           sortable: true,
           align: "left"
         }

@@ -1,21 +1,38 @@
 <template>
   <q-page class="q-mx-xl q-mt-lg q-pb-md">
+    <q-card v-if="data.length == 0" class="full-height full-width bg-white radius-20 shadow-1">
+      <q-card-section>
+        <div class="row">
+          <div class="col-12 text-center">
+            <q-icon name="notifications_active" size="xl" />
+          </div>
+          <div class="col-12 text-center">
+            <h3 class="font-16 text-weight-bold q-mb-none">
+              {{ $t('noNotifications') }}
+            </h3>
+            <p class="q-mb-none textColor">
+              {{ $t('noNotificationsDesc') }}
+            </p>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
     <div v-for="(cluster, index) in data" :key="index">
       <p class="font-16">{{ getIndex(index) }}</p>
-      <q-card v-for="(noti, index) in cluster" :key="noti.id+noti.typeOfNoti" class="shadow-1 radius-20 q-mb-md q-pa-sm"
-        flat>
+      <q-card v-for="(noti, index) in cluster" :key="noti.id + noti.typeOfNoti"
+        class="shadow-1 radius-20 q-mb-md q-pa-sm" flat>
         <q-card-section class="row">
           <q-icon :name="getIcon(noti.typeOfNoti)" size="md" color="blue-5" class="q-mr-sm" />
           <div class="col">
             <p class="font-16 text-weight-600 q-mb-none">
-              {{ noti.typeOfNoti == "fundingExpirey" ? "Funding opportunity expires | " :
-              noti.typeOfNoti == "guest" ? "New user request access to the platform": noti.typeOfNoti ==
+              {{ noti.typeOfNoti == "fundingExpirey" ? $t("Funding opportunity expires | ") :
+              noti.typeOfNoti == "guest" ? $t("New user request access to the platform"): noti.typeOfNoti ==
               "fundingComments" ?
-              "Comment to a funding made by | " : noti.typeOfNoti == 'requests' ? `Request to ${noti.type} a document
-              made by | `:"" }}
+              $t("Comment to a funding made by | ") : noti.typeOfNoti == 'requests' ? $t(`Request to ${noti.type} a document made by | `):"" }}
 
               <span class="text-blue">{{ noti.typeOfNoti == "fundingExpirey" ? noti.plannedEnd :
-                noti.typeOfNoti == "fundingComments" ? noti.owner.username : noti.typeOfNoti == 'requests'?
+                noti.typeOfNoti == "fundingComments" && noti.owner != null ? noti.owner.username : noti.typeOfNoti ==
+                'requests' && noti.user !=null?
                 noti.user.username : "" }}</span>
 
             </p>
@@ -60,11 +77,11 @@
     <q-dialog v-if="dialog" v-model="dialog">
       <q-card>
         <q-card-section>
-          <div class="text-h6">New Comment on Funding "{{ currentFundingComment.funding.title }}"</div>
+          <div class="text-h6">{{$t("New Comment on Funding")}} "{{ currentFundingComment.funding.title }}"</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          {{ currentFundingComment.owner.username }} says: <br /> {{ currentFundingComment.comment }}
+          {{ currentFundingComment.owner.username }} {{$t("says")}}: <br /> {{ currentFundingComment.comment }}
         </q-card-section>
 
         <q-card-actions align="right">

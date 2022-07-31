@@ -33,6 +33,7 @@
                 <p
                   v-for="(user, index) in municipality.users.split(', ')"
                   :key="index"
+                  class="q-mb-none"
                 >
                   {{ user }}
                 </p>
@@ -223,7 +224,7 @@ export default {
           name: "type",
           align: "left",
           label: this.$t("DetailsAdministration.type"),
-          field: row => row.type,
+          field: row => this.$t(row.type),
           sortable: true
         },
         {
@@ -232,7 +233,7 @@ export default {
           field: row =>
             (!!row.categories &&
               row.categories.map(category => category.title).join(", ")) ||
-            "No Categories",
+            this.$t("NoCategories"),
           sortable: true,
           align: "left"
         },

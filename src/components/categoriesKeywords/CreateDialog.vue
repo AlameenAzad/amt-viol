@@ -5,13 +5,13 @@
         <q-card-section class="q-pt-none" align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
             {{
-              !!editingId
-                ? tab == "New categories"
-                  ? $t("categoriesKeywords.editCategory")
-                  : $t("categoriesKeywords.editKeywordTags")
-                : tab == "New Keywords/Tags"
-                ? $t("categoriesKeywords.newKeywordTags")
-                : $t("categoriesKeywords.newCategory")
+            !!editingId
+            ? tab == "New categories"
+            ? $t("categoriesKeywords.editCategory")
+            : $t("categoriesKeywords.editKeywordTags")
+            : tab == "New Keywords/Tags"
+            ? $t("categoriesKeywords.newKeywordTags")
+            : $t("categoriesKeywords.newCategory")
             }}
           </h6>
         </q-card-section>
@@ -20,47 +20,28 @@
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
                 {{
-                  tab == "New categories"
-                    ? $t("category&Keyword.categoryInputLabel")
-                    : $t("category&Keyword.keywordInputLabel")
+                tab == "New categories"
+                ? $t("category&Keyword.categoryInputLabel")
+                : $t("category&Keyword.keywordInputLabel")
                 }}
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input
-                outlined
-                class="no-shadow input-radius-6"
-                v-model="createDialogInput"
-                :rules="[val => !!val || 'Field is required']"
-                placeholder="Title"
-              />
+              <q-input outlined class="no-shadow input-radius-6" v-model="createDialogInput"
+                :rules="[val => !!val || 'Field is required']" :placeholder="$t('myData.title')" />
             </div>
           </div>
         </q-card-section>
         <q-card-section>
           <div class="row justify-center">
             <div class="col-5 q-mr-sm">
-              <q-btn
-                label="Cancel"
-                v-close-popup
-                outline
-                size="14px"
-                color="primary"
-                no-caps
-                class="q-py-xs radius-6 full-width"
-              />
+              <q-btn :label="$t('category&Keyword.cancel')" v-close-popup outline size="14px" color="primary" no-caps
+                class="q-py-xs radius-6 full-width" />
             </div>
             <div class="col-5 q-ml-sm">
-              <q-btn
-                :label="!!editingId ? 'Edit' : 'Save'"
-                type="submit"
-                unelevated
-                :loading="isLoading"
-                size="14px"
-                color="primary"
-                no-caps
-                class="q-py-xs radius-6 full-width"
-              />
+              <q-btn :label="!!editingId ? $t('category&Keyword.edit') : $t('category&Keyword.save')" type="submit"
+                unelevated :loading="isLoading" size="14px" color="primary" no-caps
+                class="q-py-xs radius-6 full-width" />
             </div>
           </div>
         </q-card-section>
