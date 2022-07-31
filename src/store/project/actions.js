@@ -253,45 +253,47 @@ export async function getSpecificProject(context, payload) {
     try {
       const res = await api.get(`/api/projects/${id}`);
       context.commit("setSpecificProject", res.data);
-      return res.data.id;
+      // return res.data.id;
     } catch (error) {
-      console.log("error", error.response.status);
-      if (error.response.status !== 401) {
-        Notify.create({
-          // position: "top-right",
-          type: "negative",
-          message: error.response.data.error.message
-        });
-      }
-      if (error.response.status === 401) {
-        return "unauthorized";
-      } else {
-        return false;
-      }
+      console.log("error", error);
+      // if (error.response.status !== 401) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      // }
+      // if (error.response.status === 401) {
+      //   return "unauthorized";
+      // } else {
+      //   return false;
+      // }
     }
   }
 }
 
-export async function viewProject(context, payload) {
-  const { id } = payload;
-  const project = await context.dispatch("getSpecificProject", { id });
-  console.log("project :>> ", project);
-  if (!!project && project !== "unauthorized") {
-    this.$router.push({ path: `/user/newProjectIdea/${id}` });
-  } else if (project === "unauthorized") {
-    return "unauthorized";
-  } else {
-    return false;
-  }
-}
+// export async function viewProject(context, payload) {
+//   const { id } = payload;
+//   const project = await context.dispatch("getSpecificProject", { id });
+//   if (!!project && project !== "unauthorized") {
+//     this.$router.push({ path: `/user/newProjectIdea/${id}` });
+//   } else if (project === "unauthorized") {
+//     return "unauthorized";
+//   } else {
+//     return false;
+//   }
+// }
 
-export async function editProject(context, payload) {
-  const { id } = payload;
-  const project = await context.dispatch("getSpecificProject", { id });
-  if (!!project) {
-    this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
-  }
-}
+// export async function editProject(context, payload) {
+//   const { id } = payload;
+//   const project = await context.dispatch("getSpecificProject", { id });
+//   if (!!project && project !== "unauthorized") {
+//     this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+//   } else if (project === "unauthorized") {
+//     return "unauthorized";
+//   } else {
+//     return false;
+//   }
+// }
 
 export async function addToWatchlist(context, payload) {
   const { id } = payload;
@@ -341,9 +343,6 @@ export async function requestAccess(context, payload) {
   const { id } = payload;
   const { userId } = payload;
   const { type } = payload;
-  console.log("id", id);
-  console.log("userId", userId);
-  console.log("type", type);
   if (!!id && !!userId && !!type) {
     try {
       const res = await api.post("/api/requests", {
@@ -357,7 +356,6 @@ export async function requestAccess(context, payload) {
           type: type
         }
       });
-      console.log("res", res);
       Notify.create({
         message: "Project Idea access request sent",
         type: "positive"
@@ -409,7 +407,6 @@ export async function deleteProjectIdea(context, payload) {
       context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({
-        // position: "top-right",
         type: "negative",
         message: error.response.data.error.message
       });
