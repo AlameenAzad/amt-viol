@@ -370,5 +370,6 @@
   "Add Images": "Bilder hinzufügen",
   "Select Images": "Bilder auswählen",
   "Add Files": "Dateien hinzufügen",
-  "Select Files": "Dateien auswählen"
+  "Select Files": "Dateien auswählen",
+  "deleteUserInfo": "Sind Sie sicher, dass Sie diesen Benutzer löschen wollen? Sie müssen zuerst die Daten dieses Benutzers übertragen."
 }

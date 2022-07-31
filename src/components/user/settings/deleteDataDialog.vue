@@ -29,7 +29,8 @@
 export default {
     name: "deleteDataDialog",
     props: {
-        dialogState: { type: Boolean, default: false }
+        dialogState: { type: Boolean, default: false },
+        fromId: { type: String, default: "" }
     },
     data () {
         return {
@@ -38,10 +39,16 @@ export default {
     },
     methods: {
         async deleteUser () {
-            console.log("deleteUser");
+            const fromId = this.fromId.length > 0 ? this.fromId : this.user.id;
             this.isLoading = true;
-            const res = await this.$store.dispatch("userCenter/deleteUser", this.user.id);
+            const res = await this.$store.dispatch("userCenter/deleteUser", { id:fromId, admin: this.fromId.length > 0 });
+            if (this.fromId.length > 0){
+                this.$router.push({ path: `/Administation/User` });
+            }
             this.isLoading = false;
+            if (res !== false) {
+                this.$_options = false;
+            }
         }
     },
     computed: {

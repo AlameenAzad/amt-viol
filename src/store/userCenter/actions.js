@@ -1,6 +1,5 @@
 import { api } from "boot/axios";
 import { Notify } from "quasar";
-
 export async function login(context, payload) {
   const { identifier } = payload;
   const { password } = payload;
@@ -205,7 +204,11 @@ export async function transferData(context, payload) {
 
   if (!!id && data.length > 0) {
     try {
-      const res = await api.get(`/api/user/transfer/${id}?data=${dataString}`);
+      const res = await api.get(
+        `/api/user/transfer/${id}?data=${dataString}${
+          payload.hasOwnProperty("fromId") ? `&fromId=${payload.fromId}` : ""
+        }`
+      );
       Notify.create({
         message: "User data transferred successfully",
         type: "positive"
@@ -359,15 +362,15 @@ export async function deleteProfile(context, payload) {
 export async function deleteUser(context, payload) {
   if (payload) {
     try {
-      const res = await api.delete(`/api/users/${payload}`);
-      context.dispatch("logout");
-      console.log("res", res);
+      const res = await api.delete(`/api/users/${payload.id}`);
+      if (!payload.admin) context.dispatch("logout");
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
+      return false;
     }
   }
 }

@@ -1,48 +1,25 @@
 <template>
   <div>
-    <q-table
-      class="radius-20 shadow-1 pagination-no-shadow"
-      title="Current funding information"
-      :data="data"
-      :columns="columns"
-      :filter="filter"
-      row-key="name"
-      :visible-columns="visibleColumns"
-      :pagination="{
+    <q-table class="radius-20 shadow-1 pagination-no-shadow" title="Current funding information" :data="data"
+      :columns="columns" :filter="filter" row-key="name" :visible-columns="visibleColumns" :pagination="{
         sortBy: 'id',
         descending: true,
         page: 1,
         rowsPerPage: 50
-      }"
-    >
+      }">
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
           <div class="col-8 col-md-auto">
-            <q-input
-              borderless
-              outlined
-              class="no-shadow tableSearchInput"
-              debounce="300"
-              v-model="filter"
-              dense
-              placeholder="Search"
-            >
+            <q-input borderless outlined class="no-shadow tableSearchInput" debounce="300" v-model="filter" dense
+              placeholder="Search">
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />
               </template>
             </q-input>
           </div>
           <div class="col-4 col-md-auto text-right">
-            <q-btn
-              color="blue"
-              icon="person_add"
-              unelevated
-              :round="$q.screen.lt.md"
-              class="no-shadow text-weight-600"
-              :class="$q.screen.gt.sm ? 'radius-6' : ''"
-              no-caps
-              @click="inviteUserDialog = true"
-            >
+            <q-btn color="blue" icon="person_add" unelevated :round="$q.screen.lt.md" class="no-shadow text-weight-600"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''" no-caps @click="inviteUserDialog = true">
               <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("userAdministration.inviteUser") }}
               </p>
@@ -52,12 +29,7 @@
       </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-            class="font-14"
-          >
+          <q-th v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
             {{ col.label }}
           </q-th>
           <q-th auto-width />
@@ -65,35 +37,23 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td
-            auto-width
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-            class="font-14"
-          >
+          <q-td auto-width v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
             {{ col.value }}
           </q-td>
           <q-td class="text-right" auto-width>
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item
-                    clickable
-                    v-close-popup
-                    @click="$router.push('/Administation/User/' + props.row.id)"
-                  >
-                    <q-item-section
-                      ><span class="text-right font-14">
+                  <q-item clickable v-close-popup @click="$router.push('/Administation/User/' + props.row.id)">
+                    <q-item-section><span class="text-right font-14">
                         {{ $t("userAdministration.edit") }}
 
                         <q-icon size="sm" class="text-blue" name="edit" />
                       </span>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
-                    <q-item-section
-                      ><span class="text-right font-14 text-red">
+                  <q-item clickable v-close-popup @click="currentUser.id = props.row.id; transferDialog=true">
+                    <q-item-section><span class="text-right font-14 text-red">
                         {{ $t("userAdministration.delete") }}
 
                         <q-icon size="sm" name="delete" />
@@ -107,25 +67,35 @@
         </q-tr>
       </template>
     </q-table>
-    <InviteUser
-      :dialogState="inviteUserDialog"
-      @update="inviteUserDialog = $event"
-    />
+    <InviteUser :dialogState="inviteUserDialog" @update="inviteUserDialog = $event" />
+    <TransferDialog :fromId="currentUser.id.toString()" :dialogState="transferDialog"
+      @update="transferDialog = $event; deleteData= true" />
+    <deleteDataDialog :fromId="currentUser.id.toString()" :dialogState="deleteData"
+      @update="deleteData = $event; getData();" />
   </div>
 </template>
 
 <script>
+import TransferDialog from "components/user/settings/TransferDialog.vue";
+import deleteDataDialog from "components/user/settings/deleteDataDialog.vue";
 import InviteUser from "components/user/management/InviteUser.vue";
 export default {
   name: "Roles",
   components: {
-    InviteUser
+    InviteUser,
+    TransferDialog,
+    deleteDataDialog
   },
   data() {
     return {
       inviteUserDialog: false,
+      transferDialog:false,
+      deleteData:false,
       filter: "",
-      visibleColumns: ["name", "email", "administration", "role"]
+      visibleColumns: ["name", "email", "administration", "role"],
+      currentUser: {
+        id: ""
+      },
     };
   },
   methods: {

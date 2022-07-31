@@ -63,31 +63,31 @@
         <h6 class="text-center  q-mt-md q-mb-lg">{{ $t('delete user') }}</h6>
         <p class="text-center text-weight-light font-16
 ">
-          {{ $t('delteDataInfo')}}
+          {{ $t('deleteUserInfo')}}
         </p>
-        <div class="q-mt-sm q-ml-lg">
-          <p class="q-mb-none font-16">
-            {{ $t('selectaccountanddata')}}
-          </p>
-          <q-select outlined :options="options" class="no-shadow input-radius-6 " v-model="dataRight" :rules="[]"
-            :label="$t('select')" dense />
-        </div>
         <div class="row justify-center q-ml-lg q-mt-lg ">
           <q-btn :label="$t('userAdministration.cancel')" outline v-close-popup type="submit" size="16px"
             color="primary" no-caps class="no-shadow radius-6 q-px-xl q-mr-sm" :loading="isLoading" />
-          <q-btn :label="$t('confirm')" type="submit" size="16px" color="red" no-caps class="no-shadow radius-6 q-px-xl"
-            :loading="isLoading" />
+          <q-btn @click="transferDialog = true;showDialog=false" :label="$t('confirm')" type="submit" size="16px"
+            color="red" no-caps class="no-shadow radius-6 q-px-xl" :loading="isLoading" />
         </div>
       </q-card>
     </q-dialog>
+    <TransferDialog :fromId="currentUser.id.toString()" :dialogState="transferDialog"
+      @update="transferDialog = $event; deleteData= true" />
+    <deleteDataDialog :fromId="currentUser.id.toString()" :dialogState="deleteData" @update="deleteData = $event" />
   </q-page>
 </template>
 
 <script>
+import TransferDialog from "components/user/settings/TransferDialog.vue";
+import deleteDataDialog from "components/user/settings/deleteDataDialog.vue";
 import MunicipalitySelect from "components/Municipality/MunicipalitySelect.vue";
 export default {
   components: {
-    MunicipalitySelect
+    MunicipalitySelect,    
+    TransferDialog,
+    deleteDataDialog
   },
   data() {
     return {
@@ -95,6 +95,8 @@ export default {
       options: ["admin", "user"],
       showDialog: false,
       isLoading: false,
+      transferDialog: false,
+      deleteData: false,
       form: {
         username: "",
         email: "",

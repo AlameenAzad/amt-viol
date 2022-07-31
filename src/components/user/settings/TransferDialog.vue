@@ -72,7 +72,8 @@
 export default {
   name: "transferDataDialog",
   props: {
-    dialogState: { type: Boolean, default: false }
+    dialogState: { type: Boolean, default: false },
+    fromId: { type: String, default: "" }
   },
   data() {
     return {
@@ -89,8 +90,9 @@ export default {
   methods: {
     async transferData() {
       if (!!this.form.selectedUser && !!this.form.data) {
-        console.log("this.form :>> ", this.form);
         this.isLoading = true;
+        if(this.fromId.length>0) this.form.fromId = this.fromId;
+        console.log("this.form :>> ", this.form);
         const res = await this.$store.dispatch(
           "userCenter/transferData",
           this.form
@@ -107,6 +109,8 @@ export default {
       return this.$store.state.userCenter.user.user;
     },
     users() {
+      if(this.fromId.length>0) return this.$store.state.userCenter.users;
+      else
       return this.$store.state.userCenter.users.filter(
         user =>
           !user.username.includes(
