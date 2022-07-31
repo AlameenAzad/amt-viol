@@ -3,43 +3,77 @@
     <q-card class="q-pa-md radius-10" style="width: 532px; max-width: 90vw;">
       <div>
         <h6 class="text-center font-24 q-mt-md">
-          {{ !!editingId ? $t('editAdministration') : $t("administrativeAreas.createAdministration") }}
+          {{
+            !!editingId
+              ? $t("editAdministration")
+              : $t("administrativeAreas.createAdministration")
+          }}
         </h6>
-        <q-form @submit.prevent="
-          !!editingId ? editMunicipality() : createMunicipality()
-        " class="q-gutter-sm q-px-md q-mb-md">
+        <q-form
+          @submit.prevent="
+            !!editingId ? editMunicipality() : createMunicipality()
+          "
+          class="q-gutter-sm q-px-md q-mb-md"
+        >
           <div class="items-center">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                {{$t('myData.title')}}
+                {{ $t("myData.title") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input outlined class="no-shadow input-radius-6" v-model="form.title"
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="form.title"
                 :rules="[val => !!val || 'Field is required']"
-                :placeholder="$t('administrativeAreas.administrationName')" />
+                :placeholder="$t('administrativeAreas.administrationName')"
+              />
             </div>
           </div>
           <div class="items-center">
             <div class="col-12 col-md-3 ">
               <p class="font-14 no-margin ">
-                {{ $t('personalData.location')}}
+                {{ $t("personalData.location") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input outlined class="no-shadow input-radius-6" v-model="form.location"
-                :rules="[val => !!val || 'Field is required']" :placeholder="$t('adminstrationLocation')" />
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="form.location"
+                :rules="[val => !!val || 'Field is required']"
+                :placeholder="$t('adminstrationLocation')"
+              />
             </div>
           </div>
           <div class="row justify-center">
             <div class="col-5 q-mr-sm">
-              <q-btn :label="$t('category&Keyword.cancel')" outline v-close-popup size="16px" color="primary" no-caps
-                class="no-shadow q-py-xs full-width radius-6" />
+              <q-btn
+                :label="$t('category&Keyword.cancel')"
+                outline
+                v-close-popup
+                size="16px"
+                color="primary"
+                no-caps
+                class="no-shadow q-py-xs full-width radius-6"
+              />
             </div>
             <div class="col-5 q-ml-sm">
-              <q-btn :label="!!editingId ? $t('fundingTableOptions.edit') : $t('category&Keyword.save')" type="submit"
-                unelevated size="16px" color="primary" no-caps class="no-shadow q-py-xs full-width radius-6"
-                :loading="isLoading" />
+              <q-btn
+                :label="
+                  !!editingId
+                    ? $t('fundingTableOptions.edit')
+                    : $t('category&Keyword.save')
+                "
+                type="submit"
+                unelevated
+                size="16px"
+                color="primary"
+                no-caps
+                class="no-shadow q-py-xs full-width radius-6"
+                :loading="isLoading"
+              />
             </div>
           </div>
         </q-form>
