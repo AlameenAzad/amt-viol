@@ -38,7 +38,7 @@ export default function(/* { ssrContext } */) {
       createPersistedState({
         key: "amt-viot",
         // TODO change this to session storage
-        storage: window.localStorage
+        storage: window.sessionStorage
       })
     ],
     // enable strict mode (adds overhead!)
