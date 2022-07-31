@@ -2043,15 +2043,16 @@ export default {
       this.watchlistIsLoading = false;
     },
     async editChecklist() {
+      console.log("called edit checklist");
       this.editIsLoading = true;
       const id = !!this.checklist && this.checklist.id;
-      await this.$store.dispatch(
-        "implementationChecklist/getSpecificChecklist",
-        {
-          id: id
-        }
-      );
-      this.editIsLoading = false;
+      // await this.$store.dispatch(
+      //   "implementationChecklist/getSpecificChecklist",
+      //   {
+      //     id: id
+      //   }
+      // );
+      // this.editIsLoading = false;
       this.$router.push({ path: `/user/newChecklist/edit/${id}` });
     },
     async archiveChecklist() {
