@@ -243,18 +243,62 @@ export async function editFunding(context, payload) {
   }
 }
 export async function getSpecificFunding(context, payload) {
+  console.log("payload", payload);
   context.commit("setSpecificFunding", null);
   const { id } = payload;
   if (id) {
     try {
       const res = await api.get(`/api/fundings/${id}`);
       context.commit("setSpecificFunding", res.data);
-      // return res.data.id;
+      return res.data.id;
+    } catch (error) {
+      console.log("error", error);
+      // if (error.response.status !== 401) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      // }
+      // if (error.response.status === 401) {
+      //   return "unauthorized";
+      // } else {
+      //   return false;
+      // }
+    }
+  }
+}
+
+export async function requestAccess(context, payload) {
+  const { id } = payload;
+  const { userId } = payload;
+  const { type } = payload;
+  console.log("id", id);
+  console.log("userId", userId);
+  console.log("type", type);
+  if (!!id && !!userId && !!type) {
+    try {
+      const res = await api.post("/api/requests", {
+        data: {
+          user: {
+            id: userId
+          },
+          funding: {
+            id: id
+          },
+          type: type
+        }
+      });
+      Notify.create({
+        message: "Funding access request sent",
+        type: "positive"
+      });
+      context.dispatch("getFundings");
     } catch (error) {
       Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
+      return false;
     }
   }
 }
