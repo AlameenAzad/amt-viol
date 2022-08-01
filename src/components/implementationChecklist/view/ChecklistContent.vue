@@ -172,11 +172,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-<<<<<<< HEAD
             {{ checklist.title || "" }}
-=======
-            {{ checklist.title || "Title not set" }}
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
           </h1>
         </div>
       </div>
@@ -191,11 +187,7 @@
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-<<<<<<< HEAD
                       {{ checklist.ideaProvider || "" }}
-=======
-                      {{ checklist.ideaProvider || "Provider not set" }}
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                     </p>
                   </div>
                 </q-card-section>
@@ -211,22 +203,14 @@
                           (!!checklist &&
                             !!checklist.owner &&
                             checklist.owner.username) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Contact not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.municipality &&
                           checklist.municipality.location) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Municipality not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                   </div>
@@ -240,41 +224,25 @@
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.streetNo) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Street not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.postalCode) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Postal Code not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.phone) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Phone not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                     <p class="q-mb-sm text-overflow">
                       {{
                         (!!checklist.info && checklist.info.email) ||
-<<<<<<< HEAD
                           ""
-=======
-                          "Email not set"
->>>>>>> 999d79efb83fd8a87dc7992c0a4883e607b8cea2
                       }}
                     </p>
                   </div>
