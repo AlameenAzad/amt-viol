@@ -2,9 +2,6 @@
   <q-dialog v-model="$_options">
     <q-card class="q-px-xl radius-10 column">
       <q-card-section align="center">
-        {{ tab }}
-        {{ id }}
-        {{ type }}
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
             tab == "projectIdeas"
