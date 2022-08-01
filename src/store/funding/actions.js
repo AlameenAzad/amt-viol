@@ -250,20 +250,13 @@ export async function getSpecificFunding(context, payload) {
     try {
       const res = await api.get(`/api/fundings/${id}`);
       context.commit("setSpecificFunding", res.data);
-      return res.data.id;
+      // return res.data.id;
     } catch (error) {
       console.log("error", error);
-      // if (error.response.status !== 401) {
       Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
-      // }
-      // if (error.response.status === 401) {
-      //   return "unauthorized";
-      // } else {
-      //   return false;
-      // }
     }
   }
 }

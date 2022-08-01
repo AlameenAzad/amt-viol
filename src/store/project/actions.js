@@ -256,44 +256,13 @@ export async function getSpecificProject(context, payload) {
       // return res.data.id;
     } catch (error) {
       console.log("error", error);
-      // if (error.response.status !== 401) {
       Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
-      // }
-      // if (error.response.status === 401) {
-      //   return "unauthorized";
-      // } else {
-      //   return false;
-      // }
     }
   }
 }
-
-// export async function viewProject(context, payload) {
-//   const { id } = payload;
-//   const project = await context.dispatch("getSpecificProject", { id });
-//   if (!!project && project !== "unauthorized") {
-//     this.$router.push({ path: `/user/newProjectIdea/${id}` });
-//   } else if (project === "unauthorized") {
-//     return "unauthorized";
-//   } else {
-//     return false;
-//   }
-// }
-
-// export async function editProject(context, payload) {
-//   const { id } = payload;
-//   const project = await context.dispatch("getSpecificProject", { id });
-//   if (!!project && project !== "unauthorized") {
-//     this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
-//   } else if (project === "unauthorized") {
-//     return "unauthorized";
-//   } else {
-//     return false;
-//   }
-// }
 
 export async function addToWatchlist(context, payload) {
   const { id } = payload;
