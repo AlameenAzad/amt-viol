@@ -29,8 +29,7 @@
                 />
                 <div class="col">
                   <p class="font-16 text-weight-600 q-mb-none">
-                    {{ !!request.user && request.user.username }} would like to
-                    access document
+                    {{ !!request.user && request.user.username }} {{$t('would like to access document')}} 
                   </p>
                   <p class="font-14 q-mb-none">
                     {{ !!request.checklist && request.checklist.title }}
@@ -173,7 +172,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-            {{ checklist.title || "Title not found" }}
+            {{ checklist.title || "" }}
           </h1>
         </div>
       </div>
@@ -184,18 +183,18 @@
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Idea Provider/giver
+                    {{$t('Idea Provider/giver')}}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{ checklist.ideaProvider || "Provider not found" }}
+                      {{ checklist.ideaProvider || "" }}
                     </p>
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Contact Person
+                    {{$t('Contact Person')}}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
@@ -204,14 +203,14 @@
                           (!!checklist &&
                             !!checklist.owner &&
                             checklist.owner.username) ||
-                          "Contact not found"
+                          ""
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.municipality &&
                           checklist.municipality.location) ||
-                          "Municipality not found"
+                          ""
                       }}
                     </p>
                   </div>
@@ -219,31 +218,31 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Contact details
+                    {{$t('Contact details')}}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.streetNo) ||
-                          "Street not found"
+                          ""
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.postalCode) ||
-                          "Postal Code not found"
+                          ""
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.phone) ||
-                          "Phone not found"
+                          ""
                       }}
                     </p>
                     <p class="q-mb-sm text-overflow">
                       {{
                         (!!checklist.info && checklist.info.email) ||
-                          "Email not found"
+                          ""
                       }}
                     </p>
                   </div>
@@ -252,7 +251,7 @@
                 <div v-if="checklist.editors && checklist.editors.length > 0">
                   <q-card-section>
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      Invite Editor
+                      {{$t('Invite Editor')}}
                     </h4>
                     <div class="q-ml-md font-16">
                       <div
@@ -266,9 +265,6 @@
                           {{ editor.username }}
                         </p>
                       </div>
-                      <div v-else>
-                        <p class="q-mb-sm">No editors Invited</p>
-                      </div>
                     </div>
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
@@ -277,7 +273,7 @@
                   v-if="checklist.project && checklist.project.id"
                 >
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Link for Project Idea
+                    {{$t('Link for Project Idea')}}
                   </h4>
                   <div class="q-ml-md font-16">
                     <div v-if="checklist.project && checklist.project.id">
@@ -290,7 +286,7 @@
                       >
                     </div>
                     <div v-else>
-                      <p class="q-mb-sm">No Project Idea linked</p>
+                      <p class="q-mb-sm"></p>
                     </div>
                   </div>
                 </q-card-section>
@@ -404,7 +400,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      Categories
+                      {{$t('myData.ategories')}}
                     </h4>
                   </div>
                   <div class="col-8">
@@ -426,11 +422,6 @@
                           {{ category.title }}
                         </q-chip>
                       </div>
-                      <div v-else>
-                        <p class="q-mt-sm q-mb-sm">
-                          No categories set
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </q-card-section>
@@ -438,7 +429,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      Tags
+                      {{$t('projectContent.ags')}}
                     </h4>
                   </div>
                   <div class="col-8">
@@ -454,11 +445,6 @@
                         >
                           {{ tag.title }}
                         </q-chip>
-                      </div>
-                      <div v-else>
-                        <p class="q-mt-sm q-mb-sm">
-                          No Tags Set
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -491,7 +477,7 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Initial discussion with the politics
+                          {{$t('Initial discussion with the politics')}}
                         </h4>
                       </div>
                       <div class="col-2">
@@ -581,7 +567,7 @@
                                 "
                               >
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  link for project idea
+                                  {{$t('Link for Project Idea')}}
                                 </p>
                                 <a
                                   class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
@@ -595,7 +581,7 @@
                             <div class="row items-center q-mb-md">
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{$t('Description')}}
                                 </p>
                                 <p class="font-16 q-ma-none text-block">
                                   {{ card.text || "No description filled" }}
@@ -621,11 +607,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'caputreContect'">
                               <div
@@ -645,11 +626,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>

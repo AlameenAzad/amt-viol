@@ -377,6 +377,7 @@
   "funding provider": "Fördermittelgeber*",
   "Contact person": "Ansprechpartner*",
   "Contact Details (optional)": "Kontaktdaten (optional)",
+  "Contact Details": "Kontaktdaten",
   "Invite Editor": "Bearbeiter*in einladen",
   "Filter Categories": "Filterkategorien*",
   "Tags": "Schlagwörter*",
@@ -404,5 +405,10 @@
   "Yes": "Ja",
   "No": "Nein",
   "Select Projects": "Projekt auswählen",
-   "Loggin you out": "Sie werden abgemeldet"
+   "Loggin you out": "Sie werden abgemeldet",
+   "would like to access document": "möchte auf das Dokument zugreifen",
+   "Idea Provider/giver":"Ideengeber*in",
+   "Link for Project Idea":"Link zur Projektidee",
+   "Initial discussion with the politics":"Erstgespräch mit der Politik",
+   "Description":"Description:",
 }
