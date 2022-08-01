@@ -68,7 +68,7 @@
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section class="row items-center justify-between q-pa-md">
-                <div class="col-8">
+                <div class="col-12 col-md-8">
                   <div class="row q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
@@ -105,14 +105,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                   <div class="row justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         outline
                         icon="star_outline"
@@ -124,7 +124,7 @@
                         @click="editChecklist()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
@@ -135,7 +135,7 @@
                         @click="archiveChecklist()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
@@ -146,7 +146,7 @@
                         @click="deleteChecklist()"
                         color="red"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
@@ -1985,6 +1985,7 @@ export default {
       }
     },
     async getData() {
+      this.$q.loading.show();
       await this.$store.dispatch(
         "implementationChecklist/getSpecificChecklist",
         {
@@ -1998,8 +1999,7 @@ export default {
         id,
         val
       });
-      // TODO refresh page on success
-      console.log("res", res);
+      this.getData();
     },
     checkProgress(start, end) {
       const currentDate = new Date();
@@ -2015,17 +2015,12 @@ export default {
     },
     async viewFunding(id) {
       if (!!id) {
-        // await this.getNewData(id);
-        // await this.$store.dispatch("funding/getSpecificFunding", {
-        //   id: idd
-        // });
-        // this.$q.loading.hide();
         this.$router.push({ path: `/user/newFunding/${id}` });
       }
     },
     async viewProject(id) {
       if (!!id) {
-        //  this.viewIsLoading = true;
+        this.viewIsLoading = true;
         // const id = row && row.id;
         // await this.$store.dispatch("project/viewProject", {
         //   id: id
@@ -2043,16 +2038,8 @@ export default {
       this.watchlistIsLoading = false;
     },
     async editChecklist() {
-      console.log("called edit checklist");
       this.editIsLoading = true;
       const id = !!this.checklist && this.checklist.id;
-      // await this.$store.dispatch(
-      //   "implementationChecklist/getSpecificChecklist",
-      //   {
-      //     id: id
-      //   }
-      // );
-      // this.editIsLoading = false;
       this.$router.push({ path: `/user/newChecklist/edit/${id}` });
     },
     async archiveChecklist() {
@@ -2087,8 +2074,10 @@ export default {
     }
   },
   mounted() {
-    this.$q.loading.show();
     this.getData();
+  },
+  beforeDestroy() {
+    this.$q.loading.hide();
   }
 };
 </script>
