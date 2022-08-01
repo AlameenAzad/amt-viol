@@ -222,7 +222,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-            {{ funding.title || "Title not set" }}
+            {{ funding.title || "" }}
           </h1>
         </div>
       </div>
@@ -238,7 +238,7 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{ funding.title || "Title not set" }}
+                        {{ funding.title || "" }}
                       </p>
                     </div>
                   </q-card-section>
@@ -251,7 +251,7 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{ funding.provider || "Provider not set" }}
+                        {{ funding.provider || "" }}
                       </p>
                     </div>
                   </q-card-section>
@@ -264,16 +264,13 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{
-                          (!!funding.info && funding.info.contactName) ||
-                            "Contact not set"
-                        }}
+                        {{ (!!funding.info && funding.info.contactName) || "" }}
                       </p>
                       <!-- <p class="q-mb-sm">
                         {{
                           (funding.municipality &&
                             funding.municipality.location) ||
-                            "Municipality not set"
+                            ""
                         }}
                       </p> -->
                     </div>
@@ -294,28 +291,16 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{
-                          (!!funding.info && funding.info.streetNo) ||
-                            "Street not set"
-                        }}
+                        {{ (!!funding.info && funding.info.streetNo) || "" }}
                       </p>
                       <p class="q-mb-sm">
-                        {{
-                          (!!funding.info && funding.info.postalCode) ||
-                            "Postal Code not set"
-                        }}
+                        {{ (!!funding.info && funding.info.postalCode) || "" }}
                       </p>
                       <p class="q-mb-sm">
-                        {{
-                          (!!funding.info && funding.info.phone) ||
-                            "Phone not set"
-                        }}
+                        {{ (!!funding.info && funding.info.phone) || "" }}
                       </p>
                       <p class="q-mb-sm text-overflow">
-                        {{
-                          (!!funding.info && funding.info.email) ||
-                            "Email not set"
-                        }}
+                        {{ (!!funding.info && funding.info.email) || "" }}
                       </p>
                     </div>
                   </q-card-section>
@@ -536,9 +521,7 @@
                           <p
                             class="q-mt-sm q-mb-sm text-block"
                             v-html="
-                              !!funding.details.goal
-                                ? funding.details.goal
-                                : 'Funding Goals not set'
+                              !!funding.details.goal ? funding.details.goal : ''
                             "
                           ></p>
                         </div>
@@ -562,7 +545,7 @@
                             v-html="
                               !!funding.details.funded
                                 ? funding.details.funded
-                                : 'What is Funded not set'
+                                : ''
                             "
                           ></p>
                         </div>
@@ -586,7 +569,7 @@
                             v-html="
                               !!funding.details.notFunded
                                 ? funding.details.notFunded
-                                : 'What is not funded not set'
+                                : ''
                             "
                           ></p>
                         </div>
@@ -610,7 +593,7 @@
                             v-html="
                               !!funding.details.willBeFunded
                                 ? funding.details.willBeFunded
-                                : 'Who will be funded not set'
+                                : ''
                             "
                           ></p>
                         </div>
@@ -637,7 +620,7 @@
                           v-html="
                             !!funding.details.condition
                               ? funding.details.condition
-                              : 'Guidelines not set'
+                              : ''
                           "
                         ></p>
                       </div>
@@ -666,12 +649,12 @@
                             >
                               <div class="col-6 col-md-auto">
                                 <p class="q-mt-sm q-mb-sm inline-block">
-                                  {{ rate.amount || "Amount not set" }}%
+                                  {{ rate.amount || "" }}%
                                 </p>
                               </div>
                               <div class="col-6 col-md-auto">
                                 <p class="q-mt-sm q-mb-sm inline-block">
-                                  {{ rate.content || "Content not set" }}
+                                  {{ rate.content || "" }}
                                 </p>
                               </div>
                             </div>
@@ -700,7 +683,7 @@
                           <p class="q-mt-sm q-mb-sm">
                             {{
                               funding.ownContribution ||
-                                "Own contribution is not set"
+                                ""
                             }}
                           </p>
                         </div>
@@ -801,7 +784,7 @@
                             v-html="
                               !!funding.assessment
                                 ? funding.assessment
-                                : 'Determination base is not set'
+                                : ''
                             "
                           ></p>
                         </div>
@@ -829,7 +812,7 @@
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{
                                 dateFormatter(funding.plannedStart) ||
-                                  "Planned Start not set"
+                                  ""
                               }}
                             </p>
                           </div>
@@ -844,7 +827,7 @@
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{
                                 dateFormatter(funding.plannedEnd) ||
-                                  "Planned End not set"
+                                  ""
                               }}
                             </p>
                           </div>
@@ -865,7 +848,7 @@
                       <div class="q-ml-xs">
                         <div class="q-ml-md font-16">
                           <p class="q-mt-sm q-mb-sm">
-                            {{ funding.notes || "Notes is not set" }}
+                            {{ funding.notes || "" }}
                           </p>
                         </div>
                       </div>
@@ -891,7 +874,7 @@
                             >
                               <div class="col-12">
                                 <p class="q-mt-sm q-mb-xs inline-block">
-                                  {{ link.title || "Link title not set" }}
+                                  {{ link.title || "" }}
                                 </p>
                               </div>
                               <div class="col-auto">
