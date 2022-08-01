@@ -233,13 +233,14 @@ export default {
       else if (type == "requests") return "person_add";
     },
     async view(noti, isFunding = false) {
+      console.log(noti);
       if (noti.typeOfNoti == "fundingComments" && isFunding) {
         this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
       } else if (noti.typeOfNoti == "fundingComments") {
         this.dialog = true;
         this.currentFundingComment = noti;
       } else if (noti.typeOfNoti == "fundingExpirey") {
-        this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
+        this.$router.push({ path: `/user/newFunding/${noti.id}` });
       } else if (noti.typeOfNoti == "requests") {
         if (noti.project != null) {
           this.$router.push({
