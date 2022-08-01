@@ -1,14 +1,28 @@
 <template>
   <div>
     <q-list>
-      <q-item v-for="link in dashboardRoutes" :key="link.path"
-        :to="link.path !== '/watchlist' ? link.path : '/watchlist?tab=all'" clickable v-ripple class="q-px-lg"
-        :active="$router.currentRoute.fullPath == link.path" active-class="text-white activeMenu" v-show="
+      <q-item
+        v-for="link in dashboardRoutes"
+        :key="link.path"
+        :to="
+          link.path === '/watchlist'
+            ? '/watchlist?tab=all'
+            : link.path === '/catkeytags'
+            ? '/catkeytags?tab=categories'
+            : link.path
+        "
+        clickable
+        v-ripple
+        class="q-px-lg"
+        :active="$router.currentRoute.fullPath == link.path"
+        active-class="text-white activeMenu"
+        v-show="
           (isAdmin === false &&
             link.meta.requireAdmin === false &&
             link.meta.showInNavigation === true) ||
             (isAdmin === true && link.meta.showInNavigation === true)
-        ">
+        "
+      >
         <q-item-section avatar>
           <img class="icon-white" :src="link.icon" />
         </q-item-section>
@@ -16,7 +30,13 @@
           {{ $i18n.locale === "en-us" ? link.meta.title : link.meta.titleDE }}
         </q-item-section>
       </q-item>
-      <q-item v-if="$q.screen.lt.md" clickable @click="$store.dispatch('userCenter/logout')" v-ripple class="q-px-lg">
+      <q-item
+        v-if="$q.screen.lt.md"
+        clickable
+        @click="$store.dispatch('userCenter/logout')"
+        v-ripple
+        class="q-px-lg"
+      >
         <q-item-section avatar>
           <q-icon name="logout" />
         </q-item-section>
@@ -27,7 +47,7 @@
     </q-list>
   </div>
 </template>
-
+:to="link.path !== '/watchlist' ? link.path : '/watchlist?tab=all'"
 <script>
 export default {
   name: "links",
