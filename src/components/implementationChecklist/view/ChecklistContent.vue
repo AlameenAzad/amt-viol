@@ -173,7 +173,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-            {{ checklist.title || "Title not found" }}
+            {{ checklist.title || "Title not set" }}
           </h1>
         </div>
       </div>
@@ -188,7 +188,7 @@
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{ checklist.ideaProvider || "Provider not found" }}
+                      {{ checklist.ideaProvider || "Provider not set" }}
                     </p>
                   </div>
                 </q-card-section>
@@ -204,14 +204,14 @@
                           (!!checklist &&
                             !!checklist.owner &&
                             checklist.owner.username) ||
-                          "Contact not found"
+                          "Contact not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.municipality &&
                           checklist.municipality.location) ||
-                          "Municipality not found"
+                          "Municipality not set"
                       }}
                     </p>
                   </div>
@@ -225,25 +225,25 @@
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.streetNo) ||
-                          "Street not found"
+                          "Street not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.postalCode) ||
-                          "Postal Code not found"
+                          "Postal Code not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.phone) ||
-                          "Phone not found"
+                          "Phone not set"
                       }}
                     </p>
                     <p class="q-mb-sm text-overflow">
                       {{
                         (!!checklist.info && checklist.info.email) ||
-                          "Email not found"
+                          "Email not set"
                       }}
                     </p>
                   </div>

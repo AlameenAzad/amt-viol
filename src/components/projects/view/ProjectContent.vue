@@ -167,7 +167,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-            {{ project.title || "Title not found" }}
+            {{ project.title || "Title not set" }}
           </h1>
         </div>
       </div>
@@ -187,14 +187,14 @@
                           (!!project &&
                             !!project.owner &&
                             project.owner.username) ||
-                          "Contact not found"
+                          "Contact not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!project.municipality &&
                           project.municipality.location) ||
-                          "Municipality not found"
+                          "Municipality not set"
                       }}
                     </p>
                   </div>
@@ -208,25 +208,25 @@
                     <p class="q-mb-sm">
                       {{
                         (!!project.info && project.info.streetNo) ||
-                          "Street not found"
+                          "Street not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!project.info && project.info.postalCode) ||
-                          "Postal Code not found"
+                          "Postal Code not set"
                       }}
                     </p>
                     <p class="q-mb-sm">
                       {{
                         (!!project.info && project.info.phone) ||
-                          "Phone not found"
+                          "Phone not set"
                       }}
                     </p>
                     <p class="q-mb-sm text-overflow">
                       {{
                         (!!project.info && project.info.email) ||
-                          "Email not found"
+                          "Email not set"
                       }}
                     </p>
                   </div>
