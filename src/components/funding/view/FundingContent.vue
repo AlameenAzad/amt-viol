@@ -66,9 +66,9 @@
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section class="row items-center justify-between q-pa-md">
-                <div class="col-8">
-                  <div class="row">
-                    <div class="col-3">
+                <div class="col-12 col-md-8">
+                  <div class="row q-col-gutter-x-xl">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
                       </p>
@@ -81,19 +81,19 @@
                         }}
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!funding.owner && funding.owner.username) || "" }}
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Förderinfo
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ funding.visibility || "" }}
@@ -101,14 +101,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                   <div class="row justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         outline
                         icon="star_outline"
@@ -120,7 +120,7 @@
                         @click="editFunding()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
@@ -131,7 +131,7 @@
                         @click="archiveFunding()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
@@ -142,7 +142,7 @@
                         @click="deleteFunding()"
                         color="red"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
@@ -257,27 +257,29 @@
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
                 </div>
-                <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Contact Person
-                  </h4>
-                  <div class="q-ml-md font-16">
-                    <p class="q-mb-sm">
-                      {{
-                        (!!funding.info && funding.info.contactName) ||
-                          "Contact not found"
-                      }}
-                    </p>
-                    <p class="q-mb-sm">
-                      {{
-                        (funding.municipality &&
-                          funding.municipality.location) ||
-                          "Municipality not found"
-                      }}
-                    </p>
-                  </div>
-                </q-card-section>
-                <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="!!funding.info && funding.info.contactName">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Contact Person
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{
+                          (!!funding.info && funding.info.contactName) ||
+                            "Contact not found"
+                        }}
+                      </p>
+                      <p class="q-mb-sm">
+                        {{
+                          (funding.municipality &&
+                            funding.municipality.location) ||
+                            "Municipality not found"
+                        }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
                 <div
                   v-if="
                     (!!funding.info && funding.info.streetNo) ||
@@ -1107,62 +1109,41 @@ export default {
       }
     },
     async getData() {
+      this.$q.loading.show();
       await this.$store.dispatch("funding/getSpecificFunding", {
         id: Number(this.$route.params.id)
       });
       this.$q.loading.hide();
     },
-
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
         val
       });
-      // TODO refresh page on success
-      console.log("res", res);
+      this.getData();
     },
     async viewFunding(id) {
       if (!!id) {
-        // await this.getNewData(id);
-        // await this.$store.dispatch("funding/getSpecificFunding", {
-        //   id: idd
-        // });
-        // this.$q.loading.hide();
         this.$router.push({ path: `/user/newFunding/${id}` });
       }
     },
     async viewProject(id) {
       if (!!id) {
-        // await this.$store.dispatch("project/viewProject", {
-        //   id: id
-        // });
         this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
     },
     async viewChecklist(id) {
       if (!!id) {
-        // if (!!this.loading[index]) {
-        //   this.loading[index].loading = true;
-        // }
-        // await this.$store.dispatch(
-        //   "implementationChecklist/getSpecificChecklist",
-        //   {
-        //     id: id
-        //   }
-        // );
-        // if (!!this.loading[index]) {
-        //   this.loading[index].loading = false;
-        // }
         this.$router.push({ path: `/user/newChecklist/${id}` });
       }
     },
     async getNewData(id) {
       if (!!id) {
-        this.isLoading = true;
+        this.$q.loading.show();
         await this.$store.dispatch("funding/getSpecificFunding", {
           id: id
         });
-        this.isLoading = false;
+        this.$q.loading.hide();
       }
     },
     async addToWatchlist() {
@@ -1176,10 +1157,6 @@ export default {
     async editFunding() {
       this.editIsLoading = true;
       const id = !!this.funding && this.funding.id;
-      await this.$store.dispatch("funding/getSpecificFunding", {
-        id: id
-      });
-      this.editIsLoading = false;
       this.$router.push({ path: `/user/newFunding/edit/${id}` });
     },
     async archiveFunding() {
@@ -1195,12 +1172,6 @@ export default {
       this.commentIsLoading = true;
       this.commentDialog = true;
       this.itemId = !!this.funding && this.funding.id;
-
-      // await this.$store.dispatch("funding/getSpecificFunding", {
-      //   id: id
-      // });
-      // this.editIsLoading = false;
-      // this.$router.push({ path: `/user/newFunding/edit/${id}` });
     },
     async deleteFunding() {
       this.itemId = !!this.funding && this.funding.id;
@@ -1225,8 +1196,10 @@ export default {
     }
   },
   mounted() {
-    this.$q.loading.show();
     this.getData();
+  },
+  beforeDestroy() {
+    this.$q.loading.hide();
   }
 };
 </script>
