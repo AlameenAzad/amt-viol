@@ -62,10 +62,12 @@
             </q-card>
           </div>
         </div>
-        <div v-if="isAdmin" class="col-12">
+        <div class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
-              <q-card-section class="row items-center justify-between q-pa-md">
+              <q-card-section
+                class="row items-center justify-between q-pa-md q-col-gutter-x-sm"
+              >
                 <div class="col-12 col-md-8">
                   <div class="row q-col-gutter-x-xl">
                     <div class="col-auto">
@@ -101,8 +103,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-4">
-                  <div class="row justify-between">
+                <div class="col-12 col-md-auto">
+                  <div class="row q-col-gutter-x-md justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -126,7 +128,14 @@
                         :loading="editIsLoading"
                       />
                     </div>
-                    <div class="col-auto">
+                    <div
+                      v-if="
+                        isAdmin ||
+                          (!!project && !!project.owner && project.owner.id) ===
+                            (!!loggedInUser && loggedInUser.id)
+                      "
+                      class="col-auto"
+                    >
                       <q-btn
                         @click="archiveProject()"
                         color="blue"
@@ -137,7 +146,7 @@
                         :loading="archiveIsLoading"
                       />
                     </div>
-                    <div class="col-auto">
+                    <div v-if="isAdmin" class="col-auto">
                       <q-btn
                         @click="deleteProject()"
                         color="red"
@@ -175,6 +184,9 @@
                     <p class="q-mb-sm">
                       {{
                         (!!project.info && project.info.contactName) ||
+                          (!!project &&
+                            !!project.owner &&
+                            project.owner.username) ||
                           "Contact not found"
                       }}
                     </p>
@@ -416,15 +428,14 @@
                         v-for="(funding, index) in project.fundingGuideline"
                         :key="index"
                       >
-                        <div class="col-auto">
-                          <q-btn
-                            flat
-                            align="left"
-                            :label="funding.title"
-                            color="primary"
-                            @click.prevent.stop="viewFunding(index, funding.id)"
-                            :loading="loading[index] && loading[index].loading"
-                          />
+                        <div class="col-auto q-ml-md">
+                          <a
+                            class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            @click.prevent="viewFunding(funding.id)"
+                            >{{ funding.title }}</a
+                          >
                         </div>
                       </div>
                     </div>
@@ -569,14 +580,30 @@
                     v-model="slide"
                     infinite
                     class="radius-10"
+                    autoplay
                   >
                     <q-carousel-slide
                       class="imageStyling"
                       v-for="(item, index) in project.media"
                       :key="index"
                       :name="index + 1"
-                      :img-src="`${appUrl}${item.url}`"
-                    />
+                      :img-src="
+                        !item.mime.includes('video')
+                          ? `${appUrl}${item.url}`
+                          : ''
+                      "
+                    >
+                      <video
+                        v-if="item.mime.includes('video')"
+                        class="full-width full-height"
+                        controls
+                      >
+                        <source
+                          :src="`${appUrl}${item.url}`"
+                          type="video/mp4"
+                        />
+                      </video>
+                    </q-carousel-slide>
                   </q-carousel>
                   <div class="row justify-center">
                     <div class="col-9">
@@ -606,11 +633,21 @@
                           >
                             <q-card-section class="no-padding">
                               <q-img
+                                v-if="!item.mime.includes('video')"
                                 class="tabStyling"
                                 :src="`${appUrl}${item.url}`"
                                 height="100px"
                                 width="100px"
                               />
+                              <video
+                                v-if="item.mime.includes('video')"
+                                class="full-width full-height"
+                              >
+                                <source
+                                  :src="`${appUrl}${item.url}`"
+                                  type="video/mp4"
+                                />
+                              </video>
                             </q-card-section>
                           </div>
                         </q-tab>
@@ -654,13 +691,14 @@
                     {{ $t("projectContent.projectValue&Benefits") }}
                   </h4>
                   <div class="q-ml-md font-16">
-                    <p class="q-mb-sm">
-                      {{
-                        (!!project.details &&
-                          project.details.valuesAndBenefits) ||
-                          "No Project Values and Benefits found"
-                      }}
-                    </p>
+                    <p
+                      class="q-mb-sm text-block"
+                      v-html="
+                        !!project.details
+                          ? project.details.valuesAndBenefits
+                          : 'No Project Goals found'
+                      "
+                    ></p>
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
@@ -707,20 +745,34 @@
       :dialogState="deleteDialog"
       @update="closeDialog($event), (itemId = null)"
     />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="type"
+      :dialogState="requestDialog"
+      @update="
+        (requestDialog = $event),
+          (itemId = null),
+          (type = null),
+          (editIsLoading = false)
+      "
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "projectContent",
   data() {
     return {
       slide: 1,
-      loading: [],
       itemId: null,
       tab: "projectIdeas",
+      type: null,
+      requestDialog: false,
       deleteDialog: false,
       isLoading: false,
       editIsLoading: false,
@@ -730,7 +782,8 @@ export default {
     };
   },
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   methods: {
     dateFormatter,
@@ -754,31 +807,9 @@ export default {
       });
       this.getData();
     },
-    async viewFunding(index, id) {
+    async viewFunding(id) {
       if (!!id) {
-        if (!!this.loading[index]) {
-          this.loading[index].loading = true;
-        }
-        await this.$store.dispatch("funding/getSpecificFunding", {
-          id: id
-        });
-        if (!!this.loading[index]) {
-          this.loading[index].loading = false;
-        }
         this.$router.push({ path: `/user/newFunding/${id}` });
-      }
-    },
-    setLoadingData() {
-      if (
-        !!this.project &&
-        !!this.project.fundingGuideline &&
-        this.project.fundingGuideline.length > 0
-      ) {
-        return this.project.fundingGuideline.map(item => {
-          this.loading.push({ loading: false });
-        });
-      } else {
-        return;
       }
     },
     async addToWatchlist() {
@@ -792,7 +823,28 @@ export default {
     async editProject() {
       this.editIsLoading = true;
       const id = !!this.project && this.project.id;
-      this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+      if (
+        !!this.project &&
+        (!!this.project && !!this.project.owner && this.project.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id) &&
+        !this.isAdmin
+      ) {
+        const hasEditorAccess =
+          !!this.project &&
+          !!this.project.editors &&
+          this.project.editors.map(
+            user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          );
+        if (hasEditorAccess.length > 0) {
+          this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+        } else {
+          this.itemId = !!this.project && this.project.id;
+          this.type = "edit";
+          this.requestDialog = true;
+        }
+      } else {
+        this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+      }
     },
     async archiveProject() {
       this.archiveIsLoading = true;
@@ -812,6 +864,12 @@ export default {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
     },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },
@@ -827,7 +885,7 @@ export default {
   },
   mounted() {
     this.getData();
-    this.setLoadingData();
+    // this.setLoadingData();
   }
 };
 </script>

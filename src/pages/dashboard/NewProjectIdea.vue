@@ -273,7 +273,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("newProjectIdeaForm.projectValue&Benefits") }}
@@ -282,7 +282,8 @@
             <div class="col-12 col-md-8">
               <q-input
                 outlined
-                dense
+                type="textarea"
+                rows="10"
                 class="no-shadow input-radius-6"
                 :placeholder="$t('newProjectIdeaForm.projectValue&Benefits')"
                 v-model="form.details.valuesAndBenefits"

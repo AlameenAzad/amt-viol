@@ -4,24 +4,17 @@
       <q-item
         v-for="link in dashboardRoutes"
         :key="link.path"
-        :to="
-          link.path === '/watchlist'
-            ? '/watchlist?tab=all'
-            : link.path === '/catkeytags'
-            ? '/catkeytags?tab=categories'
-            : link.path
-        "
         clickable
         v-ripple
         class="q-px-lg"
-        :active="$router.currentRoute.fullPath == link.path"
-        active-class="text-white activeMenu"
+        :class="{ activeMenu: nextRoute === link.path }"
         v-show="
           (isAdmin === false &&
             link.meta.requireAdmin === false &&
             link.meta.showInNavigation === true) ||
             (isAdmin === true && link.meta.showInNavigation === true)
         "
+        @click="prevent(link)"
       >
         <q-item-section avatar>
           <img class="icon-white" :src="link.icon" />
@@ -47,12 +40,19 @@
     </q-list>
   </div>
 </template>
-:to="link.path !== '/watchlist' ? link.path : '/watchlist?tab=all'"
 <script>
 export default {
   name: "links",
+  props: {
+    miniState: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
-    return {};
+    return {
+      nextRoute: ""
+    };
   },
   computed: {
     dashboardRoutes() {
@@ -61,6 +61,25 @@ export default {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
     }
+  },
+  methods: {
+    prevent(link) {
+      if (this.miniState || this.$router.currentRoute.path == link.path) return;
+
+      if (link.path == "/watchlist")
+        this.$router.push({
+          path: "/watchlist?tab=all"
+        });
+      else if (link.path == "/catkeytags")
+        this.$router.push({
+          path: "/catkeytags?tab=categories"
+        });
+      else this.$router.push(link.path);
+      this.nextRoute = link.path;
+    }
+  },
+  mounted() {
+    this.nextRoute = this.$router.currentRoute.path;
   }
 };
 </script>

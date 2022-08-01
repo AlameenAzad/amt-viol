@@ -39,6 +39,7 @@
             color="primary"
             no-caps
             class="no-shadow radius-6 q-px-xl  q-mr-sm "
+            :loading="isLoading"
           />
           <q-btn
             label="Confirm"

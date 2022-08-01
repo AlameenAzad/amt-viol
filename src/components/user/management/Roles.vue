@@ -17,11 +17,11 @@
     >
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
-          <div class="col-8 col-md-auto">
+          <div class="col-8 col-md-4">
             <q-input
               borderless
               outlined
-              class="no-shadow tableSearchInput"
+              class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
               debounce="300"
               v-model="filter"
               dense

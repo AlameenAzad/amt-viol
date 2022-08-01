@@ -1,5 +1,8 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg q-pb-md">
+  <q-page
+    class="q-mt-lg q-pb-md"
+    :class="$q.screen.lt.md ? 'q-mx-md' : 'q-mx-xl'"
+  >
     <q-card
       v-if="data.length == 0"
       class="full-height full-width bg-white radius-20 shadow-1"
@@ -35,7 +38,7 @@
             color="blue-5"
             class="q-mr-sm"
           />
-          <div class="col">
+          <div class="col-12 col-md-4">
             <p class="font-16 text-weight-600 q-mb-none">
               {{
                 noti.typeOfNoti == "fundingExpirey"
@@ -77,7 +80,13 @@
               }}
             </p>
           </div>
-          <div class="text-right">
+          <div
+            :class="
+              $q.screen.lt.md
+                ? 'text-center q-mt-md col-md col-12'
+                : 'text-right col-md col-12'
+            "
+          >
             <q-btn
               @click="view(noti)"
               v-if="
@@ -90,6 +99,7 @@
               unelevated
               outline
               class="radius-6 text-weight-600"
+              :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
               no-caps
             >
               <p class="q-mb-none q-mx-xl q-my-sm">
@@ -104,6 +114,7 @@
               unelevated
               outline
               class="radius-6 text-weight-600 q-ml-md"
+              :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
               no-caps
             >
               <p class="q-mb-none q-mx-xl q-my-sm">
@@ -116,6 +127,7 @@
               color="blue"
               unelevated
               class="radius-6 q-ml-md text-weight-600"
+              :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
               no-caps
             >
               <p class="q-mb-none q-mx-xl q-my-sm">
@@ -128,6 +140,7 @@
               color="red"
               unelevated
               class="radius-6 q-ml-md text-weight-600"
+              :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
               no-caps
             >
               <p class="q-mb-none q-mx-xl q-my-sm">

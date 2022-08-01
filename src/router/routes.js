@@ -71,6 +71,7 @@ const routes = [
             name: "projectIdeas",
             meta: {
               title: "projectIdeas",
+              titleDE: "Projekt Idee",
               requireAuth: true,
               requireAdmin: true
             },
@@ -137,6 +138,7 @@ const routes = [
         name: "UserData",
         meta: {
           title: "User Data",
+          titleDE: "Benutzerdaten",
           showInNavigation: false,
           backLink: "/network",
           requireAuth: true,
@@ -163,6 +165,7 @@ const routes = [
         name: "AdministationAreasDetails",
         meta: {
           title: "Details for the Administration",
+          titleDE: "Details für die Verwaltung",
           backLink: "/Administation/Areas",
           requireAuth: true,
           requireAdmin: false
@@ -194,6 +197,7 @@ const routes = [
         name: "notifications",
         meta: {
           title: "Notifications",
+          titleDE: "Benachrichtigungen",
           requireAuth: true,
           requireAdmin: false
         },
@@ -205,6 +209,7 @@ const routes = [
         name: "MyData",
         meta: {
           title: "My Data",
+          titleDE: "Meine Daten",
           requireAuth: true,
           requireAdmin: false
         },
@@ -216,6 +221,7 @@ const routes = [
         name: "settings",
         meta: {
           title: "Settings",
+          titleDE: "Einstellungen",
           requireAuth: true,
           requireAdmin: false
         },
@@ -227,6 +233,7 @@ const routes = [
         name: "NewProjectIdea",
         meta: {
           title: "New Project Ideas",
+          titleDE: "Neue Projektideen",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -238,6 +245,7 @@ const routes = [
         name: "EditProject",
         meta: {
           title: "Edit project Idea",
+          titleDE: "Projekt bearbeiten Idee",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -249,6 +257,7 @@ const routes = [
         name: "ViewProject",
         meta: {
           title: "Details of the project Idea",
+          titleDE: "Details zum Projekt Idee",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -260,6 +269,7 @@ const routes = [
         name: "NewFunding",
         meta: {
           title: "New Funding",
+          titleDE: "Neue Finanzmittel",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -271,6 +281,7 @@ const routes = [
         name: "EditFunding",
         meta: {
           title: "Edit Funding",
+          titleDE: "Finanzierung bearbeiten",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -282,6 +293,7 @@ const routes = [
         name: "ViewFunding",
         meta: {
           title: "Details of the Funding",
+          titleDE: "Einzelheiten der Finanzierung",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -293,6 +305,7 @@ const routes = [
         name: "newCheckList",
         meta: {
           title: "New Implementation checklist",
+          titleDE: "Neue Checkliste für die Umsetzung",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -304,6 +317,7 @@ const routes = [
         name: "viewCheckList",
         meta: {
           title: "Details of the Implementation checklist",
+          titleDE: "Einzelheiten der Checkliste für die Umsetzung",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -316,6 +330,7 @@ const routes = [
         name: "EditChecklist",
         meta: {
           title: "Edit Checklist",
+          titleDE: "bearbeiten Umsetzungscheckliste",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false

@@ -18,7 +18,7 @@
           <q-toolbar-title
             class="text-weight-600"
             :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
-            @click="$router.go(-1)"
+            @click="$router.currentRoute.meta.backLink ? $router.go(-1) : ''"
           >
             <q-icon
               v-if="$router.currentRoute.meta.backLink"
@@ -108,16 +108,38 @@
       bordered
       class="leftDrawer text-white"
       content-class="bg-blue"
+      :mini="!leftDrawerOpen || miniState"
+      @click.capture="drawerClick"
     >
-      <div class="q-px-lg q-pt-sm">
+      <div class="q-px-lg q-pt-sm" v-if="!miniState">
         <p class="font-20 ">
           <small class="q-mr-xs">Hello,</small><br />
           <span class="text-weight-bold">{{ user || "" }}</span>
         </p>
       </div>
+      <div
+        v-if="miniState"
+        class="q-px-md q-pt-md q-mb-lg"
+        :class="miniState == true ? '' : 'invisible'"
+      >
+        <!-- <p class="font-26">A<br /></p> -->
+        <q-img width="40px" src="amtlogo.png"></q-img>
+      </div>
+
       <q-list>
-        <EssentialLink />
+        <EssentialLink :miniState="miniState" />
       </q-list>
+      <div class="q-mini-drawer-hide absolute" style="top: 90px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="yellow"
+          text-color="dark"
+          icon="chevron_left"
+          @click="miniState = true"
+        />
+      </div>
     </q-drawer>
     <logoutDialog :dialogState="logoutDialog" @update="logoutDialog = $event" />
     <q-page-container>
@@ -145,6 +167,7 @@ export default {
   data() {
     return {
       logoutDialog: false,
+      miniState: false,
       leftDrawerOpen: this.$q.screen.gt.sm,
       themeIcon: isDarkReaderEnabled()
         ? "mdi-weather-night"
@@ -153,6 +176,12 @@ export default {
     };
   },
   methods: {
+    drawerClick(e) {
+      if (this.miniState) {
+        this.miniState = false;
+        e.stopPropagation();
+      }
+    },
     switchLang() {
       if (this.$i18n.locale === "en-us") {
         this.$i18n.locale = "de";

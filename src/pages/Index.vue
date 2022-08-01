@@ -1,7 +1,7 @@
 <template>
   <q-page class="bg-white">
     <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="bg-primary">
-      <div class="row justify-center q-pb-xl">
+      <div class="row justify-center text-center q-pb-xl">
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 q-mb-md">
@@ -16,7 +16,7 @@
                 Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR).
               </p>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 q-mx-auto">
               <q-input
                 class="no-shadow q-mb-lg input-radius-4"
                 color="primary"
@@ -111,8 +111,8 @@
                           Umsetzungschecklisten
                         </h3>
                         <p class="q-mb-none textColor">
-                          Durchgeführte Förderprojekte von der Projektidee bis
-                          zum Zuwendungsbescheid ansehen und nachnutzen.
+                          Förderprojekte von der Projektidee bis zum
+                          Zuwendungsbescheid ansehen und nachnutzen.
                         </p>
                       </div>
                     </div>
@@ -123,11 +123,8 @@
           </div>
         </div>
         <div class="row q-mt-lg justify-center">
-          <div class="col-12 text-center">
-            <h3 class="font-36 text-weight-600">About platform</h3>
-          </div>
-          <div class="col-12 col-md-8">
-            <p class="font-18 text-left">
+          <div class="col-12 col-md-8 q-mt-lg">
+            <p class="font-16 text-left">
               Ziel der Plattform ist die langfristige Stärkung der
               Handlungsfähigkeit der Kommunen im Rahmen des allgemeinen
               Entwicklungsprozesses „von der Idee zum Projekt“. Vor dem
@@ -137,30 +134,30 @@
               Entwicklungsressourcen (Projektwissen, Personal und Finanzmittel)
               in einem Wissensnetzwerk zu bündeln und zu teilen.
             </p>
-            <p class="font-18 text-left">
+            <p class="font-16 text-left">
               Die Plattform bildet ein digitales Assistenzsystem für die
               Entwicklung, Förderung und Umsetzung von kommunalen Projekten. Im
               Ergebnis entsteht eine Wissensplattform, die
             </p>
             <ul class="homepageList">
-              <li class="font-18 text-left q-mb-md">
+              <li class="font-16 text-left q-mb-md">
                 das jeweilige Projektideen-Management der Kommunen vereinfacht
               </li>
-              <li class="font-18 text-left q-mb-md">
+              <li class="font-16 text-left q-mb-md">
                 unterschiedliche Projektideen und geeigneten Fördermöglichkeiten
                 direkter verbindet und
               </li>
-              <li class="font-18 text-left q-mb-md">
+              <li class="font-16 text-left q-mb-md">
                 Erfahrungen zu Projektumsetzungen in Form von Checklisten als
                 „Kurzer Dienstweg 2.0“ bereithält.
               </li>
             </ul>
-            <p class="font-18 text-left">
+            <p class="font-16 text-left">
               Zur weiteren Verstetigung werden die nordfriesischen Kommunen
               Nutzungsbedingungen definieren, die den Zugang nach der Testphase
               für weitere Kommunen ermöglicht.
             </p>
-            <p class="font-18 text-left">
+            <p class="font-16 text-left">
               Der Zugang zur Plattform ist daher aktuell begrenzt. Um einen
               User-Account zu beantragen klicken Sie zu einem späteren Zeitpunkt
               bitte auf das entsprechende Feld im Login-Fenster.

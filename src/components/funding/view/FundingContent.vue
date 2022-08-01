@@ -101,8 +101,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-4">
-                  <div class="row justify-between">
+                <div class="col-12 col-md-auto">
+                  <div class="row q-col-gutter-x-md justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -357,14 +357,30 @@
                     v-model="slide"
                     infinite
                     class="radius-10"
+                    autoplay
                   >
                     <q-carousel-slide
                       class="imageStyling"
                       v-for="(item, index) in funding.media"
                       :key="index"
                       :name="index + 1"
-                      :img-src="`${appUrl}${item.url}`"
-                    />
+                      :img-src="
+                        !item.mime.includes('video')
+                          ? `${appUrl}${item.url}`
+                          : ''
+                      "
+                    >
+                      <video
+                        v-if="item.mime.includes('video')"
+                        class="full-width full-height"
+                        controls
+                      >
+                        <source
+                          :src="`${appUrl}${item.url}`"
+                          type="video/mp4"
+                        />
+                      </video>
+                    </q-carousel-slide>
                   </q-carousel>
                   <div class="row justify-center">
                     <div class="col-9">
@@ -377,7 +393,8 @@
                         mobile-arrows
                         align="center"
                         active-class="opacity-50"
-                        class="no-padding q-mt-md carouselThumbnails"
+                        class="no-padding q-mt-md"
+                        :class="{ carouselThumbnails: $q.screen.gt.sm }"
                       >
                         <q-tab
                           :name="index + 1"
@@ -393,11 +410,21 @@
                           >
                             <q-card-section class="no-padding">
                               <q-img
+                                v-if="!item.mime.includes('video')"
                                 class="tabStyling"
                                 :src="`${appUrl}${item.url}`"
                                 height="100px"
                                 width="100px"
                               />
+                              <video
+                                v-if="item.mime.includes('video')"
+                                class="full-width full-height"
+                              >
+                                <source
+                                  :src="`${appUrl}${item.url}`"
+                                  type="video/mp4"
+                                />
+                              </video>
                             </q-card-section>
                           </div>
                         </q-tab>
@@ -712,7 +739,7 @@
                       funding.fundingsLinkedTo.length > 0
                   "
                   horizontal
-                  class="q-pa-md items-start"
+                  class="q-pa-md items-baseline"
                 >
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -729,39 +756,21 @@
                           "
                           class="q-gutter-sm"
                         >
-                          <q-btn
+                          <div
                             v-for="(funding, index) in funding.fundingsLinkedTo"
                             :key="index"
-                            flat
-                            color="primary"
-                            :label="funding.title"
-                            @click.prevent="viewFunding(funding.id)"
-                            :loading="isLoading"
+                            class="row"
                           >
-                          </q-btn>
-                          <!-- <q-item
-                          v-for="(funding, index) in funding.fundingsLinkedTo"
-                          :key="index"
-                          clickable
-                          @click.prevent.stop="viewFunding(funding.id)"
-                        >
-                          <q-item-section
-                            ><span class="text-right font-14">
-                              {{ funding.title }}
-                              <q-icon
-                                v-if="!isLoading"
-                                size="sm"
-                                class="text-blue"
-                                name="visibility"
-                              />
-                              <q-spinner
-                                v-else
-                                color="primary"
-                                size="sm"
-                                :thickness="2"
-                              /> </span
-                          ></q-item-section>
-                        </q-item> -->
+                            <div class="col-auto">
+                              <a
+                                class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                @click.prevent="viewFunding(funding.id)"
+                                >{{ funding.title }}</a
+                              >
+                            </div>
+                          </div>
                         </div>
                         <div v-else>
                           <p class="q-mt-sm q-mb-sm">
@@ -1076,7 +1085,6 @@ export default {
       itemId: null,
       tab: "fundings",
       deleteDialog: false,
-      isLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
@@ -1123,7 +1131,10 @@ export default {
       this.getData();
     },
     async viewFunding(id) {
-      if (!!id) {
+      if (
+        !!id &&
+        id !== (!!this.$route.params && Number(this.$route.params.id))
+      ) {
         this.$router.push({ path: `/user/newFunding/${id}` });
       }
     },

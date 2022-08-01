@@ -64,10 +64,12 @@
             </q-card>
           </div>
         </div>
-        <div v-if="isAdmin" class="col-12">
+        <div class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
-              <q-card-section class="row items-center justify-between q-pa-md">
+              <q-card-section
+                class="row items-center justify-between q-pa-md q-col-gutter-x-sm"
+              >
                 <div class="col-12 col-md-8">
                   <div class="row q-col-gutter-x-xl">
                     <div class="col-auto">
@@ -105,8 +107,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-4">
-                  <div class="row justify-between">
+                <div class="col-12 col-md-auto">
+                  <div class="row q-col-gutter-x-md justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -130,7 +132,16 @@
                         :loading="editIsLoading"
                       />
                     </div>
-                    <div class="col-auto">
+                    <div
+                      v-if="
+                        isAdmin ||
+                          (!!checklist &&
+                            !!checklist.owner &&
+                            checklist.owner.id) ===
+                            (!!loggedInUser && loggedInUser.id)
+                      "
+                      class="col-auto"
+                    >
                       <q-btn
                         @click="archiveChecklist()"
                         color="blue"
@@ -141,7 +152,7 @@
                         :loading="archiveIsLoading"
                       />
                     </div>
-                    <div class="col-auto">
+                    <div v-if="isAdmin" class="col-auto">
                       <q-btn
                         @click="deleteChecklist()"
                         color="red"
@@ -190,6 +201,9 @@
                     <p class="q-mb-sm">
                       {{
                         (!!checklist.info && checklist.info.contactName) ||
+                          (!!checklist &&
+                            !!checklist.owner &&
+                            checklist.owner.username) ||
                           "Contact not found"
                       }}
                     </p>
@@ -235,29 +249,33 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
-                <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    Invite Editor
-                  </h4>
-                  <div class="q-ml-md font-16">
-                    <div
-                      v-if="checklist.editors && checklist.editors.length > 0"
-                    >
-                      <p
-                        v-for="(editor, index) in checklist.editors"
-                        :key="index"
-                        class="q-mb-sm"
+                <div v-if="checklist.editors && checklist.editors.length > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      Invite Editor
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <div
+                        v-if="checklist.editors && checklist.editors.length > 0"
                       >
-                        {{ editor.username }}
-                      </p>
+                        <p
+                          v-for="(editor, index) in checklist.editors"
+                          :key="index"
+                          class="q-mb-sm"
+                        >
+                          {{ editor.username }}
+                        </p>
+                      </div>
+                      <div v-else>
+                        <p class="q-mb-sm">No editors Invited</p>
+                      </div>
                     </div>
-                    <div v-else>
-                      <p class="q-mb-sm">No editors Invited</p>
-                    </div>
-                  </div>
-                </q-card-section>
-                <q-separator inset class="bg-blue opacity-10" />
-                <q-card-section>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
+                <q-card-section
+                  v-if="checklist.project && checklist.project.id"
+                >
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     Link for Project Idea
                   </h4>
@@ -291,14 +309,30 @@
                     v-model="slide"
                     infinite
                     class="radius-10"
+                    autoplay
                   >
                     <q-carousel-slide
                       class="imageStyling"
                       v-for="(item, index) in checklist.media"
                       :key="index"
                       :name="index + 1"
-                      :img-src="`${appUrl}${item.url}`"
-                    />
+                      :img-src="
+                        !item.mime.includes('video')
+                          ? `${appUrl}${item.url}`
+                          : ''
+                      "
+                    >
+                      <video
+                        v-if="item.mime.includes('video')"
+                        class="full-width full-height"
+                        controls
+                      >
+                        <source
+                          :src="`${appUrl}${item.url}`"
+                          type="video/mp4"
+                        />
+                      </video>
+                    </q-carousel-slide>
                   </q-carousel>
                   <div class="row justify-center">
                     <div class="col-9">
@@ -311,7 +345,8 @@
                         mobile-arrows
                         align="center"
                         active-class="opacity-50"
-                        class="no-padding q-mt-md carouselThumbnails"
+                        class="no-padding q-mt-md"
+                        :class="{ carouselThumbnails: $q.screen.gt.sm }"
                       >
                         <q-tab
                           :name="index + 1"
@@ -327,11 +362,21 @@
                           >
                             <q-card-section class="no-padding">
                               <q-img
+                                v-if="!item.mime.includes('video')"
                                 class="tabStyling"
                                 :src="`${appUrl}${item.url}`"
                                 height="100px"
                                 width="100px"
                               />
+                              <video
+                                v-if="item.mime.includes('video')"
+                                class="full-width full-height"
+                              >
+                                <source
+                                  :src="`${appUrl}${item.url}`"
+                                  type="video/mp4"
+                                />
+                              </video>
                             </q-card-section>
                           </div>
                         </q-tab>
@@ -1951,12 +1996,25 @@
       :dialogState="deleteDialog"
       @update="closeDialog($event), (itemId = null)"
     />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="type"
+      :dialogState="requestDialog"
+      @update="
+        (requestDialog = $event),
+          (itemId = null),
+          (type = null),
+          (editIsLoading = false)
+      "
+    />
   </div>
 </template>
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 
 export default {
   name: "checklistContent",
@@ -1965,8 +2023,10 @@ export default {
       slide: 1,
       isLoading: false,
       itemId: null,
+      type: null,
       tab: "implementationChecklist",
       deleteDialog: false,
+      requestDialog: false,
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
@@ -1974,7 +2034,8 @@ export default {
     };
   },
   components: {
-    DeleteDialog
+    DeleteDialog,
+    RequestAccessDialog
   },
   methods: {
     dateFormatter,
@@ -2021,11 +2082,6 @@ export default {
     async viewProject(id) {
       if (!!id) {
         this.viewIsLoading = true;
-        // const id = row && row.id;
-        // await this.$store.dispatch("project/viewProject", {
-        //   id: id
-        // });
-        // this.viewIsLoading = false;
         this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
     },
@@ -2040,7 +2096,31 @@ export default {
     async editChecklist() {
       this.editIsLoading = true;
       const id = !!this.checklist && this.checklist.id;
-      this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+
+      if (
+        !!this.checklist &&
+        (!!this.checklist &&
+          !!this.checklist.owner &&
+          this.checklist.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id) &&
+        !this.isAdmin
+      ) {
+        const hasEditorAccess =
+          !!this.checklist &&
+          !!this.checklist.editors &&
+          this.checklist.editors.map(
+            user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          );
+        if (hasEditorAccess.length > 0) {
+          this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+        } else {
+          this.itemId = !!this.checklist && this.checklist.id;
+          this.type = "edit";
+          this.requestDialog = true;
+        }
+      } else {
+        this.$router.push({ path: `/user/newChecklist/edit/${id}` });
+      }
     },
     async archiveChecklist() {
       this.archiveIsLoading = true;
@@ -2059,6 +2139,12 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;

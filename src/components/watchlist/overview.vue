@@ -379,7 +379,13 @@ export default {
             row.project.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.project &&
+            !!row.project.editors &&
+            row.project.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
           } else {
             this.itemId = !!row.project && row.project.id;
@@ -404,7 +410,13 @@ export default {
             row.funding.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.funding &&
+            !!row.funding.editors &&
+            row.funding.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/${id}` });
           } else {
             this.itemId = !!row.funding && row.funding.id;
@@ -431,8 +443,13 @@ export default {
             row.checklist.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          console.log("hasReaderAccess", hasReaderAccess);
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.checklist &&
+            !!row.checklist.editors &&
+            row.checklist.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/${id}` });
           } else {
             this.itemId = !!row.checklist && row.checklist.id;
@@ -452,7 +469,6 @@ export default {
       if (!!row && row.hasOwnProperty("project")) {
         const id = !!row.project && row.project.id;
         if (
-          row.project.visibility === "listed only" &&
           (!!row.project && !!row.project.owner && row.project.owner.id) !==
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
@@ -477,7 +493,6 @@ export default {
       } else if (!!row && row.hasOwnProperty("funding")) {
         const id = !!row.funding && row.funding.id;
         if (
-          row.funding.visibility === "listed only" &&
           (!!row.funding && !!row.funding.owner && row.funding.owner.id) !==
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
@@ -502,7 +517,6 @@ export default {
       } else {
         const id = !!row.checklist && row.checklist.id;
         if (
-          row.checklist.visibility === "listed only" &&
           (!!row.checklist &&
             !!row.checklist.owner &&
             row.checklist.owner.id) !==

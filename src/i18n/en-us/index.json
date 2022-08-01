@@ -357,5 +357,6 @@
   "delete user": "Delete User",
   "User Details": "User Details",
   "selectaccountanddata": "Select account to transfer the data and rights.",
-  "deleteUserInfo": "Are you sure you want to delete this user? You will have to transfer this user's data first."
+  "deleteUserInfo": "Are you sure you want to delete this user? You will have to transfer this user's data first.",
+  "Loggin you out": "Loggin you out"
 }

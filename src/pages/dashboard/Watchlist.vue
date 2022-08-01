@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <overview />
   </q-page>
 </template>

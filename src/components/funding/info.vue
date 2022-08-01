@@ -232,7 +232,12 @@ export default {
           row.readers.map(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
-        if (hasReaderAccess.length > 0) {
+        const hasEditorAccess =
+          !!row.editors &&
+          row.editors.map(
+            user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          );
+        if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
           this.$router.push({ path: `/user/newFunding/${id}` });
         } else {
           this.itemId = row && row.id;
@@ -248,7 +253,6 @@ export default {
       this.editIsLoading = true;
       const id = row && row.id;
       if (
-        row.visibility === "listed only" &&
         (!!row.owner && row.owner.id) !==
           (!!this.loggedInUser && this.loggedInUser.id) &&
         !this.isAdmin

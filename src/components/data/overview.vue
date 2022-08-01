@@ -362,7 +362,12 @@ export default {
             row.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
           } else {
             this.itemId = row && row.id;
@@ -384,7 +389,12 @@ export default {
             row.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/${id}` });
           } else {
             this.itemId = row && row.id;
@@ -406,7 +416,12 @@ export default {
             row.readers.map(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
-          if (hasReaderAccess.length > 0) {
+          const hasEditorAccess =
+            !!row.editors &&
+            row.editors.map(
+              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+            );
+          if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/${id}` });
           } else {
             this.itemId = row && row.id;
@@ -424,7 +439,6 @@ export default {
       const id = row && row.id;
       if (this.tab === "projectIdeas") {
         if (
-          row.visibility === "listed only" &&
           (!!row.owner && row.owner.id) !==
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
@@ -446,7 +460,6 @@ export default {
         }
       } else if (this.tab === "fundings") {
         if (
-          row.visibility === "listed only" &&
           (!!row.owner && row.owner.id) !==
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
@@ -468,7 +481,6 @@ export default {
         }
       } else {
         if (
-          row.visibility === "listed only" &&
           (!!row.owner && row.owner.id) !==
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin

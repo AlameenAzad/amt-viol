@@ -182,7 +182,7 @@
   "administrativeAreas": {
     "createAdministration": "Verwaltung anlegen",
     "administrationName": "Verwaltung",
-    "federalState": "Bundesland",
+    "federalState": "Ort",
     "dataSets": "Datensätze",
     "projectCoordinator": "Projektkoordinator*innen",
     "view": "Ansehen",
@@ -403,5 +403,6 @@
   "Add funding rate":"Finanzierungsrate hinzufügen",
   "Yes": "Ja",
   "No": "Nein",
-  "Select Projects": "Projekt auswählen"
+  "Select Projects": "Projekt auswählen",
+   "Loggin you out": "Sie werden abgemeldet"
 }

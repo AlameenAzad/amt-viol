@@ -483,7 +483,7 @@
                             :name="!!element.fixed ? 'lock' : 'reorder'"
                           />
                         </div>
-                        <div class="col-10">
+                        <div class="col-8 col-md-10">
                           <div class="row items-center">
                             <div class="col-11 q-pr-sm">
                               <div class="row">
