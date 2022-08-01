@@ -168,13 +168,11 @@
               </p>
             </div>
             <div class="col-12 col-md-8">
-              <!-- <template v-if="dataLoaded"> -->
               <ProjectIdeas
                 :isInChecklist="true"
-                :editing="checklist.project"
+                :editing="!!checklist ? checklist.project : null"
                 @update:linkToProject="form.project = $event"
               />
-              <!-- </template> -->
             </div>
           </div>
           <div class="row">
@@ -184,12 +182,10 @@
               </p>
             </div>
             <div class="col-12 col-md-8">
-              <!-- <template v-if="dataLoaded"> -->
               <UserSelect
-                :editing="checklist.editors"
+                :editing="!!checklist ? checklist.editors : []"
                 @update:user="form.editors = $event"
               />
-              <!-- </template> -->
             </div>
           </div>
           <div class="row items-baseline">
@@ -200,6 +196,8 @@
               <q-select
                 outlined
                 dense
+                emit-value
+                :rules="[val => !!val || 'Required']"
                 v-model="form.visibility"
                 :options="visibilityOptions"
                 class="no-shadow input-radius-6"
@@ -210,15 +208,22 @@
                     {{ form.visibility }}
                   </template>
                   <template v-else>
-                    <span class="text-grey">Auf Anfrage</span>
+                    <span class="text-grey">
+                      {{ $t("select") }}
+                    </span>
                   </template>
-                </template></q-select
-              >
+                </template>
+              </q-select>
               <p class="font-16 q-mb-none q-mt-md text-grey">
-                <!-- TODO make this text dynamic -->
-                Dieses Dokument ist nur für Sie sichtbar. Wenn Sie möchten, dass
-                andere Benutzer dieses Dokument sehen können, können Sie "Auf
-                Anfrage" oder "Für alle Benutzer" auswählen.
+                {{
+                  form.visibility === "only for me"
+                    ? $t("visibility.docOnlyMe")
+                    : form.visibility === "all users"
+                    ? $t("visibility.docAllUsers")
+                    : form.visibility === "listed only"
+                    ? $t("visibility.docListedOnly")
+                    : ""
+                }}
               </p>
             </div>
           </div>
@@ -234,7 +239,7 @@
             <div class="col-12 col-md-8">
               <Categories
                 :requiresValidation="true"
-                :editing="checklist.categories"
+                :editing="!!checklist ? checklist.categories : []"
                 @update:category="form.categories = $event"
               />
             </div>
@@ -246,7 +251,7 @@
             <div class="col-12 col-md-8">
               <Tags
                 :requiresValidation="true"
-                :editing="checklist.tags"
+                :editing="!!checklist ? checklist.tags : []"
                 @update:tag="form.tags = $event"
               />
             </div>
@@ -351,7 +356,10 @@
                     color="primary"
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
-                    @click="$refs.startDateProxy[index].show()"
+                    @click="
+                      $refs.startDateProxy[index].show();
+                      dateValidationIndex = index;
+                    "
                     ref="startDate"
                   >
                     <template v-slot:append>
@@ -370,6 +378,7 @@
                             v-model="card.start"
                             mask="YYYY-MM-DD"
                             @input="$refs.startDateProxy[index].hide()"
+                            @click="dateValidationIndex = index"
                             first-day-of-week="1"
                           >
                             <div class="row items-center justify-end">
@@ -403,7 +412,10 @@
                     readonly
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
-                    @click="$refs.endDateProxy[index].show()"
+                    @click="
+                      $refs.endDateProxy[index].show();
+                      dateValidationIndex = index;
+                    "
                     ref="endDate"
                   >
                     <template v-slot:append>
@@ -422,6 +434,7 @@
                             v-model="card.end"
                             mask="YYYY-MM-DD"
                             @input="$refs.endDateProxy[index].hide()"
+                            @click="dateValidationIndex = index"
                             first-day-of-week="1"
                           >
                             <div class="row items-center justify-end">
@@ -975,8 +988,8 @@ export default {
       form: {
         title: "",
         ideaProvider: "volunteering",
-        project: {},
-        visibility: "only for me",
+        project: null,
+        visibility: "",
         items: [
           {
             cardName: "initialContact",
@@ -2399,7 +2412,8 @@ export default {
         { label: "Main Office", value: "mainOffice" }
       ],
       isLoading: false,
-      dataLoaded: true
+      dataLoaded: true,
+      dateValidationIndex: 0
     };
   },
   computed: {
@@ -2441,19 +2455,31 @@ export default {
     },
     dateFormatter,
     plannedEndOptions(date) {
-      if (!!this.form.plannedStart) {
-        const calendarDate = date.replace(/\//g, "-");
-        return calendarDate >= this.form.plannedStart;
-      } else {
-        return true;
+      if (
+        this.dateValidationIndex !== undefined ||
+        this.dateValidationIndex !== null
+      ) {
+        if (!!this.form.items[this.dateValidationIndex].start) {
+          const calendarDate = date.replace(/\//g, "-");
+          return (
+            calendarDate >= this.form.items[this.dateValidationIndex].start
+          );
+        } else {
+          return true;
+        }
       }
     },
     plannedStartOptions(date) {
-      if (!!this.form.plannedEnd) {
-        const calendarDate = date.replace(/\//g, "-");
-        return calendarDate <= this.form.plannedEnd;
-      } else {
-        return true;
+      if (
+        this.dateValidationIndex !== undefined ||
+        this.dateValidationIndex !== null
+      ) {
+        if (!!this.form.items[this.dateValidationIndex].end) {
+          const calendarDate = date.replace(/\//g, "-");
+          return calendarDate <= this.form.items[this.dateValidationIndex].end;
+        } else {
+          return true;
+        }
       }
     },
     imgPreview(val) {
@@ -2594,16 +2620,6 @@ export default {
         this.dataLoaded = true;
       }
     },
-    // async setData() {
-    //   console.log("this.form", this.form);
-    //   const specificChecklist = JSON.parse(JSON.stringify(this.checklist));
-    //   console.log("specificChecklist :>> ", specificChecklist);
-    //   this.form = {
-    //     ...this.form,
-    //     ...specificChecklist
-    //   };
-    //   await this.setItems(specificChecklist);
-    // },
     async setItems(checklist) {
       this.form.items = [
         {
@@ -2886,10 +2902,11 @@ export default {
       };
     }
   },
-  beforeMount() {
-    // if (!!this.checklist && !!this.$route.params.id) {
+  mounted() {
     this.setData();
-    // }
+  },
+  beforeDestroy() {
+    this.$q.loading.hide();
   }
 };
 </script>
