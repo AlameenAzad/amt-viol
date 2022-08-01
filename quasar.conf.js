@@ -136,9 +136,9 @@ module.exports = function(ctx) {
         skipWaiting: true
       }, // only for GenerateSW
       manifest: {
-        name: `amit-viol`,
-        short_name: `amit-viole`,
-        description: `amit-viol web app`,
+        name: `Amt-viol`,
+        short_name: `Amt-viol`,
+        description: `Amt-viol web app`,
         display: "standalone",
         orientation: "portrait",
         background_color: "#ffffff",
@@ -170,6 +170,10 @@ module.exports = function(ctx) {
             type: "image/png"
           }
         ]
+      },
+      metaVariables: {
+        appleMobileWebAppCapable: "yes",
+        appleMobileWebAppStatusBarStyle: "default"
       }
     },
 
