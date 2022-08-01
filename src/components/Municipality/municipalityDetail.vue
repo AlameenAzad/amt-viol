@@ -196,12 +196,20 @@
     <MunicipalityDeleteDialog
       :dialogState="deleteMunicipalityDialog"
       :id="municipalityId"
-      @update="(deleteMunicipalityDialog = $event), (municipalityId = null)"
+      @update="
+        (deleteMunicipalityDialog = $event),
+          (municipalityId = null),
+          getMunicipalityData()
+      "
     />
     <EditMunicipalityDialog
       :dialogState="editMunicipalityDialog"
       :editingId="municipalityId"
-      @update="(editMunicipalityDialog = $event), (municipalityId = null)"
+      @update="
+        (editMunicipalityDialog = $event),
+          (municipalityId = null),
+          getMunicipalityData()
+      "
     />
     <DeleteDialog
       :id="itemId"
@@ -255,18 +263,12 @@ export default {
             return mun.id == id;
           }
         );
-        console.log("municipality", municipality);
+        if (!!municipality) {
+          this.municipality = municipality;
+        } else {
+          this.$router.push("/Administation/Areas");
+        }
         this.municipality = municipality;
-        // this.form.username = currentUser.username;
-        // this.form.email = currentUser.email;
-        // this.form.municipality.id = currentUser.user_detail.municipality.id;
-        // this.form.municipality.title =
-        //   currentUser.user_detail.municipality.title;
-        // this.form.role = currentUser.role.type;
-        // this.form.municipality = {
-        //   id: currentUser.user_detail.municipality.id,
-        //   title: currentUser.user_detail.municipality.title
-        // };
       } else {
         this.$router.push("/Administation/Areas");
       }
@@ -350,6 +352,7 @@ export default {
       this.viewIsLoading = false;
     },
     async editItem(row) {
+      console.log("row", row);
       const id = row && row.id;
       this.itemId = row && row.id;
       this.editIsLoading = true;
