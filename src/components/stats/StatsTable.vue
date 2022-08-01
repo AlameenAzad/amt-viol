@@ -7,6 +7,7 @@
       :columns="columns"
       row-key="name"
       :hide-header="!isInPage"
+      :visible-columns="visibleColumns"
       :filter="filter"
       :filter-method="filterTable"
       :pagination="{
@@ -25,7 +26,7 @@
             expand-icon-toggle
           >
             <template v-slot:header>
-              <div v-if="isInPage" class="col-12 col-md-4">
+              <div v-if="isInPage" class="col-8 col-md-4">
                 <q-input
                   clearable
                   borderless
@@ -53,7 +54,7 @@
               </div>
             </template>
             <div class="row q-px-xs q-mt-md q-col-gutter-x-lg">
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.type") }}
                 </p>
@@ -69,7 +70,7 @@
                 >
                 </q-select>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.categories") }}
                 </p>
@@ -85,7 +86,7 @@
                 >
                 </q-select>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.tags/keywords") }}
                 </p>
@@ -101,7 +102,7 @@
                 >
                 </q-select>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.projectCoordinator") }}
                 </p>
@@ -117,7 +118,7 @@
                 >
                 </q-select>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.publishDate") }}
                 </p>
@@ -129,15 +130,17 @@
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('From')"
+                  @click="$refs.publishDateStart.show()"
                 >
                   <template v-slot:append>
                     <q-icon name=" event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="publishDateStart"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
+                          @input="$refs.publishDateStart.hide()"
                           v-model="publishDateStart"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
@@ -156,25 +159,28 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-3 q-mt-lg">
+              <div class="col-6 col-md-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
                 <q-input
                   clearable
                   filled
+                  :disable="!publishDateStart"
                   v-model="publishDateEnd"
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('Until')"
+                  @click="$refs.publishDateEnd.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="publishDateEnd"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
+                          @input="$refs.publishDateEnd.hide()"
                           v-model="publishDateEnd"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
@@ -193,7 +199,7 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
                 </p>
@@ -205,15 +211,17 @@
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('From')"
+                  @click="$refs.endDateStart.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="endDateStart"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
+                          @input="$refs.endDateStart.hide()"
                           v-model="endDateStart"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
@@ -232,25 +240,28 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-3 q-mt-lg">
+              <div class="col-6 col-md-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
                 <q-input
                   clearable
                   filled
+                  :disable="!endDateStart"
                   v-model="endDateEnd"
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('Until')"
+                  @click="$refs.endDateEnd.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="qDateProxy"
+                        ref="endDateEnd"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
+                          @input="$refs.endDateEnd.hide()"
                           v-model="endDateEnd"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
@@ -439,7 +450,15 @@ export default {
       statsData: {
         stats: {},
         table: {}
-      }
+      },
+      visibleColumns: [
+        "title",
+        "type",
+        "categories",
+        "publishDate",
+        "endDate",
+        "owners"
+      ]
     };
   },
   methods: {
