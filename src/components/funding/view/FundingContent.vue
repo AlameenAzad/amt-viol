@@ -222,7 +222,7 @@
       <div class="row">
         <div class="col-12">
           <h1 class="font-24 text-weight-regular q-my-none">
-            {{ funding.title || "Title not found" }}
+            {{ funding.title || "Title not set" }}
           </h1>
         </div>
       </div>
@@ -238,7 +238,7 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{ funding.title || "Title not found" }}
+                        {{ funding.title || "Title not set" }}
                       </p>
                     </div>
                   </q-card-section>
@@ -251,7 +251,7 @@
                     </h4>
                     <div class="q-ml-md font-16">
                       <p class="q-mb-sm">
-                        {{ funding.provider || "Provider not found" }}
+                        {{ funding.provider || "Provider not set" }}
                       </p>
                     </div>
                   </q-card-section>
@@ -266,16 +266,16 @@
                       <p class="q-mb-sm">
                         {{
                           (!!funding.info && funding.info.contactName) ||
-                            "Contact not found"
+                            "Contact not set"
                         }}
                       </p>
-                      <p class="q-mb-sm">
+                      <!-- <p class="q-mb-sm">
                         {{
                           (funding.municipality &&
                             funding.municipality.location) ||
-                            "Municipality not found"
+                            "Municipality not set"
                         }}
-                      </p>
+                      </p> -->
                     </div>
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
@@ -296,25 +296,25 @@
                       <p class="q-mb-sm">
                         {{
                           (!!funding.info && funding.info.streetNo) ||
-                            "Street not found"
+                            "Street not set"
                         }}
                       </p>
                       <p class="q-mb-sm">
                         {{
                           (!!funding.info && funding.info.postalCode) ||
-                            "Postal Code not found"
+                            "Postal Code not set"
                         }}
                       </p>
                       <p class="q-mb-sm">
                         {{
                           (!!funding.info && funding.info.phone) ||
-                            "Phone not found"
+                            "Phone not set"
                         }}
                       </p>
                       <p class="q-mb-sm text-overflow">
                         {{
                           (!!funding.info && funding.info.email) ||
-                            "Email not found"
+                            "Email not set"
                         }}
                       </p>
                     </div>
