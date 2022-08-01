@@ -52,7 +52,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup>
+                  <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("fundingTableOptions.view") }}
@@ -62,7 +62,12 @@
                           name="visibility"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="editItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("fundingTableOptions.edit") }}
@@ -70,7 +75,11 @@
                         <q-icon size="sm" class="text-blue" name="edit"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="addToWatchlist(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("fundingTableOptions.bookmark") }}
@@ -81,7 +90,12 @@
                           name="star_rate"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="archiveItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("fundingTableOptions.archive") }}
@@ -92,7 +106,12 @@
                           name="inventory"/></span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="deleteItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14 text-red">
                         {{ $t("fundingTableOptions.delete") }}
@@ -107,16 +126,41 @@
         </q-tr>
       </template>
     </q-table>
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (itemId = null)"
+    />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="type"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null), (type = null)"
+    />
   </div>
 </template>
 
 <script>
+import DeleteDialog from "components/data/DeleteDialog.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+
 export default {
   name: "fundingInfo",
   data() {
     return {
-      visibleColumns: ["title", "categories", "owner"]
+      visibleColumns: ["title", "categories", "owner"],
+      itemId: null,
+      tab: "fundings",
+      deleteDialog: false,
+      type: null,
+      requestDialog: false
     };
+  },
+  components: {
+    DeleteDialog,
+    RequestAccessDialog
   },
   computed: {
     data() {
@@ -159,11 +203,92 @@ export default {
           sortable: true
         }
       ];
+    },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
     }
   },
   methods: {
     getData() {
       this.$store.dispatch("funding/getFundings");
+    },
+    async view(row) {
+      const id = row && row.id;
+      this.viewIsLoading = true;
+      if (
+        row.visibility === "listed only" &&
+        (!!row.owner && row.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id) &&
+        !this.isAdmin
+      ) {
+        const hasReaderAccess =
+          !!row.readers &&
+          row.readers.map(
+            user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          );
+        if (hasReaderAccess.length > 0) {
+          this.$router.push({ path: `/user/newFunding/${id}` });
+        } else {
+          this.itemId = row && row.id;
+          this.type = "view";
+          this.requestDialog = true;
+        }
+      } else {
+        this.$router.push({ path: `/user/newFunding/${id}` });
+      }
+      this.viewIsLoading = false;
+    },
+    async editItem(row) {
+      this.editIsLoading = true;
+      const id = row && row.id;
+      if (
+        row.visibility === "listed only" &&
+        (!!row.owner && row.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id) &&
+        !this.isAdmin
+      ) {
+        const hasEditorAccess =
+          !!row.editors &&
+          row.editors.map(
+            user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          );
+        if (hasEditorAccess.length > 0) {
+          this.$router.push({ path: `/user/newFunding/edit/${id}` });
+        } else {
+          this.itemId = row && row.id;
+          this.type = "edit";
+          this.requestDialog = true;
+        }
+      } else {
+        this.$router.push({ path: `/user/newFunding/edit/${id}` });
+      }
+      this.editIsLoading = false;
+    },
+    async addToWatchlist(row) {
+      this.watchlistIsLoading = true;
+      const id = row && row.id;
+      await this.$store.dispatch("funding/addToWatchlist", {
+        id: id
+      });
+      this.watchlistIsLoading = false;
+    },
+    async archiveItem(row) {
+      this.archiveIsLoading = true;
+      const id = row && row.id;
+      await this.$store.dispatch("funding/archiveFunding", {
+        id: id
+      });
+      this.archiveIsLoading = false;
+    },
+    async deleteItem(row) {
+      this.itemId = row && row.id;
+      this.deleteDialog = true;
     }
   },
   mounted() {
