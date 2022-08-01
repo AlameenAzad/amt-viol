@@ -884,6 +884,7 @@ export default {
         this.$q.loading.hide();
         this.dataLoaded = true;
       }
+      this.$store.dispatch("userCenter/getUsers");
     }
   },
   computed: {

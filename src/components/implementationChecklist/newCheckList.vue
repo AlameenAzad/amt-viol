@@ -2619,6 +2619,7 @@ export default {
         this.$q.loading.hide();
         this.dataLoaded = true;
       }
+      this.$store.dispatch("userCenter/getUsers");
     },
     async setItems(checklist) {
       this.form.items = [
