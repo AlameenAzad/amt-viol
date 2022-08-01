@@ -9,14 +9,20 @@
       active-bg-color="yellow"
       no-caps
     >
-      <q-tab
+      <q-route-tab
+        :to="{ query: { tab: 'categories' } }"
+        exact
+        replace
         class="q-py-xs q-mr-lg radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="categories"
       >
         <p class="font-20 no-margin">{{ $t("category&Keyword.category") }}</p>
-      </q-tab>
-      <q-tab
+      </q-route-tab>
+      <q-route-tab
+        :to="{ query: { tab: 'keywords/Tags' } }"
+        exact
+        replace
         class="q-py-xs radius-10 border-yellow"
         :class="$q.screen.gt.sm ? 'q-pa-lg' : 'q-pa-sm q-px-lg'"
         name="keywords/Tags"
@@ -24,7 +30,7 @@
         <p class="font-20 no-margin">
           {{ $t("category&Keyword.keyword/Tags") }}
         </p>
-      </q-tab>
+      </q-route-tab>
     </q-tabs>
     <q-table
       class="radius-20 shadow-1 pagination-no-shadow"
@@ -176,7 +182,7 @@ export default {
   },
   data() {
     return {
-      tab: "categories",
+      tab: this.$router.currentRoute.query.tab || "categories",
       createDialog: false,
       deleteDialog: false,
       itemId: null,
@@ -254,11 +260,9 @@ export default {
         : this.$store.state.tag.tags;
     },
     isInPage() {
-      return this.$router.currentRoute.fullPath == "/catkeytags";
+      // return this.$router.currentRoute.fullPath == "/catkeytags";
+      return true;
     }
-    // columns() {
-    //   return this.tab == "categories" ? this.categoriesCol : this.keywordCol;
-    // }
   },
   mounted() {
     this.getData(this.tab);
