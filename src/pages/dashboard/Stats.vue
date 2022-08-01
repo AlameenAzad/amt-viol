@@ -1,7 +1,11 @@
 <template>
-  <q-page class="q-mx-xl q-mt-lg">
+  <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <div class="row q-col-gutter-md">
-      <div class="col-3" v-for="(stat, index) in statistics" :key="index">
+      <div
+        class="col-6 col-md-3"
+        v-for="(stat, index) in statistics"
+        :key="index"
+      >
         <div class="shadow-2 radius-20 q-pa-md">
           <p class="font-14 text-blue-5 q-mt-xs q-mb-none">{{ stat.title }}</p>
           <p class="font-24 text-weight-bold text-blue">{{ stat.value }}</p>
