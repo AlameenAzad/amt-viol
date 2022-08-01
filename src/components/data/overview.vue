@@ -120,7 +120,7 @@
               </template>
             </q-input>
           </div>
-          <div class=" text-right">
+          <div class="text-right">
             <q-btn
               color="blue"
               icon="add"
