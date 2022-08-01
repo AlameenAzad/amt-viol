@@ -66,9 +66,9 @@
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section class="row items-center justify-between q-pa-md">
-                <div class="col-8">
-                  <div class="row">
-                    <div class="col-3">
+                <div class="col-12 col-md-8">
+                  <div class="row q-col-gutter-x-xl">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
                       </p>
@@ -81,19 +81,19 @@
                         }}
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!project.owner && project.owner.username) || "" }}
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Projektidee
                       </p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ project.visibility || "" }}
@@ -101,14 +101,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                   <div class="row justify-between">
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         outline
                         icon="star_outline"
@@ -120,7 +120,7 @@
                         @click="editProject()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
@@ -131,7 +131,7 @@
                         @click="archiveProject()"
                         color="blue"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
@@ -142,7 +142,7 @@
                         @click="deleteProject()"
                         color="red"
                         unelevated
-                        class="radius-6 q-ml-md text-weight-600"
+                        class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
@@ -211,7 +211,7 @@
                           "Phone not found"
                       }}
                     </p>
-                    <p class="q-mb-sm">
+                    <p class="q-mb-sm text-overflow">
                       {{
                         (!!project.info && project.info.email) ||
                           "Email not found"
@@ -589,7 +589,8 @@
                         mobile-arrows
                         align="center"
                         active-class="opacity-50"
-                        class="no-padding q-mt-md carouselThumbnails"
+                        class="no-padding q-mt-md"
+                        :class="{ carouselThumbnails: $q.screen.gt.sm }"
                       >
                         <q-tab
                           :name="index + 1"
@@ -740,37 +741,18 @@ export default {
       }
     },
     async getData() {
+      this.$q.loading.show();
       await this.$store.dispatch("project/getSpecificProject", {
         id: Number(this.$route.params.id)
       });
       this.$q.loading.hide();
     },
-    // async getData() {
-    //   if (
-    //     (!!this.$route.params && Number(this.$route.params.id)) !==
-    //     (!!this.$store.state.project.project &&
-    //       this.$store.state.project.project.id)
-    //   ) {
-    //     await this.$store.dispatch("project/getSpecificProject", {
-    //       id: Number(this.$route.params.id)
-    //     });
-    //   } else if (
-    //     (!!this.$route.params && Number(this.$route.params.id)) ===
-    //     (!!this.$store.state.project.project &&
-    //       this.$store.state.project.project.id)
-    //   ) {
-    //     await this.$store.dispatch("project/getSpecificProject", {
-    //       id: Number(this.$route.params.id)
-    //     });
-    //   }
-    // },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
         id,
         val
       });
-      // TODO refresh page on success
-      console.log("res", res);
+      this.getData();
     },
     async viewFunding(index, id) {
       if (!!id) {
@@ -810,10 +792,7 @@ export default {
     async editProject() {
       this.editIsLoading = true;
       const id = !!this.project && this.project.id;
-      await this.$store.dispatch("project/editProject", {
-        id: id
-      });
-      this.editIsLoading = false;
+      this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
     },
     async archiveProject() {
       this.archiveIsLoading = true;
@@ -847,7 +826,6 @@ export default {
     }
   },
   mounted() {
-    this.$q.loading.show();
     this.getData();
     this.setLoadingData();
   }
