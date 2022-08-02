@@ -184,8 +184,10 @@ export default {
     },
     switchLang() {
       if (this.$i18n.locale === "en-us") {
+        localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
       } else {
+        localStorage.setItem("lang", "en");
         this.$i18n.locale = "en-us";
       }
     },
@@ -203,6 +205,20 @@ export default {
       localStorage.getItem("showLogoutDialog") == "false"
         ? this.$store.dispatch("userCenter/logout")
         : (this.logoutDialog = true);
+    },
+    checkLanguage() {
+      if (!!localStorage.getItem("lang")) {
+        if (localStorage.getItem("lang") === "de") {
+          localStorage.setItem("lang", "de");
+          this.$i18n.locale = "de";
+        } else {
+          localStorage.setItem("lang", "en");
+          this.$i18n.locale = "en-us";
+        }
+      } else {
+        localStorage.setItem("lang", "de");
+        this.$i18n.locale = "de";
+      }
     }
   },
   computed: {
@@ -215,6 +231,7 @@ export default {
     console.log("prod? ", process.env.PROD);
     console.log("router ", this.$router);
     console.log("router", this.$router.currentRoute);
+    this.checkLanguage();
   }
 };
 </script>
