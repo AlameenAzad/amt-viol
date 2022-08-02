@@ -2,7 +2,7 @@
   <q-page class="q-mt-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <div v-if="dataLoaded">
       <p class="text-center font-36 text-weight-regular q-my-lg">
-        Umsetzungscheckliste
+        {{ $t("Implementation checklist") }}
       </p>
       <div
         class="bg-white radius-20 q-py-lg"
@@ -16,7 +16,7 @@
           <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Project Name
+                {{ $t("Project Name") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -33,7 +33,7 @@
           <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Ideengeber*in
+                {{ $t("Idea provider") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -54,7 +54,7 @@
           <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Ansprechpartner*in*
+                {{ $t("Contact person checklist") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -95,7 +95,7 @@
           <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Contact Details (optional)
+                {{ $t("Contact Details (optional)") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -164,7 +164,7 @@
           <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Link for Project Idea
+                {{ $t("Link for Project Idea") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -178,7 +178,7 @@
           <div class="row">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
-                Invite Editor
+                {{ $t("Invite Editor") }}
               </p>
             </div>
             <div class="col-12 col-md-8">
@@ -190,7 +190,9 @@
           </div>
           <div class="row items-baseline">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">Visibility</p>
+              <p class="font-16 no-margin">
+                {{ $t("newProjectIdeaForm.visibility") }}
+              </p>
             </div>
             <div class="col-12 col-md-8">
               <q-select
@@ -227,14 +229,14 @@
               </p>
             </div>
           </div>
-          <div class="row">
+          <div class="no-margin row">
             <div class="col-12">
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
           <div class="row items-center">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">Filter Categories</p>
+              <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
             <div class="col-12 col-md-8">
               <Categories
@@ -246,7 +248,7 @@
           </div>
           <div class="row items-center">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">Tags*</p>
+              <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
             <div class="col-12 col-md-8">
               <Tags
@@ -274,8 +276,8 @@
                     bg-color="primary"
                     :label="
                       !!form.media && form.media.length > 0
-                        ? 'Add Images'
-                        : 'Select Images'
+                        ? $t('Add Images')
+                        : $t('Select Images')
                     "
                     multiple
                     display-value=""
@@ -328,7 +330,7 @@
           </div>
           <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
             <q-card-section class="q-pa-md font-16 text-weight-600"
-              >project activity</q-card-section
+              >{{$t('Project activity')}}</q-card-section
             >
           </q-card>
           <div
@@ -903,7 +905,7 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-2 q-mr-sm">
+            <div class="col-5 col-md-3 q-mr-sm">
               <q-btn
                 :label="$t('draftButton.saveAsDraft')"
                 @click="
@@ -917,7 +919,7 @@
                 class="radius-6 q-py-xs full-width"
               />
             </div>
-            <div class="col-5 col-md-2 q-ml-sm">
+            <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('publishButton.publish')"
                 @click="
@@ -2406,17 +2408,35 @@ export default {
         tags: [],
         media: null
       },
-      visibilityOptions: ["only for me", "all users", "listed only"],
-      ideaProviderOptions: [
-        { label: "Volunteering", value: "volunteering" },
-        { label: "Main Office", value: "mainOffice" }
-      ],
+
       isLoading: false,
       dataLoaded: true,
       dateValidationIndex: 0
     };
   },
   computed: {
+    visibilityOptions() {
+      return [
+        {
+          value: "only for me",
+          label: this.$t("visibility.onlyMe")
+        },
+        {
+          value: "all users",
+          label: this.$t("visibility.allUsers")
+        },
+        {
+          value: "listed only",
+          label: this.$t("visibility.listedOnly")
+        }
+      ];
+    },
+    ideaProviderOptions() {
+      return [
+        { label: this.$t("Volunteering"), value: "volunteering" },
+        { label: this.$t("Main Office"), value: "mainOffice" }
+      ];
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },
