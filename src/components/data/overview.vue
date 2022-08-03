@@ -359,14 +359,18 @@ export default {
         ) {
           const hasReaderAccess =
             !!row.readers &&
-            row.readers.map(
+            row.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
+          console.log("hasReaderAccess", hasReaderAccess);
+          console.log("hasEditorAccess", hasEditorAccess);
+          console.log("hasReaderAccess", hasReaderAccess.length);
+          console.log("hasEditorAccess", hasEditorAccess.length);
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
           } else {
@@ -386,12 +390,12 @@ export default {
         ) {
           const hasReaderAccess =
             !!row.readers &&
-            row.readers.map(
+            row.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -413,12 +417,12 @@ export default {
         ) {
           const hasReaderAccess =
             !!row.readers &&
-            row.readers.map(
+            row.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -445,7 +449,7 @@ export default {
         ) {
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
@@ -466,7 +470,7 @@ export default {
         ) {
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
@@ -487,7 +491,7 @@ export default {
         ) {
           const hasEditorAccess =
             !!row.editors &&
-            row.editors.map(
+            row.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {

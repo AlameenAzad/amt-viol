@@ -229,12 +229,12 @@ export default {
       ) {
         const hasReaderAccess =
           !!row.readers &&
-          row.readers.map(
+          row.readers.filter(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
         const hasEditorAccess =
           !!row.editors &&
-          row.editors.map(
+          row.editors.filter(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
         if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -259,7 +259,7 @@ export default {
       ) {
         const hasEditorAccess =
           !!row.editors &&
-          row.editors.map(
+          row.editors.filter(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
         if (hasEditorAccess.length > 0) {

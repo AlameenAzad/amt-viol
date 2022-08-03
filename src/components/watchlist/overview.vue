@@ -376,13 +376,13 @@ export default {
           const hasReaderAccess =
             !!row.project &&
             !!row.project.readers &&
-            row.project.readers.map(
+            row.project.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.project &&
             !!row.project.editors &&
-            row.project.editors.map(
+            row.project.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -407,13 +407,13 @@ export default {
           const hasReaderAccess =
             !!row.funding &&
             !!row.funding.readers &&
-            row.funding.readers.map(
+            row.funding.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.funding &&
             !!row.funding.editors &&
-            row.funding.editors.map(
+            row.funding.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -440,13 +440,13 @@ export default {
           const hasReaderAccess =
             !!row.checklist &&
             !!row.checklist.readers &&
-            row.checklist.readers.map(
+            row.checklist.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.checklist &&
             !!row.checklist.editors &&
-            row.checklist.editors.map(
+            row.checklist.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
@@ -476,7 +476,7 @@ export default {
           const hasEditorAccess =
             !!row.project &&
             !!row.project.editors &&
-            row.project.editors.map(
+            row.project.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
@@ -500,7 +500,7 @@ export default {
           const hasEditorAccess =
             !!row.funding &&
             !!row.funding.editors &&
-            row.funding.editors.map(
+            row.funding.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
@@ -526,7 +526,7 @@ export default {
           const hasEditorAccess =
             !!row.checklist &&
             !!row.checklist.editors &&
-            row.checklist.editors.map(
+            row.checklist.editors.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
