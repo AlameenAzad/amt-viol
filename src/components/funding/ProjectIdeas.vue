@@ -1,42 +1,53 @@
 <template>
-  <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model" :multiple="isInChecklist === false"
-    :options="projects" options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6"
-    @input="onSelect">
-    <template v-slot:selected>
-      <div v-if="!isInChecklist">
-        <template v-if="model && model.length > 0">
-          <span v-for="(project, index) in model" :key="index">
-            {{ index > 0 ? ", " : "" }}
-            {{ project.title }}
-          </span>
-        </template>
-        <template v-else>
-          <span class="text-grey">
-            {{$t('Select Projects')}}
-          </span>
-        </template>
-      </div>
-      <div v-if="isInChecklist">
-        <template v-if="model">
-          <span>
-            {{ model.title }}
-          </span>
-        </template>
-        <template v-else>
-          <span class="text-grey">
-            {{$t('Select Projects')}}
-          </span>
-        </template>
-      </div>
-    </template>
-    <template v-slot:option="scope">
-      <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-        <q-item-section>
-          <q-item-label>{{ scope.opt.title }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </template>
-  </q-select>
+  <div>
+    <q-select
+      outlined
+      :bg-color="isInChecklist ? 'white' : ''"
+      dense
+      v-model="model"
+      :multiple="isInChecklist === false"
+      :clearable="isInChecklist === true"
+      :options="projects"
+      options-selected-class="text-primary text-weight-600"
+      class="no-shadow input-radius-6"
+      @input="onSelect"
+    >
+      <template v-slot:selected>
+        <div v-if="!isInChecklist">
+          <template v-if="model && model.length > 0">
+            <span v-for="(project, index) in model" :key="index">
+              {{ index > 0 ? ", " : "" }}
+              {{ project.title }}
+            </span>
+          </template>
+          <template v-else>
+            <span class="text-grey">
+              {{ $t("Select Projects") }}
+            </span>
+          </template>
+        </div>
+        <div v-if="isInChecklist">
+          <template v-if="model">
+            <span>
+              {{ model.title }}
+            </span>
+          </template>
+          <template v-else>
+            <span class="text-grey">
+              {{ $t("Select Projects") }}
+            </span>
+          </template>
+        </div>
+      </template>
+      <template v-slot:option="scope">
+        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+    </q-select>
+  </div>
 </template>
 
 <script>
@@ -69,7 +80,7 @@ export default {
         let project = value;
         this.$emit(
           "update:linkToProject",
-          !!project.id ? { id: project.id } : {}
+          !!project && project.id ? project : null
         );
       }
     }
