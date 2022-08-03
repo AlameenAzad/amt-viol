@@ -65,7 +65,7 @@
               {{ $t("myDataHome.myData") }}
               <span
                 class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
-                @click="$router.push({ path: '/user/data?tab=projectIdeas' })"
+                @click="$router.push({ path: `/user/data?tab=${tab}` })"
               >
                 {{ $t("myDataHome.showMy") }}
               </span>
