@@ -75,7 +75,7 @@
               {{ $t("watchListHome.myWatchList") }}
               <span
                 class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
-                @click="$router.push({ path: '/watchlist?tab=all' })"
+                @click="$router.push({ path: `/watchlist?tab=${tab}` })"
               >
                 {{ $t("watchListHome.showMy") }}
               </span>

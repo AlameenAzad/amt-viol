@@ -188,7 +188,11 @@
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{ checklist.ideaProvider || "" }}
+                      {{
+                        checklist.ideaProvider === "volunteering"
+                          ? $t("Volunteering")
+                          : $t("Main Office") || ""
+                      }}
                     </p>
                   </div>
                 </q-card-section>
@@ -471,10 +475,12 @@
                           {{ $t("Initial discussion with the politics") }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">
+                          {{ $t("start") }}
+                        </p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -484,10 +490,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -523,8 +529,8 @@
                                 >
                                   {{
                                     propertyName === "captureIdea"
-                                      ? "Capture Project Idea"
-                                      : "Capture Content"
+                                      ? $t("Capture Project Idea")
+                                      : $t("Capture Content")
                                   }}
                                 </p>
                                 <p v-if="!!card.name" class="font-14 q-ma-none">
@@ -544,8 +550,8 @@
                                     checklist.initialContact.start,
                                     checklist.initialContact.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -716,14 +722,17 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Preparation of the project idea outline with internal
-                          coordination
+                          {{
+                            $t(
+                              "Preparation of the project idea outline with internal coordination"
+                            )
+                          }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">{{ $t("start") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -733,10 +742,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -772,11 +781,11 @@
                                 >
                                   {{
                                     propertyName === "inspection"
-                                      ? "Inspection"
+                                      ? $t("Inspection")
                                       : propertyName === "captureRequirements"
-                                      ? "Capture requirements"
+                                      ? $t("Capture requirements")
                                       : propertyName === "captureNeeds"
-                                      ? "Capture Needs"
+                                      ? $t("Capture Needs")
                                       : ""
                                   }}
                                 </p>
@@ -797,8 +806,8 @@
                                     checklist.preparation.start,
                                     checklist.preparation.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -809,7 +818,7 @@
                             >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{ $t("Description") }}
                                 </p>
                                 <p
                                   class="font-16 q-ma-none text-block"
@@ -972,13 +981,13 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Funding research
+                          {{ $t("Funding research") }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">{{ $t("start") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -988,10 +997,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -1027,13 +1036,15 @@
                                 >
                                   {{
                                     propertyName === "checkDatabase"
-                                      ? "Check database “Fundings”"
+                                      ? $t("Check database “Fundings”")
                                       : propertyName === "checkForFunding"
-                                      ? "Check for funding scouting"
+                                      ? $t("Check for funding scouting")
                                       : propertyName === "checkWithFunding"
-                                      ? "Joint research for funding or check of the project idea"
+                                      ? $t(
+                                          "Joint research for funding or check of the project idea"
+                                        )
                                       : propertyName === "checkGuildlines"
-                                      ? "Check Guidlines (long version)"
+                                      ? $t("Check Guidlines (long version)")
                                       : ""
                                   }}
                                 </p>
@@ -1054,8 +1065,8 @@
                                     checklist.fundingResearch.start,
                                     checklist.fundingResearch.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -1065,7 +1076,7 @@
                             >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{ $t("Description") }}
                                 </p>
                                 <p
                                   class="font-16 q-ma-none text-block"
@@ -1250,13 +1261,15 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Preparation/optimisation of project documents
+                          {{
+                            $t("Preparation/optimisation of project documents")
+                          }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">{{ $t("start") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -1266,10 +1279,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -1306,13 +1319,17 @@
                                 >
                                   {{
                                     propertyName === "checkContent"
-                                      ? "Check Content with Guidlines"
+                                      ? $t("Check Content with Guidelines")
                                       : propertyName === "checkCooperations"
-                                      ? "If necessary check cooperations"
+                                      ? $t("If necessary check cooperations")
                                       : propertyName === "checkSimilarProejcts"
-                                      ? "If necessary check similar projects"
+                                      ? $t(
+                                          "If necessary check similar projects"
+                                        )
                                       : propertyName === "checkPlanning"
-                                      ? "Check planning and financing with all relevant departments"
+                                      ? $t(
+                                          "Check planning and financing with all relevant departments"
+                                        )
                                       : ""
                                   }}
                                 </p>
@@ -1333,8 +1350,8 @@
                                     checklist.preparationOfProject.start,
                                     checklist.preparationOfProject.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -1344,7 +1361,7 @@
                             >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{ $t("Description") }}
                                 </p>
                                 <p
                                   class="font-16 q-ma-none text-block"
@@ -1521,13 +1538,13 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Legitimation for submission
+                          {{ $t("Legitimation for submission") }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">{{ $t("start") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -1537,10 +1554,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -1576,7 +1593,9 @@
                                 >
                                   {{
                                     propertyName === "template"
-                                      ? "Presentation/discussion of the project documents"
+                                      ? $t(
+                                          "Presentation/discussion of the project documents"
+                                        )
                                       : ""
                                   }}
                                 </p>
@@ -1597,8 +1616,8 @@
                                     checklist.legitimation.start,
                                     checklist.legitimation.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -1609,7 +1628,7 @@
                             >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{ $t("Description") }}
                                 </p>
                                 <p
                                   class="font-16 q-ma-none text-block"
@@ -1728,13 +1747,13 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          Final examination of the project documents
+                          {{ $t("Final examination of the project documents") }}
                         </h4>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mb-none font-16">Start</p>
+                      <div class="col-3">
+                        <p class="q-mb-none font-16">{{ $t("start") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mb-none font-16">
                           {{
                             dateFormatter(
@@ -1744,10 +1763,10 @@
                           }}
                         </p>
                       </div>
-                      <div class="col-2">
-                        <p class="q-mt-sm font-16">End</p>
+                      <div class="col-3">
+                        <p class="q-mt-sm font-16">{{ $t("end") }}</p>
                       </div>
-                      <div class="col-10">
+                      <div class="col-9">
                         <p class="q-mt-sm font-16">
                           {{
                             dateFormatter(
@@ -1783,9 +1802,9 @@
                                 >
                                   {{
                                     propertyName === "signatures"
-                                      ? "Collection of signatures"
+                                      ? $t("Collection of signatures")
                                       : propertyName === "revision"
-                                      ? "Revision of project documents"
+                                      ? $t("Revision of project documents")
                                       : ""
                                   }}
                                 </p>
@@ -1806,8 +1825,8 @@
                                     checklist.finalExamination.start,
                                     checklist.finalExamination.end
                                   ) === "done"
-                                    ? "Done"
-                                    : "In Progress"
+                                    ? $t("Done")
+                                    : $t("In Progress")
                                 }}</q-chip>
                               </div>
                             </div>
@@ -1818,7 +1837,7 @@
                             >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  Description
+                                  {{ $t("Description") }}
                                 </p>
                                 <p
                                   class="font-16 q-ma-none text-block"

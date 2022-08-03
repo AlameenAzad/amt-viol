@@ -63,8 +63,8 @@
                           Projektideen
                         </h3>
                         <p class="q-mb-none textColor">
-                          SNutzer*innen haben die Möglichkeit eigene
-                          Projektideen anzulegen und im Netzwerk zu teilen.
+                          Nutzer*innen haben die Möglichkeit eigene Projektideen
+                          anzulegen und im Netzwerk zu teilen.
                         </p>
                       </div>
                     </div>
@@ -87,7 +87,7 @@
                           Fördermittel-Kurzinfos
                         </h3>
                         <p class="q-mb-none textColor">
-                          SKurze und übersichtliche Beschreibung aktueller
+                          Kurze und übersichtliche Beschreibung aktueller
                           Fördermöglichkeiten.
                         </p>
                       </div>

@@ -76,6 +76,7 @@
     </div>
     <div class="row">
       <q-btn
+        no-caps
         @click="addUser()"
         outline
         class="radius-6"
