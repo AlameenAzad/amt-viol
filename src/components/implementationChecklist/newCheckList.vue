@@ -24,7 +24,7 @@
                 outlined
                 dense
                 class="no-shadow input-radius-6"
-                placeholder="Title"
+                :placeholder="$t('title')"
                 v-model="form.title"
                 :rules="[val => !!val || 'Required']"
               />
@@ -171,7 +171,7 @@
               <ProjectIdeas
                 :isInChecklist="true"
                 :editing="!!checklist ? checklist.project : null"
-                @update:linkToProject="form.project = $event"
+                @update:linkToProject="changeProject($event)"
               />
             </div>
           </div>
@@ -329,9 +329,9 @@
             </div>
           </div>
           <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
-            <q-card-section class="q-pa-md font-16 text-weight-600"
-              >{{$t('Project activity')}}</q-card-section
-            >
+            <q-card-section class="q-pa-md font-16 text-weight-600">{{
+              $t("Project activity")
+            }}</q-card-section>
           </q-card>
           <div
             v-for="(card, index) in form.items"
@@ -584,8 +584,7 @@
                               :isInChecklist="true"
                               :editing="
                                 !!checklist
-                                  ? checklist.initialContact.captureIdea.project
-                                  : form.items
+                                  ? form.items
                                       .find(
                                         item =>
                                           item.cardName === 'initialContact'
@@ -594,6 +593,7 @@
                                         item =>
                                           item.objectName === 'captureIdea'
                                       ).project
+                                  : null
                               "
                               @update:linkToProject="element.project = $event"
                             />
@@ -605,7 +605,7 @@
                               rows="10"
                               bg-color="white"
                               class="no-shadow input-radius-6"
-                              placeholder="text"
+                              placeholder="Text"
                               v-model="element.text"
                             />
                           </div>
@@ -2465,6 +2465,10 @@ export default {
     }
   },
   methods: {
+    changeProject(val) {
+      console.log("val", val);
+      this.form.project = val;
+    },
     disableDate(index) {
       if (index !== null || index !== undefined) {
         const disabledItems = this.form.items[index].items.map(item => {
@@ -2680,6 +2684,13 @@ export default {
             active: checklist.initialContact.captureIdea.active,
             tasks: checklist.initialContact.captureIdea.tasks,
             file: checklist.initialContact.captureIdea.file,
+            project: !!checklist.initialContact.captureIdea?.project?.id
+              ? {
+                  id: checklist.initialContact.captureIdea?.project?.id,
+                  title: checklist.initialContact.captureIdea?.project?.title
+                }
+              : null,
+
             id: checklist.initialContact.captureIdea.id
           },
           {
