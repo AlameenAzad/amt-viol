@@ -45,6 +45,7 @@
     </div>
     <div class="row">
       <q-btn
+        no-caps
         @click="addFundingRate()"
         outline
         class="radius-6"

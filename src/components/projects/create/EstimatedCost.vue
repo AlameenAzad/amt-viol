@@ -48,6 +48,7 @@
     </div>
     <div class="row">
       <q-btn
+        no-caps
         @click="addEstimatedCost()"
         outline
         class="radius-6"
