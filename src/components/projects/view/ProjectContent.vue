@@ -826,7 +826,7 @@ export default {
         const hasEditorAccess =
           !!this.project &&
           !!this.project.editors &&
-          this.project.editors.map(
+          this.project.editors.filter(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
         if (hasEditorAccess.length > 0) {

@@ -29,7 +29,8 @@
                 />
                 <div class="col">
                   <p class="font-16 text-weight-600 q-mb-none">
-                    {{ !!request.user && request.user.username }} {{$t('would like to access document')}} 
+                    {{ !!request.user && request.user.username }}
+                    {{ $t("would like to access document") }}
                   </p>
                   <p class="font-14 q-mb-none">
                     {{ !!request.checklist && request.checklist.title }}
@@ -183,7 +184,7 @@
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    {{$t('Idea Provider/giver')}}
+                    {{ $t("Idea Provider/giver") }}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
@@ -194,7 +195,7 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    {{$t('Contact Person')}}
+                    {{ $t("Contact person checklist view") }}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
@@ -218,32 +219,22 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    {{$t('Contact details')}}
+                    {{ $t("Contact Details") }}
                   </h4>
                   <div class="q-ml-md font-16">
                     <p class="q-mb-sm">
-                      {{
-                        (!!checklist.info && checklist.info.streetNo) ||
-                          ""
-                      }}
+                      {{ (!!checklist.info && checklist.info.streetNo) || "" }}
                     </p>
                     <p class="q-mb-sm">
                       {{
-                        (!!checklist.info && checklist.info.postalCode) ||
-                          ""
+                        (!!checklist.info && checklist.info.postalCode) || ""
                       }}
                     </p>
                     <p class="q-mb-sm">
-                      {{
-                        (!!checklist.info && checklist.info.phone) ||
-                          ""
-                      }}
+                      {{ (!!checklist.info && checklist.info.phone) || "" }}
                     </p>
                     <p class="q-mb-sm text-overflow">
-                      {{
-                        (!!checklist.info && checklist.info.email) ||
-                          ""
-                      }}
+                      {{ (!!checklist.info && checklist.info.email) || "" }}
                     </p>
                   </div>
                 </q-card-section>
@@ -251,7 +242,7 @@
                 <div v-if="checklist.editors && checklist.editors.length > 0">
                   <q-card-section>
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{$t('Invite Editor')}}
+                      {{ $t("Invite Editor") }}
                     </h4>
                     <div class="q-ml-md font-16">
                       <div
@@ -273,7 +264,7 @@
                   v-if="checklist.project && checklist.project.id"
                 >
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    {{$t('Link for Project Idea')}}
+                    {{ $t("Link for Project Idea") }}
                   </h4>
                   <div class="q-ml-md font-16">
                     <div v-if="checklist.project && checklist.project.id">
@@ -400,7 +391,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{$t('myData.ategories')}}
+                      {{ $t("myData.categories") }}
                     </h4>
                   </div>
                   <div class="col-8">
@@ -429,7 +420,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{$t('projectContent.ags')}}
+                      {{ $t("projectContent.tags") }}
                     </h4>
                   </div>
                   <div class="col-8">
@@ -477,7 +468,7 @@
                     <div class="row">
                       <div class="col-12">
                         <h4 class="font-20 text-weight-600 q-mb-xs q-mt-none">
-                          {{$t('Initial discussion with the politics')}}
+                          {{ $t("Initial discussion with the politics") }}
                         </h4>
                       </div>
                       <div class="col-2">
@@ -536,8 +527,8 @@
                                       : "Capture Content"
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -567,7 +558,7 @@
                                 "
                               >
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  {{$t('Link for Project Idea')}}
+                                  {{ $t("Link for Project Idea") }}
                                 </p>
                                 <a
                                   class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
@@ -578,14 +569,18 @@
                                 >
                               </div>
                             </div>
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
-                                  {{$t('Description')}}
+                                  {{ $t("Description") }}
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'captureIdea'">
@@ -652,32 +647,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                    v-if="item.active === true"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -781,8 +780,8 @@
                                       : ""
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -804,14 +803,18 @@
                               </div>
                             </div>
 
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
                                   Description
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'inspection'">
@@ -833,11 +836,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'captureRequirements'">
                               <div
@@ -858,11 +856,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'captureNeeds'">
                               <div
@@ -882,11 +875,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -913,32 +901,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                    v-if="item.active === true"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -1045,8 +1037,8 @@
                                       : ""
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -1067,14 +1059,18 @@
                                 }}</q-chip>
                               </div>
                             </div>
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
                                   Description
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'checkDatabase'">
@@ -1096,11 +1092,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'checkForFunding'">
                               <div
@@ -1120,11 +1111,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'checkWithFunding'">
@@ -1146,11 +1132,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'checkGuildlines'">
                               <div
@@ -1170,11 +1151,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -1201,32 +1177,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    v-if="item.active === true"
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -1336,8 +1316,8 @@
                                       : ""
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -1358,14 +1338,18 @@
                                 }}</q-chip>
                               </div>
                             </div>
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
                                   Description
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'checkContent'">
@@ -1387,11 +1371,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'checkCooperations'">
                               <div
@@ -1411,11 +1390,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'checkSimilarProejcts'">
@@ -1437,11 +1411,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'checkPlanning'">
                               <div
@@ -1461,11 +1430,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -1492,32 +1456,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    v-if="item.active === true"
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -1612,8 +1580,8 @@
                                       : ""
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -1635,14 +1603,18 @@
                               </div>
                             </div>
 
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
                                   Description
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'template'">
@@ -1663,11 +1635,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -1694,32 +1661,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    v-if="item.active === true"
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -1818,8 +1789,8 @@
                                       : ""
                                   }}
                                 </p>
-                                <p class="font-14 q-ma-none">
-                                  {{ card.name || "No name filled" }}
+                                <p v-if="!!card.name" class="font-14 q-ma-none">
+                                  {{ card.name || "" }}
                                 </p>
                               </div>
                               <div
@@ -1841,14 +1812,18 @@
                               </div>
                             </div>
 
-                            <div class="row items-center q-mb-md">
+                            <div
+                              v-if="!!card.text"
+                              class="row items-center q-mb-md"
+                            >
                               <div>
                                 <p class="font-16 text-blue-5 q-ma-none">
                                   Description
                                 </p>
-                                <p class="font-16 q-ma-none text-block">
-                                  {{ card.text || "No description filled" }}
-                                </p>
+                                <p
+                                  class="font-16 q-ma-none text-block"
+                                  v-html="!!card.text ? card.text : ''"
+                                ></p>
                               </div>
                             </div>
                             <div v-if="propertyName === 'signatures'">
@@ -1870,11 +1845,6 @@
                                   >
                                 </div>
                               </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
-                              </div>
                             </div>
                             <div v-if="propertyName === 'revision'">
                               <div
@@ -1894,11 +1864,6 @@
                                     >{{ file.name }}</a
                                   >
                                 </div>
-                              </div>
-                              <div v-else>
-                                <p class="q-mt-sm q-mb-sm">
-                                  No Files Uploaded
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -1925,32 +1890,36 @@
                                   !!task.children && task.children.length > 0
                                 "
                               >
-                                <q-card-section
-                                  horizontal
+                                <div
                                   v-for="item in task.children"
                                   :key="item.sortPosition"
-                                  class="q-pl-none q-py-sm q-pr-none"
                                 >
-                                  <div class="col-12">
-                                    <div
-                                      class="row justify-between items-center"
-                                    >
-                                      <div class="col-11">
-                                        <p class="font-14 q-ma-none">
-                                          {{ item.name }}
-                                        </p>
-                                      </div>
-                                      <div class="col-auto">
-                                        <q-checkbox
-                                          disable
-                                          color="primary"
-                                          class="isActiveCheckbox font-16 q-py-none"
-                                          :value="item.active"
-                                        />
+                                  <q-card-section
+                                    horizontal
+                                    v-if="item.active === true"
+                                    class="q-pl-none q-py-sm q-pr-none"
+                                  >
+                                    <div class="col-12">
+                                      <div
+                                        class="row justify-between items-center"
+                                      >
+                                        <div class="col-11">
+                                          <p class="font-14 q-ma-none">
+                                            {{ item.name }}
+                                          </p>
+                                        </div>
+                                        <div class="col-auto">
+                                          <q-checkbox
+                                            disable
+                                            color="primary"
+                                            class="isActiveCheckbox font-16 q-py-none"
+                                            :value="item.active"
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </q-card-section>
+                                  </q-card-section>
+                                </div>
                               </div>
                             </q-card>
                           </q-expansion-item>
@@ -2084,7 +2053,7 @@ export default {
         const hasEditorAccess =
           !!this.checklist &&
           !!this.checklist.editors &&
-          this.checklist.editors.map(
+          this.checklist.editors.filter(
             user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
           );
         if (hasEditorAccess.length > 0) {
