@@ -391,9 +391,9 @@ export async function editChecklist(context, payload) {
       finalExamination
     };
     console.log("finalData", finalData);
-    if (!finalData?.project?.id) {
-      delete finalData.project;
-    }
+    // if (!finalData?.project?.id) {
+    //   delete finalData.project;
+    // }
     // Delete files and media properties from finalData and add them to finalDataWithoutFiles object
     const dataWithoutFiles = JSON.parse(JSON.stringify(finalData));
     for (const key in dataWithoutFiles) {
@@ -907,8 +907,10 @@ export async function constructInitialContact(payload, editing) {
       ...captureIdea
       // project: !!captureIdea.project?.id ? { id: captureIdea.project.id } : {}
     };
-    if (!initialContact.captureIdea?.project?.id) {
-      delete initialContact.captureIdea.project;
+    if (editing === false) {
+      if (!initialContact.captureIdea?.project?.id) {
+        delete initialContact.captureIdea.project;
+      }
     }
     initialContact.caputreContect = {
       ...caputreContect
