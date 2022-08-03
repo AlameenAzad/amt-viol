@@ -67,27 +67,6 @@ module.exports = function(ctx) {
           loader: "eslint-loader",
           exclude: /node_modules/
         });
-        if (cfg.output) {
-          const CopyWebpackPlugin = require("copy-webpack-plugin");
-          cfg.plugins.push(
-            new CopyWebpackPlugin({
-              patterns: [
-                {
-                  from: "./pull.php",
-                  to: cfg.output.path
-                },
-                {
-                  from: "./pull-BackEnd.php",
-                  to: cfg.output.path
-                },
-                {
-                  from: "./.htaccess",
-                  to: cfg.output.path
-                }
-              ]
-            })
-          );
-        }
       }
     },
 
@@ -133,7 +112,8 @@ module.exports = function(ctx) {
     pwa: {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
-        skipWaiting: true
+        skipWaiting: true,
+        exclude: [".htaccess", "pull-BackEnd.php", "pull.php"]
       }, // only for GenerateSW
       manifest: {
         name: `Amt-viol`,
