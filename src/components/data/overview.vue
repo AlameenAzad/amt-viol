@@ -317,6 +317,7 @@
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+import { Cookies } from "quasar";
 export default {
   name: "dataOverview",
   components: {
@@ -346,6 +347,17 @@ export default {
     };
   },
   methods: {
+    // searchTable(rows, terms, cols, getCellValue) {
+    //   let filteredRows = rows;
+
+    //   if (!!terms) {
+    //     filteredRows = filteredRows.map(row => {
+    //       console.log("row", row);
+    //     });
+    //   }
+
+    //   return filteredRows;
+    // },
     dateFormatter,
     async view(row) {
       const id = row && row.id;
@@ -644,7 +656,10 @@ export default {
           name: "title",
           label: this.$t("myData.title"),
           align: "left",
-          field: row => row.title,
+          field: row =>
+            !!row.title && row.title.length > 50
+              ? row.title.substring(0, 49) + "..."
+              : row.title,
           sortable: true
         },
         {
@@ -653,7 +668,15 @@ export default {
           label: this.$t("myData.categories"),
           field: row =>
             (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
+              row.categories
+                .map((category, index) => {
+                  if (index < 3) {
+                    return category.title;
+                  } else {
+                    return category.title.substring(0, 1) + "...";
+                  }
+                })
+                .join(", ")) ||
             "No Categories",
           sortable: true
         },
