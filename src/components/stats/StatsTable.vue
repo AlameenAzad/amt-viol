@@ -44,11 +44,13 @@
               <q-space />
               <div class="col-md-4 text-right">
                 <q-btn
+                  no-caps
                   @click="expanded = !expanded"
                   icon="filter_alt"
                   color="primary"
+                  class="radius-6"
                   flat
-                  round
+                  label="Filter"
                 >
                 </q-btn>
               </div>
@@ -63,7 +65,8 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  placeholder="Search"
+                  label="Search"
+                  multiple
                   filled
                   :options="typeOptions"
                   v-model="type"
@@ -79,7 +82,8 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  placeholder="Search"
+                  label="Search"
+                  multiple
                   filled
                   :options="categoryOptions"
                   v-model="category"
@@ -88,14 +92,15 @@
               </div>
               <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
-                  {{ $t("statsTable.tags/keywords") }}
+                  {{ $t("Tags") }}
                 </p>
                 <q-select
                   clearable
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  placeholder="Search"
+                  label="Search"
+                  multiple
                   filled
                   :options="tagKeywordsOptions"
                   v-model="tagsKeywords"
@@ -111,7 +116,8 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  placeholder="Search"
+                  label="Search"
+                  multiple
                   filled
                   :options="projectCoordinatorOptions"
                   v-model="projectCoordinator"
@@ -430,10 +436,10 @@ export default {
     return {
       expanded: false,
       search: "",
-      type: "",
-      category: "",
-      tagsKeywords: "",
-      projectCoordinator: "",
+      type: null,
+      category: null,
+      tagsKeywords: null,
+      projectCoordinator: null,
       itemId: null,
       tab: null,
       publishDateStart: "",
@@ -466,12 +472,12 @@ export default {
     // TODO need to refactor this function.
     filterTable(rows, terms) {
       let search = terms.name ? terms.name.toLowerCase() : "";
-      let category = terms.category ? terms.category : "";
-      let type = terms.type ? terms.type : "";
-      let tagsKeywords = terms.tagsKeywords ? terms.tagsKeywords : "";
+      let category = terms.category ? terms.category : null;
+      let type = terms.type ? terms.type : null;
+      let tagsKeywords = terms.tagsKeywords ? terms.tagsKeywords : null;
       let projectCoordinator = terms.projectCoordinator
         ? terms.projectCoordinator
-        : "";
+        : null;
       let publishDateStart = terms.publishDateStart
         ? terms.publishDateStart
         : "";
@@ -484,32 +490,25 @@ export default {
           return row.title.toLowerCase().includes(search);
         });
       }
-      if (!!type) {
+
+      if (!!type && type.length > 0) {
         filteredRows = filteredRows.filter(row => {
-          return row.type.toLowerCase() === type.toLowerCase();
+          return type.includes(row.type.toLowerCase());
         });
       }
-      if (!!category) {
+      if (!!category && category.length > 0) {
         filteredRows = filteredRows.filter(row => {
-          return row.categories.find(
-            cat => cat.title.toLowerCase() === category.toLowerCase()
-          );
+          return row.categories.find(cat => category.includes(cat.title));
         });
       }
-      if (!!tagsKeywords) {
+      if (!!tagsKeywords && tagsKeywords.length > 0) {
         filteredRows = filteredRows.filter(row => {
-          return row.tags.find(
-            tag => tag.title.toLowerCase() === tagsKeywords.toLowerCase()
-          );
+          return row.tags.find(tag => tagsKeywords.includes(tag.title));
         });
       }
-      if (!!projectCoordinator) {
+      if (!!projectCoordinator && projectCoordinator.length > 0) {
         filteredRows = filteredRows.filter(row => {
-          return (
-            row.owner &&
-            row.owner.username.toLowerCase() ===
-              projectCoordinator.toLowerCase()
-          );
+          return projectCoordinator.includes(!!row.owner && row.owner.username);
         });
       }
       if (!!publishDateStart || !!publishDateEnd) {
