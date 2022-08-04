@@ -317,7 +317,6 @@
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
-import { Cookies } from "quasar";
 export default {
   name: "dataOverview",
   components: {
