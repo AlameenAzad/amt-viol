@@ -92,6 +92,7 @@
         page: 1,
         rowsPerPage: 50
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
