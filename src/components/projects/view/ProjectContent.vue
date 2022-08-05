@@ -98,7 +98,15 @@
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
-                        {{ project.visibility || "" }}
+                        {{
+                          project.visibility === "only for me"
+                            ? $t("visibility.onlyMe")
+                            : project.visibility === "all users"
+                            ? $t("visibility.allUsers")
+                            : project.visibility === "listed only"
+                            ? $t("visibility.listedOnly")
+                            : ""
+                        }}
                       </p>
                     </div>
                   </div>
@@ -327,10 +335,10 @@
                     <p class="q-mb-sm">
                       {{
                         !!project.details && project.details.investive === true
-                          ? "Investive"
+                          ? $t("Investive")
                           : !!project.details &&
                             project.details.investive === false
-                          ? "Non-Investive"
+                          ? $t("Non-Investive")
                           : ""
                       }}
                     </p>
@@ -447,7 +455,7 @@
                   </h4>
                   <div class="q-ml-md font-16 row">
                     <div class="col-6 text-left">
-                      <p class="q-mb-sm">Start</p>
+                      <p class="q-mb-sm">{{ $t("start") }}</p>
                     </div>
                     <div class="col-6 text-right">
                       <p class="q-mb-sm">
@@ -458,7 +466,7 @@
                       </p>
                     </div>
                     <div class="col-6 text-left">
-                      <p class="q-mb-sm">End</p>
+                      <p class="q-mb-sm">{{ $t("end") }}</p>
                     </div>
                     <div class="col-6 text-right">
                       <p class="q-mb-sm">
