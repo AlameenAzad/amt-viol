@@ -26,7 +26,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('official title')"
                 v-model="form.title"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -45,7 +45,7 @@
                     class="no-shadow input-radius-6"
                     :placeholder="$t('funding provider')"
                     v-model="form.provider"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                   />
                 </div>
               </div>
@@ -144,13 +144,21 @@
                 v-model="form.visibility"
                 emit-value
                 :options="visibilityOptions"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
                 class="no-shadow input-radius-6"
                 options-selected-class="text-primary"
               >
                 <template v-slot:selected>
                   <template v-if="form.visibility">
-                    {{ form.visibility }}
+                    {{
+                      form.visibility === "only for me"
+                        ? $t("visibility.onlyMe")
+                        : form.visibility === "all users"
+                        ? $t("visibility.allUsers")
+                        : form.visibility === "listed only"
+                        ? $t("visibility.listedOnly")
+                        : ""
+                    }}
                   </template>
                   <template v-else>
                     <span class="text-grey">
@@ -269,7 +277,7 @@
                 type="textarea"
                 rows="10"
                 class="no-shadow input-radius-6"
-                placeholder="Kooperationspartner"
+                :placeholder="$t('Who will be funded?')"
                 v-model="form.details.willBeFunded"
               />
             </div>
@@ -286,7 +294,7 @@
                 type="textarea"
                 rows="10"
                 class="no-shadow input-radius-6"
-                placeholder="Rahmenbedingungen für Antragsteller"
+                placeholder="Rahmenbedingungen für Antragsteller*in"
                 v-model="form.details.condition"
               />
             </div>
@@ -358,7 +366,7 @@
             </div>
             <div class="col-12 col-md-8">
               <Fundings
-                :requiresValidation="true"
+                :requiresValidation="false"
                 :editing="funding.fundingsLinkedTo"
                 @update:linkToFunding="form.fundingsLinkedTo = $event"
               />
@@ -369,7 +377,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-start">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Basis for assessment") }}
@@ -381,7 +389,7 @@
                 type="textarea"
                 rows="10"
                 class="no-shadow input-radius-6"
-                placeholder="Was wird nicht gefördert"
+                :placeholder="$t('Basis for assessment')"
                 v-model="form.assessment"
               />
             </div>
@@ -410,7 +418,7 @@
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
                     @click="$refs.qPlannedStartDateProxy.show()"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -455,7 +463,7 @@
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
                     @click="$refs.qPlannedEndDateProxy.show()"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -803,7 +811,6 @@ export default {
         files: null,
         fundingsLinkedTo: []
       },
-      visibilityOptions: ["only for me", "all users", "listed only"],
       accumulabilityOptions: [
         { label: "Ja", value: true },
         { label: "Nein", value: false }
@@ -924,7 +931,10 @@ export default {
         // }
       } else {
         console.log("Creating");
-        if (this.form.accumulability === false) {
+        if (
+          this.form.fundingsLinkedTo &&
+          this.form.fundingsLinkedTo.length < 1
+        ) {
           delete this.form.fundingsLinkedTo;
         } else {
           // this.$refs.fundings.validate();
@@ -957,6 +967,22 @@ export default {
     }
   },
   computed: {
+    visibilityOptions() {
+      return [
+        {
+          value: "only for me",
+          label: this.$t("visibility.onlyMe")
+        },
+        {
+          value: "all users",
+          label: this.$t("visibility.allUsers")
+        },
+        {
+          value: "listed only",
+          label: this.$t("visibility.listedOnly")
+        }
+      ];
+    },
     appUrl() {
       return process.env.VUE_APP_MAIN_URL;
     },
