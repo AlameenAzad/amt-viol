@@ -4,7 +4,7 @@
       <q-form @submit.prevent="addComment()">
         <q-card-section class="q-pt-none" align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
-            Add Comment
+            Kommentar hinzufügen
           </h6>
         </q-card-section>
         <q-card-section class="q-pb-none">
@@ -16,8 +16,8 @@
                 rows="10"
                 class="no-shadow input-radius-6"
                 v-model="comment"
-                :rules="[val => !!val || 'Field is required']"
-                placeholder="Your Comment"
+                :rules="[val => !!val || $t('Required')]"
+                placeholder="Ihr Kommentar"
               />
             </div>
           </div>
@@ -26,7 +26,7 @@
           <div class="row justify-center">
             <div class="col-5 q-mr-sm">
               <q-btn
-                label="Cancel"
+                :label="$t('category&Keyword.cancel')"
                 v-close-popup
                 outline
                 size="14px"
@@ -37,7 +37,7 @@
             </div>
             <div class="col-5 q-ml-sm">
               <q-btn
-                label="Add Comment"
+                label="Kommentar hinzufügen"
                 type="submit"
                 unelevated
                 :loading="isLoading"
