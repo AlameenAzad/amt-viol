@@ -281,7 +281,7 @@ const routes = [
         name: "EditFunding",
         meta: {
           title: "Edit Funding",
-          titleDE: "Finanzierung bearbeiten",
+          titleDE: "Fördermittel bearbeiten",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -293,7 +293,7 @@ const routes = [
         name: "ViewFunding",
         meta: {
           title: "Details of the Funding",
-          titleDE: "Einzelheiten der Finanzierung",
+          titleDE: "Einzelheiten der Fördermittel",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -305,7 +305,7 @@ const routes = [
         name: "newCheckList",
         meta: {
           title: "New Implementation checklist",
-          titleDE: "Neue Checkliste für die Umsetzung",
+          titleDE: "Neue Umsetzungscheckliste",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
