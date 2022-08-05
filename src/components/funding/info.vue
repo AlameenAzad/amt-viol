@@ -11,8 +11,9 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: 50
+        rowsPerPage: 10
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:top>
         <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
