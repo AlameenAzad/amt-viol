@@ -12,7 +12,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Content"
                   v-model="funding.content"
-                  :rules="[val => !!val || 'Required']"
+                  :rules="[val => !!val || $t('Required')]"
                   @input="onInput(index)"
                 />
               </div>
@@ -23,7 +23,7 @@
                   class="no-shadow input-radius-6"
                   placeholder="Amount"
                   v-model="funding.amount"
-                  :rules="[val => !!val || 'Required']"
+                  :rules="[val => !!val || $t('Required')]"
                   @input="onInput(index)"
                   suffix="%"
                 />
