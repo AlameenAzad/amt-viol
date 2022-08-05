@@ -46,7 +46,7 @@
       class="radius-20 shadow-1 pagination-no-shadow"
       :data="data"
       :columns="columns"
-      row-key="name"
+      row-key="title"
       :hide-bottom="!isInPage && data.length > 0"
       :hide-header="!isInPage"
       :visible-columns="isInPage ? visibleColumns : ['title']"
@@ -348,17 +348,43 @@ export default {
     };
   },
   methods: {
-    // searchTable(rows, terms, cols, getCellValue) {
-    //   let filteredRows = rows;
+    filterTable(rows, terms, cols, getCellValue) {
+      let filteredRows = rows;
+      console.log("terms", terms);
+      console.log("cols", cols);
 
-    //   if (!!terms) {
-    //     filteredRows = filteredRows.map(row => {
-    //       console.log("row", row);
-    //     });
-    //   }
+      if (!!terms) {
+        filteredRows = filteredRows.filter(row => {
+          console.log("row", row);
+          // return row.title.toLowerCase().includes(terms.toLowerCase());
+          for (const key in row) {
+            // console.log("key", key);
+            if (row.hasOwnProperty(key)) {
+              const value = row[key];
+              // console.log("value", value);
+              // console.log("typeof value", typeof value);
+              if (typeof value === "string") {
+                if (value.toLowerCase().includes(terms.toLowerCase())) {
+                  return true;
+                }
+              } else if (typeof value === "object") {
+                for (const nestedKey in value) {
+                  if (value.hasOwnProperty(nestedKey)) {
+                    const nestedValue = value[nestedKey];
+                    console.log("nestedValue", nestedValue);
+                    if (nestedValue.includes(terms.toLowerCase())) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
 
-    //   return filteredRows;
-    // },
+      return filteredRows;
+    },
     dateFormatter,
     async view(row) {
       const id = row && row.id;
@@ -658,8 +684,8 @@ export default {
           label: this.$t("myData.title"),
           align: "left",
           field: row =>
-            !!row.title && row.title.length > 50
-              ? row.title.substring(0, 49) + "..."
+            !!row.title && row.title.length > 48
+              ? row.title.substring(0, 48) + "..."
               : row.title,
           sortable: true
         },
