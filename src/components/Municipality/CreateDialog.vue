@@ -26,7 +26,7 @@
                 outlined
                 class="no-shadow input-radius-6"
                 v-model="form.title"
-                :rules="[val => !!val || 'Field is required']"
+                :rules="[val => !!val || $t('Required')]"
                 :placeholder="$t('administrativeAreas.administrationName')"
               />
             </div>
@@ -42,7 +42,7 @@
                 outlined
                 class="no-shadow input-radius-6"
                 v-model="form.location"
-                :rules="[val => !!val || 'Field is required']"
+                :rules="[val => !!val || $t('Required')]"
                 :placeholder="$t('adminstrationLocation')"
               />
             </div>
