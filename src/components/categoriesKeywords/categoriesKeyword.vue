@@ -46,6 +46,7 @@
         page: 1,
         rowsPerPage: isInPage ? 50 : 5
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
