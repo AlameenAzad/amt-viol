@@ -26,7 +26,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('projectIdeaPlaceholder.title')"
                 v-model="form.title"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -173,13 +173,21 @@
                 v-model="form.visibility"
                 :options="visibilityOptions"
                 emit-value
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
                 class="no-shadow input-radius-6"
                 options-selected-class="text-primary"
               >
                 <template v-slot:selected>
                   <template v-if="form.visibility">
-                    {{ form.visibility }}
+                    {{
+                      form.visibility === "only for me"
+                        ? $t("visibility.onlyMe")
+                        : form.visibility === "all users"
+                        ? $t("visibility.allUsers")
+                        : form.visibility === "listed only"
+                        ? $t("visibility.listedOnly")
+                        : ""
+                    }}
                   </template>
                   <template v-else>
                     <span class="text-grey">
@@ -222,7 +230,7 @@
           </div>
           <div class="row items-center">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">Tags*</p>
+              <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
             <div class="col-12 col-md-8">
               <Tags
@@ -251,7 +259,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('projectIdeaPlaceholder.descripeProject')"
                 v-model="form.details.content"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -269,7 +277,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('projectIdeaPlaceholder.describeProjectGoals')"
                 v-model="form.details.goals"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -287,7 +295,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('newProjectIdeaForm.projectValue&Benefits')"
                 v-model="form.details.valuesAndBenefits"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -324,7 +332,7 @@
                 v-model="form.details.investive"
                 spread
                 no-caps
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
                 toggle-color="yellow"
                 padding="12px 10px"
                 color="transparent"
@@ -414,7 +422,7 @@
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedStartDate')"
                     @click="$refs.qPlannedStartDateProxy.show()"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -459,7 +467,7 @@
                     bg-color="white"
                     :placeholder="$t('projectIdeaPlaceholder.plannedEndDate')"
                     @click="$refs.qPlannedEndDateProxy.show()"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -740,10 +748,6 @@ export default {
         media: null,
         files: null
       },
-      investiveNoninvestiveOptions: [
-        { label: "Investiv", value: true },
-        { label: "Nicht-investiv", value: false }
-      ],
       isLoading: false,
       dataLoaded: true
     };
@@ -920,6 +924,12 @@ export default {
           value: "listed only",
           label: this.$t("visibility.listedOnly")
         }
+      ];
+    },
+    investiveNoninvestiveOptions() {
+      return [
+        { label: this.$t("Investive"), value: true },
+        { label: this.$t("Non-Investive"), value: false }
       ];
     },
     projectStatuses() {
