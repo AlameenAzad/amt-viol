@@ -102,7 +102,15 @@
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
-                        {{ checklist.visibility || "" }}
+                        {{
+                          checklist.visibility === "only for me"
+                            ? $t("visibility.onlyMe")
+                            : checklist.visibility === "all users"
+                            ? $t("visibility.allUsers")
+                            : checklist.visibility === "listed only"
+                            ? $t("visibility.listedOnly")
+                            : ""
+                        }}
                       </p>
                     </div>
                   </div>
