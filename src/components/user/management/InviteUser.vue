@@ -5,27 +5,37 @@
         <h6 class="text-center font-24 q-mt-md">
           {{ $t("userAdministration.inviteUser") }}
         </h6>
-        <q-form @submit.prevent.stop="inviteUser" ref="userInviteForm" class="q-gutter-md q-px-md q-mb-md ">
+        <q-form ref="userInviteForm" class="q-gutter-md q-px-md q-mb-md ">
           <div class="row items-baseline">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                Username*
+                {{ $t("Username") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input outlined class="no-shadow input-radius-6" v-model="form.username"
-                :rules="[val => !!val || 'Field is required']" placeholder="Username" />
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="form.username"
+                :rules="[val => !!val || $t('Required')]"
+                :placeholder="$t('Username')"
+              />
             </div>
           </div>
           <div class="row items-baseline ">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                Email*
+                {{ $t("E-Mail") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input outlined class="no-shadow input-radius-6" v-model="form.email"
-                :rules="[val => !!val || 'Field is required']" placeholder="E-Mail" />
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="form.email"
+                :rules="[val => !!val || $t('Required')]"
+                :placeholder="$t('E-Mail')"
+              />
             </div>
           </div>
           <div class="row items-baseline ">
@@ -35,9 +45,17 @@
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-select outlined :options="roleOptions" options-selected-class="text-primary"
-                class="no-shadow input-radius-6" v-model="form.role" :rules="[val => !!val || 'Field is required']"
-                placeholder="Editor" map-options emit-value>
+              <q-select
+                outlined
+                :options="roleOptions"
+                options-selected-class="text-primary"
+                class="no-shadow input-radius-6"
+                v-model="form.role"
+                :rules="[val => !!val || $t('Required')]"
+                placeholder="Editor"
+                map-options
+                emit-value
+              >
                 <template v-slot:selected>
                   <template v-if="form.role">
                     <span>
@@ -46,7 +64,7 @@
                   </template>
                   <template v-else>
                     <span class="text-grey">
-                      {{$t('select role')}}
+                      {{ $t("select role") }}
                     </span>
                   </template>
                 </template>
@@ -70,18 +88,39 @@
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <q-input outlined class="no-shadow input-radius-6" v-model="form.message"
-                :rules="[val => !!val || 'Field is required']" type="textarea" placeholder="Text" />
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="form.message"
+                :rules="[val => !!val || $t('Required')]"
+                type="textarea"
+                placeholder="Text"
+              />
             </div>
           </div>
           <div class="row justify-center">
             <div class="col-5 q-mr-sm">
-              <q-btn :label="$t('userAdministration.cancel')" outline v-close-popup size="16px" color="primary" no-caps
-                class="radius-6 q-py-xs full-width" />
+              <q-btn
+                :label="$t('userAdministration.cancel')"
+                outline
+                v-close-popup
+                size="16px"
+                color="primary"
+                no-caps
+                class="radius-6 q-py-xs full-width"
+              />
             </div>
             <div class="col-5 q-ml-sm">
-              <q-btn :label="$t('userAdministration.sendInvitation')" type="submit" unelevated size="16px"
-                color="primary" no-caps :loading="isLoading" class="radius-6 q-py-xs full-width" />
+              <q-btn
+                :label="$t('userAdministration.sendInvitation')"
+                @click="inviteUser"
+                unelevated
+                size="16px"
+                color="primary"
+                no-caps
+                :loading="isLoading"
+                class="radius-6 q-py-xs full-width"
+              />
             </div>
           </div>
         </q-form>
@@ -145,7 +184,12 @@ export default {
             this.form.email = "";
           }
         } else {
-          console.log("error");
+          const elements = this.$refs.userInviteForm.getValidationComponents();
+          elements.map(el => {
+            if (el.validate) {
+              el.validate();
+            }
+          });
         }
       });
     }
@@ -160,9 +204,9 @@ export default {
       }
     }
   },
-  watch:{
-    dialogState: function(val){
-      if(val){
+  watch: {
+    dialogState: function(val) {
+      if (val) {
         this.form.email = this.guestEmail;
       }
     }

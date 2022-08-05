@@ -2,7 +2,7 @@
   <q-dialog v-model="$_options">
     <q-card
       class="radius-10 q-px-lg q-pt-lg q-pb-md"
-      style="width: 570px; max-width: 80vw;"
+      style="width: 570px; max-width: 90vw;"
     >
       <q-card-section>
         <q-form ref="loginForm" class="q-gutter-lg">
@@ -15,7 +15,7 @@
                 dense
                 class="no-shadow input-radius-6"
                 v-model="form.identifier"
-                :rules="[val => !!val || 'Field is required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
             <div class="col-12 q-mt-lg">
@@ -27,7 +27,7 @@
                 type="password"
                 class="no-shadow input-radius-6"
                 v-model="form.password"
-                :rules="[val => !!val || 'Field is required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
