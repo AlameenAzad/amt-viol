@@ -6,7 +6,7 @@
       v-model="model"
       :rules="
         requiresValidation === true
-          ? [val => (!!val && val.length > 0) || 'Required']
+          ? [val => (!!val && val.length > 0) || $t('Required')]
           : []
       "
       multiple

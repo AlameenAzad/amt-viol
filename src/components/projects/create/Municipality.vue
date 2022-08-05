@@ -1,7 +1,15 @@
 <template>
   <div>
-    <q-select outlined dense v-model="model" :options="administrations" options-selected-class="text-primary"
-      class="no-shadow input-radius-6" @input="onSelect" :rules="[val => !!val || 'Field is required']">
+    <q-select
+      outlined
+      dense
+      v-model="model"
+      :options="administrations"
+      options-selected-class="text-primary"
+      class="no-shadow input-radius-6"
+      @input="onSelect"
+      :rules="[val => !!val || $t('Required')]"
+    >
       <template v-slot:selected>
         <template v-if="model">
           <span>
@@ -10,7 +18,7 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            {{$t('select administration')}}
+            {{ $t("select administration") }}
           </span>
         </template>
       </template>
