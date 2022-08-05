@@ -66,11 +66,12 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td
+            @click="$router.push(`/Administation/Areas/${props.row.id}`)"
             auto-width
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 cursor-pointer"
           >
             {{ col.value }}
           </q-td>
