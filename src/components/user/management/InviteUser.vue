@@ -135,7 +135,8 @@ export default {
   name: "inviteUserDialog",
   props: {
     dialogState: { type: Boolean, default: false },
-    guestEmail: { type: String, default: "" }
+    guestEmail: { type: String, default: "" },
+    notification: { type: Object, default: null }
   },
   components: {
     Municipality
@@ -174,7 +175,14 @@ export default {
           });
           this.isLoading = false;
           if (res !== false) {
-            this.$_options = false;
+            if(this.guestEmail.length > 0){
+              this.$store.dispatch("userCenter/deleteGuestRequest", {
+                id: this.notification.id
+              });
+              this.$emit("deltedNotification", this.notification, this.notification.index);
+            }
+            setTimeout(() => {
+              this.$_options = false;
             this.form.username = "";
             this.form.role = "";
             this.form.municipality = {
@@ -182,6 +190,7 @@ export default {
             };
             this.form.message = "";
             this.form.email = "";
+            }, 500);
           }
         } else {
           const elements = this.$refs.userInviteForm.getValidationComponents();
