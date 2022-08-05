@@ -26,7 +26,7 @@
                 class="no-shadow input-radius-6"
                 :placeholder="$t('title')"
                 v-model="form.title"
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
               />
             </div>
           </div>
@@ -199,7 +199,7 @@
                 outlined
                 dense
                 emit-value
-                :rules="[val => !!val || 'Required']"
+                :rules="[val => !!val || $t('Required')]"
                 v-model="form.visibility"
                 :options="visibilityOptions"
                 class="no-shadow input-radius-6"
@@ -207,7 +207,15 @@
               >
                 <template v-slot:selected>
                   <template v-if="form.visibility">
-                    {{ form.visibility }}
+                    {{
+                      form.visibility === "only for me"
+                        ? $t("visibility.onlyMe")
+                        : form.visibility === "all users"
+                        ? $t("visibility.allUsers")
+                        : form.visibility === "listed only"
+                        ? $t("visibility.listedOnly")
+                        : ""
+                    }}
                   </template>
                   <template v-else>
                     <span class="text-grey">
@@ -351,7 +359,7 @@
                     outlined
                     dense
                     :disable="disableDate(index)"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                     class="no-shadow input-radius-6"
                     :value="disableDate(index) ? '' : dateFormatter(card.start)"
                     readonly
@@ -407,7 +415,7 @@
                     outlined
                     dense
                     :disable="disableDate(index)"
-                    :rules="[val => !!val || 'Required']"
+                    :rules="[val => !!val || $t('Required')]"
                     class="no-shadow input-radius-6"
                     :value="disableDate(index) ? '' : dateFormatter(card.end)"
                     color="primary"
@@ -1591,7 +1599,7 @@ export default {
                       },
                       {
                         name:
-                          "Akteurskonstellation bzgl. Finanzierung/ Inhalte bewerten und prüfen",
+                          "Akteurskonstellation bzgl. Fördermittel/ Inhalte bewerten und prüfen",
                         sortPosition: 3,
                         active: false,
                         objectId: 3
@@ -2053,7 +2061,7 @@ export default {
               {
                 objectName: "checkPlanning",
                 objectTitle:
-                  "Check Planung und Finanzierung mit allen relevanten Fachämtern",
+                  "Check Planung und Fördermittel mit allen relevanten Fachämtern",
                 name: "",
                 text: "",
                 desc:
