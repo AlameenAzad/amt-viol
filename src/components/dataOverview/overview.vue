@@ -34,7 +34,7 @@
                   outlined
                   class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm"
                   v-model="search"
-                  placeholder="Search"
+                  :placeholder="$t('Search')"
                   dense
                 >
                   <template v-slot:prepend>
@@ -65,7 +65,7 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  label="Search"
+                  :label="$t('Search')"
                   multiple
                   filled
                   :options="typeOptions"
@@ -81,7 +81,7 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  label="Search"
+                  :label="$t('Search')"
                   filled
                   multiple
                   clearable
@@ -98,7 +98,7 @@
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
-                  label="Search"
+                  :label="$t('Search')"
                   filled
                   multiple
                   clearable
@@ -113,15 +113,47 @@
                 </p>
                 <q-select
                   class="no-shadow q-mb-lg input-radius-4"
+                  options-selected-class="text-primary text-weight-600"
                   color="primary"
                   clearable
                   bg-color="white"
-                  label="Search"
                   filled
                   multiple
                   :options="projectCoordinatorOptions"
                   v-model="projectCoordinator"
                 >
+                  <template v-slot:selected>
+                    <template
+                      v-if="
+                        !!projectCoordinator && projectCoordinator.length > 0
+                      "
+                    >
+                      <span
+                        v-for="(item, index) in projectCoordinator"
+                        :key="index"
+                      >
+                        {{ index > 0 ? ", " : "" }}
+                        {{ item.user }}
+                      </span>
+                    </template>
+                    <template v-else>
+                      <span class="text-grey font-16">
+                        {{ $t("Search") }}
+                      </span>
+                    </template>
+                  </template>
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+                      <q-item-section>
+                        <q-item-label
+                          ><span class="text-grey-7">{{
+                            scope.opt.location
+                          }}</span>
+                          - {{ scope.opt.user }}</q-item-label
+                        >
+                      </q-item-section>
+                    </q-item>
+                  </template>
                 </q-select>
               </div>
               <div class="col-6 col-md-3">
@@ -547,7 +579,9 @@ export default {
       }
       if (!!projectCoordinator && projectCoordinator.length > 0) {
         filteredRows = filteredRows.filter(row => {
-          return projectCoordinator.includes(!!row.owner && row.owner.username);
+          return projectCoordinator.find(item => {
+            return item.user.includes(!!row.owner && row.owner.username);
+          });
         });
       }
       if (!!publishDateStart || !!publishDateEnd) {
@@ -891,10 +925,17 @@ export default {
       const users = [];
       this.data.map(item =>
         !!item.owner && !!item.owner.username
-          ? users.push(item.owner.username)
+          ? users.push({
+              user: item.owner.username,
+              location:
+                !!item.owner &&
+                !!item.owner.user_detail &&
+                !!item.owner.user_detail.municipality &&
+                item.owner.user_detail.municipality.title
+            })
           : null
       );
-      return [...new Set(users)];
+      return [...new Map(users.map(item => [item["user"], item])).values()];
     },
     filter() {
       // return object that contains all v-models. This will be passed to the filter method
