@@ -96,7 +96,15 @@
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
-                        {{ funding.visibility || "" }}
+                        {{
+                          funding.visibility === "only for me"
+                            ? $t("visibility.onlyMe")
+                            : funding.visibility === "all users"
+                            ? $t("visibility.allUsers")
+                            : funding.visibility === "listed only"
+                            ? $t("visibility.listedOnly")
+                            : ""
+                        }}
                       </p>
                     </div>
                   </div>
@@ -684,8 +692,8 @@
                           <p class="q-mt-sm q-mb-sm">
                             {{
                               funding.accumulability === true
-                                ? "Yes"
-                                : "No" || "Accumulability is not set"
+                                ? $t("Yes")
+                                : $t("No") || "Accumulability is not set"
                             }}
                           </p>
                         </div>
@@ -765,34 +773,37 @@
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
                 </div>
-                <q-card-section horizontal class="q-pa-md items-start">
-                  <div class="col-4">
+                <q-card-section
+                  :horizontal="$q.screen.gt.sm"
+                  class="q-pa-md items-start"
+                >
+                  <div class="col-12 col-md-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                       {{ $t("Funding Period") }}
                     </h4>
                   </div>
-                  <div class="col-8">
+                  <div class="col-12 col-md-8">
                     <div class="q-ml-xs">
                       <div class="q-ml-md font-16">
                         <div class="row">
-                          <div class="col-6 col-md-2">
+                          <div class="col-12 col-md-4">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ $t("fundingsCol.start") }}
                             </p>
                           </div>
-                          <div class="col-6 col-md-6">
+                          <div class="col-12 col-md-auto">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ dateFormatter(funding.plannedStart) || "" }}
                             </p>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-6 col-md-2">
+                          <div class="col-12 col-md-4">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ $t("fundingsCol.end") }}
                             </p>
                           </div>
-                          <div class="col-6 col-md-6">
+                          <div class="col-12 col-md-auto">
                             <p class="q-mt-sm q-mb-sm inline-block">
                               {{ dateFormatter(funding.plannedEnd) || "" }}
                             </p>
