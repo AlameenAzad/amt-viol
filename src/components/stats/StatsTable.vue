@@ -16,6 +16,7 @@
         page: 1,
         rowsPerPage: isInPage ? 50 : 5
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -908,14 +909,24 @@ export default {
           align: "left",
           label: this.$t("statsTable.publishDate"),
           field: row => dateFormatter(row.plannedStart),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(rowA.plannedStart);
+            const dateB = new Date(rowB.plannedStart);
+            return dateB - dateA;
+          }
         },
         {
           name: "endDate",
           align: "left",
           label: this.$t("statsTable.endDate"),
           field: row => dateFormatter(row.plannedEnd),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(rowA.plannedEnd);
+            const dateB = new Date(rowB.plannedEnd);
+            return dateB - dateA;
+          }
         },
         {
           name: "owners",

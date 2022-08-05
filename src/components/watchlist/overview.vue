@@ -67,6 +67,7 @@
         page: 1,
         rowsPerPage: isInPage ? 50 : 5
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:top>
         <div v-if="!isInPage" class="row full-width">
@@ -749,14 +750,24 @@ export default {
           align: "left",
           field: row =>
             dateFormatter(!!row.funding && row.funding.plannedStart),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(!!rowA.funding && rowA.funding.plannedStart);
+            const dateB = new Date(!!rowB.funding && rowB.funding.plannedStart);
+            return dateB - dateA;
+          }
         },
         {
           name: "plannedEnd",
           label: this.$t("fundingsCol.end"),
           align: "left",
           field: row => dateFormatter(!!row.funding && row.funding.plannedEnd),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(!!rowA.funding && rowA.funding.plannedEnd);
+            const dateB = new Date(!!rowB.funding && rowB.funding.plannedEnd);
+            return dateB - dateA;
+          }
         },
         {
           name: "owner",
@@ -869,14 +880,24 @@ export default {
           align: "left",
           field: row =>
             dateFormatter(!!row.funding && row.funding.plannedStart),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(!!rowA.funding && rowA.funding.plannedStart);
+            const dateB = new Date(!!rowB.funding && rowB.funding.plannedStart);
+            return dateB - dateA;
+          }
         },
         {
           name: "plannedEnd",
           label: this.$t("fundingsCol.end"),
           align: "left",
           field: row => dateFormatter(!!row.funding && row.funding.plannedEnd),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(!!rowA.funding && rowA.funding.plannedEnd);
+            const dateB = new Date(!!rowB.funding && rowB.funding.plannedEnd);
+            return dateB - dateA;
+          }
         },
         {
           name: "owner",
