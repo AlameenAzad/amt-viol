@@ -356,7 +356,7 @@
                       <p class="q-mb-sm">
                         {{
                           !!project.details && project.details.satus !== ""
-                            ? project.details.status
+                            ? $t(project.details.status)
                             : ""
                         }}
                       </p>

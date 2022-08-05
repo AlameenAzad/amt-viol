@@ -314,6 +314,10 @@
     "pre-planning": "Pre-planning",
     "detailedPlanning": "Detailed Planning"
   },
+   "Idea": "Idea",
+    "Development": "Development",
+    "Pre-Planning": "Pre-planning",
+    "Detailed-Planning": "Detailed Planning",
   "userAdministration": {
     "inviteUser": "Invite User",
     "administration": "Administration",

@@ -317,6 +317,10 @@
     "pre-planning": "Vorplanung",
     "detailedPlanning": "Feinplanung"
   },
+    "Idea": "Idee",
+    "Development": "Entwicklung",
+    "Pre-Planning": "Vorplanung",
+    "Detailed-Planning": "Feinplanung",
   "userAdministration": {
     "inviteUser": "Benutzer*in einladen",
     "administration": "Verwaltung",
