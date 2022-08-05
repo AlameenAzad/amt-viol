@@ -17,6 +17,7 @@
         page: 1,
         rowsPerPage: isInPage ? 50 : 5
       }"
+      :rows-per-page-label="$t('Records per page')"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -958,18 +959,26 @@ export default {
           label: this.$t("fundingsCol.start"),
           align: "left",
           field: row => {
-            const date = new Date(row.plannedStart);
-            // console.log("dateFormatter(row.plannedStart)", date);
             return dateFormatter(row.plannedStart);
           },
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(rowA.plannedStart);
+            const dateB = new Date(rowB.plannedStart);
+            return dateB - dateA;
+          }
         },
         {
           name: "plannedEnd",
           label: this.$t("fundingsCol.end"),
           align: "left",
           field: row => dateFormatter(row.plannedEnd),
-          sortable: true
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(rowA.plannedEnd);
+            const dateB = new Date(rowB.plannedEnd);
+            return dateB - dateA;
+          }
         },
         {
           name: "user",
