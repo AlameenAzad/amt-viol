@@ -13,6 +13,7 @@
     }"
     :loading="loading"
     color="primary"
+    :rows-per-page-label="$t('Records per page')"
   >
     <template v-slot:top>
       <div class="col-12 col-md-3">
