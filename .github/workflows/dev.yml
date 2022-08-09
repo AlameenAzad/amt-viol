@@ -16,6 +16,6 @@ jobs:
       with:
         node-version: 12.x
     - name: Install Dependencies
-      run: yarn i
+      run: yarn
     - name: Build PWA
       run: quasar build -m pwa
