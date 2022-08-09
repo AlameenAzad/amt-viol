@@ -220,7 +220,7 @@ export default {
           });
         }
       }
-    },
+    }, 
     acceptReq(noti, index) {
       if (noti.typeOfNoti == "requests") {
         this.$store.dispatch("userCenter/manageRequest", {
