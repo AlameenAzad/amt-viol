@@ -1183,6 +1183,27 @@ export async function archiveChecklist(context, payload) {
   }
 }
 
+export async function duplicateChecklist(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.post(`/api/checklist/duplicate/${id}`);
+      Notify.create({
+        message: "Implementation Checklist duplicated successfully",
+        type: "positive"
+      });
+      context.dispatch("getChecklists");
+      return res;
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function addToWatchlist(context, payload) {
   const { id } = payload;
   if (!!id) {
