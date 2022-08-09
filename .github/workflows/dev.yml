@@ -18,4 +18,4 @@ jobs:
     - name: Install Dependencies
       run: yarn
     - name: Build PWA
-      run: quasar build -m pwa
+      run: npx quasar build -m pwa
