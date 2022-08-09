@@ -18,13 +18,9 @@
         ><div class=" items-center text-center ">
           <p>
             {{
-              tab == "projectIdeas"
+              type !== "duplicate"
                 ? `Would you like to request ${type} access?`
-                : tab === "fundings"
-                ? `Would you like to request ${type} access?`
-                : tab === "implementationChecklist"
-                ? `Would you like to request ${type} access?`
-                : ""
+                : "Would you like to request a duplication?"
             }}
           </p>
         </div></q-card-section
