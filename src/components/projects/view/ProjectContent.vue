@@ -68,7 +68,7 @@
               <q-card-section
                 class="row items-center justify-between q-pa-md q-col-gutter-x-sm"
               >
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-7">
                   <div class="row q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
@@ -134,6 +134,17 @@
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
+                        @click="duplicateProject()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 text-weight-600"
+                        no-caps
+                        icon="content_copy"
+                        :loading="duplicateIsLoading"
                       />
                     </div>
                     <div
@@ -756,7 +767,8 @@
         (requestDialog = $event),
           (itemId = null),
           (type = null),
-          (editIsLoading = false)
+          (editIsLoading = false),
+          (duplicateIsLoading = false)
       "
     />
   </div>
@@ -780,12 +792,24 @@ export default {
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
-      watchlistIsLoading: false
+      watchlistIsLoading: false,
+      duplicateIsLoading: false
     };
   },
   components: {
     DeleteDialog,
     RequestAccessDialog
+  },
+  watch: {
+    $route(to, from) {
+      if (
+        (to.params && to.params.id) !==
+        (this.$store.state.project.project &&
+          this.$store.state.project.project.id)
+      ) {
+        this.getNewData(to.params.id);
+      }
+    }
   },
   methods: {
     dateFormatter,
@@ -801,6 +825,15 @@ export default {
         id: Number(this.$route.params.id)
       });
       this.$q.loading.hide();
+    },
+    async getNewData(id) {
+      if (!!id) {
+        this.$q.loading.show();
+        await this.$store.dispatch("project/getSpecificProject", {
+          id: id
+        });
+        this.$q.loading.hide();
+      }
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
@@ -846,6 +879,23 @@ export default {
         }
       } else {
         this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
+      }
+    },
+    async duplicateProject() {
+      this.duplicateIsLoading = true;
+      const id = !!this.project && this.project.id;
+      if (!!this.project && this.project.visibility !== "all users") {
+        this.itemId = !!this.project && this.project.id;
+        this.type = "duplicate";
+        this.requestDialog = true;
+      } else {
+        const res = await this.$store.dispatch("project/duplicateProject", {
+          id: id
+        });
+        if (res !== false && !!res && !!res.data && !!res.data.id) {
+          this.$router.push({ path: `/user/newProjectIdea/${res.data.id}` });
+        }
+        this.duplicateIsLoading = false;
       }
     },
     async archiveProject() {

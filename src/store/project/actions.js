@@ -363,6 +363,27 @@ export async function archiveProjectIdea(context, payload) {
   }
 }
 
+export async function duplicateProject(context, payload) {
+  const { id } = payload;
+  if (!!id) {
+    try {
+      const res = await api.post(`/api/project/duplicate/${id}`);
+      Notify.create({
+        message: "Project Idea duplicated successfully",
+        type: "positive"
+      });
+      context.dispatch("getProjectIdeas");
+      return res;
+    } catch (error) {
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+      return false;
+    }
+  }
+}
+
 export async function deleteProjectIdea(context, payload) {
   const { id } = payload;
   if (!!id) {
