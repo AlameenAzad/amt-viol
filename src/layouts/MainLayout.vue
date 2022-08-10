@@ -15,7 +15,7 @@
             :ripple="false"
             :to="{ name: 'landing' }"
           >
-            Amt Viöl
+            Foerderscouting Plattform
           </q-btn>
         </q-toolbar-title>
         <q-btn
