@@ -2,7 +2,7 @@
   "name": "amit-viol",
   "version": "1.0.0",
   "description": "Das Projekt „Interkommunale Förderscouting-Plattform Nordfriesland“ ist ein Modellvorhaben im Rahmen der Förderinitiative „Heimat 2.0“ des Bundesministeriums für Wohnen, Stadtentwicklung und Bauwesen (BMWSB) in Zusammenarbeit mit dem Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR).",
-  "productName": "Foerderscouting Plattform",
+  "productName": "Foerderscouting",
   "author": "AlameenAzad <alameen.azad@protonmail.com>",
   "private": true,
   "scripts": {
