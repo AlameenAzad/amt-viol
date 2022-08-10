@@ -18,4 +18,31 @@ jobs:
     - name: Install Dependencies
       run: yarn
     - name: Build PWA
-      run: quasar build -m pwa
+      run: npx quasar build -m pwa
+    - name: Install Open VPN
+      run: sudo apt-get install openvpn
+    - name: Connect VPN
+      uses: golfzaptw/action-connect-ovpn@master
+      id: connect_vpn
+      with:
+        PING_URL: ${{ secrets.REMOTE_HOST }}
+        FILE_OVPN: '.github/vpn/config.ovpn'
+        TLS_KEY: ${{ secrets.TLS_KEY }}
+      env:
+        CA_CRT: ${{ secrets.CA_CRT}}
+        USER_CRT: ${{ secrets.USER_CRT }}
+        USER_KEY: ${{ secrets.USER_KEY }}
+    - name: Check Connect VPN
+      run: echo ${{ steps.connect_vpn.outputs.STATUS }}
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/pwa/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST_DEV }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+    - name: kill vpn
+      if: always()
+      run: sudo killall openvpn
