@@ -231,13 +231,20 @@ export default {
     setData() {
       this.profileImage = this.userDetails?.profile?.url || null;
       this.form.email = (!!this.user && this.user.email) || "";
-      this.form.fullName = this.userDetails.fullName || "";
-      this.form.telephone = this.userDetails.phone || "";
-      this.form.location = this.userDetails.location || "";
-      this.form.administration = this.userDetails.municipality.title || "";
-      this.form.streetNo = this.userDetails.streetNo || "";
-      this.form.postalCode = this.userDetails.postalCode || "";
-      this.form.contactPrivacy = this.userDetails.contactPrivacy || false;
+      this.form.fullName =
+        (!!this.userDetails && this.userDetails.fullName) || "";
+      this.form.telephone =
+        (!!this.userDetails && this.userDetails.phone) || "";
+      this.form.location =
+        (!!this.userDetails && this.userDetails.location) || "";
+      this.form.administration =
+        (!!this.userDetails && this.userDetails.municipality.title) || "";
+      this.form.streetNo =
+        (!!this.userDetails && this.userDetails.streetNo) || "";
+      this.form.postalCode =
+        (!!this.userDetails && this.userDetails.postalCode) || "";
+      this.form.contactPrivacy =
+        (!!this.userDetails && this.userDetails.contactPrivacy) || false;
       this.newImg = null;
     },
     changeImage() {
@@ -305,13 +312,13 @@ export default {
     },
     userDetails() {
       return (
-        this.$store.state.userCenter.user &&
+        !!this.$store.state.userCenter.user &&
         this.$store.state.userCenter.user.userDetails
       );
     },
     user() {
       return (
-        this.$store.state.userCenter.user &&
+        !!this.$store.state.userCenter.user &&
         this.$store.state.userCenter.user.user
       );
     }
