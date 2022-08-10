@@ -3,44 +3,54 @@
     <h6 class="text-center font-24 q-mt-md">
       {{ $t("personalData.personalData") }}
     </h6>
-    <q-form ref="personalDataForm" @submit.prevent="savePersonalData" class="q-gutter-lg q-px-md q-mb-md">
+    <q-form
+      ref="personalDataForm"
+      @submit.prevent="savePersonalData"
+      class="q-gutter-lg q-px-md q-mb-md"
+    >
       <div class="row justify-center">
         <div class="col-12 text-center">
-          <q-img v-if="profileImage" class="radius-10 profileImage" spinner-color="primary"
-            :src="`${appUrl}${profileImage}`" style="height: 160px; max-width: 160px" />
+          <q-img
+            v-if="profileImage"
+            class="radius-10 profileImage"
+            spinner-color="primary"
+            :src="`${appUrl}${profileImage}`"
+            style="height: 160px; max-width: 160px"
+          />
           <div class="flex flex-center" v-else style="height: 160px">
-            <h6 class="text-grey">{{ $t('No Profile Image')}}</h6>
+            <h6 class="text-grey">{{ $t("No Profile Image") }}</h6>
           </div>
         </div>
       </div>
       <div class="row justify-center q-mt-sm">
-        <div class="flex justify-between" style="width: 160px; max-width: 160px">
-          <a @click.prevent="changeImage()"
-            class="font-16 text-primary text-weight-600 cursor-pointer text-underline">{{ $t("personalData.change")
-            }}</a>
-          <a @click.prevent="deleteImage()" class="font-16 text-red text-weight-600 cursor-pointer text-underline">
-            {{ $t("personalData.delete") }}</a>
-          <!-- <q-btn
-                label="Delete"
-                size="16px"
-                color="primary"
-                flat
-                no-caps
-                class="d-inline radius-6 no-padding no-margin text-underline"
-              /> -->
+        <div
+          class="flex justify-between"
+          style="width: 160px; max-width: 160px"
+        >
+          <a
+            @click.prevent="changeImage()"
+            class="font-16 text-primary text-weight-600 cursor-pointer text-underline"
+            >{{ $t("personalData.change") }}</a
+          >
+          <a
+            @click.prevent="deleteImage()"
+            class="font-16 text-red text-weight-600 cursor-pointer text-underline"
+          >
+            {{ $t("personalData.delete") }}</a
+          >
         </div>
-        <div class="">
-          <!-- <q-btn
-                label="Delete"
-                size="16px"
-                color="red"
-                flat
-                no-caps
-                class="d-inline radius-6 no-padding no-margin text-underline"
-              /> -->
-        </div>
+        <div class=""></div>
       </div>
-      <q-file class="hidden" ref="profileImg" outlined v-model="newImg" label="Outlined" />
+      <q-file
+        class="hidden"
+        ref="profileImg"
+        outlined
+        v-model="newImg"
+        label="Outlined"
+        @input="uploadImage"
+        accept="image/*"
+        @rejected="rejected"
+      />
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
@@ -48,7 +58,12 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input outlined class="no-shadow input-radius-6" v-model="form.fullName" :rules="[]" />
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.fullName"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
@@ -58,7 +73,13 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input disable outlined class="no-shadow input-radius-6" v-model="form.administration" :rules="[]" />
+          <q-input
+            disable
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.administration"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
@@ -68,7 +89,13 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input disable outlined class="no-shadow input-radius-6" v-model="form.email" :rules="[]" />
+          <q-input
+            disable
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.email"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
@@ -78,7 +105,12 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input outlined class="no-shadow input-radius-6" v-model="form.telephone" :rules="[]" />
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.telephone"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
@@ -88,28 +120,42 @@
           </p>
         </div>
         <div class="col-9">
-          <q-input outlined class="no-shadow input-radius-6" v-model="form.location" :rules="[]" />
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.location"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            {{ $t('projectIdeaPlaceholder.streetNr')}}
-
+            {{ $t("projectIdeaPlaceholder.streetNr") }}
           </p>
         </div>
         <div class="col-9">
-          <q-input outlined class="no-shadow input-radius-6" v-model="form.streetNo" :rules="[]" />
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.streetNo"
+            :rules="[]"
+          />
         </div>
       </div>
       <div class="row items-center">
         <div class="col-3">
           <p class="font-16 no-margin">
-            {{ $t('projectIdeaPlaceholder.postalCity/place')}}
+            {{ $t("projectIdeaPlaceholder.postalCity/place") }}
           </p>
         </div>
         <div class="col-9">
-          <q-input outlined class="no-shadow input-radius-6" v-model="form.postalCode" :rules="[]" />
+          <q-input
+            outlined
+            class="no-shadow input-radius-6"
+            v-model="form.postalCode"
+            :rules="[]"
+          />
         </div>
       </div>
       <!-- <div class="row items-center">
@@ -125,7 +171,14 @@
         </div>
       </div> -->
       <div class="row justify-center">
-        <q-btn type="submit" :loading="isLoading" size="16px" color="primary" no-caps class="radius-6 q-px-xl q-py-sm">
+        <q-btn
+          type="submit"
+          :loading="isLoading"
+          size="16px"
+          color="primary"
+          no-caps
+          class="radius-6 q-px-xl q-py-sm"
+        >
           {{ $t("personalData.saveChanges") }}
         </q-btn>
       </div>
@@ -134,6 +187,7 @@
 </template>
 
 <script>
+import { Cookies } from "quasar";
 export default {
   name: "personalDataTab",
   data() {
@@ -154,8 +208,28 @@ export default {
     };
   },
   methods: {
+    rejected() {
+      this.$q.notify({
+        color: "negative",
+        textColor: "white",
+        message: "Please make sure you are uploading an image"
+      });
+    },
+    async uploadImage() {
+      if (this.newImg != null) {
+        this.isLoading = true;
+        if (this.profileImage != null) await this.deleteImage();
+        const res = await this.$store.dispatch("userCenter/uploadProfile", {
+          id: this.user.id,
+          img: this.newImg
+        });
+        this.isLoading = false;
+        if (res !== false) {
+          this.$store.dispatch("userCenter/getUserDetails");
+        }
+      }
+    },
     setData() {
-      console.log("setData");
       this.profileImage = this.userDetails?.profile?.url || null;
       this.form.email = (!!this.user && this.user.email) || "";
       this.form.fullName = this.userDetails.fullName || "";
@@ -182,13 +256,6 @@ export default {
       this.$refs.personalDataForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
-          if (this.newImg != null) {
-            if (this.profileImage != null) await this.deleteImage();
-            await this.$store.dispatch("userCenter/uploadProfile", {
-              id: this.user.id,
-              img: this.newImg
-            });
-          }
           const res = await this.$store.dispatch(
             "userCenter/updatePersonalData",
             {
