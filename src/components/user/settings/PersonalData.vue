@@ -52,12 +52,12 @@
         @rejected="rejected"
       />
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             Name
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -67,12 +67,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             {{ $t("personalData.administration") }}
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             disable
             outlined
@@ -83,12 +83,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             Email
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             disable
             outlined
@@ -99,12 +99,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             {{ $t("personalData.telephone") }}
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -114,12 +114,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             {{ $t("personalData.location") }}
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -129,12 +129,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             {{ $t("projectIdeaPlaceholder.streetNr") }}
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -144,12 +144,12 @@
         </div>
       </div>
       <div class="row items-center">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <p class="font-16 no-margin">
             {{ $t("projectIdeaPlaceholder.postalCity/place") }}
           </p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -187,7 +187,6 @@
 </template>
 
 <script>
-import { Cookies } from "quasar";
 export default {
   name: "personalDataTab",
   data() {
