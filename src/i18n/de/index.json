@@ -333,7 +333,8 @@
     "delete": "Löschen",
     "message": "Nachricht",
     "sendInvitation": "Einladung senden",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "transferData": "Daten übertragen"
   },
   "NoCategories": "Keine Kategorien",
   "funding": "Fördermittel",
