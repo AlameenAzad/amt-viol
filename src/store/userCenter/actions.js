@@ -363,6 +363,10 @@ export async function deleteUser(context, payload) {
     try {
       const res = await api.delete(`/api/users/${payload.id}`);
       if (!payload.admin) context.dispatch("logout");
+      Notify.create({
+        message: "Benutzer wurde gelöscht.",
+        type: "positive"
+      });
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
