@@ -24,14 +24,14 @@ export async function createNewProjectIdea(context, payload) {
     try {
       const res = await api.post("/api/projects", { data: dataWithoutFiles });
       console.log("res :>> ", res);
-      if (data.files !== null) {
+      if (data.files !== null && data.files.length > 0) {
         const fileUploadRes = await context.dispatch("uploadFiles", {
           files: data.files,
           id: res.data.data.id
         });
         console.log("fileUploadRes", fileUploadRes);
       }
-      if (data.media !== null) {
+      if (data.media !== null && data.media.length > 0) {
         const mediaUploadRes = await context.dispatch("uploadMedia", {
           media: data.media,
           id: res.data.data.id

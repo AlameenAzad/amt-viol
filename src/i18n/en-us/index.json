@@ -7,7 +7,7 @@
   },
   "notifications": {
     "notifications": "Notifications",
-    "inTheApp": "IN THE APP",
+    "inThePlatform": "IN THE PLATFORM",
     "updateRequest": "If a user has left a comment on a funding",
     "invitations": "Public user request to join the platform",
     "newProjects": "New Projects",

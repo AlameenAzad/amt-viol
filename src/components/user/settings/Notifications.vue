@@ -5,7 +5,7 @@
     </h6>
     <q-form ref="notificationsDataForn" class="q-gutter-lg q-px-md q-mb-md">
       <h2 class="text-left font-16 text-weight-bold q-mb-none text-grey">
-        {{ $t("notifications.inTheApp") }}
+        {{ $t("notifications.inThePlatform") }}
       </h2>
       <q-separator inset class="bg-blue-5 q-mt-none" />
 
@@ -16,7 +16,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.fundingComments" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.app.fundingComments"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -28,7 +33,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.userJoinRequest" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.app.userJoinRequest"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -39,7 +49,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.fundingExpiry" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.app.fundingExpiry"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -50,12 +65,19 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.app.dataRequests" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.app.dataRequests"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
 
-      <h2 class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey">
+      <h2
+        class="text-left font-16 text-weight-bold q-mb-none q-mt-md text-grey"
+      >
         {{ $t("notifications.viaEmail") }}
       </h2>
       <q-separator inset class="bg-blue-5 q-mt-none" />
@@ -67,7 +89,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.fundingComments" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.email.fundingComments"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -79,7 +106,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.userJoinRequest" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.email.userJoinRequest"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -90,7 +122,12 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.fundingExpiry" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.email.fundingExpiry"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
@@ -101,13 +138,25 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <q-toggle size="lg" color="primary" class="customToggle" v-model="form.notifications.email.dataRequests" />
+          <q-toggle
+            size="lg"
+            color="primary"
+            class="customToggle"
+            v-model="form.notifications.email.dataRequests"
+          />
         </div>
       </div>
       <q-separator inset class="bg-blue opacity-10 q-mt-xs" />
       <div class="row justify-center">
-        <q-btn @click="saveNotificationsData" :loading="isLoading" size="16px" color="primary" no-caps
-          class="radius-6 q-px-xl q-py-sm">{{ $t("notifications.saveChanges") }}</q-btn>
+        <q-btn
+          @click="saveNotificationsData"
+          :loading="isLoading"
+          size="16px"
+          color="primary"
+          no-caps
+          class="radius-6 q-px-xl q-py-sm"
+          >{{ $t("notifications.saveChanges") }}</q-btn
+        >
       </div>
     </q-form>
   </div>

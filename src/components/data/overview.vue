@@ -55,7 +55,7 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: isInPage ? 50 : 5
+        rowsPerPage: isInPage ? 10 : 5
       }"
       :rows-per-page-label="$t('Records per page')"
     >

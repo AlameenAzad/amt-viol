@@ -24,14 +24,14 @@ export async function createNewFunding(context, payload) {
       const res = await api.post("/api/fundings", { data: dataWithoutFiles });
       console.log("res :>> ", res);
       context.commit("addNewFunding", res.data.data);
-      if (data.files !== null) {
+      if (data.files !== null && data.files.length > 0) {
         const fileUploadRes = await context.dispatch("uploadFiles", {
           files: data.files,
           id: res.data.data.id
         });
         console.log("fileUploadRes", fileUploadRes);
       }
-      if (data.media !== null) {
+      if (data.media !== null && data.media.length > 0) {
         const mediaUploadRes = await context.dispatch("uploadMedia", {
           media: data.media,
           id: res.data.data.id

@@ -5,12 +5,12 @@
     </h6>
     <q-form ref="generalDataForm" class="q-gutter-lg q-px-md q-mb-md">
       <div class="row items-center">
-        <div class="col-md-3 col-4">
+        <div class="col-12 col-md-3 ">
           <p class="font-16 no-margin">
             Email
           </p>
         </div>
-        <div class="col-md-9 col-8">
+        <div class="col-12 col-md-9">
           <q-input
             outlined
             class="no-shadow input-radius-6"
@@ -22,12 +22,12 @@
       </div>
       <q-separator inset class="bg-blue opacity-10" />
       <div class="row items-center">
-        <div class="col-md-3 col-4">
+        <div class="col-md-3 col-12">
           <p class="font-16 no-margin">
             {{ $t("generalData.resetPassword") }}
           </p>
         </div>
-        <div class="col-md-9 col-8">
+        <div class="col-md-9 col-12">
           <q-btn
             @click="pwdResetDialog = true"
             outline
@@ -42,12 +42,12 @@
       </div>
       <q-separator inset class="bg-blue opacity-10" />
       <div class="row items-center">
-        <div class="col-md-3 col-4">
+        <div class="col-md-3 col-12">
           <p class="font-16 no-margin">
             {{ $t("generalData.transferData") }}
           </p>
         </div>
-        <div class="col-md-9 col-8">
+        <div class="col-md-9 col-12">
           <q-btn
             @click="transferDialog = true"
             outline
