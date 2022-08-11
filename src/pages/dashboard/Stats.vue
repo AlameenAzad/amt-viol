@@ -6,9 +6,9 @@
         v-for="(stat, index) in statistics"
         :key="index"
       >
-        <div class="shadow-2 radius-20 q-pa-md">
+        <div class="shadow-2 radius-20 q-pa-md" style="height:130px">
           <p class="font-14 text-blue-5 q-mt-xs q-mb-none">{{ stat.title }}</p>
-          <p class="font-24 text-weight-bold text-blue">{{ stat.value }}</p>
+          <p class="font-24 text-weight-bold text-blue q-mb-sm">{{ stat.value }}</p>
         </div>
       </div>
     </div>
@@ -56,12 +56,28 @@ export default {
           value: this.statsData.archivedProjects
         },
         {
+          title: this.$t("Statistics.checklistArchive"),
+          value: this.statsData.archivedChecklists
+        },
+        {
           title: this.$t("Statistics.watchList"),
           value: this.statsData.watchlists
         },
         {
           title: this.$t("Statistics.municipalities"),
           value: this.statsData.municipalities
+        },
+        {
+          title: this.$t("Statistics.projectTotalDups"),
+          value: this.statsData.projectTotalDups
+        },
+        {
+          title: this.$t("Statistics.checklistTotalDups"),
+          value: this.statsData.checklistTotalDups
+        },
+        {
+          title: this.$t("Statistics.totalDups"),
+          value: this.statsData.totalDups
         }
       ];
     }

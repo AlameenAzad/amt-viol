@@ -78,7 +78,7 @@ export async function createNewChecklist(context, payload) {
           `/api/checklists/${res.data.data.id}`
         );
         // Upload media
-        if (finalData.media !== null) {
+        if (finalData.media !== null && finalData.media.length > 0) {
           const mediaUploadRes = await context.dispatch("uploadMedia", {
             media: finalData.media,
             id: res.data.data.id

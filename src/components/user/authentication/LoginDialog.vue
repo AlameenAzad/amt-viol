@@ -190,7 +190,7 @@ export default {
             });
             this.$q.notify({
               message:
-                "Wenn Ihre E-Mail existiert, wird ein Link zum Zurücksetzen des Passworts an diese gesendet.",
+                "Vielen Dank. Wir schicken Ihnen einen Link an die in Ihrem Benutzer*innenaccount hinterlegte Email-Adresse. Dann können Sie Ihr Password zurück setzen.",
               type: "positive"
             });
             res = true;

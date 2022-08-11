@@ -332,14 +332,13 @@ export async function uploadProfile(context, payload) {
           "Content-Type": "multipart/form-data"
         }
       });
-      context.dispatch("getUserDetails");
-      console.log("fileRes", fileRes);
+      return fileRes;
     } catch (error) {
-      console.log("files error.response", error.response);
       Notify.create({
         type: "negative",
         message: error.response.data.error.message
       });
+      return false;
     }
   }
 }
