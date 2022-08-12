@@ -1,0 +1,118 @@
+<template>
+  <q-dialog @before-show="setData" v-model="$_options">
+    <q-card class="q-pa-md radius-10" style="width: 532px; max-width: 90vw;">
+      <q-form @submit.prevent="addCaption()">
+        <q-card-section class="q-pt-none" align="center">
+          <h6 class="text-center font-20 q-mt-md q-mb-none">
+            {{ !!image && !!image.caption ? "Edit Caption" : "Add Caption" }}
+          </h6>
+        </q-card-section>
+        <q-card-section class="q-pb-none">
+          <div class=" items-center ">
+            <div class="col-12 col-md-3">
+              <p class="font-14 no-margin">
+                Pleae credit the author here
+              </p>
+            </div>
+            <div class="col-12 col-md-9">
+              <q-input
+                outlined
+                class="no-shadow input-radius-6"
+                v-model="captionInput"
+                :placeholder="$t('myData.title')"
+              />
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="row justify-center">
+            <div class="col-5 q-mr-sm">
+              <q-btn
+                :label="$t('category&Keyword.cancel')"
+                v-close-popup
+                outline
+                size="14px"
+                color="primary"
+                no-caps
+                class="q-py-xs radius-6 full-width"
+              />
+            </div>
+            <div class="col-5 q-ml-sm">
+              <q-btn
+                label="Submit"
+                type="submit"
+                unelevated
+                :loading="isLoading"
+                size="14px"
+                color="primary"
+                no-caps
+                class="q-py-xs radius-6 full-width"
+              />
+            </div>
+          </div>
+        </q-card-section>
+      </q-form>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script>
+export default {
+  name: "imageDialog",
+  props: {
+    dialogState: { type: Boolean, default: false },
+    imageIndex: { type: Number, default: null },
+    image: { type: [File, Object], default: null }
+  },
+  data() {
+    return {
+      captionInput: "",
+      isLoading: false
+    };
+  },
+  methods: {
+    async addCaption() {
+      if (!!this.image && !!this.image.id) {
+        try {
+          const deleteRes = await this.$api.put(
+            `api/upload/files/${this.image.id}`,
+
+            JSON.stringify({
+              caption: this.captionInput,
+              alternativeText: this.captionInput
+            })
+          );
+          console.log("deleteRes", deleteRes);
+        } catch (error) {
+          console.log("files error.response", error.response);
+          this.$q.notify({
+            // position: "top-right",
+            type: "negative",
+            message: error.response.data.error.message
+          });
+          // return false;
+        }
+      } else {
+        this.$emit("add-caption", this.captionInput, this.imageIndex);
+        this.$_options = false;
+      }
+    },
+    setData() {
+      if (!!this.image && this.image.caption) {
+        this.captionInput = this.image.caption;
+      }
+    }
+  },
+  computed: {
+    $_options: {
+      get: function() {
+        return this.dialogState;
+      },
+      set: function(val) {
+        this.captionInput = "";
+        this.$emit("update", val);
+      }
+    }
+  }
+};
+</script>
