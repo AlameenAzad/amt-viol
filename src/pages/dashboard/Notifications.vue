@@ -198,7 +198,7 @@ export default {
       else if (type == "guest") return "person";
       else if (type == "requests") return "person_add";
     },
-    async view(noti, isFunding = false) {
+    async view(noti, isFunding = false) { 
       console.log(noti);
       if (noti.typeOfNoti == "fundingComments" && isFunding) {
         this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
@@ -220,7 +220,7 @@ export default {
           });
         }
       }
-    },
+    }, 
     acceptReq(noti, index) {
       if (noti.typeOfNoti == "requests") {
         this.$store.dispatch("userCenter/manageRequest", {
