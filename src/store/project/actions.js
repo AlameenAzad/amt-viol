@@ -78,6 +78,7 @@ export async function uploadFiles(context, payload) {
         }
       });
       console.log("fileRes", fileRes);
+      return true;
     } catch (error) {
       console.log("files error.response", error.response);
       Notify.create({
@@ -91,33 +92,39 @@ export async function uploadFiles(context, payload) {
 }
 
 export async function uploadMedia(context, payload) {
+  console.log("payload", payload);
   if (payload.media && payload.id) {
-    let formData = new FormData();
-    formData.append("ref", "api::project.project");
-    formData.append("refId", payload.id);
-    formData.append("field", "media");
-    if (payload.media.length > 1) {
-      payload.media.forEach(file => {
+    if (payload.media.length > 0) {
+      payload.media.forEach(async file => {
+        const formData = new FormData();
+        formData.append("ref", "api::project.project");
+        formData.append("refId", payload.id);
+        formData.append("field", "media");
         formData.append("files", file);
-      });
-    } else {
-      formData.append("files", payload.media[0]);
-    }
-    try {
-      const mediaRes = await api.post("api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+        formData.append(
+          "fileInfo",
+          JSON.stringify({
+            caption: file.caption,
+            alternativeText: file.caption
+          })
+        );
+        try {
+          const mediaRes = await api.post("api/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+          console.log("mediaRes", mediaRes);
+        } catch (error) {
+          console.log("media error.response", error.response);
+          Notify.create({
+            type: "negative",
+            message: error.response.data.error.message
+          });
         }
       });
-      console.log("mediaRes", mediaRes);
-    } catch (error) {
-      console.log("media error.response", error.response);
-      Notify.create({
-        // position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
-      // return false;
+    } else {
+      console.error("went to elseeee");
     }
   }
 }
@@ -168,6 +175,7 @@ export async function editProjectIdea(context, payload) {
               )
           );
         }
+        console.log("added", added);
         let deleted = [];
         if (context.state.project.media !== null) {
           deleted = context.state.project.media.filter(
@@ -175,12 +183,13 @@ export async function editProjectIdea(context, payload) {
               !data.media.find(newMedia => newMedia.id === oldMedia.id)
           );
         }
+        console.log("deleted", deleted);
         if (added.length > 0) {
           const addNewFilesRes = await context.dispatch("uploadMedia", {
             media: added,
             id: res.data.data.id
           });
-          console.log("addNewFilesRes", addNewFilesRes);
+          console.log("addNewFasdasdasdilesRes", addNewFilesRes);
         }
         if (deleted.length > 0) {
           const deleteFilesRes = await context.dispatch("deleteFilesAndMedia", {
