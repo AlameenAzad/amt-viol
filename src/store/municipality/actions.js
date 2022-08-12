@@ -25,7 +25,7 @@ export async function createMunicipality(context, payload) {
       });
       context.commit("addMunicipality", res.data.data);
       Notify.create({
-        message: "Municiplaity added successfully",
+        message: "Verwaltungsbereich erfolgreich hinzugefügt",
         type: "positive"
       });
       context.dispatch("getMunicipalities");
@@ -52,7 +52,7 @@ export async function editMunicipality(context, payload) {
       console.log("res :>> ", res);
       context.commit("editMunicipality", res.data.data);
       Notify.create({
-        message: "Municipality updated successfully",
+        message: "Verwaltungsbereich erfolgreich aktualisiert",
         type: "positive"
       });
       context.dispatch("getMunicipalities");
@@ -74,7 +74,7 @@ export async function delteMunicipality(context, payload) {
       const res = await api.delete(`/api/municipalities/${id}`);
       context.commit("deleteMunicipality", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Municipality deleted successfully",
+        message: "Verwaltungsbereich erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getMunicipalities");

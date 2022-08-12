@@ -356,6 +356,19 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="project.duplications > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.duplications") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{ project.duplications }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
                 <div
                   v-if="!!project.details && project.details.status !== null"
                 >
@@ -618,6 +631,7 @@
                       </video>
                     </q-carousel-slide>
                   </q-carousel>
+
                   <div class="row justify-center">
                     <div class="col-9">
                       <q-tabs
@@ -665,6 +679,16 @@
                           </div>
                         </q-tab>
                       </q-tabs>
+                      <p
+                        class="q-mt-md q-mb-none font-14 text-center text-grey"
+                      >
+                        {{
+                          !!project.media[slide - 1] &&
+                          !!project.media[slide - 1].caption
+                            ? project.media[slide - 1].caption
+                            : ""
+                        }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>
@@ -884,7 +908,12 @@ export default {
     async duplicateProject() {
       this.duplicateIsLoading = true;
       const id = !!this.project && this.project.id;
-      if (!!this.project && this.project.visibility !== "all users") {
+      if (
+        !!this.project &&
+        this.project.visibility !== "all users" &&
+        (!!this.project.owner && this.project.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id)
+      ) {
         this.itemId = !!this.project && this.project.id;
         this.type = "duplicate";
         this.requestDialog = true;

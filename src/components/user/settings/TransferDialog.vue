@@ -196,13 +196,11 @@ export default {
       return this.$store.state.userCenter.user.user;
     },
     users() {
-      if (this.fromId.length > 0) return this.$store.state.userCenter.users;
-      else
+      var againstUserID = this.currentUser.id;
+      if (this.fromId.length > 0) 
+        againstUserID = Number(this.fromId);
         return this.$store.state.userCenter.users.filter(
-          user =>
-            !user.username.includes(
-              !!this.currentUser && this.currentUser.username
-            )
+          user => user.id != againstUserID
         );
     },
     filteredUsers() {

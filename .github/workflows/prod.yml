@@ -1,14 +1,14 @@
-name: DEV DEPLOYMENT
+name: PRODUCTION DEPLOYMENT
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["prod"]
 
 jobs:
   build:
     runs-on:
       - self-hosted
-      - dev
+      - prod
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
@@ -20,4 +20,4 @@ jobs:
       - name: Build PWA
         run: npx quasar build -m pwa
       - name: Move Build Files to Directory
-        run: cp -R dist/pwa /var/www/amt-clone/amt-viol/dist/
+        run: cp -R dist/pwa /var/www/amtviol/

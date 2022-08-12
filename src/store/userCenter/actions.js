@@ -106,7 +106,7 @@ export async function inviteUser(context, payload) {
       const res = await api.post("/api/users", data);
       console.log("res :>> ", res);
       Notify.create({
-        message: "An Email has been sent to the invited user",
+        message: "Eine Einladung wurde an den User geschickt",
         type: "positive"
       });
       context.dispatch("getUsers");
@@ -128,7 +128,7 @@ export async function resetPassword(context, payload) {
     try {
       await api.post("/api/auth/reset-password", data);
       Notify.create({
-        message: "Password reset successfully. Redirecting to Login",
+        message: "Passwort erfolgreich zurück gesetzt. Weiterleitung zum Login",
         type: "positive"
       });
       setTimeout(() => {
@@ -153,7 +153,7 @@ export async function updatePersonalData(context, payload) {
     try {
       const res = await api.put(`/api/user-details/${userDetailsId}`, { data });
       Notify.create({
-        message: "User data updated successfully",
+        message: "Userdaten wurden erfolgreich geändert",
         type: "positive"
       });
       context.commit("updatePersonalData", res.data.data);
@@ -176,7 +176,7 @@ export async function updateUser(context, payload) {
     try {
       const res = await api.put(`/api/users/${data.id}`, { data: data.data });
       Notify.create({
-        message: "User data updated successfully",
+        message: "Userdaten wurden erfolgreich geändert",
         type: "positive"
       });
       context.dispatch("getUserDetails");
@@ -210,7 +210,7 @@ export async function transferData(context, payload) {
         }`
       );
       Notify.create({
-        message: "User data transferred successfully",
+        message: "Userdaten wurden transferiert",
         type: "positive"
       });
       console.log("res", res);
@@ -307,7 +307,8 @@ export async function forgotPassword(context) {
       email: context.state.user.user.email
     });
     Notify.create({
-      message: "Password reset link was sent to your email.",
+      message:
+        "Ein Link für die Zurücksetzung Ihres Passwortes wurde an Ihre Email geschickt",
       type: "positive"
     });
   } catch (error) {
@@ -363,6 +364,10 @@ export async function deleteUser(context, payload) {
     try {
       const res = await api.delete(`/api/users/${payload.id}`);
       if (!payload.admin) context.dispatch("logout");
+      Notify.create({
+        message: "Benutzer wurde gelöscht.",
+        type: "positive"
+      });
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({

@@ -419,6 +419,16 @@
                           </div>
                         </q-tab>
                       </q-tabs>
+                      <p
+                        class="q-mt-md q-mb-none font-14 text-center text-grey"
+                      >
+                        {{
+                          !!funding.media[slide - 1] &&
+                          !!funding.media[slide - 1].caption
+                            ? funding.media[slide - 1].caption
+                            : ""
+                        }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>

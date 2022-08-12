@@ -59,7 +59,7 @@ export default {
         id: fromId,
         admin: this.fromId.length > 0
       });
-      if (this.fromId.length > 0) {
+      if (this.fromId.length > 0 && this.$router.currentRoute.path != "/Administation/User") {
         this.$router.push({ path: `/Administation/User` });
       }
       this.isLoading = false;

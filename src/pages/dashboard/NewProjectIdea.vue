@@ -560,13 +560,12 @@
                     class="q-mt-sm"
                     v-if="form.media && form.media.length > 0"
                   >
-                    <q-item
-                      class="radius-6"
+                    <div
+                      class="q-col-gutter-x-sm row radius-6 shadow-1 q-mt-sm items-center q-pa-sm"
                       v-for="(image, index) in form.media"
                       :key="index"
-                      clickable
                     >
-                      <q-item-section side>
+                      <div class="col-auto">
                         <q-avatar rounded size="48px">
                           <q-img
                             :ratio="1"
@@ -574,13 +573,13 @@
                             :src="imgPreview(image).url"
                           />
                         </q-avatar>
-                      </q-item-section>
-                      <q-item-section>
+                      </div>
+                      <div class="col-8">
                         <q-item-label class="ellipsis" caption>{{
                           imgPreview(image).name
                         }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
+                      </div>
+                      <div class="col-auto text-right">
                         <q-btn
                           icon="delete"
                           @click.prevent.stop="removeImg(index)"
@@ -590,8 +589,24 @@
                           dense
                         >
                         </q-btn>
-                      </q-item-section>
-                    </q-item>
+                      </div>
+                      <div class="col-12 q-mt-sm">
+                        <q-btn
+                          :label="
+                            !!imgPreview(image).caption
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
+                          "
+                          @click.prevent.stop="addCaption(image, index)"
+                          text-color="primary"
+                          dense
+                          class="radius-6 "
+                          no-caps
+                          flat
+                        >
+                        </q-btn>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -691,6 +706,15 @@
         </q-form>
       </div>
     </div>
+    <ImageDialog
+      :imageIndex="imageIndex"
+      :image="image"
+      type="project"
+      :document="!!project ? project : null"
+      :dialogState="imageDialog"
+      @update="(imageDialog = false), (imageIndex = null), (image = null)"
+      @add-caption="updateCaption"
+    />
   </q-page>
 </template>
 
@@ -703,6 +727,7 @@ import Tags from "components/projects/create/Tags.vue";
 import EstimatedCost from "src/components/projects/create/EstimatedCost.vue";
 import Links from "components/projects/create/Links.vue";
 import Fundings from "components/funding/Fundings.vue";
+import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
 
 export default {
@@ -713,10 +738,14 @@ export default {
     Tags,
     EstimatedCost,
     Links,
-    Fundings
+    Fundings,
+    ImageDialog
   },
   data() {
     return {
+      imageIndex: null,
+      image: null,
+      imageDialog: false,
       form: {
         title: "",
         plannedStart: "",
@@ -752,8 +781,15 @@ export default {
       dataLoaded: true
     };
   },
-  //  TODO do I need to check for the route id so I get new data in case a user changes the id in the url
   methods: {
+    updateCaption(value, index) {
+      this.form.media[index].caption = value;
+    },
+    addCaption(image, index) {
+      this.imageDialog = true;
+      this.imageIndex = index;
+      this.image = image;
+    },
     plannedEndOptions(date) {
       if (!!this.form.plannedStart) {
         const calendarDate = date.replace(/\//g, "-");
@@ -774,7 +810,8 @@ export default {
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
-        name: val.name
+        name: val.name,
+        caption: val.caption
       };
     },
     removeImg(index) {

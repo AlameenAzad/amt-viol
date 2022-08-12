@@ -131,7 +131,7 @@
               Hintergrund der Entwicklung lebenswerter Kommunen und der
               Sicherung von Daseinsvorsorgeinfrastrukturen wird es für
               strukturschwache Regionen immer essenzieller, vorhandene
-              Entwicklungsressourcen (Projektwissen, Personal und Finanzmittel)
+              Entwicklungsressourcen (Projektwissen, Personal und Fördermittel)
               in einem Wissensnetzwerk zu bündeln und zu teilen.
             </p>
             <p class="font-16 text-left">

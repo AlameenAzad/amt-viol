@@ -40,7 +40,7 @@ export async function createNewProjectIdea(context, payload) {
       }
       context.commit("addNewProjectIdea", res.data.data);
       Notify.create({
-        message: "New Project Idea added successfully",
+        message: "Neue Projektidee erfolgreich hinzugefügt",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -92,32 +92,36 @@ export async function uploadFiles(context, payload) {
 
 export async function uploadMedia(context, payload) {
   if (payload.media && payload.id) {
-    let formData = new FormData();
-    formData.append("ref", "api::project.project");
-    formData.append("refId", payload.id);
-    formData.append("field", "media");
-    if (payload.media.length > 1) {
-      payload.media.forEach(file => {
+    if (payload.media.length > 0) {
+      const promises = payload.media.map(async file => {
+        const formData = new FormData();
+        formData.append("ref", "api::project.project");
+        formData.append("refId", payload.id);
+        formData.append("field", "media");
         formData.append("files", file);
-      });
-    } else {
-      formData.append("files", payload.media[0]);
-    }
-    try {
-      const mediaRes = await api.post("api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+        formData.append(
+          "fileInfo",
+          JSON.stringify({
+            caption: file.caption
+          })
+        );
+        try {
+          return await api.post("api/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+        } catch (error) {
+          console.log("media error.response", error.response);
+          Notify.create({
+            type: "negative",
+            message: error.response.data.error.message
+          });
         }
       });
-      console.log("mediaRes", mediaRes);
-    } catch (error) {
-      console.log("media error.response", error.response);
-      Notify.create({
-        // position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
-      // return false;
+      return Promise.all(promises);
+    } else {
+      console.error("No Meida Files");
     }
   }
 }
@@ -168,6 +172,7 @@ export async function editProjectIdea(context, payload) {
               )
           );
         }
+        console.log("added", added);
         let deleted = [];
         if (context.state.project.media !== null) {
           deleted = context.state.project.media.filter(
@@ -175,6 +180,7 @@ export async function editProjectIdea(context, payload) {
               !data.media.find(newMedia => newMedia.id === oldMedia.id)
           );
         }
+        console.log("deleted", deleted);
         if (added.length > 0) {
           const addNewFilesRes = await context.dispatch("uploadMedia", {
             media: added,
@@ -226,7 +232,7 @@ export async function editProjectIdea(context, payload) {
         }
       }
       Notify.create({
-        message: "Project Idea edited successfully",
+        message: "Projektidee erfolgreich bearbeitet",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -273,7 +279,7 @@ export async function addToWatchlist(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Project Idea added to watchlist",
+        message: "Projektidee erfolgreich zur Merkliste zugefügt",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -294,7 +300,7 @@ export async function removeFromWatchlist(context, payload) {
       const res = await api.delete(`/api/watchlists/${id}`);
       console.log("res", res);
       Notify.create({
-        message: "Project Idea removed from watchlist",
+        message: "Projektidee erfolgreich von der Merkliste entfernt",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -326,7 +332,7 @@ export async function requestAccess(context, payload) {
         }
       });
       Notify.create({
-        message: "Project Idea access request sent",
+        message: "Zugangsanfrage für Projektidee gesendet",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -349,7 +355,7 @@ export async function archiveProjectIdea(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Project Idea archived successfully",
+        message: "Projektidee erfolgreich archiviert",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -369,7 +375,7 @@ export async function duplicateProject(context, payload) {
     try {
       const res = await api.post(`/api/project/duplicate/${id}`);
       Notify.create({
-        message: "Project Idea duplicated successfully",
+        message: "Projektidee erfolgreich dupliziert",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -391,7 +397,7 @@ export async function deleteProjectIdea(context, payload) {
       const res = await api.delete(`/api/projects/${id}`);
       context.commit("deleteProjectIdea", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Project Idea deleted successfully",
+        message: "Projektidee erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
