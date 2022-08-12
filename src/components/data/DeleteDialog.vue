@@ -5,11 +5,11 @@
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
             tab == "projectIdeas"
-              ? "Delete Project Idea"
+              ? $t("Delete Project Idea")
               : tab === "fundings"
-              ? "Delete Funding"
+              ? $t("Delete Funding")
               : tab === "implementationChecklist"
-              ? "Delete Checklist"
+              ? $t("Delete Implementation Checklist")
               : ""
           }}
         </h6>
@@ -19,11 +19,17 @@
           <p>
             {{
               tab == "projectIdeas"
-                ? "Are you sure you want to delete this Project Idea? It will be removed from all documents."
+                ? $t(
+                    "Are you sure you want to delete this Project Idea? It will be removed from all documents"
+                  )
                 : tab === "fundings"
-                ? "Are you sure you want to delete this Funding? It will be removed from all documents."
+                ? $t(
+                    "Are you sure you want to delete this Funding? It will be removed from all documents"
+                  )
                 : tab === "implementationChecklist"
-                ? "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents."
+                ? $t(
+                    "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents"
+                  )
                 : ""
             }}
           </p>
