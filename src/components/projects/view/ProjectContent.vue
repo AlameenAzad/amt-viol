@@ -618,6 +618,7 @@
                       </video>
                     </q-carousel-slide>
                   </q-carousel>
+
                   <div class="row justify-center">
                     <div class="col-9">
                       <q-tabs
@@ -665,6 +666,18 @@
                           </div>
                         </q-tab>
                       </q-tabs>
+
+                      <p
+                        style="text-shadow: 1px 1px #000000"
+                        class="no-margin font-16 text-grey"
+                      >
+                        {{
+                          !!project.media[slide - 1] &&
+                          !!project.media[slide - 1].caption
+                            ? project.media[slide - 1].caption
+                            : ""
+                        }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>
