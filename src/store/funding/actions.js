@@ -39,7 +39,7 @@ export async function createNewFunding(context, payload) {
         console.log("mediaUploadRes", mediaUploadRes);
       }
       Notify.create({
-        message: "New Funding added successfully",
+        message: "Neue Förder-Kurzinfo erfolgreich hinzugefügt",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -89,31 +89,36 @@ export async function uploadFiles(context, payload) {
 
 export async function uploadMedia(context, payload) {
   if (payload.media && payload.id) {
-    let formData = new FormData();
-    formData.append("ref", "api::funding.funding");
-    formData.append("refId", payload.id);
-    formData.append("field", "media");
-    if (payload.media.length > 1) {
-      payload.media.forEach(file => {
+    if (payload.media.length > 0) {
+      const promises = payload.media.map(async file => {
+        const formData = new FormData();
+        formData.append("ref", "api::funding.funding");
+        formData.append("refId", payload.id);
+        formData.append("field", "media");
         formData.append("files", file);
-      });
-    } else {
-      formData.append("files", payload.media[0]);
-    }
-    try {
-      const mediaRes = await api.post("api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+        formData.append(
+          "fileInfo",
+          JSON.stringify({
+            caption: file.caption
+          })
+        );
+        try {
+          return await api.post("api/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+        } catch (error) {
+          console.log("media error.response", error.response);
+          Notify.create({
+            type: "negative",
+            message: error.response.data.error.message
+          });
         }
       });
-      console.log("mediaRes", mediaRes);
-    } catch (error) {
-      console.log("media error.response", error.response);
-      Notify.create({
-        type: "negative",
-        message: error.response.data.error.message
-      });
-      // return false;
+      return Promise.all(promises);
+    } else {
+      console.error("No Meida Files");
     }
   }
 }
@@ -224,7 +229,7 @@ export async function editFunding(context, payload) {
       }
 
       Notify.create({
-        message: "Funding edited successfully",
+        message: "Förder-Kurzinfo erfolgreich bearbeitet",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -282,7 +287,7 @@ export async function requestAccess(context, payload) {
         }
       });
       Notify.create({
-        message: "Funding access request sent",
+        message: "Förder-Kurzinfo Anfrage gesendet",
         type: "positive"
       });
       context.dispatch("getFundings");
@@ -305,7 +310,7 @@ export async function archiveFunding(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Funding archived successfully",
+        message: "Förder-Kurzinfo erfolgreich archiviert",
         type: "positive"
       });
       context.dispatch("getFundings");
@@ -328,7 +333,7 @@ export async function addToWatchlist(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Funding added to watchlist",
+        message: "Förder-Kurzinfo zur Merkliste hinzugefügt",
         type: "positive"
       });
       context.dispatch("getFundings");
@@ -352,7 +357,7 @@ export async function addComment(context, payload) {
         data: { comment, funding: fundingId, owner: userId }
       });
       Notify.create({
-        message: "Added comment to Funding",
+        message: "Kommentar erfolgreich hinzugefügt",
         type: "positive"
       });
       context.dispatch("getSpecificFunding", { id: fundingId });
@@ -373,7 +378,7 @@ export async function removeFromWatchlist(context, payload) {
       const res = await api.delete(`/api/watchlists/${id}`);
       console.log("res", res);
       Notify.create({
-        message: "Funding removed from watchlist",
+        message: "Förder-Kurzinfo erfolgreich von der Merkliste entfernt",
         type: "positive"
       });
       context.dispatch("getProjectIdeas");
@@ -394,7 +399,7 @@ export async function deleteFunding(context, payload) {
       const res = await api.delete(`/api/fundings/${id}`);
       context.commit("deleteFunding", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Funding deleted successfully",
+        message: "Förder-Kurzinfo erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getFundings");

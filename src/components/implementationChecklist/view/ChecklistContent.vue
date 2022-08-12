@@ -304,6 +304,19 @@
                     </div>
                   </div>
                 </q-card-section>
+                <div v-if="checklist.duplications > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.duplications") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{ checklist.duplications }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
               </q-card>
             </div>
           </div>
@@ -391,6 +404,16 @@
                           </div>
                         </q-tab>
                       </q-tabs>
+                      <p
+                        class="q-mt-md q-mb-none font-14 text-center text-grey"
+                      >
+                        {{
+                          !!checklist.media[slide - 1] &&
+                          !!checklist.media[slide - 1].caption
+                            ? checklist.media[slide - 1].caption
+                            : ""
+                        }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>
@@ -2133,7 +2156,12 @@ export default {
     async duplicateChecklist() {
       this.duplicateIsLoading = true;
       const id = !!this.checklist && this.checklist.id;
-      if (!!this.checklist && this.checklist.visibility !== "all users") {
+      if (
+        !!this.checklist &&
+        this.checklist.visibility !== "all users" &&
+        (!!this.checklist.owner && this.checklist.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id)
+      ) {
         this.itemId = !!this.checklist && this.checklist.id;
         this.type = "duplicate";
         this.requestDialog = true;

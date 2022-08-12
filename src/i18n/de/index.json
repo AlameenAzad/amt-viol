@@ -123,7 +123,7 @@
     "bookmark": "Merken",
     "archive": "Archivieren",
     "delete": "Löschen",
-    "removeBookmark": "aus Lesezeichen entfernen"
+    "removeBookmark": "aus Merkliste entfernen"
   },
   "myNetworkHome": {
     "myNetwork": "Mein Netzwerk",
@@ -132,7 +132,7 @@
     "unfollowOption": "Entfolgen"
   },
   "projectContent": {
-    "contactPerson": "Ansprechpartner",
+    "contactPerson": "Ansprechpartner*in",
     "contactDetails": "Kontaktdaten",
     "locationOfProject": "Ort des Projektes",
     "inviteEditors": "Bearbeiter*in einladen",
@@ -149,7 +149,8 @@
     "projectGoals": "Projektziele",
     "projectValue&Benefits": "Projektmehrwert & -nutzen",
     "CooperationPartner": "Kooperationspartner",
-    "projectContent": "Projektinhalt"
+    "projectContent": "Projektinhalt",
+     "duplications": "Vervielfältigungen"
   },
   "category&Keyword": {
     "category": "Kategorien",
@@ -278,7 +279,7 @@
     "linkAdd": "Link hinzufügen"
   },
   "projectIdeaPlaceholder": {
-    "title": "Title",
+    "title": "Titel",
     "nameSurname": "Name, Nachname",
     "administration": "Verwaltung",
     "streetNr": "Straße, Hausnr.",
@@ -387,8 +388,8 @@
   "Add Files": "Dateien hinzufügen",
   "Select Files": "Dateien auswählen",
   "deleteUserInfo": "Sind Sie sicher, dass Sie diesen Benutzer löschen wollen? Sie müssen zuerst die Daten dieses Benutzers übertragen.",
-  "funding provider": "Fördermittelgeber",
-  "Contact person": "Ansprechpartner",
+  "funding provider": "Fördermittelgeber*in",
+  "Contact person": "Ansprechpartner*in",
   "Contact Details (optional)": "Kontaktdaten (optional)",
   "Contact Details": "Kontaktdaten",
   "Invite Editor": "Bearbeiter*in einladen",
@@ -409,7 +410,7 @@
   "Link to project ideas (optional)": "Link zum Projektideen (optional)",
   "Link to implementation checklist (optional)": "Link zu Umsetzungschecklisten (optional)",
   "Links to the fundings": "Links zu den Fördermitteln",
-  "official title": "Offizieller Titel des Fördermittelgebers",
+  "official title": "Offizieller Titel des Fördermittelgeber*ins",
   "Name, Surname": "Name, Nachname",
   "Street, Nr.": "Straße, Hausnr.",
   "Postal Code, City": "PLZ, Ort",
@@ -424,14 +425,14 @@
   "Idea Provider/giver": "Ideengeber*in",
   "Link for Project Idea": "Link zur Projektidee",
   "Initial discussion with the politics": "Erstgespräch mit dem politischen Ehrenamt",
-  "Description": "Description:",
+  "Description": "Beschreibung:",
   "Project Name": "Projektname",
   "Implementation checklist": "Umsetzungscheckliste",
   "Idea provider": "Ideengeber*in",
   "Volunteering": "Ehrenamt",
   "Main Office": "Hauptamt",
   "Contact person checklist": "Ansprechpartner*in",
-  "Contact person checklist view": "Ansprechpartner",
+  "Contact person checklist view": "Ansprechpartner*in",
   "No Images": "Keine Bilder",
   "Project activity": "Projektaktivität",
   "title": "Titel",
@@ -448,7 +449,7 @@
   "Funding research": "Fördermittelrecherche",
   "Check database “Fundings”": "Check Datenbank „Fördermittel“",
   "Check for funding scouting": "Check über Förderscouting",
-  "Joint research for funding or check of the project idea": "Check beim Fördermittelgeber",
+  "Joint research for funding or check of the project idea": "Check beim Fördermittelgeber*in",
   "Check Guidlines (long version)": "Check Richtlinie (Langfassung)",
   "Preparation/optimisation of project documents": "Ausarbeitung/Optimierung Projektunterlagen",
   "Check Content with Guidelines": "Check Inhalt mit Richtlinie",
@@ -460,8 +461,21 @@
   "Final examination of the project documents": "Prüfung der Projektunterlagen final",
   "Collection of signatures": "Einholung von Unterschriften",
   "Revision of project documents": "Überarbeitung Projektunterlagen",
-  "Records per page": "Kurzinfos pro Seite:",
+  "Records per page": "Datensätze pro Seite:",
   "Investive": "Investiv",
   "Non-Investive": "Nicht-investiv",
-  "Select Implementation Checklist": "Umsetzungscheckliste auswählen"
+  "Select Implementation Checklist": "Umsetzungscheckliste auswählen",
+  "Delete Project Idea": "Projektidee löschen",
+  "Delete Funding": "Fördermittel löschen",
+  "Delete Implementation Checklist": "Umsetzungscheckliste löschen",
+  "Are you sure you want to delete this Project Idea? It will be removed from all documents" : "Sind Sie sicher, dass die Projektidee gelöscht werden soll? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
+  "Are you sure you want to delete this Funding? It will be removed from all documents": "Sind Sie sicher, dass Sie die Förderung löschen wollen? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
+  "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents": "Sind Sie sicher, dass Sie diese Umsetzungscheckliste löschen wollen? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
+  "Add caption or credit the author": "Beschriftung hinzufügen oder den Autor nennen",
+   "Add Caption": "Bildunterschrift hinzufügen",
+  "Edit Caption": "Bildunterschrift bearbeiten",
+  "Caption updated": "Bildunterschrift aktualisiert"
+
+
+
 }

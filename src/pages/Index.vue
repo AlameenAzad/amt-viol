@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-12 q-mb-md">
               <h1 class="font-50 text-white text-weight-600 q-mb-none">
-                Förderscouting-Plattformm
+                Förderscouting-Plattform
               </h1>
               <p class="text-white">
                 Das Projekt „Interkommunale Förderscouting-Plattform
@@ -131,7 +131,7 @@
               Hintergrund der Entwicklung lebenswerter Kommunen und der
               Sicherung von Daseinsvorsorgeinfrastrukturen wird es für
               strukturschwache Regionen immer essenzieller, vorhandene
-              Entwicklungsressourcen (Projektwissen, Personal und Finanzmittel)
+              Entwicklungsressourcen (Projektwissen, Personal und Fördermittel)
               in einem Wissensnetzwerk zu bündeln und zu teilen.
             </p>
             <p class="font-16 text-left">

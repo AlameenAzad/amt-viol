@@ -139,7 +139,7 @@ export default {
         } else {
           this.$q.notify({
             type: "negative",
-            message: "Please pick a different title or location"
+            message: "Bitte wählen Sie einen anderen Titel oder anderen Ort aus"
           });
         }
       }

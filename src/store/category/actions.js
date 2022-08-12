@@ -21,7 +21,7 @@ export async function addCategory(context, payload) {
       const res = await api.post("/api/categories", { data: { title: name } });
       context.commit("addCategory", res.data.data);
       Notify.create({
-        message: "Category added successfully",
+        message: "Kategorie erfolgreich hinzugefügt",
         type: "positive"
       });
       context.dispatch("getCategories");
@@ -46,7 +46,7 @@ export async function editCategory(context, payload) {
       });
       context.commit("editCategory", res.data.data);
       Notify.create({
-        message: "Category updated successfully",
+        message: "Kategorie erfolgreich geändert",
         type: "positive"
       });
       context.dispatch("getCategories");
@@ -68,7 +68,7 @@ export async function deleteCategory(context, payload) {
       const res = await api.delete(`/api/categories/${id}`);
       context.commit("deleteCategory", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Category deleted successfully",
+        message: "Kategorie erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getCategories");

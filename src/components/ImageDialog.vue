@@ -4,14 +4,18 @@
       <q-form @submit.prevent="addCaption()">
         <q-card-section class="q-pt-none" align="center">
           <h6 class="text-center font-20 q-mt-md q-mb-none">
-            {{ !!image && !!image.caption ? "Edit Caption" : "Add Caption" }}
+            {{
+              !!image && !!image.caption
+                ? $t("Edit Caption")
+                : $t("Add Caption")
+            }}
           </h6>
         </q-card-section>
         <q-card-section class="q-pb-none">
           <div class=" items-center ">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
-                Pleae credit the author here
+                {{ $t("Add caption or credit the author") }}
               </p>
             </div>
             <div class="col-12 col-md-9">
@@ -39,7 +43,7 @@
             </div>
             <div class="col-5 q-ml-sm">
               <q-btn
-                label="Submit"
+                :label="$t('category&Keyword.save')"
                 type="submit"
                 unelevated
                 :loading="isLoading"
@@ -58,11 +62,13 @@
 
 <script>
 export default {
-  name: "imageDialog",
+  name: "captionDialog",
   props: {
     dialogState: { type: Boolean, default: false },
     imageIndex: { type: Number, default: null },
-    image: { type: [File, Object], default: null }
+    image: { type: [File, Object], default: () => null },
+    type: { type: String, default: "" },
+    document: { type: Object, default: () => null }
   },
   data() {
     return {
@@ -72,25 +78,24 @@ export default {
   },
   methods: {
     async addCaption() {
-      if (!!this.image && !!this.image.id) {
+      if (!!this.image && !!this.image.id && !!this.document) {
         try {
-          const deleteRes = await this.$api.put(
-            `api/upload/files/${this.image.id}`,
-
-            JSON.stringify({
-              caption: this.captionInput,
-              alternativeText: this.captionInput
-            })
-          );
-          console.log("deleteRes", deleteRes);
-        } catch (error) {
-          console.log("files error.response", error.response);
+          await this.$api.put(`api/upload/caption/${this.image.id}`, {
+            caption: this.captionInput,
+            type: this.type,
+            docId: this.document.id
+          });
+          this.$emit("add-caption", this.captionInput, this.imageIndex);
+          this.$_options = false;
           this.$q.notify({
-            // position: "top-right",
+            type: "positive",
+            message: this.$t("Caption updated")
+          });
+        } catch (error) {
+          this.$q.notify({
             type: "negative",
             message: error.response.data.error.message
           });
-          // return false;
         }
       } else {
         this.$emit("add-caption", this.captionInput, this.imageIndex);

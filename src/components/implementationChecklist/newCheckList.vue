@@ -299,13 +299,12 @@
                     class="q-mt-sm"
                     v-if="form.media && form.media.length > 0"
                   >
-                    <q-item
-                      class="radius-6"
+                    <div
+                      class="q-col-gutter-x-sm row radius-6 shadow-1 q-mt-sm items-center q-pa-sm"
                       v-for="(image, index) in form.media"
                       :key="index"
-                      clickable
                     >
-                      <q-item-section side>
+                      <div class="col-auto">
                         <q-avatar rounded size="48px">
                           <q-img
                             :ratio="1"
@@ -313,13 +312,13 @@
                             :src="imgPreview(image).url"
                           />
                         </q-avatar>
-                      </q-item-section>
-                      <q-item-section>
+                      </div>
+                      <div class="col-8">
                         <q-item-label class="ellipsis" caption>{{
                           imgPreview(image).name
                         }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
+                      </div>
+                      <div class="col-auto text-right">
                         <q-btn
                           icon="delete"
                           @click.prevent.stop="removeImg(index)"
@@ -329,8 +328,24 @@
                           dense
                         >
                         </q-btn>
-                      </q-item-section>
-                    </q-item>
+                      </div>
+                      <div class="col-12 q-mt-sm">
+                        <q-btn
+                          :label="
+                            !!imgPreview(image).caption
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
+                          "
+                          @click.prevent.stop="addCaption(image, index)"
+                          text-color="primary"
+                          dense
+                          class="radius-6 "
+                          no-caps
+                          flat
+                        >
+                        </q-btn>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -970,6 +985,15 @@
         </q-fab>
       </q-page-sticky>
     </div>
+    <ImageDialog
+      :imageIndex="imageIndex"
+      :image="image"
+      type="checklist"
+      :document="!!checklist ? checklist : null"
+      :dialogState="imageDialog"
+      @update="(imageDialog = false), (imageIndex = null), (image = null)"
+      @add-caption="updateCaption"
+    />
   </q-page>
 </template>
 
@@ -981,6 +1005,7 @@ import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import draggable from "vuedraggable";
+import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
 
 export default {
@@ -990,10 +1015,14 @@ export default {
     ProjectIdeas,
     UserSelect,
     Categories,
-    Tags
+    Tags,
+    ImageDialog
   },
   data() {
     return {
+      imageIndex: null,
+      image: null,
+      imageDialog: false,
       projectIdea: true,
       form: {
         title: "",
@@ -1105,7 +1134,7 @@ export default {
                         active: false,
                         objectId: 3,
                         info: [
-                          "Wer ist inhaltlicher Ansprechpartner für die Projektkoordination?"
+                          "Wer ist inhaltlicher Ansprechpartner*in für die Projektkoordination?"
                         ]
                       },
                       {
@@ -1680,7 +1709,7 @@ export default {
               },
               {
                 objectName: "checkWithFunding",
-                objectTitle: "Check beim Fördermittelgeber",
+                objectTitle: "Check beim Fördermittelgeber*in",
                 name: "",
                 text: "",
                 desc:
@@ -1693,7 +1722,7 @@ export default {
                 tasks: [
                   {
                     name:
-                      "Worauf muss im Gespräch mit dem Fördermittelgeber geachtet werden?",
+                      "Worauf muss im Gespräch mit dem Fördermittelgeber*in geachtet werden?",
                     sortPosition: 1,
                     objectId: 1,
                     active: false,
@@ -1706,7 +1735,7 @@ export default {
                       },
                       {
                         name:
-                          "Check des Projektsteckbriefes mit dem Fördermittelgeber",
+                          "Check des Projektsteckbriefes mit dem Fördermittelgeber*in",
                         sortPosition: 2,
                         active: false,
                         objectId: 2,
@@ -1833,7 +1862,7 @@ export default {
                       },
                       {
                         name:
-                          "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber",
+                          "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber*in",
                         sortPosition: 7,
                         active: false,
                         objectId: 7
@@ -1898,7 +1927,8 @@ export default {
                         objectId: 3
                       },
                       {
-                        name: "Budgetsituation beim Fördermittelgeber erfragen",
+                        name:
+                          "Budgetsituation beim Fördermittelgeber*in erfragen",
                         sortPosition: 4,
                         active: false,
                         objectId: 4
@@ -2033,7 +2063,7 @@ export default {
                       },
                       {
                         name:
-                          "Akteure mit Erfahrung mit Fördermittelgeber kontaktieren",
+                          "Akteure mit Erfahrung mit Fördermittelgeber*in kontaktieren",
                         sortPosition: 4,
                         active: false,
                         objectId: 4
@@ -2473,8 +2503,15 @@ export default {
     }
   },
   methods: {
+    updateCaption(value, index) {
+      this.form.media[index].caption = value;
+    },
+    addCaption(image, index) {
+      this.imageDialog = true;
+      this.imageIndex = index;
+      this.image = image;
+    },
     changeProject(val) {
-      console.log("val", val);
       this.form.project = val;
     },
     disableDate(index) {
@@ -2517,7 +2554,8 @@ export default {
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
-        name: val.name
+        name: val.name,
+        caption: val.caption
       };
     },
     removeFile(card, element, index) {
