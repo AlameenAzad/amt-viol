@@ -269,7 +269,7 @@ const routes = [
         name: "NewFunding",
         meta: {
           title: "New Funding",
-          titleDE: "Neue Finanzmittel",
+          titleDE: "Neue Fördermittel",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
