@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-12 q-mb-md">
               <h1 class="font-50 text-white text-weight-600 q-mb-none">
-                Förderscouting-Plattform
+                Förderscouting-Plattformm
               </h1>
               <p class="text-white">
                 Das Projekt „Interkommunale Förderscouting-Plattform
