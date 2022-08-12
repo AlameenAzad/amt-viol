@@ -594,8 +594,8 @@
                         <q-btn
                           :label="
                             !!imgPreview(image).caption
-                              ? 'Edit caption'
-                              : 'Add Caption'
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
                           "
                           @click.prevent.stop="addCaption(image, index)"
                           text-color="primary"
@@ -709,6 +709,8 @@
     <ImageDialog
       :imageIndex="imageIndex"
       :image="image"
+      type="project"
+      :document="!!project ? project : null"
       :dialogState="imageDialog"
       @update="(imageDialog = false), (imageIndex = null), (image = null)"
       @add-caption="updateCaption"
