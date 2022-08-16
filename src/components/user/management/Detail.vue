@@ -138,7 +138,7 @@
     </q-dialog>
     <TransferDialog
       v-if="currentUser !== null"
-      :fromId="currentUser.id.toString()"
+      :fromId="currentUser"
       :dialogState="transferDialog"
       @update="
         transferDialog = $event;
@@ -147,7 +147,7 @@
     />
     <deleteDataDialog
       v-if="currentUser !== null"
-      :fromId="currentUser.id.toString()"
+      :fromId="!!currentUser ? currentUser.id.toString() : ''"
       :dialogState="deleteData"
       @update="deleteData = $event"
     />
