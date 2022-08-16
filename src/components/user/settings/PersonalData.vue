@@ -211,7 +211,7 @@ export default {
       this.$q.notify({
         color: "negative",
         textColor: "white",
-        message: "Please make sure you are uploading an image"
+        message: "Bitte stellen Sie sicher, dass Sie ein Bild hochladen"
       });
     },
     async uploadImage() {
