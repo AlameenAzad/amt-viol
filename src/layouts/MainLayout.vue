@@ -8,6 +8,7 @@
         <!-- TODO Fix toolbar title taking full width -->
         <q-toolbar-title>
           <q-btn
+            v-if="$q.screen.gt.sm"
             unelevated
             no-caps
             flat
@@ -17,6 +18,14 @@
           >
             Foerderscouting Plattform
           </q-btn>
+          <q-btn
+            v-if="$q.screen.lt.md"
+            round
+            icon="home"
+            flat
+            size="md"
+            :to="{ name: 'landing' }"
+          />
         </q-toolbar-title>
         <q-btn
           @click="loginDialog = true"
