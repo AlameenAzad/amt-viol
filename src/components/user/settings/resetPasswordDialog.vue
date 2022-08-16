@@ -23,6 +23,7 @@
             color="primary"
             no-caps
             class="no-shadow radius-6 q-px-xl  q-mr-sm "
+            :loading="isLoading"
           />
           <q-btn
             :label="$t('category&Keyword.deletePopupButton')"
@@ -32,6 +33,7 @@
             no-caps
             class="no-shadow radius-6 q-px-xl q-py-sm"
             @click="requestReset"
+            :loading="isLoading"
           />
         </div>
       </q-card-section>
