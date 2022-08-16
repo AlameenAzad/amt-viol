@@ -222,14 +222,11 @@ export default {
       if (this.newImg != null) {
         this.isLoading = true;
         if (this.profileImage != null) await this.deleteImage();
-        const res = await this.$store.dispatch("userCenter/uploadProfile", {
+        await this.$store.dispatch("userCenter/uploadProfile", {
           id: this.user.id,
           img: this.newImg
         });
         this.isLoading = false;
-        if (res !== false) {
-          this.setData();
-        }
       }
     },
     setData() {
@@ -242,7 +239,10 @@ export default {
       this.form.location =
         (!!this.userDetails && this.userDetails.location) || "";
       this.form.administration =
-        (!!this.userDetails && this.userDetails.municipality.title) || "";
+        (!!this.userDetails &&
+          !!this.userDetails.municipality &&
+          this.userDetails.municipality.title) ||
+        "";
       this.form.streetNo =
         (!!this.userDetails && this.userDetails.streetNo) || "";
       this.form.postalCode =
