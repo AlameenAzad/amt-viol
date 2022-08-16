@@ -66,10 +66,10 @@
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section
-                class="row items-center justify-between q-pa-md q-col-gutter-x-sm"
+                class="row items-center justify-between q-pa-md q-col-gutter-sm"
               >
-                <div class="col-12 col-md-7">
-                  <div class="row q-col-gutter-x-xl">
+                <div class="col-12 col-md-auto">
+                  <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
@@ -112,7 +112,14 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-auto">
-                  <div class="row q-col-gutter-x-md justify-between">
+                  <div
+                    :class="
+                      $q.screen.gt.sm
+                        ? 'q-col-gutter-x-md'
+                        : 'q-col-gutter-x-xs q-mt-md'
+                    "
+                    class="row justify-between"
+                  >
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -209,6 +216,26 @@
                           ""
                       }}
                     </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.contactDetails") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.streetNo) || "" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.postalCode) || "" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.phone) || "" }}
+                    </p>
+                    <p class="q-mb-sm text-overflow">
+                      {{ (!!project.info && project.info.email) || "" }}
+                    </p>
                     <p class="q-mb-sm">
                       {{
                         (!!project.municipality &&
@@ -219,35 +246,6 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
-                <div
-                  v-if="
-                    (!!project.info && project.info.streetNo) ||
-                      (!!project.info && project.info.postalCode) ||
-                      (!!project.info && project.info.phone) ||
-                      (!!project.info && project.info.email)
-                  "
-                >
-                  <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("projectContent.contactDetails") }}
-                    </h4>
-                    <div class="q-ml-md font-16">
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.streetNo) || "" }}
-                      </p>
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.postalCode) || "" }}
-                      </p>
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.phone) || "" }}
-                      </p>
-                      <p class="q-mb-sm text-overflow">
-                        {{ (!!project.info && project.info.email) || "" }}
-                      </p>
-                    </div>
-                  </q-card-section>
-                  <q-separator inset class="bg-blue opacity-10" />
-                </div>
                 <div>
                   <q-card-section
                     v-if="!!project.info && !!project.info.location"

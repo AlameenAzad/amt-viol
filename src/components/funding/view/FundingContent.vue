@@ -65,9 +65,11 @@
         <div v-if="isAdmin" class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
-              <q-card-section class="row items-center justify-between q-pa-md">
+              <q-card-section
+                class="row items-center justify-between q-pa-md q-col-gutter-sm"
+              >
                 <div class="col-12 col-md-8">
-                  <div class="row q-col-gutter-x-xl">
+                  <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
@@ -110,7 +112,14 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-auto">
-                  <div class="row q-col-gutter-x-md justify-between">
+                  <div
+                    :class="
+                      $q.screen.gt.sm
+                        ? 'q-col-gutter-x-md'
+                        : 'q-col-gutter-x-xs q-mt-md'
+                    "
+                    class="row justify-between"
+                  >
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
