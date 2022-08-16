@@ -223,7 +223,11 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.userCenter.user?.user.username;
+      return (
+        !!this.$store.state.userCenter.user &&
+        !!this.$store.state.userCenter.user.user &&
+        this.$store.state.userCenter.user.user.username
+      );
     }
   },
   mounted() {
