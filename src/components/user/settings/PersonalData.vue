@@ -11,10 +11,14 @@
       <div class="row justify-center">
         <div class="col-12 text-center">
           <q-img
-            v-if="profileImage"
+            v-if="!!userDetails && userDetails.profile"
             class="radius-10 profileImage"
             spinner-color="primary"
-            :src="`${appUrl}${profileImage}`"
+            :src="
+              `${appUrl}${!!userDetails &&
+                !!userDetails.profile &&
+                userDetails.profile.url}`
+            "
             style="height: 160px; max-width: 160px"
           />
           <div class="flex flex-center" v-else style="height: 160px">
@@ -224,7 +228,7 @@ export default {
         });
         this.isLoading = false;
         if (res !== false) {
-          this.$store.dispatch("userCenter/getUserDetails");
+          this.setData();
         }
       }
     },

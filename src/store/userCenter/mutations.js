@@ -4,6 +4,11 @@ export function setUser(state, payload) {
 
 export function setUserDetails(state, payload) {
   if (!!payload) {
+    if (state.user.hasOwnProperty("userDetails")) {
+      payload.key = ++state.user.userDetails.key;
+    } else {
+      payload.key = 1;
+    }
     state.user.userDetails = payload;
   }
 }

@@ -333,6 +333,7 @@ export async function uploadProfile(context, payload) {
           "Content-Type": "multipart/form-data"
         }
       });
+      context.dispatch("getUserDetails");
       return fileRes;
     } catch (error) {
       Notify.create({
