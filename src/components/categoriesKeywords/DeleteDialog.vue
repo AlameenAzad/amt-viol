@@ -4,7 +4,9 @@
       <q-card-section align="center">
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
-            tab == "Delete category" ? "Delete category" : "Delete Keyword/Tag"
+            tab == "Delete category"
+              ? $t("category&Keyword.deleteCPopupTitle")
+              : $t("category&Keyword.deleteKPopupTitle")
           }}
         </h6>
       </q-card-section>
@@ -13,8 +15,8 @@
           <p>
             {{
               tab == "Delete category"
-                ? "Do you really want to delete the category? It will be removed from all documents."
-                : "Do you really want to delete the tag? It will be removed from all documents."
+                ? $t("category&Keyword.deleteCPopupText")
+                : $t("category&Keyword.deleteKPopupText")
             }}
           </p>
         </div></q-card-section
