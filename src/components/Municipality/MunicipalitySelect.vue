@@ -17,7 +17,7 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            Select Municipality
+            {{$t('Select Municipality')}}
           </span>
         </template>
       </template>

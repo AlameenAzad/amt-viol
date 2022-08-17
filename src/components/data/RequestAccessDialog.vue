@@ -4,48 +4,33 @@
       <q-card-section align="center">
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
-            tab == "projectIdeas"
-              ? "You don't have access to this Project Idea"
-              : tab === "fundings"
-              ? "You don't have access to this Funding"
-              : tab === "implementationChecklist"
-              ? "You don't have access to this Checklist"
-              : ""
+          tab == "projectIdeas"
+          ? $("You don't have access to this Project Idea")
+          : tab === "fundings"
+          ? $t("You don't have access to this Funding")
+          : tab === "implementationChecklist"
+          ? $t("You don't have access to this Checklist")
+          : ""
           }}
         </h6>
       </q-card-section>
-      <q-card-section align="left"
-        ><div class=" items-center text-center ">
+      <q-card-section align="left">
+        <div class=" items-center text-center ">
           <p>
             {{
-              type !== "duplicate"
-                ? `Would you like to request ${type} access?`
-                : "Would you like to request a duplication?"
+            type !== "duplicate"
+            ? $t(`Would you like to request ${type} access?`)
+            : $t("Would you like to request a duplication?")
             }}
           </p>
-        </div></q-card-section
-      >
+        </div>
+      </q-card-section>
       <q-card-section>
         <div class="row justify-center q-ml-lg ">
-          <q-btn
-            label="Cancel"
-            outline
-            v-close-popup
-            size="14px"
-            color="primary"
-            no-caps
-            class="no-shadow radius-6 q-px-xl  q-mr-sm "
-          />
-          <q-btn
-            label="Confirm"
-            unelevated
-            :loading="isLoading"
-            size="14px"
-            color="primary"
-            no-caps
-            class="no-shadow radius-6 q-px-xl q-py-sm"
-            @click="requestAccess"
-          />
+          <q-btn :label="$t('category&Keyword.cancel')" outline v-close-popup size="14px" color="primary" no-caps
+            class="no-shadow radius-6 q-px-xl  q-mr-sm " />
+          <q-btn :label="$t('confirm')" unelevated :loading="isLoading" size="14px" color="primary" no-caps
+            class="no-shadow radius-6 q-px-xl q-py-sm" @click="requestAccess" />
         </div>
       </q-card-section>
     </q-card>
