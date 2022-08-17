@@ -9,7 +9,7 @@
               : tab === "fundings"
               ? $t("Archive Funding")
               : tab === "implementationChecklist"
-              ? $t("Delete Implementation Checklist")
+              ? $t("Archive Implementation Checklist")
               : ""
           }}
         </h6>
@@ -24,7 +24,7 @@
                 ? $t("Are you sure you want to archive this Funding?")
                 : tab === "implementationChecklist"
                 ? $t(
-                    "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents"
+                    "Are you sure you want to archive this Implementation Checklist?"
                   )
                 : ""
             }}
@@ -34,7 +34,7 @@
       <q-card-section>
         <div class="row justify-center q-ml-lg ">
           <q-btn
-            label="Cancel"
+            :label="$t('category&Keyword.cancel')"
             outline
             v-close-popup
             size="14px"
@@ -44,7 +44,7 @@
             :loading="isLoading"
           />
           <q-btn
-            label="Confirm"
+            :label="$t('confirm')"
             unelevated
             :loading="isLoading"
             size="14px"
@@ -87,7 +87,7 @@ export default {
       } else if (this.tab === "fundings") {
         this.isLoading = true;
         const id = this.id;
-        const res = await this.$store.dispatch("funding/deleteFunding", {
+        const res = await this.$store.dispatch("funding/archiveFunding", {
           id: id
         });
         this.isLoading = false;
@@ -98,7 +98,7 @@ export default {
         this.isLoading = true;
         const id = this.id;
         const res = await this.$store.dispatch(
-          "implementationChecklist/deleteChecklist",
+          "implementationChecklist/archiveChecklist",
           {
             id: id
           }
