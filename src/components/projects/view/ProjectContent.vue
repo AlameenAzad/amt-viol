@@ -135,7 +135,7 @@
                           self="bottom middle"
                           :offset="[10, 10]"
                         >
-                          Some text as content of Tooltip
+                          {{ $t("bookmark") }}
                         </q-tooltip></q-btn
                       >
                     </div>
@@ -148,7 +148,15 @@
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("edit") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -159,7 +167,14 @@
                         no-caps
                         icon="content_copy"
                         :loading="duplicateIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("duplicate") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div
                       v-if="
@@ -177,7 +192,15 @@
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("archive") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div v-if="isAdmin" class="col-auto">
                       <q-btn
@@ -188,7 +211,15 @@
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("delete") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                   </div>
                 </div>
@@ -785,7 +816,13 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null)"
+      @update="closeDeleteDialog($event), (itemId = null)"
+    />
+    <ArchiveDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="archiveDialog"
+      @update="closeArchiveDialog($event), (itemId = null)"
     />
     <RequestAccessDialog
       :id="itemId"
@@ -806,6 +843,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "projectContent",
@@ -817,6 +855,7 @@ export default {
       type: null,
       requestDialog: false,
       deleteDialog: false,
+      archiveDialog: false,
       isLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -827,6 +866,7 @@ export default {
   },
   components: {
     DeleteDialog,
+    ArchiveDialog,
     RequestAccessDialog
   },
   watch: {
@@ -842,7 +882,13 @@ export default {
   },
   methods: {
     dateFormatter,
-    closeDialog(val) {
+    closeArchiveDialog(val) {
+      this.archiveDialog = val;
+      if (!!this.project && !this.project.id) {
+        this.$router.go(-1);
+      }
+    },
+    closeDeleteDialog(val) {
       this.deleteDialog = val;
       if (!!this.project && !this.project.id) {
         this.$router.go(-1);
@@ -933,13 +979,8 @@ export default {
       }
     },
     async archiveProject() {
-      this.archiveIsLoading = true;
-      const id = !!this.project && this.project.id;
-      await this.$store.dispatch("project/archiveProjectIdea", {
-        id: id
-      });
-      this.archiveIsLoading = false;
-      this.$router.go(-1);
+      this.itemId = !!this.project && this.project.id;
+      this.archiveDialog = true;
     },
     async deleteProject() {
       this.itemId = !!this.project && this.project.id;
