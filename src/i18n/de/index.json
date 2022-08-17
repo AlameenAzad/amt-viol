@@ -150,7 +150,7 @@
     "projectValue&Benefits": "Projektmehrwert & -nutzen",
     "CooperationPartner": "Kooperationspartner",
     "projectContent": "Projektinhalt",
-     "duplications": "Vervielfältigungen"
+    "duplications": "Vervielfältigungen"
   },
   "category&Keyword": {
     "category": "Kategorien",
@@ -468,15 +468,20 @@
   "Delete Project Idea": "Projektidee löschen",
   "Delete Funding": "Fördermittel löschen",
   "Delete Implementation Checklist": "Umsetzungscheckliste löschen",
-  "Are you sure you want to delete this Project Idea? It will be removed from all documents" : "Sind Sie sicher, dass die Projektidee gelöscht werden soll? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
+  "Are you sure you want to delete this Project Idea? It will be removed from all documents": "Sind Sie sicher, dass die Projektidee gelöscht werden soll? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
   "Are you sure you want to delete this Funding? It will be removed from all documents": "Sind Sie sicher, dass Sie die Förderung löschen wollen? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
   "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents": "Sind Sie sicher, dass Sie diese Umsetzungscheckliste löschen wollen? Sie wird aus allen Verlinkungen in anderen Dokumenten gelöscht.",
   "Add caption or credit the author": "Beschriftung hinzufügen oder den Autor nennen",
-   "Add Caption": "Bildunterschrift hinzufügen",
+  "Add Caption": "Bildunterschrift hinzufügen",
   "Edit Caption": "Bildunterschrift bearbeiten",
   "Caption updated": "Bildunterschrift aktualisiert",
-  "Close": "Schließen Sie"
-
-
-
+  "Close": "Schließen Sie",
+  "This website uses Cookies": "Diese Website verwendet Cookies",
+  "cookieMain": "Diese Cookies sind für das ordnungsgemäße Funktionieren unserer Website erforderlich und können in unseren Systemen nicht abgeschaltet werden. unseren Systemen nicht ausgeschaltet werden. Sie werden in der Regel nur als Reaktion auf von Ihnen durchgeführte Aktionen gesetzt, die auf eine wie das Einstellen Ihrer Datenschutzeinstellungen, das Einloggen oder das Ausfüllen von Formularen oder wenn sie unerlässlich sind, um eine von Ihnen angeforderte Dienstleistung zu erbringen. Sie können sich nicht gegen dieser Cookies. Sie können Ihren Browser so einstellen, dass er diese Cookies blockiert oder Sie darauf hinweist, aber wenn Sie dies tun Wenn Sie dies tun, werden einige Teile der Website nicht funktionieren. Diese Cookies speichern keine persönlich identifizierbare Informationen.",
+  "essential": "Essenziell",
+  "userPrefrence": "Benutzereinstellungen",
+  "essenitialDesc": "Diese Cookies sind für das ordnungsgemäße Funktionieren unserer Website erforderlich und können in unseren Systemen nicht abgeschaltet werden. Sie werden in der Regel nur als Reaktion auf Ihre Handlungen gesetzt, die einer Anforderung von Diensten gleichkommen, wie z. B. das Einstellen Ihrer Datenschutzeinstellungen, das Einloggen oder das Ausfüllen von Formularen, oder wenn sie unerlässlich sind, um Ihnen einen von Ihnen angeforderten Dienst zu erbringen. Sie können diese Cookies nicht ablehnen. Sie können Ihren Browser so einstellen, dass er diese Cookies blockiert oder Sie darauf hinweist, aber dann funktionieren einige Teile der Website nicht. Diese Cookies speichern keine persönlich identifizierbaren Informationen.",
+  "userPrefrenceDesc": "Diese Cookies werden verwendet, um Ihre Präferenzen und Einstellungen für unsere Website zu speichern. Sie sind für das Funktionieren der Website nicht wesentlich und Sie können sie jederzeit abwählen. Dazu gehören Ihre Spracheinstellung, der dunkle Modus und das Abmelden ohne Bestätigung.",
+  "acceptMyPrefrences": "Meine Präferenzen akzeptieren",
+  "acceptEssentials": "Essentials akzeptieren"
 }
