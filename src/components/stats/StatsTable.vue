@@ -187,7 +187,8 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="Close"
+                              no-caps
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -227,7 +228,8 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="Close"
+                              no-caps
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -268,7 +270,8 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="Close"
+                              no-caps
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -308,7 +311,8 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                              label="Close"
+                              no-caps
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -356,7 +360,7 @@
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable @click="view(props.row)">
+                  <q-item v-close-popup clickable @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.view") }}
@@ -375,7 +379,7 @@
                     ></q-item-section>
                   </q-item>
 
-                  <q-item clickable @click="editItem(props.row)">
+                  <q-item v-close-popup clickable @click="editItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.edit") }}
@@ -394,7 +398,11 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="publishItem(props.row)">
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="publishItem(props.row)"
+                  >
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.publish") }}

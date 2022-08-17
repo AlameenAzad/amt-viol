@@ -4,42 +4,29 @@
       <q-card-section align="center">
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
-            tab == "Delete category" ? "Delete category" : "Delete Keyword/Tag"
+          tab == "Delete category"
+          ? $t("category&Keyword.deleteCPopupTitle")
+          : $t("category&Keyword.deleteKPopupTitle")
           }}
         </h6>
       </q-card-section>
-      <q-card-section align="left"
-        ><div class=" items-center text-center ">
+      <q-card-section align="left">
+        <div class=" items-center text-center ">
           <p>
             {{
-              tab == "Delete category"
-                ? "Do you really want to delete the category? It will be removed from all documents."
-                : "Do you really want to delete the tag? It will be removed from all documents."
+            tab == "Delete category"
+            ? $t("category&Keyword.deleteCPopupText")
+            : $t("category&Keyword.deleteKPopupText")
             }}
           </p>
-        </div></q-card-section
-      >
+        </div>
+      </q-card-section>
       <q-card-section>
         <div class="row justify-center q-ml-lg ">
-          <q-btn
-            label="Cancel"
-            outline
-            v-close-popup
-            size="14px"
-            color="primary"
-            no-caps
-            class="no-shadow radius-6 q-px-xl  q-mr-sm "
-          />
-          <q-btn
-            label="Confirm"
-            unelevated
-            :loading="isLoading"
-            size="14px"
-            color="red"
-            no-caps
-            class="no-shadow radius-6 q-px-xl q-py-sm"
-            @click="deleteCategory"
-          />
+          <q-btn :label="$t('category&Keyword.cancel')" outline v-close-popup size="14px" color="primary" no-caps
+            class="no-shadow radius-6 q-px-xl  q-mr-sm " />
+          <q-btn :label="$t('confirm')" unelevated :loading="isLoading" size="14px" color="red" no-caps
+            class="no-shadow radius-6 q-px-xl q-py-sm" @click="deleteCategory" />
         </div>
       </q-card-section>
     </q-card>

@@ -1175,6 +1175,7 @@ export async function archiveChecklist(context, payload) {
         message: "Umsetzungscheckliste erfolgreich archiviert",
         type: "positive"
       });
+      context.commit("archiveChecklist");
       context.dispatch("getChecklists");
     } catch (error) {
       Notify.create({

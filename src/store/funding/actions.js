@@ -313,6 +313,7 @@ export async function archiveFunding(context, payload) {
         message: "Förder-Kurzinfo erfolgreich archiviert",
         type: "positive"
       });
+      context.commit("archiveFunding");
       context.dispatch("getFundings");
     } catch (error) {
       Notify.create({

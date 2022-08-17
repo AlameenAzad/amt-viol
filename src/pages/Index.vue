@@ -171,17 +171,18 @@
         <div class="col-12 col-md-8">
           <div class="row q-col-gutter-xl">
             <div class="col-12 col-md-4">
-              <q-card class="full-height full-width shadow-0">
-                <q-card-section class="full-height flex center">
+              <q-card class="full-height full-width  shadow-0">
+                <q-card-section class="full-height flex flex-center">
                   <q-img
                     spinner-color="primary"
-                    src="logo-1.svg"
+                    src="logo-3.svg"
                     height="150px"
                     contain
                   />
                 </q-card-section>
               </q-card>
             </div>
+
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width  shadow-0">
                 <q-card-section class="full-height flex flex-center">
@@ -195,11 +196,11 @@
               </q-card>
             </div>
             <div class="col-12 col-md-4">
-              <q-card class="full-height full-width  shadow-0">
-                <q-card-section class="full-height flex flex-center">
+              <q-card class="full-height full-width shadow-0">
+                <q-card-section class="full-height flex center">
                   <q-img
                     spinner-color="primary"
-                    src="logo-3.svg"
+                    src="logo-1.svg"
                     height="150px"
                     contain
                   />

@@ -22,3 +22,9 @@ export function deleteProjectIdea(state, payload) {
 export function setSpecificProject(state, payload) {
   state.project = payload;
 }
+
+export function archiveProject(state, payload) {
+  if (state.project) {
+    state.project.archived = true;
+  }
+}

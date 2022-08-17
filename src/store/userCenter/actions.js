@@ -157,8 +157,8 @@ export async function updatePersonalData(context, payload) {
         type: "positive"
       });
       context.commit("updatePersonalData", res.data.data);
-      // await context.dispatch("getUserDetails");
-      await context.dispatch("getUsers");
+      context.dispatch("getUserDetails");
+      context.dispatch("getUsers");
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({
@@ -294,11 +294,17 @@ export async function logout(context) {
   context.commit("clearDataOverview", []);
   context.commit("setWatchlists", []);
   context.commit("project/setProjectIdeas", [], { root: true });
+  context.commit("project/setSpecificProject", null, { root: true });
   context.commit("tag/setTags", [], { root: true });
   context.commit("municipality/setMunicipalities", [], { root: true });
   context.commit("category/setCategories", [], { root: true });
   context.commit("funding/setFundings", [], { root: true });
+  context.commit("funding/setSpecificFunding", null, { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
+  context.commit("implementationChecklist/setSpecificChecklist", null, {
+    root: true
+  });
+  sessionStorage.clear();
 }
 
 export async function forgotPassword(context) {
@@ -333,7 +339,8 @@ export async function uploadProfile(context, payload) {
           "Content-Type": "multipart/form-data"
         }
       });
-      return fileRes;
+      context.dispatch("getUserDetails");
+      console.log("fileRes", fileRes);
     } catch (error) {
       Notify.create({
         type: "negative",

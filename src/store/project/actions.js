@@ -358,6 +358,7 @@ export async function archiveProjectIdea(context, payload) {
         message: "Projektidee erfolgreich archiviert",
         type: "positive"
       });
+      context.commit("archiveProject");
       context.dispatch("getProjectIdeas");
     } catch (error) {
       Notify.create({

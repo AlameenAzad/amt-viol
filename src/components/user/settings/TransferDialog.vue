@@ -54,9 +54,10 @@
                     <div class="col-12">
                       <span class="text-grey-7">
                         {{
-                          !!user.user_detail &&
+                          (!!user.user_detail &&
                             !!user.user_detail.municipality &&
-                            user.user_detail.municipality.title
+                            user.user_detail.municipality.title) ||
+                            ""
                         }}
                       </span>
                       <span> - {{ user.username }} </span>
@@ -67,7 +68,7 @@
             </q-list>
             <q-list v-else class="radius-6" bordered separator>
               <q-item>
-                <q-item-section>No User</q-item-section>
+                <q-item-section>{{$t('No User')}}</q-item-section>
               </q-item>
             </q-list>
           </q-step>
@@ -160,7 +161,7 @@ export default {
   name: "transferDataDialog",
   props: {
     dialogState: { type: Boolean, default: false },
-    fromId: { type: String, default: "" }
+    fromId: { type: Object, default: () => null }
   },
   data() {
     return {
@@ -178,7 +179,8 @@ export default {
     async transferData() {
       if (!!this.form.selectedUser && !!this.form.data) {
         this.isLoading = true;
-        if (this.fromId.length > 0) this.form.fromId = this.fromId;
+        if (!!this.fromId && !!this.fromId.id)
+          this.form.fromId = this.fromId.id;
         console.log("this.form :>> ", this.form);
         const res = await this.$store.dispatch(
           "userCenter/transferData",
@@ -193,15 +195,36 @@ export default {
   },
   computed: {
     currentUser() {
-      return this.$store.state.userCenter.user.user;
+      return (
+        !!this.$store.state.userCenter.user && this.$store.state.userCenter.user
+      );
     },
     users() {
-      var againstUserID = this.currentUser.id;
-      if (this.fromId.length > 0) 
-        againstUserID = Number(this.fromId);
-        return this.$store.state.userCenter.users.filter(
-          user => user.id != againstUserID
+      let againstUserID =
+        !!this.currentUser &&
+        !!this.currentUser.user &&
+        this.currentUser.user.id;
+      let againstUserMunicipalityID =
+        !!this.currentUser &&
+        !!this.currentUser.userDetails &&
+        !!this.currentUser.userDetails.municipality &&
+        this.currentUser.userDetails.municipality.id;
+      if (!!this.fromId && !!this.fromId.id) {
+        againstUserID = Number(this.fromId.id);
+        againstUserMunicipalityID = Number(
+          !!this.fromId &&
+            !!this.fromId.user_detail &&
+            !!this.fromId.user_detail.municipality &&
+            this.fromId.user_detail.municipality.id
         );
+      }
+      return this.$store.state.userCenter.users.filter(
+        user =>
+          user.id != againstUserID &&
+          !!user.user_detail &&
+          !!user.user_detail.municipality &&
+          user.user_detail.municipality.id === againstUserMunicipalityID
+      );
     },
     filteredUsers() {
       return this.users.filter(user => {
