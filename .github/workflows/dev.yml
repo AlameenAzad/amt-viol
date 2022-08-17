@@ -18,6 +18,6 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Build PWA
-        run: npx quasar build -m pwa
+        run: npx quasar build
       - name: Move Build Files to Directory
         run: cp -R dist/pwa /var/www/amt-clone/amt-viol/dist/
