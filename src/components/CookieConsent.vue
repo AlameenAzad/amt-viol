@@ -1,6 +1,9 @@
 <template>
   <transition name="fade">
-    <q-card v-if="showCookieBox" class="z-top fixed-bottom full-width q-mx-auto q-pa-lg shadow-2">
+    <q-card
+      v-if="showCookieBox"
+      class="z-top fixed-bottom full-width q-mx-auto q-pa-lg shadow-2"
+    >
       <div class="row justify-center">
         <div class="col-12 col-md-10">
           <div class="row items-center">
@@ -8,14 +11,16 @@
               <q-card-section class="q-pb-none">
                 <div class="row justify-between">
                   <div class="col-6">
-                    <p class="no-margin font-24">{{$t('This website uses Cookies')}}</p>
+                    <p class="no-margin font-24">
+                      {{ $t("This website uses Cookies") }}
+                    </p>
                   </div>
                 </div>
               </q-card-section>
               <q-card-section class="">
                 <div class="row">
                   <div class="col-12">
-                    {{$t('cookieMain')}}
+                    {{ $t("cookieMain") }}
                   </div>
                 </div>
               </q-card-section>
@@ -23,15 +28,25 @@
             <div class="col-12 col-md-4">
               <q-card-section class="">
                 <div class="col-12">
-                  <q-btn @click="onAccept('preferences')" padding="10px 0" unelevated color="primary"
-                    class="shadow-0 full-width">
-                    {{ $t('acceptMyPrefrences')}}
+                  <q-btn
+                    @click="onAccept('preferences')"
+                    padding="10px 0"
+                    unelevated
+                    color="primary"
+                    class="shadow-0 full-width"
+                  >
+                    {{ $t("acceptMyPrefrences") }}
                   </q-btn>
                 </div>
                 <div class="col-12 q-mt-sm">
-                  <q-btn @click="onAccept('essential')" padding="10px 0" outline color="primary"
-                    class="shadow-0 full-width">
-                    {{ $t('acceptEssentials')}}
+                  <q-btn
+                    @click="onAccept('essential')"
+                    padding="10px 0"
+                    outline
+                    color="primary"
+                    class="shadow-0 full-width"
+                  >
+                    {{ $t("acceptEssentials") }}
                   </q-btn>
                 </div>
               </q-card-section>
@@ -42,39 +57,60 @@
                   <div class="col-auto">
                     <div class="row">
                       <div class="col-auto">
-                        <q-toggle size="xl" color="primary" v-model="essential" disable :label="$t('essential')"
-                          left-label />
+                        <q-toggle
+                          size="xl"
+                          color="primary"
+                          v-model="essential"
+                          disable
+                          :label="$t('essential')"
+                          left-label
+                        />
                       </div>
                       <div class="col-auto">
-                        <q-toggle size="xl" color="primary" v-model="userPreferences" :label="$t('userPrefrence')"
-                          left-label />
+                        <q-toggle
+                          size="xl"
+                          color="primary"
+                          v-model="userPreferences"
+                          :label="$t('userPrefrence')"
+                          left-label
+                        />
                       </div>
                     </div>
                   </div>
                   <div class="col-auto">
                     <div class="row">
                       <div class="col-auto">
-                        <q-btn class="radius-6" outline color="primary" @click="expanded = !expanded" label="Details"
-                          :icon-right="expanded ? 'expand_less' : 'expand_more'" />
+                        <q-btn
+                          class="radius-6"
+                          outline
+                          color="primary"
+                          @click="expanded = !expanded"
+                          label="Details"
+                          :icon-right="expanded ? 'expand_less' : 'expand_more'"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <q-expansion-item header-class="hidden" expand-icon="0" v-model="expanded">
+                    <q-expansion-item
+                      header-class="hidden"
+                      expand-icon="0"
+                      v-model="expanded"
+                    >
                       <q-card>
                         <q-card-section class="q-pl-none">
                           <h3 class="font-20 q-ma-none ">
-                            {{$t('essential')}}
+                            {{ $t("essential") }}
                           </h3>
-                          {{ $t('essenitialDesc')}}
+                          {{ $t("essenitialDesc") }}
                         </q-card-section>
                         <q-card-section class="q-pl-none">
                           <h3 class="font-20 q-ma-none ">
-                            {{ $t('userPrefrence')}}
+                            {{ $t("userPrefrence") }}
                           </h3>
-                          {{ $t('userPrefrenceDesc')}}
+                          {{ $t("userPrefrenceDesc") }}
                         </q-card-section>
                       </q-card>
                     </q-expansion-item>
@@ -132,8 +168,7 @@ export default {
               }
             );
             Cookies.set("consent", JSON.stringify(res.data), {
-              expires: 365,
-              secure: true
+              expires: 365
             });
             // this.checkConsentStatus();
             location.reload();
@@ -159,8 +194,7 @@ export default {
               }
             );
             Cookies.set("consent", JSON.stringify(res.data), {
-              expires: 365,
-              secure: true
+              expires: 365
             });
             // this.checkConsentStatus();
             location.reload();
@@ -179,8 +213,7 @@ export default {
         try {
           const res = await instance.get("/api/concent/key");
           Cookies.set("consent", JSON.stringify(res.data.key), {
-            expires: 365,
-            secure: true
+            expires: 365
           });
           const updateRes = await instance.put(
             `/api/data-concents/${encodeURIComponent(res.data.key)}`,
@@ -192,8 +225,7 @@ export default {
             }
           );
           Cookies.set("consent", JSON.stringify(updateRes.data), {
-            expires: 365,
-            secure: true
+            expires: 365
           });
           this.checkConsentStatus();
         } catch (error) {
@@ -217,9 +249,10 @@ export default {
       }
     },
     async getCookieDetails() {
-      const cookie = JSON.parse(Cookies.get("consent"));
-      console.log("cookie", cookie);
-      if (!!cookie) {
+      const consentCookie = Cookies.get("consent");
+      if (!!consentCookie) {
+        const cookie = JSON.parse(Cookies.get("consent"));
+        console.log("cookie", cookie);
         if (cookie.hasOwnProperty("cKey")) {
           console.log("update");
           const instance = this.$api.create();
@@ -230,8 +263,7 @@ export default {
             );
             console.log("resssss", res);
             Cookies.set("consent", JSON.stringify(res.data[0]), {
-              expires: 365,
-              secure: true
+              expires: 365
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
@@ -251,8 +283,7 @@ export default {
               `/api/data-concents/${encodeURIComponent(cookie)}`
             );
             Cookies.set("consent", JSON.stringify(res.data[0]), {
-              expires: 365,
-              secure: true
+              expires: 365
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
