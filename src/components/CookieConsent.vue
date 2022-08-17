@@ -104,7 +104,8 @@ export default {
     async onAccept(val) {
       let consent = {
         essential: this.essential,
-        prefrences: this.userPreferences
+        prefrences: this.userPreferences,
+        version: "1.0.0"
       };
       if (val === "essential") {
         consent.prefrences = false;
