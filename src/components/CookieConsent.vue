@@ -153,7 +153,7 @@ export default {
     return {
       essential: true,
       userPreferences: false,
-      expanded: true,
+      expanded: false,
       showCookieBox: false
     };
   },
