@@ -57,6 +57,7 @@ export default {
       }
     },
     cookiePrefrence(){
+      if (!Cookies.get("consent")) return false;
       const cookie = JSON.parse(Cookies.get("consent"));
       return cookie.consent.prefrences;
     }
