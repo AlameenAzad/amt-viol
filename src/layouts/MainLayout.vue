@@ -76,7 +76,7 @@
           @click="showCookieBox"
           class="q-ml-md inline-block cursor-pointer text-blue-grey-1"
         >
-          Change Cookie settings
+          Cookie-Einstellungen ändern
         </p>
       </div>
     </q-page-container>
