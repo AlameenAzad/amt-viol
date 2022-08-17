@@ -153,8 +153,7 @@ export default {
     return {
       essential: true,
       userPreferences: false,
-      expanded: false,
-      showCookieBox: false
+      expanded: false
     };
   },
   methods: {
@@ -165,6 +164,9 @@ export default {
       };
       if (val === "essential") {
         consent.prefrences = false;
+      }
+      if (consent.prefrences === false) {
+        localStorage.clear();
       }
       const consentCookie = Cookies.get("consent");
       if (!!consentCookie) {
@@ -184,8 +186,12 @@ export default {
                 }
               }
             );
-            Cookies.set("consent", JSON.stringify(res.data));
-            this.checkConsentStatus();
+            Cookies.set("consent", JSON.stringify(res.data), {
+              expires: 365,
+              secure: true
+            });
+            // this.checkConsentStatus();
+            location.reload();
           } catch (error) {
             this.$q.notify({
               type: "negative",
@@ -207,8 +213,12 @@ export default {
                 }
               }
             );
-            Cookies.set("consent", JSON.stringify(res.data));
-            this.checkConsentStatus();
+            Cookies.set("consent", JSON.stringify(res.data), {
+              expires: 365,
+              secure: true
+            });
+            // this.checkConsentStatus();
+            location.reload();
           } catch (error) {
             this.$q.notify({
               type: "negative",
@@ -223,7 +233,10 @@ export default {
         delete instance.defaults.headers.common["Authorization"];
         try {
           const res = await instance.get("/api/concent/key");
-          Cookies.set("consent", JSON.stringify(res.data.key));
+          Cookies.set("consent", JSON.stringify(res.data.key), {
+            expires: 365,
+            secure: true
+          });
           const updateRes = await instance.put(
             `/api/data-concents/${encodeURIComponent(res.data.key)}`,
             {
@@ -233,7 +246,10 @@ export default {
               }
             }
           );
-          Cookies.set("consent", JSON.stringify(updateRes.data));
+          Cookies.set("consent", JSON.stringify(updateRes.data), {
+            expires: 365,
+            secure: true
+          });
           this.checkConsentStatus();
         } catch (error) {
           this.$q.notify({
@@ -248,10 +264,10 @@ export default {
       const cookieStatus = Cookies.get("consent");
       if (!cookieStatus) {
         console.log("consent not found");
-        this.showCookieBox = true;
+        this.$store.commit("userCenter/changeShowCookieBox", true);
       } else {
         console.log("consent found, check specific cookie");
-        this.showCookieBox = false;
+        this.$store.commit("userCenter/changeShowCookieBox", false);
         this.getCookieDetails();
       }
     },
@@ -268,11 +284,16 @@ export default {
               `/api/data-concents/${encodeURIComponent(cookie.cKey)}`
             );
             console.log("resssss", res);
-            Cookies.set("consent", JSON.stringify(res.data[0]));
+            Cookies.set("consent", JSON.stringify(res.data[0]), {
+              expires: 365,
+              secure: true
+            });
+            this.essential = res.data[0].consent.essential;
+            this.userPreferences = res.data[0].consent.prefrences;
           } catch (error) {
             this.$q.notify({
               type: "negative",
-              message: error.response.data.error.message
+              message: error.response.data.error.message || ""
             });
             this.loading = false;
           }
@@ -284,12 +305,17 @@ export default {
             const res = await instance.get(
               `/api/data-concents/${encodeURIComponent(cookie)}`
             );
-            Cookies.set("consent", JSON.stringify(res.data[0]));
+            Cookies.set("consent", JSON.stringify(res.data[0]), {
+              expires: 365,
+              secure: true
+            });
+            this.essential = res.data[0].consent.essential;
+            this.userPreferences = res.data[0].consent.prefrences;
             console.log("resssss", res);
           } catch (error) {
             this.$q.notify({
               type: "negative",
-              message: error.response.data.error.message
+              message: error.response.data.error.message || ""
             });
             this.loading = false;
           }
@@ -299,6 +325,18 @@ export default {
   },
   mounted() {
     this.checkConsentStatus();
+  },
+  watch: {
+    showCookieBox(newVal, oldVal) {
+      if (newVal === true) {
+        this.getCookieDetails();
+      }
+    }
+  },
+  computed: {
+    showCookieBox() {
+      return this.$store.state.userCenter.showCookieBox;
+    }
   }
 };
 </script>

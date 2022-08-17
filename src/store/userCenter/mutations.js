@@ -68,3 +68,7 @@ export function clearDataOverview(state) {
 export function changeLoadingMessages(state, payload) {
   state.loadingMessages = payload;
 }
+
+export function changeShowCookieBox(state, payload) {
+  state.showCookieBox = payload;
+}

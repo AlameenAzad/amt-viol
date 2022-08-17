@@ -6,6 +6,7 @@ export default function() {
     users: [],
     dataOverview: [],
     watchlists: [],
-    loadingMessages: ""
+    loadingMessages: "",
+    showCookieBox: false
   };
 }
