@@ -68,7 +68,7 @@
             </q-list>
             <q-list v-else class="radius-6" bordered separator>
               <q-item>
-                <q-item-section>No User</q-item-section>
+                <q-item-section>{{$t('No User')}}</q-item-section>
               </q-item>
             </q-list>
           </q-step>
