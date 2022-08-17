@@ -134,7 +134,14 @@
                         outline
                         icon="star_outline"
                         :loading="watchlistIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("bookmark") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -145,7 +152,15 @@
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("edit") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -156,7 +171,14 @@
                         no-caps
                         icon="content_copy"
                         :loading="duplicateIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("duplicate") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div
                       v-if="
@@ -176,7 +198,15 @@
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("archive") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div v-if="isAdmin" class="col-auto">
                       <q-btn
@@ -187,7 +217,15 @@
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("delete") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                   </div>
                 </div>
@@ -2075,7 +2113,13 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null)"
+      @update="closeDeleteDialog($event), (itemId = null)"
+    />
+    <ArchiveDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="archiveDialog"
+      @update="closeArchiveDialog($event), (itemId = null)"
     />
     <RequestAccessDialog
       :id="itemId"
@@ -2096,6 +2140,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 
 export default {
@@ -2108,6 +2153,7 @@ export default {
       type: null,
       tab: "implementationChecklist",
       deleteDialog: false,
+      archiveDialog: false,
       requestDialog: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -2118,6 +2164,7 @@ export default {
   },
   components: {
     DeleteDialog,
+    ArchiveDialog,
     RequestAccessDialog
   },
   watch: {
@@ -2133,9 +2180,15 @@ export default {
   },
   methods: {
     dateFormatter,
-    closeDialog(val) {
+    closeDeleteDialog(val) {
       this.deleteDialog = val;
       if (!!this.checklist && !this.checklist.id) {
+        this.$router.go(-1);
+      }
+    },
+    closeArchiveDialog(val) {
+      this.archiveDialog = val;
+      if (!!this.checklist && this.checklist.archived === true) {
         this.$router.go(-1);
       }
     },
@@ -2254,13 +2307,8 @@ export default {
       }
     },
     async archiveChecklist() {
-      this.archiveIsLoading = true;
-      const id = !!this.checklist && this.checklist.id;
-      await this.$store.dispatch("implementationChecklist/archiveChecklist", {
-        id: id
-      });
-      this.archiveIsLoading = false;
-      this.$router.go(-1);
+      this.itemId = !!this.checklist && this.checklist.id;
+      this.archiveDialog = true;
     },
     async deleteChecklist() {
       this.itemId = !!this.checklist && this.checklist.id;
