@@ -144,7 +144,7 @@
         @click="showCookieBox"
         class="absolute-bottom q-ml-md inline-block cursor-pointer text-blue-grey-1"
       >
-        Change Cookie settings
+        {{ $t("Change Cookie settings") }}
       </p>
     </q-drawer>
 
