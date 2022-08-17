@@ -157,7 +157,7 @@ import {
   disable as disableDarkMode,
   isEnabled as isDarkReaderEnabled
 } from "darkreader";
-
+import Cookies from "js-cookie";
 export default {
   name: "MainLayout",
   components: {
@@ -169,9 +169,7 @@ export default {
       logoutDialog: false,
       miniState: false,
       leftDrawerOpen: this.$q.screen.gt.sm,
-      themeIcon: isDarkReaderEnabled()
-        ? "mdi-weather-night"
-        : "mdi-white-balance-sunny",
+      themeIcon: "mdi-white-balance-sunny",
       isEnabled: false
     };
   },
@@ -184,21 +182,33 @@ export default {
     },
     switchLang() {
       if (this.$i18n.locale === "en-us") {
+        if (this.cookiePrefrence)
         localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
       } else {
+        if (this.cookiePrefrence)
         localStorage.setItem("lang", "en");
         this.$i18n.locale = "en-us";
       }
     },
     toggleDarkMode() {
-      if (isDarkReaderEnabled()) disableDarkMode();
-      else
+      if (isDarkReaderEnabled()){ 
+        if (this.cookiePrefrence)
+          localStorage.setItem("darkmode", false);
+        disableDarkMode();
+        this.themeIcon = "mdi-white-balance-sunny";
+        }
+      else{
+
+        if (this.cookiePrefrence)
+          localStorage.setItem("darkmode", true);
         enableDarkMode({
           brightness: 100,
           contrast: 90,
           sepia: 10
         });
+        this.themeIcon = "mdi-weather-night";
+      }
     },
     logout() {
       console.log(localStorage.getItem("showLogoutDialog"));
@@ -209,15 +219,27 @@ export default {
     checkLanguage() {
       if (!!localStorage.getItem("lang")) {
         if (localStorage.getItem("lang") === "de") {
+          if (this.cookiePrefrence)
           localStorage.setItem("lang", "de");
           this.$i18n.locale = "de";
         } else {
+          if (this.cookiePrefrence)
           localStorage.setItem("lang", "en");
           this.$i18n.locale = "en-us";
         }
       } else {
+        if (this.cookiePrefrence)
         localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
+      }
+    },
+    checkDarkMode(){
+      if (!!localStorage.getItem("darkmode")) {
+        if (localStorage.getItem("darkmode") == "true")
+          this.toggleDarkMode();
+      }else{
+        if (this.cookiePrefrence)
+          localStorage.setItem("darkmode", false);
       }
     }
   },
@@ -228,6 +250,10 @@ export default {
         !!this.$store.state.userCenter.user.user &&
         this.$store.state.userCenter.user.user.username
       );
+    },
+    cookiePrefrence () {
+      const cookie = JSON.parse(Cookies.get("consent"));
+      return cookie.consent.prefrences;
     }
   },
   mounted() {
@@ -236,6 +262,7 @@ export default {
     console.log("router ", this.$router);
     console.log("router", this.$router.currentRoute);
     this.checkLanguage();
+    this.checkDarkMode();
   }
 };
 </script>
