@@ -884,7 +884,7 @@ export default {
     dateFormatter,
     closeArchiveDialog(val) {
       this.archiveDialog = val;
-      if (!!this.project && !this.project.id) {
+      if (!!this.project && this.project.archived === true) {
         this.$router.go(-1);
       }
     },
