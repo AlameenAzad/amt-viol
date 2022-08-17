@@ -158,15 +158,12 @@ export default {
           const instance = this.$api.create();
           delete instance.defaults.headers.common["Authorization"];
           try {
-            const res = await instance.put(
-              `/api/data-concents/${encodeURIComponent(cookie.cKey)}`,
-              {
-                data: {
-                  key: cookie.cKey,
-                  consent: consent
-                }
+            const res = await instance.put(`/api/data-concents/1`, {
+              data: {
+                key: cookie.cKey,
+                consent: consent
               }
-            );
+            });
             Cookies.set("consent", JSON.stringify(res.data), {
               expires: 365
             });
@@ -184,15 +181,12 @@ export default {
           const instance = this.$api.create();
           delete instance.defaults.headers.common["Authorization"];
           try {
-            const res = await instance.put(
-              `/api/data-concents/${encodeURIComponent(cookie)}`,
-              {
-                data: {
-                  key: cookie,
-                  consent: consent
-                }
+            const res = await instance.put(`/api/data-concents/1`, {
+              data: {
+                key: cookie,
+                consent: consent
               }
-            );
+            });
             Cookies.set("consent", JSON.stringify(res.data), {
               expires: 365
             });
@@ -215,15 +209,12 @@ export default {
           Cookies.set("consent", JSON.stringify(res.data.key), {
             expires: 365
           });
-          const updateRes = await instance.put(
-            `/api/data-concents/${encodeURIComponent(res.data.key)}`,
-            {
-              data: {
-                key: res.data.key,
-                consent: consent
-              }
+          const updateRes = await instance.put(`/api/data-concents/1`, {
+            data: {
+              key: res.data.key,
+              consent: consent
             }
-          );
+          });
           Cookies.set("consent", JSON.stringify(updateRes.data), {
             expires: 365
           });
@@ -258,9 +249,11 @@ export default {
           const instance = this.$api.create();
           delete instance.defaults.headers.common["Authorization"];
           try {
-            const res = await instance.get(
-              `/api/data-concents/${encodeURIComponent(cookie.cKey)}`
-            );
+            const res = await instance.post(`/api/concent/findKey`, {
+              data: {
+                key: cookie.cKey
+              }
+            });
             console.log("resssss", res);
             Cookies.set("consent", JSON.stringify(res.data[0]), {
               expires: 365
@@ -279,9 +272,11 @@ export default {
           const instance = this.$api.create();
           delete instance.defaults.headers.common["Authorization"];
           try {
-            const res = await instance.get(
-              `/api/data-concents/${encodeURIComponent(cookie)}`
-            );
+            const res = await instance.post(`/api/concent/findKey`, {
+              data: {
+                key: cookie
+              }
+            });
             Cookies.set("consent", JSON.stringify(res.data[0]), {
               expires: 365
             });
