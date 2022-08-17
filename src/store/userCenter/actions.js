@@ -304,6 +304,7 @@ export async function logout(context) {
   context.commit("implementationChecklist/setSpecificChecklist", null, {
     root: true
   });
+  sessionStorage.clear();
 }
 
 export async function forgotPassword(context) {
