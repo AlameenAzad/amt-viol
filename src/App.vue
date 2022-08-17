@@ -5,6 +5,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import CookieConsent from "components/CookieConsent.vue";
 export default {
   name: "App",
@@ -15,19 +16,29 @@ export default {
     CookieConsent
   },
   methods: {
-    onAccept(val) {
-      if (val === "all") {
-        this.essential = true;
-        this.easeOfUse = true;
-      } else if (val === "essential") {
-        this.essential = true;
+    async checkConsentStatus() {
+      const cookieStatus = Cookies.get("consent");
+      if (!cookieStatus) {
+        console.log("consent not found");
+        const instance = this.$api.create();
+        delete instance.defaults.headers.common["Authorization"];
+        try {
+          const res = await instance.get("/api/concent/key");
+          Cookies.set("consent", res.data.key);
+        } catch (error) {
+          this.$q.notify({
+            type: "negative",
+            message: error.response.data.error.message
+          });
+          this.loading = false;
+        }
       } else {
-        this.easeOfUse = true;
+        console.log("consent found");
       }
     }
   },
   mounted() {
-    console.log("App mounted");
+    this.checkConsentStatus();
   }
 };
 </script>
