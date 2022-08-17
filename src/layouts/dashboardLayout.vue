@@ -140,7 +140,14 @@
           @click="miniState = true"
         />
       </div>
+      <p
+        @click="showCookieBox"
+        class="absolute-bottom q-ml-md inline-block cursor-pointer text-blue-grey-1"
+      >
+        Change Cookie settings
+      </p>
     </q-drawer>
+
     <logoutDialog :dialogState="logoutDialog" @update="logoutDialog = $event" />
     <q-page-container>
       <router-view />
@@ -174,6 +181,9 @@ export default {
     };
   },
   methods: {
+    showCookieBox() {
+      this.$store.commit("userCenter/changeShowCookieBox", true);
+    },
     drawerClick(e) {
       if (this.miniState) {
         this.miniState = false;
@@ -182,26 +192,20 @@ export default {
     },
     switchLang() {
       if (this.$i18n.locale === "en-us") {
-        if (this.cookiePrefrence)
-        localStorage.setItem("lang", "de");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
       } else {
-        if (this.cookiePrefrence)
-        localStorage.setItem("lang", "en");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "en");
         this.$i18n.locale = "en-us";
       }
     },
     toggleDarkMode() {
-      if (isDarkReaderEnabled()){ 
-        if (this.cookiePrefrence)
-          localStorage.setItem("darkmode", false);
+      if (isDarkReaderEnabled()) {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", false);
         disableDarkMode();
         this.themeIcon = "mdi-white-balance-sunny";
-        }
-      else{
-
-        if (this.cookiePrefrence)
-          localStorage.setItem("darkmode", true);
+      } else {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", true);
         enableDarkMode({
           brightness: 100,
           contrast: 90,
@@ -219,27 +223,22 @@ export default {
     checkLanguage() {
       if (!!localStorage.getItem("lang")) {
         if (localStorage.getItem("lang") === "de") {
-          if (this.cookiePrefrence)
-          localStorage.setItem("lang", "de");
+          if (this.cookiePrefrence) localStorage.setItem("lang", "de");
           this.$i18n.locale = "de";
         } else {
-          if (this.cookiePrefrence)
-          localStorage.setItem("lang", "en");
+          if (this.cookiePrefrence) localStorage.setItem("lang", "en");
           this.$i18n.locale = "en-us";
         }
       } else {
-        if (this.cookiePrefrence)
-        localStorage.setItem("lang", "de");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
       }
     },
-    checkDarkMode(){
+    checkDarkMode() {
       if (!!localStorage.getItem("darkmode")) {
-        if (localStorage.getItem("darkmode") == "true")
-          this.toggleDarkMode();
-      }else{
-        if (this.cookiePrefrence)
-          localStorage.setItem("darkmode", false);
+        if (localStorage.getItem("darkmode") == "true") this.toggleDarkMode();
+      } else {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", false);
       }
     }
   },
@@ -251,7 +250,7 @@ export default {
         this.$store.state.userCenter.user.user.username
       );
     },
-    cookiePrefrence () {
+    cookiePrefrence() {
       if (!Cookies.get("consent")) return false;
       const cookie = JSON.parse(Cookies.get("consent"));
       return !!cookie.consent.prefrences;
