@@ -130,7 +130,14 @@
                         outline
                         icon="star_outline"
                         :loading="watchlistIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          Some text as content of Tooltip
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
