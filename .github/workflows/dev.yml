@@ -17,7 +17,7 @@ jobs:
           node-version: 12.x
       - name: Install Dependencies
         run: yarn
-      - name: Build PWA
+      - name: Build SPA
         run: npx quasar build
       - name: Move Build Files to Directory
-        run: cp -R dist/pwa /var/www/amt-clone/amt-viol/dist/
+        run: cp -R dist/spa /var/www/amt-clone/amt-viol/dist/
