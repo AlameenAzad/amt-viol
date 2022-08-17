@@ -190,7 +190,8 @@ export default {
               expires: 365,
               secure: true
             });
-            this.checkConsentStatus();
+            // this.checkConsentStatus();
+            location.reload();
           } catch (error) {
             this.$q.notify({
               type: "negative",
@@ -216,7 +217,8 @@ export default {
               expires: 365,
               secure: true
             });
-            this.checkConsentStatus();
+            // this.checkConsentStatus();
+            location.reload();
           } catch (error) {
             this.$q.notify({
               type: "negative",
@@ -291,7 +293,7 @@ export default {
           } catch (error) {
             this.$q.notify({
               type: "negative",
-              message: error.response.data.error.message
+              message: error.response.data.error.message || ""
             });
             this.loading = false;
           }
@@ -313,7 +315,7 @@ export default {
           } catch (error) {
             this.$q.notify({
               type: "negative",
-              message: error.response.data.error.message
+              message: error.response.data.error.message || ""
             });
             this.loading = false;
           }
