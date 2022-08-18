@@ -76,10 +76,9 @@
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!funding.createdAt &&
-                              funding.createdAt.split("T"[0])
-                          ) || ""
+                          (!!funding.createdAt &&
+                            dateFormatter(funding.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>

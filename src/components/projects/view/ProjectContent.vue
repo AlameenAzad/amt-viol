@@ -76,10 +76,9 @@
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!project.createdAt &&
-                              project.createdAt.split("T"[0])
-                          ) || ""
+                          (!!project.createdAt &&
+                            dateFormatter(project.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>
