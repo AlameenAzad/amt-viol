@@ -21,7 +21,7 @@
                 class="no-shadow q-mb-lg input-radius-4"
                 color="primary"
                 bg-color="white"
-                placeholder="Find document"
+                placeholder="Dokument finden"
                 filled
                 v-model="documentSearch"
                 @keyup.enter="searchForDocument"
