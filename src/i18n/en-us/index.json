@@ -451,5 +451,7 @@
    "duplicate": "Duplicate",
    "archive": "Archive",
    "delete": "Delete",
-   "Change Cookie settings": "Change Cookie settings"
+   "Change Cookie settings": "Change Cookie settings",
+   "No data": "No data available",
+   "No results" : "No matching records found"
 }

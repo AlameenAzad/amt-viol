@@ -18,6 +18,8 @@
         rowsPerPage: isInPage ? 10 : 5
       }"
       :rows-per-page-label="$t('Records per page')"
+      :no-data-label="$t('No data')"
+      :no-results-label="$t('No results')"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -187,7 +189,7 @@
                             <q-btn
                               v-close-popup
                               no-caps
-                                :label="$t('Close')"
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -227,8 +229,8 @@
                           <div class="row items-center justify-end">
                             <q-btn
                               v-close-popup
-                             no-caps
-                                :label="$t('Close')"
+                              no-caps
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -270,7 +272,7 @@
                             <q-btn
                               v-close-popup
                               no-caps
-                                :label="$t('Close')"
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />
@@ -311,7 +313,7 @@
                             <q-btn
                               v-close-popup
                               no-caps
-                                :label="$t('Close')"
+                              :label="$t('Close')"
                               color="primary"
                               flat
                             />

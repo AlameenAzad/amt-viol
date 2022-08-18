@@ -17,6 +17,8 @@
         rowsPerPage: isInPage ? 10 : 5
       }"
       :rows-per-page-label="$t('Records per page')"
+       :no-data-label="$t('No data')"
+       :no-results-label="$t('No results')"
     >
       <template v-slot:top>
         <div class="col-12">
