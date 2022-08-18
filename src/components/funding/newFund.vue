@@ -13,7 +13,7 @@
           ref="newFundingForm"
           class="q-gutter-lg q-px-md q-mb-md"
         >
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("projectContent.fundingGuidelines") }}
@@ -64,7 +64,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Name, Surname')"
+                    :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                     v-model="form.info.contactName"
                   />
                 </div>
@@ -84,7 +84,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Street, Nr.')"
+                    :placeholder="$t('projectIdeaPlaceholder.streetNr')"
                     v-model="form.info.streetNo"
                   />
                 </div>
@@ -93,7 +93,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Postal Code, City')"
+                    :placeholder="$t('projectIdeaPlaceholder.postalCity/place')"
                     v-model="form.info.postalCode"
                   />
                 </div>
@@ -102,7 +102,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Telefon')"
+                    :placeholder="$t('projectIdeaPlaceholder.telephone')"
                     v-model="form.info.phone"
                   />
                 </div>
@@ -111,14 +111,14 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('E-Mail')"
+                    :placeholder="$t('projectIdeaPlaceholder.email')"
                     v-model="form.info.email"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Invite Editor") }}
@@ -185,7 +185,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
@@ -197,7 +197,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
@@ -214,7 +214,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-basleine">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Funding goal") }}
@@ -284,7 +284,7 @@
           </div>
           <div class="row items-baseline">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">
+              <p class="font-16 no-margin q-pr-md">
                 {{ $t("Conditions for Applicants") }}
               </p>
             </div>
@@ -399,7 +399,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Funding Period") }}
@@ -487,7 +487,7 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                               no-caps
+                                no-caps
                                 :label="$t('Close')"
                                 color="primary"
                                 flat
@@ -531,7 +531,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 Links

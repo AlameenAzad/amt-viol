@@ -467,7 +467,7 @@
                   style="height: 548px"
                 >
                   <div>
-                    <h6 class="text-grey">No Images</h6>
+                    <h6 class="text-grey">{{ $t("No Images") }}</h6>
                   </div>
                 </q-card-section>
               </q-card>

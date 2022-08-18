@@ -1,5 +1,5 @@
 {
-  "hello": "hello in German",
+  "Hello": "Hallo",
   "settingsTab": {
     "generalData": "Allgemeine Daten",
     "personalData": "Persönliche Daten",
@@ -192,12 +192,12 @@
   },
   "DetailsAdministration": {
     "location": "Ort",
-    "users": "Benutzer:",
+    "users": "Benutzer*innen:",
     "data": "Daten",
     "title": "Titel",
     "type": "Typ",
     "categories": "Kategorien",
-    "user": "Besitzer*in",
+    "user": "Benutzer*in",
     "view": "Ansehen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
@@ -259,7 +259,7 @@
     "publish": "Veröffentlichen"
   },
   "userSelector": {
-    "title": "User auswählen"
+    "title": "Benutzer*in auswählen"
   },
   "categorySelector": {
     "title": "Kategorien auswählen"
@@ -505,7 +505,13 @@
   "No User": "Kein Benutzer",
   "Change Cookie settings": "Cookie-Einstellungen ändern",
   "No data": "Keine Daten verfügbar",
-   "No results" : "Keine passenden Datensätze gefunden"
+   "No results" : "Keine passenden Datensätze gefunden",
+   "User": "Benutzer*in",
+   "Published": "Veröffentlicht",
+    "Draft": "Entwurf",
+    "Status Unavailable": "Status Nicht verfügbar",
+       "Upload file": "Datei hochladen",
+    "Add file": "Datei hinzufügen"
 
 
 

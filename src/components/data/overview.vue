@@ -710,10 +710,10 @@ export default {
           align: "left",
           field: row =>
             row.published === true
-              ? "Published"
+              ? this.$t("Published")
               : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
+              ? this.$t("Draft")
+              : this.$t("Status Unavailable"),
           sortable: true
         }
       ];
@@ -774,10 +774,10 @@ export default {
           align: "left",
           field: row =>
             row.published === true
-              ? "Published"
+              ? this.$t("Published")
               : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
+              ? this.$t("Draft")
+              : this.$t("Status Unavailable"),
           sortable: true
         }
       ];
@@ -814,10 +814,10 @@ export default {
           align: "left",
           field: row =>
             row.published === true
-              ? "Published"
+              ? this.$t("Published")
               : row.published === false
-              ? "Draft"
-              : "Status Unavailable",
+              ? this.$t("Draft")
+              : this.$t("Status Unavailable"),
           sortable: true
         }
       ];

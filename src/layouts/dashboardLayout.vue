@@ -113,7 +113,7 @@
     >
       <div class="q-px-lg q-pt-sm" v-if="!miniState">
         <p class="font-20 ">
-          <small class="q-mr-xs">Hello,</small><br />
+          <small class="q-mr-xs">{{ $t("Hello") }},</small><br />
           <span class="text-weight-bold">{{ user || "" }}</span>
         </p>
       </div>

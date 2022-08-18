@@ -213,7 +213,7 @@ export default {
         {
           name: "owner",
           align: "left",
-          label: "Owner",
+          label: this.$t("Owner"),
           field: row => (!!row.owner && row.owner.username) || "No Author",
           sortable: true
         }

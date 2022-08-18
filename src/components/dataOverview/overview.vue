@@ -1034,7 +1034,7 @@ export default {
         },
         {
           name: "user",
-          label: "User",
+          label: this.$t("User"),
           align: "left",
           field: row => row.owner && row.owner.username,
           sortable: true

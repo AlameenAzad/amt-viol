@@ -22,7 +22,7 @@
               </p>
             </div>
             <div class="row">
-              <p class="label">{{ $t("DetailsAdministration.user") }}</p>
+              <p class="label">{{ $t("DetailsAdministration.users") }}</p>
               <div
                 v-if="
                   !!municipality.users &&
@@ -40,7 +40,7 @@
               </div>
               <div v-else class="q-ml-xl">
                 <p>
-                  No Users
+                  {{ $t("noUsers") }}
                 </p>
               </div>
             </div>
