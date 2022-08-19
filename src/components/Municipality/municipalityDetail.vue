@@ -22,36 +22,62 @@
               </p>
             </div>
             <div class="row">
-              <p class="label">{{ $t("DetailsAdministration.user") }}</p>
-              <div v-if="
+              <p class="label">{{ $t("DetailsAdministration.users") }}</p>
+              <div
+                v-if="
                   !!municipality.users &&
                     municipality.users.split(', ').length > 0
-                " class="q-ml-xl">
-                <p v-for="(user, index) in municipality.users.split(', ')" :key="index" class="q-mb-xs">
+                "
+                class="q-ml-xl"
+              >
+                <p
+                  v-for="(user, index) in municipality.users.split(', ')"
+                  :key="index"
+                  class="q-mb-xs"
+                >
                   {{ user }}
                 </p>
               </div>
               <div v-else class="q-ml-xl">
                 <p>
-                  No Users
+                  {{ $t("noUsers") }}
                 </p>
               </div>
             </div>
-            <q-btn v-if="isAdmin" class="more" size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn
+              v-if="isAdmin"
+              class="more"
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable v-close-popup @click="editMunicipality">
-                    <q-item-section><span class="text-right font-14">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.edit") }}
-                        <q-icon size="sm" class="text-blue" name="edit" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
 
                   <q-item clickable v-close-popup @click="deleteMunicipality">
-                    <q-item-section><span class="text-right text-red font-14">
+                    <q-item-section
+                      ><span class="text-right text-red font-14">
                         {{ $t("DetailsAdministration.delete") }}
-                        <q-icon size="sm" class="text-red" name="delete" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-red"
+                          name="delete"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -60,17 +86,31 @@
         </q-card>
       </div>
     </div>
-    <q-table class="radius-20 shadow-1 q-mt-md pagination-no-shadow" :title="$t('DetailsAdministration.data')"
-      :data="!!municipality && municipality.data" :columns="columns" row-key="name" :visible-columns="visibleColumns"
-      no-data-label="No data for this municipality" :pagination="{
+    <q-table
+      class="radius-20 shadow-1 q-mt-md pagination-no-shadow"
+      :title="$t('DetailsAdministration.data')"
+      :data="!!municipality && municipality.data"
+      :columns="columns"
+      row-key="name"
+      :visible-columns="visibleColumns"
+      :pagination="{
         sortBy: 'id',
         descending: true,
         page: 1,
         rowsPerPage: 10
-      }" :rows-per-page-label="$t('Records per page')">
+      }"
+      :rows-per-page-label="$t('Records per page')"
+      :no-data-label="$t('No data')"
+      :no-results-label="$t('No results')"
+    >
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14"
+          >
             {{ col.label }}
           </q-th>
           <q-th auto-width />
@@ -78,53 +118,98 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td @click="view(props.row)" auto-width v-for="col in props.cols" :key="col.name" :props="props"
-            class="font-14 cursor-pointer">
-            {{ col.value && col.value.length > 48 ? col.value.substring(0, 48) + "..." : col.value }}
+          <q-td
+            @click="view(props.row)"
+            auto-width
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14 cursor-pointer"
+          >
+            {{
+              col.value && col.value.length > 48
+                ? col.value.substring(0, 48) + "..."
+                : col.value
+            }}
           </q-td>
           <q-td class="text-right" auto-width>
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable v-close-popup @click="view(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.view") }}
-                        <q-icon size="sm" class="text-blue" name="visibility" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="visibility"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
 
                   <q-item clickable v-close-popup @click="editItem(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.edit") }}
 
-                        <q-icon size="sm" class="text-blue" name="edit" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="addToWatchlist(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="addToWatchlist(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.bookmark") }}
 
-                        <q-icon size="sm" class="text-blue" name="star" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="star"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="archiveItem(props.row)" v-if="
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="archiveItem(props.row)"
+                    v-if="
                       isAdmin ||
                         (props.row &&
                           props.row.type !== 'funding' &&
                           (!!props.row.owner && props.row.owner.id) ===
                             (!!loggedInUser && loggedInUser.id))
-                    ">
-                    <q-item-section><span class="text-right font-14">
+                    "
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("DetailsAdministration.archive") }}
-                        <q-icon size="sm" class="text-blue" name="archive" />
-                      </span></q-item-section>
+                        <q-icon
+                          size="sm"
+                          class="text-blue"
+                          name="archive"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
 
-                  <q-item v-if="isAdmin" clickable v-close-popup @click="deleteItem(props.row)">
-                    <q-item-section><span class="text-right font-14 text-red">
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="deleteItem(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14 text-red">
                         {{ $t("DetailsAdministration.delete") }}
-                        <q-icon size="sm" name="delete" />
-                      </span></q-item-section>
+                        <q-icon size="sm" name="delete" /> </span
+                    ></q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -133,20 +218,37 @@
         </q-tr>
       </template>
     </q-table>
-    <MunicipalityDeleteDialog :dialogState="deleteMunicipalityDialog" :id="municipalityId" @update="
+    <MunicipalityDeleteDialog
+      :dialogState="deleteMunicipalityDialog"
+      :id="municipalityId"
+      @update="
         (deleteMunicipalityDialog = $event),
           (municipalityId = null),
           getMunicipalityData()
-      " />
-    <EditMunicipalityDialog :dialogState="editMunicipalityDialog" :editingId="municipalityId" @update="
+      "
+    />
+    <EditMunicipalityDialog
+      :dialogState="editMunicipalityDialog"
+      :editingId="municipalityId"
+      @update="
         (editMunicipalityDialog = $event),
           (municipalityId = null),
           getMunicipalityData()
-      " />
-    <DeleteDialog :id="itemId" :tab="tab" :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null), (tab = null)" />
-    <RequestAccessDialog :id="itemId" :tab="tab" :type="itemType" :dialogState="requestDialog"
-      @update="(requestDialog = $event), (itemId = null), (itemType = null)" />
+      "
+    />
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="closeDialog($event), (itemId = null), (tab = null)"
+    />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="itemType"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null), (itemType = null)"
+    />
   </div>
 </template>
 

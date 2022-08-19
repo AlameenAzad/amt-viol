@@ -76,10 +76,9 @@
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!funding.createdAt &&
-                              funding.createdAt.split("T"[0])
-                          ) || ""
+                          (!!funding.createdAt &&
+                            dateFormatter(funding.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>
@@ -519,7 +518,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("newProjectIdeaForm.tags") }}
+                      {{ $t("Tags") }}
                     </h4>
                   </div>
                   <div class="col-8">

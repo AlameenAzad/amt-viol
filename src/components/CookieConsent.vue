@@ -3,6 +3,7 @@
     <q-card
       v-if="showCookieBox"
       class="z-top fixed-bottom full-width q-mx-auto q-pa-lg shadow-2"
+      :style="$q.screen.lt.md ? 'max-height:60vh; overflow: scroll' : ''"
     >
       <div class="row justify-center">
         <div class="col-12 col-md-10">
@@ -10,7 +11,7 @@
             <div class="col-12 col-md-8">
               <q-card-section class="q-pb-none">
                 <div class="row justify-between">
-                  <div class="col-6">
+                  <div class="col-12 col-md-6">
                     <p class="no-margin font-24">
                       {{ $t("This website uses Cookies") }}
                     </p>
