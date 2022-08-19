@@ -13,7 +13,7 @@
           @validation-error="scrollToInvalidElement"
           class="q-gutter-lg q-px-md q-mb-md"
         >
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Project Name") }}
@@ -64,7 +64,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Name, Nachname"
+                    :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                     :value="
                       !!checklist
                         ? form.info.contactName
@@ -106,7 +106,7 @@
                     disable
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Steet, Nr."
+                    :placeholder="$t('projectIdeaPlaceholder.streetNr')"
                     :value="
                       !!checklist
                         ? form.info.streetNo
@@ -121,7 +121,7 @@
                     dense
                     disable
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Postal Code, City"
+                    :placeholder="$t('projectIdeaPlaceholder.postalCity/place')"
                     :value="
                       !!checklist
                         ? form.info.postalCode
@@ -135,7 +135,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Telefon"
+                    :placeholder="$t('projectIdeaPlaceholder.telephone')"
                     :value="
                       !!checklist
                         ? form.info.phone
@@ -150,7 +150,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="E-Mail"
+                    :placeholder="$t('projectIdeaPlaceholder.email')"
                     :value="
                       !!checklist ? form.info.email : !!user && user.email
                     "
@@ -175,7 +175,7 @@
               />
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Invite Editor") }}
@@ -242,7 +242,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
@@ -254,7 +254,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
@@ -365,9 +365,9 @@
               <p class="font-16 no-margin text-weight-600">
                 {{ card.cardTitle }}
               </p>
-              <div class="flex items-center row q-mt-md">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
                 <div class="col-2">
-                  <p class="font-14 no-margin">Start</p>
+                  <p class="font-14 no-margin">{{ $t("start") }}</p>
                 </div>
                 <div>
                   <q-input
@@ -409,7 +409,7 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                               no-caps
+                                no-caps
                                 :label="$t('Close')"
                                 color="primary"
                                 flat
@@ -422,9 +422,9 @@
                   </q-input>
                 </div>
               </div>
-              <div class="flex items-center row q-mt-md  ">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
                 <div class="col-2">
-                  <p class="font-14 no-margin">End</p>
+                  <p class="font-14 no-margin">{{ $t("end") }}</p>
                 </div>
                 <div>
                   <q-input
@@ -466,7 +466,7 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                               no-caps
+                                no-caps
                                 :label="$t('Close')"
                                 color="primary"
                                 flat
@@ -645,8 +645,8 @@
                                   label-color="primary"
                                   :label="
                                     !!element.file && element.file.length > 0
-                                      ? 'Add file'
-                                      : 'Upload File'
+                                      ? $t('Add file')
+                                      : $t('Upload file')
                                   "
                                   multiple
                                   display-value=""

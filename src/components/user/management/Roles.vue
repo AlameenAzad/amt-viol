@@ -15,6 +15,8 @@
         rowsPerPage: 10
       }"
       :rows-per-page-label="$t('Records per page')"
+      :no-data-label="$t('No data')"
+      :no-results-label="$t('No results')"
     >
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
@@ -26,7 +28,7 @@
               debounce="300"
               v-model="filter"
               dense
-              placeholder="Search"
+              :placeholder="$t('Search')"
             >
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />

@@ -1,25 +1,50 @@
 <template>
   <div>
-    <q-table class="radius-20 shadow-1 pagination-no-shadow" title="Current funding information" :data="data"
-      row-key="name" :columns="columns" :filter="filter" :visible-columns="visibleColumns" :pagination="{
+    <q-table
+      class="radius-20 shadow-1 pagination-no-shadow"
+      title="Current funding information"
+      :data="data"
+      row-key="name"
+      :columns="columns"
+      :filter="filter"
+      :visible-columns="visibleColumns"
+      :pagination="{
         sortBy: 'id',
         descending: true,
         page: 1,
         rowsPerPage: 10
-      }" :rows-per-page-label="$t('Records per page')">
+      }"
+      :rows-per-page-label="$t('Records per page')"
+      :no-data-label="$t('No data')"
+      :no-results-label="$t('No results')"
+    >
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
           <div class="col-8 col-md-4">
-            <q-input borderless outlined class="input-radius-6 no-shadow q-mb-sm q-mt-sm" v-model="filter"
-              placeholder="Search" dense>
+            <q-input
+              borderless
+              outlined
+              class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
+              v-model="filter"
+              :placeholder="$t('Search')"
+              dense
+            >
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />
               </template>
             </q-input>
           </div>
           <div v-if="isAdmin" class="col-4 col-md-4 text-right">
-            <q-btn color="blue" icon="add" unelevated :round="$q.screen.lt.md" class="no-shadow text-weight-600"
-              :class="$q.screen.gt.sm ? 'radius-6' : ''" no-caps @click="createDialog = true">
+            <q-btn
+              color="blue"
+              icon="add"
+              unelevated
+              :round="$q.screen.lt.md"
+              class="no-shadow text-weight-600"
+              :class="$q.screen.gt.sm ? 'radius-6' : ''"
+              no-caps
+              @click="createDialog = true"
+            >
               <p v-if="$q.screen.gt.sm" class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("administrativeAreas.createAdministration") }}
               </p>
@@ -29,7 +54,12 @@
       </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14"
+          >
             {{ col.label }}
           </q-th>
           <q-th auto-width />
@@ -37,18 +67,39 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td @click="$router.push(`/Administation/Areas/${props.row.id}`)" auto-width v-for="col in props.cols"
-            :key="col.name" :props="props" class="font-14 cursor-pointer">
-            {{ col.name == "project coordinators" && col.value.length > 48 ? col.value.substring(0, 25) + "..." : col.value
+          <q-td
+            @click="$router.push(`/Administation/Areas/${props.row.id}`)"
+            auto-width
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14 cursor-pointer"
+          >
+            {{
+              col.name == "project coordinators" && col.value.length > 48
+                ? col.value.substring(0, 25) + "..."
+                : col.value
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn v-if="isAdmin" size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn
+              v-if="isAdmin"
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable v-close-popup @click="
-                    $router.push(`/Administation/Areas/${props.row.id}`)
-                  ">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="
+                      $router.push(`/Administation/Areas/${props.row.id}`)
+                    "
+                  >
                     <q-item-section>
                       <span class="text-right font-14">
                         {{ $t("administrativeAreas.view") }}
@@ -56,7 +107,11 @@
                       </span>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup @click="prepEditDialog(props.row)">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="prepEditDialog(props.row)"
+                  >
                     <q-item-section>
                       <span class="text-right font-14">
                         {{ $t("administrativeAreas.edit") }}
@@ -65,26 +120,46 @@
                     </q-item-section>
                   </q-item>
 
-                  <q-item v-if="isAdmin" clickable v-close-popup @click="prepDeleteDialog(props.row)">
-                    <q-item-section><span class="text-right font-14 text-red">
+                  <q-item
+                    v-if="isAdmin"
+                    clickable
+                    v-close-popup
+                    @click="prepDeleteDialog(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14 text-red">
                         {{ $t("administrativeAreas.delete") }}
-                        <q-icon size="sm" name="delete" />
-                      </span></q-item-section>
+                        <q-icon size="sm" name="delete" /> </span
+                    ></q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
             </q-btn>
-            <q-btn v-if="!isAdmin" size="md" color="primary" round flat dense icon="visibility"
-              @click="$router.push(`/Administation/Areas/${props.row.id}`)">
+            <q-btn
+              v-if="!isAdmin"
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="visibility"
+              @click="$router.push(`/Administation/Areas/${props.row.id}`)"
+            >
             </q-btn>
           </q-td>
         </q-tr>
       </template>
     </q-table>
-    <CreateDialog :dialogState="createDialog" :editingId="municipalityId"
-      @update="(createDialog = $event), (municipalityId = null)" />
-    <DeleteDialog :id="municipalityId" :dialogState="deleteDialog"
-      @update="(deleteDialog = $event), (municipalityId = null)" />
+    <CreateDialog
+      :dialogState="createDialog"
+      :editingId="municipalityId"
+      @update="(createDialog = $event), (municipalityId = null)"
+    />
+    <DeleteDialog
+      :id="municipalityId"
+      :dialogState="deleteDialog"
+      @update="(deleteDialog = $event), (municipalityId = null)"
+    />
   </div>
 </template>
 
@@ -165,9 +240,7 @@ export default {
         {
           name: "project coordinators",
           label: this.$t("administrativeAreas.projectCoordinator"),
-          field: row =>
-            (!!row.users && row.users) ||
-            this.$t("noUsers"),
+          field: row => (!!row.users && row.users) || this.$t("noUsers"),
           sortable: true,
           align: "left"
         }

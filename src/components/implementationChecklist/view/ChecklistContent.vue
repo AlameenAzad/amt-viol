@@ -78,10 +78,9 @@
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!checklist.createdAt &&
-                              checklist.createdAt.split("T"[0])
-                          ) || ""
+                          (!!checklist.createdAt &&
+                            dateFormatter(checklist.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>
@@ -468,7 +467,7 @@
                   style="height: 548px"
                 >
                   <div>
-                    <h6 class="text-grey">No Images</h6>
+                    <h6 class="text-grey">{{ $t("No Images") }}</h6>
                   </div>
                 </q-card-section>
               </q-card>
