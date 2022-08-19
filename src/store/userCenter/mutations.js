@@ -1,9 +1,14 @@
 export function setUser(state, payload) {
-  state.user = payload;
+  state.user = { userDetails: {}, ...payload };
 }
 
 export function setUserDetails(state, payload) {
   if (!!payload) {
+    // if (state.user.hasOwnProperty("userDetails")) {
+    //   payload.key = ++state.user.userDetails.key;
+    // } else {
+    //   payload.key = 1;
+    // }
     state.user.userDetails = payload;
   }
 }
@@ -62,4 +67,8 @@ export function clearDataOverview(state) {
 
 export function changeLoadingMessages(state, payload) {
   state.loadingMessages = payload;
+}
+
+export function changeShowCookieBox(state, payload) {
+  state.showCookieBox = payload;
 }

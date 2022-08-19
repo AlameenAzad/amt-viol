@@ -148,7 +148,8 @@
     "projectGoals": "Project Goals",
     "projectValue&Benefits": "Project Value & Benefits",
     "CooperationPartner": "Cooperation Partner",
-    "projectContent": "Project Content"
+    "projectContent": "Project Content",
+    "duplications": "Duplications"
   },
   "category&Keyword": {
     "category": "Category",
@@ -329,10 +330,12 @@
     "edit": "Edit",
     "delete": "Delete",
     "message": "Message",
+    "transferData": "Transfer Data",
     "sendInvitation": "Send Invitation",
     "cancel": "Cancel"
   },
   "Search": "Search",
+  "noUsers": "No users",
   "addEditors": "Add Editors",
   "Implementation checklist": "Implementation Checklist",
   "NoCategories": "No Categories",
@@ -425,5 +428,28 @@
   "Records per page": "Records per page:",
   "Investive": "Investive",
   "Non-Investive": "Non-Investive",
-  "Select Implementation Checklist": "Select Implementation Checklist"
+  "Select Implementation Checklist": "Select Implementation Checklist",
+  "Delete Project Idea": "Delete Project Idea",
+  "Archive Project Idea": "Archive Project Idea",
+  "Delete Funding": "Delete Funding",
+  "Archive Funding": "Archive Funding",
+  "Delete Implementation Checklist": "Delete Implementation Checklist",
+  "Archive Implementation Checklist": "Archive Implementation Checklist",
+  "Are you sure you want to delete this Project Idea? It will be removed from all documents" : "Are you sure you want to delete this Project Idea? It will be removed from all documents.",
+  "Are you sure you want to archive this Project Idea?" : "Are you sure you want to archive this Project Idea?",
+  "Are you sure you want to delete this Funding? It will be removed from all documents": "Are you sure you want to delete this Funding? It will be removed from all documents.",
+  "Are you sure you want to archive this Funding?" : "Are you sure you want to archive this Funding?",
+  "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents": "Are you sure you want to delete this Implementation Checklist? It will be removed from all documents.",
+  "Are you sure you want to archive this Implementation Checklist?" : "Are you sure you want to archive this Implementation Checklist?",
+  "Add caption or credit the author": "Add caption or credit the author",
+  "Add Caption": "Add caption",
+  "Edit Caption": "Edit caption",
+  "Caption updated": "Caption updated",
+  "Close": "Close",
+  "bookmark": "Bookmark",
+   "edit": "Edit",
+   "duplicate": "Duplicate",
+   "archive": "Archive",
+   "delete": "Delete",
+   "Change Cookie settings": "Change Cookie settings"
 }

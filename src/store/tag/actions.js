@@ -22,7 +22,7 @@ export async function addTag(context, payload) {
       const res = await api.post("/api/tags", { data: { title: name } });
       context.commit("addTag", res.data.data);
       Notify.create({
-        message: "Tag added successfully",
+        message: "Schlagwort erfolgreich hinzugefügt",
         type: "positive"
       });
       context.dispatch("getTags");
@@ -44,7 +44,7 @@ export async function deleteTag(context, payload) {
       const res = await api.delete(`/api/tags/${id}`);
       context.commit("deleteTag", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Tag deleted successfully",
+        message: "Schlagwort erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getTags");
@@ -69,7 +69,7 @@ export async function editTag(context, payload) {
       });
       context.commit("editTag", res.data.data);
       Notify.create({
-        message: "Tag updated successfully",
+        message: "Schlagwort erfolgreich geändert",
         type: "positive"
       });
       context.dispatch("getTags");

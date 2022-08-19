@@ -225,7 +225,7 @@ export async function createNewChecklist(context, payload) {
       }
       context.commit("addNewChecklist", res.data.data);
       Notify.create({
-        message: "New Implementation Checklist added successfully",
+        message: "Neue Umsetzungscheckliste hinzugefügt",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -277,32 +277,36 @@ export async function uploadFiles(context, payload) {
 
 export async function uploadMedia(context, payload) {
   if (payload.media && payload.id) {
-    let formData = new FormData();
-    formData.append("ref", "api::checklist.checklist");
-    formData.append("refId", payload.id);
-    formData.append("field", "media");
-    if (payload.media.length > 1) {
-      payload.media.forEach(file => {
+    if (payload.media.length > 0) {
+      const promises = payload.media.map(async file => {
+        const formData = new FormData();
+        formData.append("ref", "api::checklist.checklist");
+        formData.append("refId", payload.id);
+        formData.append("field", "media");
         formData.append("files", file);
-      });
-    } else {
-      formData.append("files", payload.media[0]);
-    }
-    try {
-      const mediaRes = await api.post("api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+        formData.append(
+          "fileInfo",
+          JSON.stringify({
+            caption: file.caption
+          })
+        );
+        try {
+          return await api.post("api/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+        } catch (error) {
+          console.log("media error.response", error.response);
+          Notify.create({
+            type: "negative",
+            message: error.response.data.error.message
+          });
         }
       });
-      console.log("mediaRes", mediaRes);
-    } catch (error) {
-      console.log("media error.response", error.response);
-      Notify.create({
-        // position: "top-right",
-        type: "negative",
-        message: error.response.data.error.message
-      });
-      // return false;
+      return Promise.all(promises);
+    } else {
+      console.error("No Meida Files");
     }
   }
 }
@@ -864,7 +868,7 @@ export async function editChecklist(context, payload) {
       }
       // context.commit("addNewProjectIdea", res.data.data);
       Notify.create({
-        message: "Checklist edited successfully",
+        message: "Umsetzungscheckliste bearbeitet",
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
@@ -1145,7 +1149,7 @@ export async function requestAccess(context, payload) {
         }
       });
       Notify.create({
-        message: "Checklist access request sent",
+        message: "Zugangsanfrage zur Umsetzungscheckliste gesendet",
         type: "positive"
       });
       context.dispatch("getChecklists");
@@ -1168,9 +1172,10 @@ export async function archiveChecklist(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Checklist archived successfully",
+        message: "Umsetzungscheckliste erfolgreich archiviert",
         type: "positive"
       });
+      context.commit("archiveChecklist");
       context.dispatch("getChecklists");
     } catch (error) {
       Notify.create({
@@ -1189,7 +1194,7 @@ export async function duplicateChecklist(context, payload) {
     try {
       const res = await api.post(`/api/checklist/duplicate/${id}`);
       Notify.create({
-        message: "Implementation Checklist duplicated successfully",
+        message: "Umsetzungscheckliste erfolgreich dupliziert",
         type: "positive"
       });
       context.dispatch("getChecklists");
@@ -1213,7 +1218,7 @@ export async function addToWatchlist(context, payload) {
       });
       console.log("res", res);
       Notify.create({
-        message: "Checklist added to watchlist",
+        message: "Umsetzungscheckliste erfolgreich zur Merkliste zugefügt",
         type: "positive"
       });
       context.dispatch("getChecklists");
@@ -1234,7 +1239,7 @@ export async function removeFromWatchlist(context, payload) {
       const res = await api.delete(`/api/watchlists/${id}`);
       console.log("res", res);
       Notify.create({
-        message: "Checklist removed from watchlist",
+        message: "Umsetzungscheckliste erfolgreich von der Merkliste entfernt",
         type: "positive"
       });
       context.dispatch("getChecklists");
@@ -1255,7 +1260,7 @@ export async function deleteChecklist(context, payload) {
       const res = await api.delete(`/api/checklists/${id}`);
       context.commit("deleteChecklist", res.data.data && res.data.data.id);
       Notify.create({
-        message: "Checklist deleted successfully",
+        message: "Umsetzungscheckliste erfolgreich gelöscht",
         type: "positive"
       });
       context.dispatch("getChecklists");

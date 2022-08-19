@@ -5,30 +5,30 @@
         <h6 class="text-center font-20 q-mt-md q-mb-none">
           {{
             tab == "projectIdeas"
-              ? "You don't have access to this Project Idea"
+              ? $t("You don't have access to this Project Idea")
               : tab === "fundings"
-              ? "You don't have access to this Funding"
+              ? $t("You don't have access to this Funding")
               : tab === "implementationChecklist"
-              ? "You don't have access to this Checklist"
+              ? $t("You don't have access to this Checklist")
               : ""
           }}
         </h6>
       </q-card-section>
-      <q-card-section align="left"
-        ><div class=" items-center text-center ">
+      <q-card-section align="left">
+        <div class=" items-center text-center ">
           <p>
             {{
               type !== "duplicate"
-                ? `Would you like to request ${type} access?`
-                : "Would you like to request a duplication?"
+                ? $t(`Would you like to request ${type} access?`)
+                : $t("Would you like to request a duplication?")
             }}
           </p>
-        </div></q-card-section
-      >
+        </div>
+      </q-card-section>
       <q-card-section>
         <div class="row justify-center q-ml-lg ">
           <q-btn
-            label="Cancel"
+            :label="$t('category&Keyword.cancel')"
             outline
             v-close-popup
             size="14px"
@@ -37,7 +37,7 @@
             class="no-shadow radius-6 q-px-xl  q-mr-sm "
           />
           <q-btn
-            label="Confirm"
+            :label="$t('confirm')"
             unelevated
             :loading="isLoading"
             size="14px"

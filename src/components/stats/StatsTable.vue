@@ -1,21 +1,42 @@
 <template>
   <div class="q-my-lg">
-    <q-table class="radius-20 shadow-1 pagination-no-shadow" :class="expanded ? 'yellowBg' : ''" :data="data"
-      :columns="columns" row-key="name" :hide-header="!isInPage" :visible-columns="visibleColumns" :filter="filter"
-      :filter-method="filterTable" :pagination="{
+    <q-table
+      class="radius-20 shadow-1 pagination-no-shadow"
+      :class="expanded ? 'yellowBg' : ''"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :hide-header="!isInPage"
+      :visible-columns="visibleColumns"
+      :filter="filter"
+      :filter-method="filterTable"
+      :pagination="{
         sortBy: 'id',
         descending: true,
         page: 1,
         rowsPerPage: isInPage ? 10 : 5
-      }" :rows-per-page-label="$t('Records per page')">
+      }"
+      :rows-per-page-label="$t('Records per page')"
+    >
       <template v-slot:top>
         <div class="col-12">
-          <q-expansion-item header-class="no-padding items-center" expand-icon-class="hidden" v-model="expanded"
-            expand-icon-toggle>
+          <q-expansion-item
+            header-class="no-padding items-center"
+            expand-icon-class="hidden"
+            v-model="expanded"
+            expand-icon-toggle
+          >
             <template v-slot:header>
               <div v-if="isInPage" class="col-8 col-md-4">
-                <q-input clearable borderless outlined class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm"
-                  v-model="search" :placeholder="$t('Search')" dense>
+                <q-input
+                  clearable
+                  borderless
+                  outlined
+                  class="bg-white input-radius-6 no-shadow q-mb-sm q-mt-sm"
+                  v-model="search"
+                  :placeholder="$t('Search')"
+                  dense
+                >
                   <template v-slot:prepend>
                     <q-icon name="search" />
                   </template>
@@ -23,8 +44,15 @@
               </div>
               <q-space />
               <div class="col-md-4 text-right">
-                <q-btn no-caps @click="expanded = !expanded" icon="filter_alt" color="primary" class="radius-6" flat
-                  label="Filter">
+                <q-btn
+                  no-caps
+                  @click="expanded = !expanded"
+                  icon="filter_alt"
+                  color="primary"
+                  class="radius-6"
+                  flat
+                  label="Filter"
+                >
                 </q-btn>
               </div>
             </template>
@@ -33,38 +61,78 @@
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.type") }}
                 </p>
-                <q-select clearable class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
-                  :label="$t('Search')" multiple filled :options="typeOptions" v-model="type">
+                <q-select
+                  clearable
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :label="$t('Search')"
+                  multiple
+                  filled
+                  :options="typeOptions"
+                  v-model="type"
+                >
                 </q-select>
               </div>
               <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.categories") }}
                 </p>
-                <q-select clearable class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
-                  :label="$t('Search')" multiple filled :options="categoryOptions" v-model="category">
+                <q-select
+                  clearable
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :label="$t('Search')"
+                  multiple
+                  filled
+                  :options="categoryOptions"
+                  v-model="category"
+                >
                 </q-select>
               </div>
               <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("Tags") }}
                 </p>
-                <q-select clearable class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
-                  :label="$t('Search')" multiple filled :options="tagKeywordsOptions" v-model="tagsKeywords">
+                <q-select
+                  clearable
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :label="$t('Search')"
+                  multiple
+                  filled
+                  :options="tagKeywordsOptions"
+                  v-model="tagsKeywords"
+                >
                 </q-select>
               </div>
               <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.projectCoordinator") }}
                 </p>
-                <q-select class="no-shadow q-mb-lg input-radius-4" options-selected-class="text-primary text-weight-600"
-                  clearable color="primary" bg-color="white" multiple filled :options="projectCoordinatorOptions"
-                  v-model="projectCoordinator">
+                <q-select
+                  class="no-shadow q-mb-lg input-radius-4"
+                  options-selected-class="text-primary text-weight-600"
+                  clearable
+                  color="primary"
+                  bg-color="white"
+                  multiple
+                  filled
+                  :options="projectCoordinatorOptions"
+                  v-model="projectCoordinator"
+                >
                   <template v-slot:selected>
-                    <template v-if="
+                    <template
+                      v-if="
                         !!projectCoordinator && projectCoordinator.length > 0
-                      ">
-                      <span v-for="(item, index) in projectCoordinator" :key="index">
+                      "
+                    >
+                      <span
+                        v-for="(item, index) in projectCoordinator"
+                        :key="index"
+                      >
                         {{ index > 0 ? ", " : "" }}
                         {{ item.user }}
                       </span>
@@ -78,10 +146,12 @@
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                       <q-item-section>
-                        <q-item-label><span class="text-grey-7">{{
+                        <q-item-label
+                          ><span class="text-grey-7">{{
                             scope.opt.location
-                            }}</span>
-                          - {{ scope.opt.user }}</q-item-label>
+                          }}</span>
+                          - {{ scope.opt.user }}</q-item-label
+                        >
                       </q-item-section>
                     </q-item>
                   </template>
@@ -91,15 +161,37 @@
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.publishDate") }}
                 </p>
-                <q-input clearable filled v-model="publishDateStart" class="no-shadow q-mb-lg input-radius-4"
-                  color="primary" bg-color="white" :placeholder="$t('From')" @click="$refs.publishDateStart.show()">
+                <q-input
+                  clearable
+                  filled
+                  v-model="publishDateStart"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('From')"
+                  @click="$refs.publishDateStart.show()"
+                >
                   <template v-slot:append>
                     <q-icon name=" event" class="cursor-pointer">
-                      <q-popup-proxy ref="publishDateStart" transition-show="scale" transition-hide="scale">
-                        <q-date @input="$refs.publishDateStart.hide()" v-model="publishDateStart" mask="DD.MM.YYYY"
-                          first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="publishDateStart"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          @input="$refs.publishDateStart.hide()"
+                          v-model="publishDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              no-caps
+                              :label="$t('Close')"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -109,16 +201,38 @@
               </div>
               <div class="col-6 col-md-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
-                <q-input clearable filled :disable="!publishDateStart" v-model="publishDateEnd"
-                  class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" :placeholder="$t('Until')"
-                  @click="$refs.publishDateEnd.show()">
+                <q-input
+                  clearable
+                  filled
+                  :disable="!publishDateStart"
+                  v-model="publishDateEnd"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('Until')"
+                  @click="$refs.publishDateEnd.show()"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="publishDateEnd" transition-show="scale" transition-hide="scale">
-                        <q-date @input="$refs.publishDateEnd.hide()" v-model="publishDateEnd" mask="DD.MM.YYYY"
-                          first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="publishDateEnd"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          @input="$refs.publishDateEnd.hide()"
+                          v-model="publishDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              no-caps
+                              :label="$t('Close')"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -130,15 +244,37 @@
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
                 </p>
-                <q-input clearable filled v-model="endDateStart" class="no-shadow q-mb-lg input-radius-4"
-                  color="primary" bg-color="white" :placeholder="$t('From')" @click="$refs.endDateStart.show()">
+                <q-input
+                  clearable
+                  filled
+                  v-model="endDateStart"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('From')"
+                  @click="$refs.endDateStart.show()"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="endDateStart" transition-show="scale" transition-hide="scale">
-                        <q-date @input="$refs.endDateStart.hide()" v-model="endDateStart" mask="DD.MM.YYYY"
-                          first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="endDateStart"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          @input="$refs.endDateStart.hide()"
+                          v-model="endDateStart"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              no-caps
+                              :label="$t('Close')"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -148,16 +284,38 @@
               </div>
               <div class="col-6 col-md-3 q-mt-lg">
                 <p class="text-black q-mb-xs font-16"></p>
-                <q-input clearable filled :disable="!endDateStart" v-model="endDateEnd"
-                  class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white" :placeholder="$t('Until')"
-                  @click="$refs.endDateEnd.show()">
+                <q-input
+                  clearable
+                  filled
+                  :disable="!endDateStart"
+                  v-model="endDateEnd"
+                  class="no-shadow q-mb-lg input-radius-4"
+                  color="primary"
+                  bg-color="white"
+                  :placeholder="$t('Until')"
+                  @click="$refs.endDateEnd.show()"
+                >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="endDateEnd" transition-show="scale" transition-hide="scale">
-                        <q-date @input="$refs.endDateEnd.hide()" v-model="endDateEnd" mask="DD.MM.YYYY"
-                          first-day-of-week="1">
+                      <q-popup-proxy
+                        ref="endDateEnd"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          @input="$refs.endDateEnd.hide()"
+                          v-model="endDateEnd"
+                          mask="DD.MM.YYYY"
+                          first-day-of-week="1"
+                        >
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn
+                              v-close-popup
+                              no-caps
+                              :label="$t('Close')"
+                              color="primary"
+                              flat
+                            />
                           </div>
                         </q-date>
                       </q-popup-proxy>
@@ -171,7 +329,12 @@
       </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props" class="font-14">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14"
+          >
             {{ col.label }}
           </q-th>
           <q-th auto-width />
@@ -179,46 +342,108 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td @click="view(props.row)" auto-width v-for="col in props.cols" :key="col.name" :props="props"
-            class="font-14 cursor-pointer">
-            {{ col.value && col.value.length > 48 ? col.value.substring(0, 48) + "..." : col.value }}
+          <q-td
+            @click="view(props.row)"
+            auto-width
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            class="font-14 cursor-pointer"
+          >
+            {{
+              col.value && col.value.length > 48
+                ? col.value.substring(0, 48) + "..."
+                : col.value
+            }}
           </q-td>
           <q-td class="text-right" auto-width>
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
-                  <q-item clickable @click="view(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item v-close-popup clickable @click="view(props.row)">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("statsTable.view") }}
-                        <q-icon v-if="!viewIsLoading" size="sm" class="text-blue" name="visibility" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!viewIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="visibility"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
 
-                  <q-item clickable @click="editItem(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item v-close-popup clickable @click="editItem(props.row)">
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("statsTable.edit") }}
 
-                        <q-icon v-if="!editIsLoading" size="sm" class="text-blue" name="edit" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!editIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="edit"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
-                  <q-item clickable @click="publishItem(props.row)">
-                    <q-item-section><span class="text-right font-14">
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="publishItem(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14">
                         {{ $t("statsTable.publish") }}
 
-                        <q-icon v-if="!editIsLoading" size="sm" class="text-blue" name="publish" />
-                        <q-spinner v-else color="primary" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!editIsLoading"
+                          size="sm"
+                          class="text-blue"
+                          name="publish"
+                        />
+                        <q-spinner
+                          v-else
+                          color="primary"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup @click="deleteItem(props.row)">
-                    <q-item-section><span class="text-right font-14 text-red">
+                  <q-item
+                    clickable
+                    v-close-popup
+                    @click="deleteItem(props.row)"
+                  >
+                    <q-item-section
+                      ><span class="text-right font-14 text-red">
                         {{ $t("statsTable.delete") }}
 
-                        <q-icon v-if="!deleteIsLoading" size="sm" class="text-red" name="delete" />
-                        <q-spinner v-else color="red" size="sm" :thickness="2" />
-                      </span></q-item-section>
+                        <q-icon
+                          v-if="!deleteIsLoading"
+                          size="sm"
+                          class="text-red"
+                          name="delete"
+                        />
+                        <q-spinner
+                          v-else
+                          color="red"
+                          size="sm"
+                          :thickness="2"
+                        /> </span
+                    ></q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -227,9 +452,19 @@
         </q-tr>
       </template>
     </q-table>
-    <DeleteDialog :id="itemId" :tab="tab" :dialogState="deleteDialog" @update="deleteDone()" />
-    <RequestAccessDialog :id="itemId" :tab="tab" :type="itemType" :dialogState="requestDialog"
-      @update="(requestDialog = $event), (itemId = null), (itemType = null)" />
+    <DeleteDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="deleteDialog"
+      @update="deleteDone()"
+    />
+    <RequestAccessDialog
+      :id="itemId"
+      :tab="tab"
+      :type="itemType"
+      :dialogState="requestDialog"
+      @update="(requestDialog = $event), (itemId = null), (itemType = null)"
+    />
   </div>
 </template>
 
@@ -280,7 +515,6 @@ export default {
   },
   methods: {
     dateFormatter,
-    // TODO need to refactor this function.
     filterTable(rows, terms) {
       let search = terms.name ? terms.name.toLowerCase() : "";
       let category = terms.category ? terms.category : null;
@@ -671,8 +905,6 @@ export default {
       return [...new Map(users.map(item => [item["user"], item])).values()];
     },
     isInPage() {
-      // TODO this solution might be temporary
-      // return this.$router.currentRoute.fullPath == "/stats";
       return true;
     },
     filter() {
@@ -764,7 +996,6 @@ export default {
 </script>
 
 <style lang="scss">
-// TODO figure out a way to smoothen close transition
 .yellowBg .q-table__top {
   background: $yellow-10;
   transition: all 0.2s ease-in-out;
