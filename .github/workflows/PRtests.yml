@@ -7,9 +7,10 @@
 
 name: PRTests
 
-on:
-  pull_request:
-    branches: [ "dev", "stage" ]
+on: workflow_dispatch
+#  pull_request:
+#    branches: [ "dev", "stage" ]
+  
 jobs:
   build:
     runs-on: ubuntu-latest
