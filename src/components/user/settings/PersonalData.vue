@@ -223,7 +223,7 @@ export default {
         this.isLoading = true;
         if (this.profileImage != null) await this.deleteImage();
         await this.$store.dispatch("userCenter/uploadProfile", {
-          id: this.user.id,
+          id: this.userDetails.id,
           img: this.newImg
         });
         this.isLoading = false;
