@@ -166,7 +166,9 @@ export default {
               }
             });
             Cookies.set("consent", JSON.stringify(res.data), {
-              expires: 365
+              expires: 365,
+              secure: true,
+              sameSite: "None"
             });
             // this.checkConsentStatus();
             location.reload();
@@ -189,7 +191,9 @@ export default {
               }
             });
             Cookies.set("consent", JSON.stringify(res.data), {
-              expires: 365
+              expires: 365,
+              secure: true,
+              sameSite: "None"
             });
             // this.checkConsentStatus();
             location.reload();
@@ -208,7 +212,9 @@ export default {
         try {
           const res = await instance.get("/api/concent/key");
           Cookies.set("consent", JSON.stringify(res.data.key), {
-            expires: 365
+            expires: 365,
+            secure: true,
+            sameSite: "None"
           });
           const updateRes = await instance.put(`/api/data-concents/1`, {
             data: {
@@ -217,7 +223,9 @@ export default {
             }
           });
           Cookies.set("consent", JSON.stringify(updateRes.data), {
-            expires: 365
+            expires: 365,
+            secure: true,
+            sameSite: "None"
           });
           this.checkConsentStatus();
         } catch (error) {
@@ -257,7 +265,9 @@ export default {
             });
             console.log("resssss", res);
             Cookies.set("consent", JSON.stringify(res.data[0]), {
-              expires: 365
+              expires: 365,
+              secure: true,
+              sameSite: "None"
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
@@ -279,7 +289,9 @@ export default {
               }
             });
             Cookies.set("consent", JSON.stringify(res.data[0]), {
-              expires: 365
+              expires: 365,
+              secure: true,
+              sameSite: "None"
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
