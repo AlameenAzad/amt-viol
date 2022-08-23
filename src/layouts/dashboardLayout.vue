@@ -113,7 +113,7 @@
     >
       <div class="q-px-lg q-pt-sm" v-if="!miniState">
         <p class="font-20 ">
-          <small class="q-mr-xs">Hello,</small><br />
+          <small class="q-mr-xs">{{ $t("Hello") }},</small><br />
           <span class="text-weight-bold">{{ user || "" }}</span>
         </p>
       </div>
@@ -140,7 +140,14 @@
           @click="miniState = true"
         />
       </div>
+      <p
+        @click="showCookieBox"
+        class="absolute-bottom q-ml-md inline-block cursor-pointer text-blue-grey-1"
+      >
+        {{ $t("Change Cookie settings") }}
+      </p>
     </q-drawer>
+
     <logoutDialog :dialogState="logoutDialog" @update="logoutDialog = $event" />
     <q-page-container>
       <router-view />
@@ -157,7 +164,7 @@ import {
   disable as disableDarkMode,
   isEnabled as isDarkReaderEnabled
 } from "darkreader";
-
+import Cookies from "js-cookie";
 export default {
   name: "MainLayout",
   components: {
@@ -169,13 +176,14 @@ export default {
       logoutDialog: false,
       miniState: false,
       leftDrawerOpen: this.$q.screen.gt.sm,
-      themeIcon: isDarkReaderEnabled()
-        ? "mdi-weather-night"
-        : "mdi-white-balance-sunny",
+      themeIcon: "mdi-white-balance-sunny",
       isEnabled: false
     };
   },
   methods: {
+    showCookieBox() {
+      this.$store.commit("userCenter/changeShowCookieBox", true);
+    },
     drawerClick(e) {
       if (this.miniState) {
         this.miniState = false;
@@ -184,21 +192,27 @@ export default {
     },
     switchLang() {
       if (this.$i18n.locale === "en-us") {
-        localStorage.setItem("lang", "de");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
       } else {
-        localStorage.setItem("lang", "en");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "en");
         this.$i18n.locale = "en-us";
       }
     },
     toggleDarkMode() {
-      if (isDarkReaderEnabled()) disableDarkMode();
-      else
+      if (isDarkReaderEnabled()) {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", false);
+        disableDarkMode();
+        this.themeIcon = "mdi-white-balance-sunny";
+      } else {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", true);
         enableDarkMode({
           brightness: 100,
           contrast: 90,
           sepia: 10
         });
+        this.themeIcon = "mdi-weather-night";
+      }
     },
     logout() {
       console.log(localStorage.getItem("showLogoutDialog"));
@@ -209,21 +223,37 @@ export default {
     checkLanguage() {
       if (!!localStorage.getItem("lang")) {
         if (localStorage.getItem("lang") === "de") {
-          localStorage.setItem("lang", "de");
+          if (this.cookiePrefrence) localStorage.setItem("lang", "de");
           this.$i18n.locale = "de";
         } else {
-          localStorage.setItem("lang", "en");
+          if (this.cookiePrefrence) localStorage.setItem("lang", "en");
           this.$i18n.locale = "en-us";
         }
       } else {
-        localStorage.setItem("lang", "de");
+        if (this.cookiePrefrence) localStorage.setItem("lang", "de");
         this.$i18n.locale = "de";
+      }
+    },
+    checkDarkMode() {
+      if (!!localStorage.getItem("darkmode")) {
+        if (localStorage.getItem("darkmode") == "true") this.toggleDarkMode();
+      } else {
+        if (this.cookiePrefrence) localStorage.setItem("darkmode", false);
       }
     }
   },
   computed: {
     user() {
-      return this.$store.state.userCenter.user?.user.username;
+      return (
+        !!this.$store.state.userCenter.user &&
+        !!this.$store.state.userCenter.user.user &&
+        this.$store.state.userCenter.user.user.username
+      );
+    },
+    cookiePrefrence() {
+      if (!Cookies.get("consent")) return false;
+      const cookie = JSON.parse(Cookies.get("consent"));
+      return !!cookie.consent.prefrences;
     }
   },
   mounted() {
@@ -232,6 +262,7 @@ export default {
     console.log("router ", this.$router);
     console.log("router", this.$router.currentRoute);
     this.checkLanguage();
+    this.checkDarkMode();
   }
 };
 </script>

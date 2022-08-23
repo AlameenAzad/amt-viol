@@ -106,7 +106,7 @@ export async function inviteUser(context, payload) {
       const res = await api.post("/api/users", data);
       console.log("res :>> ", res);
       Notify.create({
-        message: "An Email has been sent to the invited user",
+        message: "Eine Einladung wurde an den User geschickt",
         type: "positive"
       });
       context.dispatch("getUsers");
@@ -128,7 +128,7 @@ export async function resetPassword(context, payload) {
     try {
       await api.post("/api/auth/reset-password", data);
       Notify.create({
-        message: "Password reset successfully. Redirecting to Login",
+        message: "Passwort erfolgreich zurück gesetzt. Weiterleitung zum Login",
         type: "positive"
       });
       setTimeout(() => {
@@ -153,12 +153,12 @@ export async function updatePersonalData(context, payload) {
     try {
       const res = await api.put(`/api/user-details/${userDetailsId}`, { data });
       Notify.create({
-        message: "User data updated successfully",
+        message: "Userdaten wurden erfolgreich geändert",
         type: "positive"
       });
       context.commit("updatePersonalData", res.data.data);
-      // await context.dispatch("getUserDetails");
-      await context.dispatch("getUsers");
+      context.dispatch("getUserDetails");
+      context.dispatch("getUsers");
     } catch (error) {
       console.log("error :>> ", error.response);
       Notify.create({
@@ -176,7 +176,7 @@ export async function updateUser(context, payload) {
     try {
       const res = await api.put(`/api/users/${data.id}`, { data: data.data });
       Notify.create({
-        message: "User data updated successfully",
+        message: "Userdaten wurden erfolgreich geändert",
         type: "positive"
       });
       context.dispatch("getUserDetails");
@@ -210,7 +210,7 @@ export async function transferData(context, payload) {
         }`
       );
       Notify.create({
-        message: "User data transferred successfully",
+        message: "Userdaten wurden transferiert",
         type: "positive"
       });
       console.log("res", res);
@@ -294,11 +294,17 @@ export async function logout(context) {
   context.commit("clearDataOverview", []);
   context.commit("setWatchlists", []);
   context.commit("project/setProjectIdeas", [], { root: true });
+  context.commit("project/setSpecificProject", null, { root: true });
   context.commit("tag/setTags", [], { root: true });
   context.commit("municipality/setMunicipalities", [], { root: true });
   context.commit("category/setCategories", [], { root: true });
   context.commit("funding/setFundings", [], { root: true });
+  context.commit("funding/setSpecificFunding", null, { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
+  context.commit("implementationChecklist/setSpecificChecklist", null, {
+    root: true
+  });
+  sessionStorage.clear();
 }
 
 export async function forgotPassword(context) {
@@ -307,7 +313,8 @@ export async function forgotPassword(context) {
       email: context.state.user.user.email
     });
     Notify.create({
-      message: "Password reset link was sent to your email.",
+      message:
+        "Ein Link für die Zurücksetzung Ihres Passwortes wurde an Ihre Email geschickt",
       type: "positive"
     });
   } catch (error) {
@@ -332,7 +339,8 @@ export async function uploadProfile(context, payload) {
           "Content-Type": "multipart/form-data"
         }
       });
-      return fileRes;
+      context.dispatch("getUserDetails");
+      console.log("fileRes", fileRes);
     } catch (error) {
       Notify.create({
         type: "negative",

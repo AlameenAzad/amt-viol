@@ -3,10 +3,10 @@
     <div class="container">
       <div class="row">
         <div class="col-12 text-center">
-          <h1 class="font-36 text-weight-600">Documents</h1>
+          <h1 class="font-36 text-weight-600">Dokumente</h1>
         </div>
         <div class="col-12 q-mb-xl">
-          <p>Search result: {{ documentsLength }} Documents</p>
+          <p>Suchergebnis: {{ documentsLength }} Dokumente</p>
           <DocumentsTable @update-data="setDocumentNumbers" />
         </div>
       </div>

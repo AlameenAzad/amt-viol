@@ -13,7 +13,7 @@
           ref="newFundingForm"
           class="q-gutter-lg q-px-md q-mb-md"
         >
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("projectContent.fundingGuidelines") }}
@@ -64,7 +64,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Name, Surname')"
+                    :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                     v-model="form.info.contactName"
                   />
                 </div>
@@ -84,7 +84,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Street, Nr.')"
+                    :placeholder="$t('projectIdeaPlaceholder.streetNr')"
                     v-model="form.info.streetNo"
                   />
                 </div>
@@ -93,7 +93,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Postal Code, City')"
+                    :placeholder="$t('projectIdeaPlaceholder.postalCity/place')"
                     v-model="form.info.postalCode"
                   />
                 </div>
@@ -102,7 +102,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('Telefon')"
+                    :placeholder="$t('projectIdeaPlaceholder.telephone')"
                     v-model="form.info.phone"
                   />
                 </div>
@@ -111,14 +111,14 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6"
-                    :placeholder="$t('E-Mail')"
+                    :placeholder="$t('projectIdeaPlaceholder.email')"
                     v-model="form.info.email"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Invite Editor") }}
@@ -185,7 +185,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
@@ -197,7 +197,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
@@ -214,7 +214,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-basleine">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Funding goal") }}
@@ -284,7 +284,7 @@
           </div>
           <div class="row items-baseline">
             <div class="col-12 col-md-4">
-              <p class="font-16 no-margin">
+              <p class="font-16 no-margin q-pr-md">
                 {{ $t("Conditions for Applicants") }}
               </p>
             </div>
@@ -399,7 +399,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Funding Period") }}
@@ -441,7 +441,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -486,7 +487,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -529,7 +531,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 Links
@@ -555,7 +557,7 @@
             </div>
             <div class="col-12 col-md-8">
               <div class="row q-col-gutter-md">
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                   <q-file
                     flat
                     v-model="form.media"
@@ -580,12 +582,12 @@
                     class="q-mt-sm"
                     v-if="form.media && form.media.length > 0"
                   >
-                    <q-item
+                    <div
+                      class="q-col-gutter-x-sm row radius-6 shadow-1 q-mt-sm items-center q-pa-sm"
                       v-for="(image, index) in form.media"
                       :key="index"
-                      clickable
                     >
-                      <q-item-section side>
+                      <div class="col-auto">
                         <q-avatar rounded size="48px">
                           <q-img
                             :ratio="1"
@@ -593,13 +595,13 @@
                             :src="imgPreview(image).url"
                           />
                         </q-avatar>
-                      </q-item-section>
-                      <q-item-section>
+                      </div>
+                      <div class="col-8">
                         <q-item-label class="ellipsis" caption>{{
                           imgPreview(image).name
                         }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
+                      </div>
+                      <div class="col-auto text-right">
                         <q-btn
                           icon="delete"
                           @click.prevent.stop="removeImg(index)"
@@ -609,11 +611,27 @@
                           dense
                         >
                         </q-btn>
-                      </q-item-section>
-                    </q-item>
+                      </div>
+                      <div class="col-12 q-mt-sm">
+                        <q-btn
+                          :label="
+                            !!imgPreview(image).caption
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
+                          "
+                          @click.prevent.stop="addCaption(image, index)"
+                          text-color="primary"
+                          dense
+                          class="radius-6 "
+                          no-caps
+                          flat
+                        >
+                        </q-btn>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                   <q-file
                     flat
                     v-model="form.files"
@@ -747,6 +765,15 @@
         </q-form>
       </div>
     </div>
+    <ImageDialog
+      :imageIndex="imageIndex"
+      :image="image"
+      type="funding"
+      :document="!!funding ? funding : null"
+      :dialogState="imageDialog"
+      @update="(imageDialog = false), (imageIndex = null), (image = null)"
+      @add-caption="updateCaption"
+    />
   </q-page>
 </template>
 
@@ -762,6 +789,8 @@ import Links from "src/components/projects/create/Links.vue";
 import ProjectIdeas from "components/funding/ProjectIdeas.vue";
 import ImplementationChecklists from "components/funding/ImplementationChecklists.vue";
 import Fundings from "components/funding/Fundings.vue";
+import ImageDialog from "components/ImageDialog.vue";
+
 export default {
   name: "newFund",
   components: {
@@ -772,10 +801,14 @@ export default {
     Links,
     ProjectIdeas,
     ImplementationChecklists,
-    Fundings
+    Fundings,
+    ImageDialog
   },
   data() {
     return {
+      imageIndex: null,
+      image: null,
+      imageDialog: false,
       form: {
         title: "",
         visibility: "",
@@ -820,6 +853,14 @@ export default {
     };
   },
   methods: {
+    updateCaption(value, index) {
+      this.form.media[index].caption = value;
+    },
+    addCaption(image, index) {
+      this.imageDialog = true;
+      this.imageIndex = index;
+      this.image = image;
+    },
     plannedEndOptions(date) {
       if (!!this.form.plannedStart) {
         const calendarDate = date.replace(/\//g, "-");
@@ -847,7 +888,8 @@ export default {
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
-        name: val.name
+        name: val.name,
+        caption: val.caption
       };
     },
     removeImg(index) {

@@ -20,3 +20,9 @@ export function deleteChecklist(state, payload) {
     state.checklist = {};
   }
 }
+
+export function archiveChecklist(state, payload) {
+  if (state.checklist) {
+    state.checklist.archived = true;
+  }
+}

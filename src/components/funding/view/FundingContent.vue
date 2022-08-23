@@ -65,19 +65,20 @@
         <div v-if="isAdmin" class="col-12">
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
-              <q-card-section class="row items-center justify-between q-pa-md">
+              <q-card-section
+                class="row items-center justify-between q-pa-md q-col-gutter-sm"
+              >
                 <div class="col-12 col-md-8">
-                  <div class="row q-col-gutter-x-xl">
+                  <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!funding.createdAt &&
-                              funding.createdAt.split("T"[0])
-                          ) || ""
+                          (!!funding.createdAt &&
+                            dateFormatter(funding.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>
@@ -110,7 +111,14 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-auto">
-                  <div class="row q-col-gutter-x-md justify-between">
+                  <div
+                    :class="
+                      $q.screen.gt.sm
+                        ? 'q-col-gutter-x-md'
+                        : 'q-col-gutter-x-xs q-mt-md'
+                    "
+                    class="row justify-between"
+                  >
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -121,7 +129,14 @@
                         outline
                         icon="star_outline"
                         :loading="watchlistIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("bookmark") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -132,7 +147,14 @@
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("edit") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -143,7 +165,15 @@
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("archive") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -154,7 +184,15 @@
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("delete") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                   </div>
                 </div>
@@ -419,6 +457,16 @@
                           </div>
                         </q-tab>
                       </q-tabs>
+                      <p
+                        class="q-mt-md q-mb-none font-14 text-center text-grey"
+                      >
+                        {{
+                          !!funding.media[slide - 1] &&
+                          !!funding.media[slide - 1].caption
+                            ? funding.media[slide - 1].caption
+                            : ""
+                        }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>
@@ -470,7 +518,7 @@
                 <q-card-section horizontal class="q-pa-md">
                   <div class="col-4">
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("newProjectIdeaForm.tags") }}
+                      {{ $t("Tags") }}
                     </h4>
                   </div>
                   <div class="col-8">
@@ -1003,7 +1051,13 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null)"
+      @update="closeDeleteDialog($event), (itemId = null)"
+    />
+    <ArchiveDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="archiveDialog"
+      @update="closeArchiveDialog($event), (itemId = null)"
     />
     <CommentDialog
       :fundingId="itemId"
@@ -1016,6 +1070,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import CommentDialog from "components/funding/view/CommentDialog.vue";
 export default {
   name: "FundingView",
@@ -1025,6 +1080,7 @@ export default {
       itemId: null,
       tab: "fundings",
       deleteDialog: false,
+      archiveDialog: false,
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
@@ -1035,6 +1091,7 @@ export default {
   },
   components: {
     DeleteDialog,
+    ArchiveDialog,
     CommentDialog
   },
   watch: {
@@ -1050,7 +1107,13 @@ export default {
   },
   methods: {
     dateFormatter,
-    closeDialog(val) {
+    closeArchiveDialog(val) {
+      this.archiveDialog = val;
+      if (!!this.funding && this.funding.archived === true) {
+        this.$router.go(-1);
+      }
+    },
+    closeDeleteDialog(val) {
       this.deleteDialog = val;
       if (!!this.funding && !this.funding.id) {
         this.$router.go(-1);
@@ -1111,18 +1174,13 @@ export default {
       this.$router.push({ path: `/user/newFunding/edit/${id}` });
     },
     async archiveFunding() {
-      this.archiveIsLoading = true;
-      const id = !!this.funding && this.funding.id;
-      await this.$store.dispatch("funding/archiveFunding", {
-        id: id
-      });
-      this.archiveIsLoading = false;
-      this.$router.go(-1);
+      this.itemId = !!this.funding && this.funding.id;
+      this.archiveDialog = true;
     },
     async addComment() {
       this.commentIsLoading = true;
-      this.commentDialog = true;
       this.itemId = !!this.funding && this.funding.id;
+      this.commentDialog = true;
     },
     async deleteFunding() {
       this.itemId = !!this.funding && this.funding.id;

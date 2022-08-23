@@ -257,7 +257,7 @@ const routes = [
         name: "ViewProject",
         meta: {
           title: "Details of the project Idea",
-          titleDE: "Details zum Projekt Idee",
+          titleDE: "Details zur Projektidee",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -269,7 +269,7 @@ const routes = [
         name: "NewFunding",
         meta: {
           title: "New Funding",
-          titleDE: "Neue Finanzmittel",
+          titleDE: "Neue Fördermittel",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false

@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-12 q-mb-md">
               <h1 class="font-50 text-white text-weight-600 q-mb-none">
-                Förderscouting-Plattformm
+                Förderscouting-Plattform
               </h1>
               <p class="text-white">
                 Das Projekt „Interkommunale Förderscouting-Plattform
@@ -21,7 +21,7 @@
                 class="no-shadow q-mb-lg input-radius-4"
                 color="primary"
                 bg-color="white"
-                placeholder="Find document"
+                placeholder="Dokument finden"
                 filled
                 v-model="documentSearch"
                 @keyup.enter="searchForDocument"
@@ -131,7 +131,7 @@
               Hintergrund der Entwicklung lebenswerter Kommunen und der
               Sicherung von Daseinsvorsorgeinfrastrukturen wird es für
               strukturschwache Regionen immer essenzieller, vorhandene
-              Entwicklungsressourcen (Projektwissen, Personal und Finanzmittel)
+              Entwicklungsressourcen (Projektwissen, Personal und Fördermittel)
               in einem Wissensnetzwerk zu bündeln und zu teilen.
             </p>
             <p class="font-16 text-left">
@@ -171,17 +171,18 @@
         <div class="col-12 col-md-8">
           <div class="row q-col-gutter-xl">
             <div class="col-12 col-md-4">
-              <q-card class="full-height full-width shadow-0">
-                <q-card-section class="full-height flex center">
+              <q-card class="full-height full-width  shadow-0">
+                <q-card-section class="full-height flex flex-center">
                   <q-img
                     spinner-color="primary"
-                    src="logo-1.svg"
+                    src="logo-3.svg"
                     height="150px"
                     contain
                   />
                 </q-card-section>
               </q-card>
             </div>
+
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width  shadow-0">
                 <q-card-section class="full-height flex flex-center">
@@ -195,11 +196,11 @@
               </q-card>
             </div>
             <div class="col-12 col-md-4">
-              <q-card class="full-height full-width  shadow-0">
-                <q-card-section class="full-height flex flex-center">
+              <q-card class="full-height full-width shadow-0">
+                <q-card-section class="full-height flex center">
                   <q-img
                     spinner-color="primary"
-                    src="logo-3.svg"
+                    src="logo-1.svg"
                     height="150px"
                     contain
                   />

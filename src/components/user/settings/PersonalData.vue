@@ -11,10 +11,14 @@
       <div class="row justify-center">
         <div class="col-12 text-center">
           <q-img
-            v-if="profileImage"
+            v-if="!!userDetails && userDetails.profile"
             class="radius-10 profileImage"
             spinner-color="primary"
-            :src="`${appUrl}${profileImage}`"
+            :src="
+              `${appUrl}${!!userDetails &&
+                !!userDetails.profile &&
+                userDetails.profile.url}`
+            "
             style="height: 160px; max-width: 160px"
           />
           <div class="flex flex-center" v-else style="height: 160px">
@@ -211,21 +215,18 @@ export default {
       this.$q.notify({
         color: "negative",
         textColor: "white",
-        message: "Please make sure you are uploading an image"
+        message: "Bitte stellen Sie sicher, dass Sie ein Bild hochladen"
       });
     },
     async uploadImage() {
       if (this.newImg != null) {
         this.isLoading = true;
         if (this.profileImage != null) await this.deleteImage();
-        const res = await this.$store.dispatch("userCenter/uploadProfile", {
-          id: this.user.id,
+        await this.$store.dispatch("userCenter/uploadProfile", {
+          id: this.userDetails.id,
           img: this.newImg
         });
         this.isLoading = false;
-        if (res !== false) {
-          this.$store.dispatch("userCenter/getUserDetails");
-        }
       }
     },
     setData() {
@@ -238,7 +239,10 @@ export default {
       this.form.location =
         (!!this.userDetails && this.userDetails.location) || "";
       this.form.administration =
-        (!!this.userDetails && this.userDetails.municipality.title) || "";
+        (!!this.userDetails &&
+          !!this.userDetails.municipality &&
+          this.userDetails.municipality.title) ||
+        "";
       this.form.streetNo =
         (!!this.userDetails && this.userDetails.streetNo) || "";
       this.form.postalCode =

@@ -22,3 +22,9 @@ export function deleteFunding(state, payload) {
 export function setSpecificFunding(state, payload) {
   state.funding = payload;
 }
+
+export function archiveFunding(state, payload) {
+  if (state.funding) {
+    state.funding.archived = true;
+  }
+}

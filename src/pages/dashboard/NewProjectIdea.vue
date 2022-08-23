@@ -58,7 +58,7 @@
                     dense
                     disable
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Administration"
+                    placeholder="Gemeinde/Verwaltung"
                     :value="
                       !!project
                         ? form.municipality.title
@@ -88,7 +88,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Steet, Nr."
+                    :placeholder="$t('projectIdeaPlaceholder.streetNr')"
                     :value="
                       !!project
                         ? form.info.streetNo
@@ -102,7 +102,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Postal Code, City"
+                    :placeholder="$t('projectIdeaPlaceholder.postalCity/place')"
                     :value="
                       !!project
                         ? form.info.postalCode
@@ -116,7 +116,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Telefon"
+                    :placeholder="$t('projectIdeaPlaceholder.telephone')"
                     :value="
                       !!project
                         ? form.info.phone
@@ -130,7 +130,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="E-Mail"
+                    :placeholder="$t('projectIdeaPlaceholder.email')"
                     :value="!!project ? form.info.email : !!user && user.email"
                     disable
                   />
@@ -147,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="row items-baseline">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("newProjectIdeaForm.inviteEditors") }}
@@ -214,7 +214,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("newProjectIdeaForm.filterCategories") }}
@@ -228,7 +228,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
@@ -366,7 +366,7 @@
               />
             </div>
           </div>
-          <div class="row items-baseline">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("newProjectIdeaForm.estimatedCost") }}
@@ -403,7 +403,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("newProjectIdeaForm.plaanedPeriod") }}
@@ -445,7 +445,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -490,7 +491,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -509,7 +511,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-baseline">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("projectContent.links") }}
@@ -594,8 +596,8 @@
                         <q-btn
                           :label="
                             !!imgPreview(image).caption
-                              ? 'Edit caption'
-                              : 'Add Caption'
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
                           "
                           @click.prevent.stop="addCaption(image, index)"
                           text-color="primary"
@@ -709,6 +711,8 @@
     <ImageDialog
       :imageIndex="imageIndex"
       :image="image"
+      type="project"
+      :document="!!project ? project : null"
       :dialogState="imageDialog"
       @update="(imageDialog = false), (imageIndex = null), (image = null)"
       @add-caption="updateCaption"

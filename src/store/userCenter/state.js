@@ -1,9 +1,12 @@
 export default function() {
   return {
-    user: null,
+    user: {
+      userDetails: {}
+    },
     users: [],
     dataOverview: [],
     watchlists: [],
-    loadingMessages: ""
+    loadingMessages: "",
+    showCookieBox: false
   };
 }

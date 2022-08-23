@@ -66,20 +66,19 @@
           <div class="row">
             <q-card class="col-12 shadow-1 radius-20 q-mb-none q-pa-none">
               <q-card-section
-                class="row items-center justify-between q-pa-md q-col-gutter-x-sm"
+                class="row items-center justify-between q-pa-md q-col-gutter-sm"
               >
-                <div class="col-12 col-md-7">
-                  <div class="row q-col-gutter-x-xl">
+                <div class="col-12 col-md-auto">
+                  <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
                       <p class="font-14 no-margin text-blue-5">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
-                          dateFormatter(
-                            !!project.createdAt &&
-                              project.createdAt.split("T"[0])
-                          ) || ""
+                          (!!project.createdAt &&
+                            dateFormatter(project.createdAt)) ||
+                            ""
                         }}
                       </p>
                     </div>
@@ -112,7 +111,14 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-auto">
-                  <div class="row q-col-gutter-x-md justify-between">
+                  <div
+                    :class="
+                      $q.screen.gt.sm
+                        ? 'q-col-gutter-x-md'
+                        : 'q-col-gutter-x-xs q-mt-md'
+                    "
+                    class="row justify-between"
+                  >
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -123,7 +129,14 @@
                         outline
                         icon="star_outline"
                         :loading="watchlistIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("bookmark") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -134,7 +147,15 @@
                         no-caps
                         icon="edit"
                         :loading="editIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("edit") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -145,7 +166,14 @@
                         no-caps
                         icon="content_copy"
                         :loading="duplicateIsLoading"
-                      />
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("duplicate") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div
                       v-if="
@@ -163,7 +191,15 @@
                         no-caps
                         icon="inventory"
                         :loading="archiveIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("archive") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                     <div v-if="isAdmin" class="col-auto">
                       <q-btn
@@ -174,7 +210,15 @@
                         no-caps
                         icon="delete"
                         :loading="deleteIsLoading"
-                      />
+                      >
+                        <q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("delete") }}
+                        </q-tooltip></q-btn
+                      >
                     </div>
                   </div>
                 </div>
@@ -209,6 +253,26 @@
                           ""
                       }}
                     </p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.contactDetails") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.streetNo) || "" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.postalCode) || "" }}
+                    </p>
+                    <p class="q-mb-sm">
+                      {{ (!!project.info && project.info.phone) || "" }}
+                    </p>
+                    <p class="q-mb-sm text-overflow">
+                      {{ (!!project.info && project.info.email) || "" }}
+                    </p>
                     <p class="q-mb-sm">
                       {{
                         (!!project.municipality &&
@@ -219,35 +283,6 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
-                <div
-                  v-if="
-                    (!!project.info && project.info.streetNo) ||
-                      (!!project.info && project.info.postalCode) ||
-                      (!!project.info && project.info.phone) ||
-                      (!!project.info && project.info.email)
-                  "
-                >
-                  <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("projectContent.contactDetails") }}
-                    </h4>
-                    <div class="q-ml-md font-16">
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.streetNo) || "" }}
-                      </p>
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.postalCode) || "" }}
-                      </p>
-                      <p class="q-mb-sm">
-                        {{ (!!project.info && project.info.phone) || "" }}
-                      </p>
-                      <p class="q-mb-sm text-overflow">
-                        {{ (!!project.info && project.info.email) || "" }}
-                      </p>
-                    </div>
-                  </q-card-section>
-                  <q-separator inset class="bg-blue opacity-10" />
-                </div>
                 <div>
                   <q-card-section
                     v-if="!!project.info && !!project.info.location"
@@ -356,6 +391,19 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="project.duplications > 0">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("projectContent.duplications") }}
+                    </h4>
+                    <div class="q-ml-md font-16">
+                      <p class="q-mb-sm">
+                        {{ project.duplications }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
                 <div
                   v-if="!!project.details && project.details.status !== null"
                 >
@@ -666,10 +714,8 @@
                           </div>
                         </q-tab>
                       </q-tabs>
-
                       <p
-                        style="text-shadow: 1px 1px #000000"
-                        class="no-margin font-16 text-grey"
+                        class="q-mt-md q-mb-none font-14 text-center text-grey"
                       >
                         {{
                           !!project.media[slide - 1] &&
@@ -687,7 +733,7 @@
                   style="height: 548px"
                 >
                   <div>
-                    <h6 class="text-grey">No Images</h6>
+                    <h6 class="text-grey">{{ $t("No Images") }}</h6>
                   </div>
                 </q-card-section>
               </q-card>
@@ -769,7 +815,13 @@
       :id="itemId"
       :tab="tab"
       :dialogState="deleteDialog"
-      @update="closeDialog($event), (itemId = null)"
+      @update="closeDeleteDialog($event), (itemId = null)"
+    />
+    <ArchiveDialog
+      :id="itemId"
+      :tab="tab"
+      :dialogState="archiveDialog"
+      @update="closeArchiveDialog($event), (itemId = null)"
     />
     <RequestAccessDialog
       :id="itemId"
@@ -790,6 +842,7 @@
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
+import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "projectContent",
@@ -801,6 +854,7 @@ export default {
       type: null,
       requestDialog: false,
       deleteDialog: false,
+      archiveDialog: false,
       isLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -811,6 +865,7 @@ export default {
   },
   components: {
     DeleteDialog,
+    ArchiveDialog,
     RequestAccessDialog
   },
   watch: {
@@ -826,7 +881,13 @@ export default {
   },
   methods: {
     dateFormatter,
-    closeDialog(val) {
+    closeArchiveDialog(val) {
+      this.archiveDialog = val;
+      if (!!this.project && this.project.archived === true) {
+        this.$router.go(-1);
+      }
+    },
+    closeDeleteDialog(val) {
       this.deleteDialog = val;
       if (!!this.project && !this.project.id) {
         this.$router.go(-1);
@@ -897,7 +958,12 @@ export default {
     async duplicateProject() {
       this.duplicateIsLoading = true;
       const id = !!this.project && this.project.id;
-      if (!!this.project && this.project.visibility !== "all users") {
+      if (
+        !!this.project &&
+        this.project.visibility !== "all users" &&
+        (!!this.project.owner && this.project.owner.id) !==
+          (!!this.loggedInUser && this.loggedInUser.id)
+      ) {
         this.itemId = !!this.project && this.project.id;
         this.type = "duplicate";
         this.requestDialog = true;
@@ -912,13 +978,8 @@ export default {
       }
     },
     async archiveProject() {
-      this.archiveIsLoading = true;
-      const id = !!this.project && this.project.id;
-      await this.$store.dispatch("project/archiveProjectIdea", {
-        id: id
-      });
-      this.archiveIsLoading = false;
-      this.$router.go(-1);
+      this.itemId = !!this.project && this.project.id;
+      this.archiveDialog = true;
     },
     async deleteProject() {
       this.itemId = !!this.project && this.project.id;

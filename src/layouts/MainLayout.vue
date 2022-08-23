@@ -8,6 +8,7 @@
         <!-- TODO Fix toolbar title taking full width -->
         <q-toolbar-title>
           <q-btn
+            v-if="$q.screen.gt.sm"
             unelevated
             no-caps
             flat
@@ -17,6 +18,14 @@
           >
             Foerderscouting Plattform
           </q-btn>
+          <q-btn
+            v-if="$q.screen.lt.md"
+            round
+            icon="home"
+            flat
+            size="md"
+            :to="{ name: 'landing' }"
+          />
         </q-toolbar-title>
         <q-btn
           @click="loginDialog = true"
@@ -63,6 +72,12 @@
       </div>
       <div class="text-center bg-blue-5 text-white font-16 q-py-md">
         {{ currentYear }} © Amt Viöl. All rights reserved
+        <p
+          @click="showCookieBox"
+          class="q-ml-md inline-block cursor-pointer text-blue-grey-1"
+        >
+          Cookie-Einstellungen ändern
+        </p>
       </div>
     </q-page-container>
   </q-layout>
@@ -84,6 +99,11 @@ export default {
       loginDialog: false,
       signupDialogState: false
     };
+  },
+  methods: {
+    showCookieBox() {
+      this.$store.commit("userCenter/changeShowCookieBox", true);
+    }
   }
 };
 </script>

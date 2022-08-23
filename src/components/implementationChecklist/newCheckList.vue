@@ -13,7 +13,7 @@
           @validation-error="scrollToInvalidElement"
           class="q-gutter-lg q-px-md q-mb-md"
         >
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Project Name") }}
@@ -64,7 +64,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Name, Nachname"
+                    :placeholder="$t('projectIdeaPlaceholder.nameSurname')"
                     :value="
                       !!checklist
                         ? form.info.contactName
@@ -106,7 +106,7 @@
                     disable
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Steet, Nr."
+                    :placeholder="$t('projectIdeaPlaceholder.streetNr')"
                     :value="
                       !!checklist
                         ? form.info.streetNo
@@ -121,7 +121,7 @@
                     dense
                     disable
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Postal Code, City"
+                    :placeholder="$t('projectIdeaPlaceholder.postalCity/place')"
                     :value="
                       !!checklist
                         ? form.info.postalCode
@@ -135,7 +135,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="Telefon"
+                    :placeholder="$t('projectIdeaPlaceholder.telephone')"
                     :value="
                       !!checklist
                         ? form.info.phone
@@ -150,7 +150,7 @@
                     outlined
                     dense
                     class="no-shadow input-radius-6 disabledClass"
-                    placeholder="E-Mail"
+                    :placeholder="$t('projectIdeaPlaceholder.email')"
                     :value="
                       !!checklist ? form.info.email : !!user && user.email
                     "
@@ -175,7 +175,7 @@
               />
             </div>
           </div>
-          <div class="row">
+          <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Invite Editor") }}
@@ -242,7 +242,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
@@ -254,7 +254,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
@@ -299,13 +299,12 @@
                     class="q-mt-sm"
                     v-if="form.media && form.media.length > 0"
                   >
-                    <q-item
-                      class="radius-6"
+                    <div
+                      class="q-col-gutter-x-sm row radius-6 shadow-1 q-mt-sm items-center q-pa-sm"
                       v-for="(image, index) in form.media"
                       :key="index"
-                      clickable
                     >
-                      <q-item-section side>
+                      <div class="col-auto">
                         <q-avatar rounded size="48px">
                           <q-img
                             :ratio="1"
@@ -313,13 +312,13 @@
                             :src="imgPreview(image).url"
                           />
                         </q-avatar>
-                      </q-item-section>
-                      <q-item-section>
+                      </div>
+                      <div class="col-8">
                         <q-item-label class="ellipsis" caption>{{
                           imgPreview(image).name
                         }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
+                      </div>
+                      <div class="col-auto text-right">
                         <q-btn
                           icon="delete"
                           @click.prevent.stop="removeImg(index)"
@@ -329,8 +328,24 @@
                           dense
                         >
                         </q-btn>
-                      </q-item-section>
-                    </q-item>
+                      </div>
+                      <div class="col-12 q-mt-sm">
+                        <q-btn
+                          :label="
+                            !!imgPreview(image).caption
+                              ? $t('Edit caption')
+                              : $t('Add Caption')
+                          "
+                          @click.prevent.stop="addCaption(image, index)"
+                          text-color="primary"
+                          dense
+                          class="radius-6 "
+                          no-caps
+                          flat
+                        >
+                        </q-btn>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -350,9 +365,9 @@
               <p class="font-16 no-margin text-weight-600">
                 {{ card.cardTitle }}
               </p>
-              <div class="flex items-center row q-mt-md">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
                 <div class="col-2">
-                  <p class="font-14 no-margin">Start</p>
+                  <p class="font-14 no-margin">{{ $t("start") }}</p>
                 </div>
                 <div>
                   <q-input
@@ -394,7 +409,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -406,9 +422,9 @@
                   </q-input>
                 </div>
               </div>
-              <div class="flex items-center row q-mt-md  ">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
                 <div class="col-2">
-                  <p class="font-14 no-margin">End</p>
+                  <p class="font-14 no-margin">{{ $t("end") }}</p>
                 </div>
                 <div>
                   <q-input
@@ -450,7 +466,8 @@
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
-                                label="Close"
+                                no-caps
+                                :label="$t('Close')"
                                 color="primary"
                                 flat
                               />
@@ -628,8 +645,8 @@
                                   label-color="primary"
                                   :label="
                                     !!element.file && element.file.length > 0
-                                      ? 'Add file'
-                                      : 'Upload File'
+                                      ? $t('Add file')
+                                      : $t('Upload file')
                                   "
                                   multiple
                                   display-value=""
@@ -970,6 +987,15 @@
         </q-fab>
       </q-page-sticky>
     </div>
+    <ImageDialog
+      :imageIndex="imageIndex"
+      :image="image"
+      type="checklist"
+      :document="!!checklist ? checklist : null"
+      :dialogState="imageDialog"
+      @update="(imageDialog = false), (imageIndex = null), (image = null)"
+      @add-caption="updateCaption"
+    />
   </q-page>
 </template>
 
@@ -981,6 +1007,7 @@ import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import draggable from "vuedraggable";
+import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
 
 export default {
@@ -990,10 +1017,14 @@ export default {
     ProjectIdeas,
     UserSelect,
     Categories,
-    Tags
+    Tags,
+    ImageDialog
   },
   data() {
     return {
+      imageIndex: null,
+      image: null,
+      imageDialog: false,
       projectIdea: true,
       form: {
         title: "",
@@ -1105,7 +1136,7 @@ export default {
                         active: false,
                         objectId: 3,
                         info: [
-                          "Wer ist inhaltlicher Ansprechpartner für die Projektkoordination?"
+                          "Wer ist inhaltlicher Ansprechpartner*in für die Projektkoordination?"
                         ]
                       },
                       {
@@ -1680,7 +1711,7 @@ export default {
               },
               {
                 objectName: "checkWithFunding",
-                objectTitle: "Check beim Fördermittelgeber",
+                objectTitle: "Check beim Fördermittelgeber*in",
                 name: "",
                 text: "",
                 desc:
@@ -1693,7 +1724,7 @@ export default {
                 tasks: [
                   {
                     name:
-                      "Worauf muss im Gespräch mit dem Fördermittelgeber geachtet werden?",
+                      "Worauf muss im Gespräch mit dem Fördermittelgeber*in geachtet werden?",
                     sortPosition: 1,
                     objectId: 1,
                     active: false,
@@ -1706,7 +1737,7 @@ export default {
                       },
                       {
                         name:
-                          "Check des Projektsteckbriefes mit dem Fördermittelgeber",
+                          "Check des Projektsteckbriefes mit dem Fördermittelgeber*in",
                         sortPosition: 2,
                         active: false,
                         objectId: 2,
@@ -1833,7 +1864,7 @@ export default {
                       },
                       {
                         name:
-                          "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber",
+                          "Bei Unsicherheit weitere Rücksprache mit dem Fördermittelgeber*in",
                         sortPosition: 7,
                         active: false,
                         objectId: 7
@@ -1898,7 +1929,8 @@ export default {
                         objectId: 3
                       },
                       {
-                        name: "Budgetsituation beim Fördermittelgeber erfragen",
+                        name:
+                          "Budgetsituation beim Fördermittelgeber*in erfragen",
                         sortPosition: 4,
                         active: false,
                         objectId: 4
@@ -2033,7 +2065,7 @@ export default {
                       },
                       {
                         name:
-                          "Akteure mit Erfahrung mit Fördermittelgeber kontaktieren",
+                          "Akteure mit Erfahrung mit Fördermittelgeber*in kontaktieren",
                         sortPosition: 4,
                         active: false,
                         objectId: 4
@@ -2473,8 +2505,15 @@ export default {
     }
   },
   methods: {
+    updateCaption(value, index) {
+      this.form.media[index].caption = value;
+    },
+    addCaption(image, index) {
+      this.imageDialog = true;
+      this.imageIndex = index;
+      this.image = image;
+    },
     changeProject(val) {
-      console.log("val", val);
       this.form.project = val;
     },
     disableDate(index) {
@@ -2517,7 +2556,8 @@ export default {
     imgPreview(val) {
       return {
         url: !!val.id ? `${this.appUrl}${val.url}` : URL.createObjectURL(val),
-        name: val.name
+        name: val.name,
+        caption: val.caption
       };
     },
     removeFile(card, element, index) {
