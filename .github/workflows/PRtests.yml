@@ -28,6 +28,7 @@ jobs:
     - name: setup chrome
       uses: browser-actions/setup-chrome@latest
     - run: chrome --version
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2
+    #- name: Build with Gradle
+    #  uses: gradle/gradle-build-action@v2
+    - run: pwd
     - run: gradle clean test
