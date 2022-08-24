@@ -31,5 +31,5 @@ jobs:
     #- name: Build with Gradle
     #  uses: gradle/gradle-build-action@v2
     - run: pwd
-    - run: l -la
+    - run: ls -la
     - run: gradle clean test
