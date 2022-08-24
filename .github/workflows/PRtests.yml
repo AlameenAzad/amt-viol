@@ -33,3 +33,9 @@ jobs:
     - run: cd master && pwd
     - run: cd master && ls -la
     - run: cd master && gradle clean test
+    - uses: actions/download-artifact@v3
+      with:
+        name: test-result
+        path: ./master/build/reports/
+
+    
