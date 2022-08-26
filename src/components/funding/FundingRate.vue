@@ -2,7 +2,7 @@
   <div>
     <div class="row q-col-gutter-y-lg q-mb-lg">
       <div v-for="(funding, index) in fundingRates" :key="index" class="col-12">
-        <div class="row items-center q-col-gutter-x-md">
+        <div class="row items-baseline q-col-gutter-x-md">
           <div class="col-11">
             <div class="row q-col-gutter-x-md ">
               <div class="col-6">
@@ -10,7 +10,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Content"
+                  :placeholder="$t('Content')"
                   v-model="funding.content"
                   :rules="[val => !!val || $t('Required')]"
                   @input="onInput(index)"
@@ -21,7 +21,7 @@
                   outlined
                   dense
                   class="no-shadow input-radius-6"
-                  placeholder="Amount"
+                  :placeholder="$t('Amount')"
                   v-model="funding.amount"
                   :rules="[val => !!val || $t('Required')]"
                   @input="onInput(index)"

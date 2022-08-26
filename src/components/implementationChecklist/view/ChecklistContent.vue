@@ -478,54 +478,58 @@
           <div class="row">
             <div class="col-12 q-mb-md">
               <q-card class="shadow-1 radius-20">
-                <q-card-section horizontal class="q-pa-md">
-                  <div class="col-4">
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("myData.categories") }}
-                    </h4>
-                  </div>
-                  <div class="col-8">
-                    <div class="q-ml-md font-16">
-                      <div
-                        v-if="
-                          checklist.categories &&
-                            checklist.categories.length > 0
-                        "
-                      >
-                        <q-chip
-                          v-for="(category, index) in checklist.categories"
-                          :key="index"
-                          square
-                          size="16px"
-                          color="yellow-10"
-                          text-color="blue"
+                <q-card-section class="q-pa-md">
+                  <div class="row">
+                    <div class="col-12 col-md-4">
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("myData.categories") }}
+                      </h4>
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <div class="q-ml-md font-16">
+                        <div
+                          v-if="
+                            checklist.categories &&
+                              checklist.categories.length > 0
+                          "
                         >
-                          {{ category.title }}
-                        </q-chip>
+                          <q-chip
+                            v-for="(category, index) in checklist.categories"
+                            :key="index"
+                            square
+                            size="16px"
+                            color="yellow-10"
+                            text-color="blue"
+                          >
+                            {{ category.title }}
+                          </q-chip>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
-                <q-card-section horizontal class="q-pa-md">
-                  <div class="col-4">
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                      {{ $t("projectContent.tags") }}
-                    </h4>
-                  </div>
-                  <div class="col-8">
-                    <div class="q-ml-md font-16">
-                      <div v-if="checklist.tags && checklist.tags.length > 0">
-                        <q-chip
-                          v-for="(tag, index) in checklist.tags"
-                          :key="index"
-                          square
-                          size="16px"
-                          color="yellow-10"
-                          text-color="blue"
-                        >
-                          {{ tag.title }}
-                        </q-chip>
+                <q-card-section class="q-pa-md">
+                  <div class="row">
+                    <div class="col-12 col-md-4">
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("projectContent.tags") }}
+                      </h4>
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <div class="q-ml-md font-16">
+                        <div v-if="checklist.tags && checklist.tags.length > 0">
+                          <q-chip
+                            v-for="(tag, index) in checklist.tags"
+                            :key="index"
+                            square
+                            size="16px"
+                            color="yellow-10"
+                            text-color="blue"
+                          >
+                            {{ tag.title }}
+                          </q-chip>
+                        </div>
                       </div>
                     </div>
                   </div>

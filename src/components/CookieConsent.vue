@@ -167,8 +167,8 @@ export default {
             });
             Cookies.set("consent", JSON.stringify(res.data), {
               expires: 365,
-              secure: true,
-              sameSite: "None"
+              secure: this.APP_URL !== "188" ? true : false,
+              sameSite: this.APP_URL !== "188" ? "None" : "Lax"
             });
             // this.checkConsentStatus();
             location.reload();
@@ -192,8 +192,8 @@ export default {
             });
             Cookies.set("consent", JSON.stringify(res.data), {
               expires: 365,
-              secure: true,
-              sameSite: "None"
+              secure: this.APP_URL !== "188" ? true : false,
+              sameSite: this.APP_URL !== "188" ? "None" : "Lax"
             });
             // this.checkConsentStatus();
             location.reload();
@@ -213,8 +213,8 @@ export default {
           const res = await instance.get("/api/concent/key");
           Cookies.set("consent", JSON.stringify(res.data.key), {
             expires: 365,
-            secure: true,
-            sameSite: "None"
+            secure: this.APP_URL !== "188" ? true : false,
+            sameSite: this.APP_URL !== "188" ? "None" : "Lax"
           });
           const updateRes = await instance.put(`/api/data-concents/1`, {
             data: {
@@ -224,8 +224,8 @@ export default {
           });
           Cookies.set("consent", JSON.stringify(updateRes.data), {
             expires: 365,
-            secure: true,
-            sameSite: "None"
+            secure: this.APP_URL !== "188" ? true : false,
+            sameSite: this.APP_URL !== "188" ? "None" : "Lax"
           });
           this.checkConsentStatus();
         } catch (error) {
@@ -266,8 +266,8 @@ export default {
             console.log("resssss", res);
             Cookies.set("consent", JSON.stringify(res.data[0]), {
               expires: 365,
-              secure: true,
-              sameSite: "None"
+              secure: this.APP_URL !== "188" ? true : false,
+              sameSite: this.APP_URL !== "188" ? "None" : "Lax"
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
@@ -290,8 +290,8 @@ export default {
             });
             Cookies.set("consent", JSON.stringify(res.data[0]), {
               expires: 365,
-              secure: true,
-              sameSite: "None"
+              secure: this.APP_URL !== "188" ? true : false,
+              sameSite: this.APP_URL !== "188" ? "None" : "Lax"
             });
             this.essential = res.data[0].consent.essential;
             this.userPreferences = res.data[0].consent.prefrences;
@@ -320,6 +320,9 @@ export default {
   computed: {
     showCookieBox() {
       return this.$store.state.userCenter.showCookieBox;
+    },
+    APP_URL() {
+      return window.location.hostname.substring(0, 3);
     }
   }
 };

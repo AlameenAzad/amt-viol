@@ -358,6 +358,7 @@
   "New user request access to the platform": "Neuer Benutzer hat Zugriff auf die Plattform angefordert",
   "Request to edit a document made by | ": "Anfrage zum Bearbeiten eines Dokuments von | ",
   "Request to view a document made by | ": "Anfrage zum Ansehen eines Dokuments von | ",
+  "Request to duplicate a document made by | ": "Antrag auf Vervielfältigung eines Dokuments, gestellt von | ",
   "Comment to a funding made by | ": "Kommentar zu einem Fördermittel von | ",
   "Funding opportunity expires | ": "Fördermöglichkeit läuft aus | ",
   "New Comment on Funding": "Neuer Kommentar zu einem Fördermittel",
@@ -511,7 +512,10 @@
     "Draft": "Entwurf",
     "Status Unavailable": "Status Nicht verfügbar",
        "Upload file": "Datei hochladen",
-    "Add file": "Datei hinzufügen"
+    "Add file": "Datei hinzufügen",
+    "Content": " Anmerkung zur Förderquote",
+    "Amount": "Höhe der Förderquote"
+
 
 
 

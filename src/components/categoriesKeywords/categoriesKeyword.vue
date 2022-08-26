@@ -58,7 +58,7 @@
               outlined
               class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
               v-model="filter"
-              placeholder="Search"
+              :placeholder="$t('Search')"
               dense
             >
               <template v-slot:before v-if="$q.screen.gt.sm">
@@ -190,44 +190,7 @@ export default {
       deleteDialog: false,
       itemId: null,
       filter: "",
-      visibleColumns: ["title", "projectIdeas", "fundings", "checklists"],
-      columns: [
-        {
-          name: "id",
-          label: "id",
-          align: "left",
-          field: row => row.id,
-          sortable: true
-        },
-        {
-          name: "title",
-          label: this.$t("myData.title"),
-          field: row => row.title,
-          sortable: true,
-          align: "left"
-        },
-        {
-          name: "projectIdeas",
-          align: "left",
-          label: this.$t("myData.projectIdeas"),
-          field: row => (!!row.dataSet.projects && row.dataSet.projects) || 0,
-          sortable: true
-        },
-        {
-          name: "fundings",
-          align: "left",
-          label: this.$t("myData.fundings"),
-          field: row => (!!row.dataSet.fundings && row.dataSet.fundings) || 0,
-          sortable: true
-        },
-        {
-          name: "checklists",
-          align: "left",
-          label: this.$t("myData.implementationChecklist"),
-          field: row => (!!row.dataSet.checklist && row.dataSet.checklist) || 0,
-          sortable: true
-        }
-      ]
+      visibleColumns: ["title", "projectIdeas", "fundings", "checklists"]
     };
   },
   methods: {
@@ -265,6 +228,45 @@ export default {
     isInPage() {
       // return this.$router.currentRoute.fullPath == "/catkeytags";
       return true;
+    },
+    columns() {
+      return [
+        {
+          name: "id",
+          label: "id",
+          align: "left",
+          field: row => row.id,
+          sortable: true
+        },
+        {
+          name: "title",
+          label: this.$t("myData.title"),
+          field: row => row.title,
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "projectIdeas",
+          align: "left",
+          label: this.$t("myData.projectIdeas"),
+          field: row => (!!row.dataSet.projects && row.dataSet.projects) || 0,
+          sortable: true
+        },
+        {
+          name: "fundings",
+          align: "left",
+          label: this.$t("myData.fundings"),
+          field: row => (!!row.dataSet.fundings && row.dataSet.fundings) || 0,
+          sortable: true
+        },
+        {
+          name: "checklists",
+          align: "left",
+          label: this.$t("myData.implementationChecklist"),
+          field: row => (!!row.dataSet.checklist && row.dataSet.checklist) || 0,
+          sortable: true
+        }
+      ];
     }
   },
   mounted() {
