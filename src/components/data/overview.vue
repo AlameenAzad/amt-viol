@@ -115,7 +115,7 @@
               outlined
               class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
               v-model="filter"
-              placeholder="Search"
+              :placeholder="$t('Search')"
               dense
             >
               <template v-slot:prepend>
