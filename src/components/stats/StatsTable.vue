@@ -17,8 +17,8 @@
         rowsPerPage: isInPage ? 10 : 5
       }"
       :rows-per-page-label="$t('Records per page')"
-       :no-data-label="$t('No data')"
-       :no-results-label="$t('No results')"
+      :no-data-label="$t('No data')"
+      :no-results-label="$t('No results')"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -66,14 +66,35 @@
                 <q-select
                   clearable
                   class="no-shadow q-mb-lg input-radius-4"
+                  options-selected-class="text-primary text-weight-600"
                   color="primary"
                   bg-color="white"
-                  :label="$t('Search')"
                   multiple
+                  emit-value
                   filled
                   :options="typeOptions"
                   v-model="type"
                 >
+                  <template v-slot:selected>
+                    <template v-if="!!type && type.length > 0">
+                      <span v-for="(item, index) in type" :key="index">
+                        {{ index > 0 ? ", " : "" }}
+                        {{ $t(item) }}
+                      </span>
+                    </template>
+                    <template v-else>
+                      <span class="text-grey font-16">
+                        {{ $t("Search") }}
+                      </span>
+                    </template>
+                  </template>
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+                      <q-item-section>
+                        <q-item-label>{{ scope.opt.label }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
                 </q-select>
               </div>
               <div class="col-6 col-md-3">
@@ -867,8 +888,20 @@ export default {
   },
   computed: {
     typeOptions() {
-      let vals = this.data.map(item => item.type);
-      return [...new Set(vals)];
+      return [
+        {
+          value: "project",
+          label: this.$t("project")
+        },
+        {
+          value: "funding",
+          label: this.$t("funding")
+        },
+        {
+          value: "checklist",
+          label: this.$t("checklist")
+        }
+      ];
     },
     categoryOptions() {
       const categories = [];

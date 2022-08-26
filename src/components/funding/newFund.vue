@@ -30,7 +30,7 @@
               />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("funding provider") }}
@@ -305,7 +305,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 {{ $t("Funding rates") }}
@@ -531,7 +531,7 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
-          <div class="row items-center">
+          <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
                 Links
