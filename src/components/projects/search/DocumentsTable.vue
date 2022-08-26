@@ -24,7 +24,7 @@
           outlined
           class="input-radius-6 no-shadow q-mb-sm q-mt-sm"
           v-model="query"
-          :placeholder="$t('Search')"
+          placeholder="Suche"
           dense
         >
           <template v-slot:prepend>
