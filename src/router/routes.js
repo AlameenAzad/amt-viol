@@ -245,7 +245,7 @@ const routes = [
         name: "EditProject",
         meta: {
           title: "Edit project Idea",
-          titleDE: "Projekt bearbeiten Idee",
+          titleDE: "Projektidee bearbeiten",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
@@ -330,7 +330,7 @@ const routes = [
         name: "EditChecklist",
         meta: {
           title: "Edit Checklist",
-          titleDE: "bearbeiten Umsetzungscheckliste",
+          titleDE: "Umsetzungscheckliste bearbeiten",
           backLink: "/user/data",
           requireAuth: true,
           requireAdmin: false
