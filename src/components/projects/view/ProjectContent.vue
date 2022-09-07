@@ -742,6 +742,22 @@
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("projectContent.projectContent") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p
+                      class="q-mb-sm text-block"
+                      v-html="
+                        !!project.details && !!project.details.content
+                          ? project.details.content
+                          : 'No Project Content found'
+                      "
+                    ></p>
+                  </div>
+                </q-card-section>
+                <q-separator inset class="bg-blue opacity-10" />
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     {{ $t("projectContent.projectGoals") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -790,21 +806,6 @@
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
                 </div>
-                <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                    {{ $t("projectContent.projectContent") }}
-                  </h4>
-                  <div class="q-ml-md font-16">
-                    <p
-                      class="q-mb-sm text-block"
-                      v-html="
-                        !!project.details && !!project.details.content
-                          ? project.details.content
-                          : 'No Project Content found'
-                      "
-                    ></p>
-                  </div>
-                </q-card-section>
               </q-card>
             </div>
           </div>
