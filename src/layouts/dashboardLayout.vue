@@ -140,12 +140,23 @@
           @click="miniState = true"
         />
       </div>
-      <p
-        @click="showCookieBox"
-        class="absolute-bottom q-ml-md inline-block cursor-pointer text-blue-grey-1"
-      >
-        {{ $t("Change Cookie settings") }}
-      </p>
+      <div class="absolute-bottom">
+        <p
+          @click="showCookieBox"
+          class="q-ml-md cursor-pointer text-blue-grey-1"
+        >
+          {{ $t("Change Cookie settings") }}
+        </p>
+        <router-link
+          style="text-decoration: none"
+          :to="{ path: '/impressum' }"
+          target="_blank"
+        >
+          <p class="q-ml-md cursor-pointer text-blue-grey-1">
+            Impressum
+          </p>
+        </router-link>
+      </div>
     </q-drawer>
 
     <logoutDialog :dialogState="logoutDialog" @update="logoutDialog = $event" />

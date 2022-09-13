@@ -78,6 +78,12 @@
         >
           Cookie-Einstellungen ändern
         </p>
+        <p
+          @click="$router.push({ path: '/impressum' })"
+          class="q-ml-md inline-block cursor-pointer text-blue-grey-1"
+        >
+          Impressum
+        </p>
       </div>
     </q-page-container>
   </q-layout>

@@ -22,8 +22,19 @@
                 <div class="row">
                   <div class="col-12">
                     {{ $t("cookieMain") }}
+                    <br />
+                    <br />
+                    <p class="no-margin">{{ $t("byAcceptingYouAgree") }}</p>
                   </div>
                 </div>
+                <router-link
+                  style="text-decoration: none"
+                  class="text-primary mt-sm"
+                  :to="{ path: '/impressum' }"
+                  target="_blank"
+                >
+                  Impressum
+                </router-link>
               </q-card-section>
             </div>
             <div class="col-12 col-md-4">
