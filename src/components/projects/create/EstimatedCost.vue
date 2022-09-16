@@ -26,9 +26,10 @@
                   dense
                   class="no-shadow input-radius-6"
                   :placeholder="$t('estimatedCost.costAmount')"
-                  v-model="cost.price"
+                  v-model.lazy="cost.price"
                   @input="onInput(index)"
                   suffix="€"
+                  v-money="money"
                 />
               </div>
             </div>
@@ -62,7 +63,12 @@
 </template>
 
 <script>
+import { VMoney } from "v-money";
+
 export default {
+  directives: {
+    money: VMoney
+  },
   name: "estimatedCost",
   props: {
     editing: {
@@ -72,6 +78,13 @@ export default {
   },
   data() {
     return {
+      money: {
+        thousands: ".",
+        decimal: ",",
+        suffix: "",
+        precision: 2,
+        masked: false /* doesn't work with directive */
+      },
       estimatedCosts: this.editing
     };
   },
