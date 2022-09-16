@@ -13,10 +13,16 @@
           </h2>
           <p class="font-16">Körperschaft öffentlichen Rechts</p>
           <h3 class="font-28 text-weight-medium q-mb-sm">Postanschrift:</h3>
-          <p class="font-16">Westerende 4125884 Viöl</p>
+          <p class="font-16">Westerende 41, 25884 Viöl</p>
           <h3 class="font-28 text-weight-medium q-mb-sm">Kontakt:</h3>
           <p class="font-16">
-            Telefon: 04843-2090-0Telefax: 04843-2090-70E-Mail: info@amt-vioel.de
+            Telefon: 04843-2090-0
+          </p>
+          <p class="font-16">
+            Telefax: 04843-2090-70
+          </p>
+          <p class="font-16">
+            E-Mail: info@amt-vioel.de
           </p>
           <h3 class="font-28 text-weight-medium q-mb-sm">Vertreten durch:</h3>
           <p class="font-16">
