@@ -141,12 +141,6 @@
         />
       </div>
       <div class="absolute-bottom">
-        <p
-          @click="showCookieBox"
-          class="q-ml-md cursor-pointer text-blue-grey-1"
-        >
-          {{ $t("Change Cookie settings") }}
-        </p>
         <router-link
           style="text-decoration: none"
           :to="{ path: '/impressum' }"
@@ -156,6 +150,21 @@
             Impressum
           </p>
         </router-link>
+        <router-link
+          style="text-decoration: none"
+          :to="{ path: '/datenschutzerklaerung' }"
+          target="_blank"
+        >
+          <p class="q-ml-md cursor-pointer text-blue-grey-1">
+            Datenschutzerklaerung
+          </p>
+        </router-link>
+        <p
+          @click="showCookieBox"
+          class="q-ml-md cursor-pointer text-blue-grey-1"
+        >
+          {{ $t("Change Cookie settings") }}
+        </p>
       </div>
     </q-drawer>
 

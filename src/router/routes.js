@@ -26,6 +26,11 @@ const routes = [
         path: "/impressum",
         name: "Impressum",
         component: () => import("pages/Impressum.vue")
+      },
+      {
+        path: "/datenschutzerklaerung",
+        name: "Datenschutzerklaerung",
+        component: () => import("pages/Datenschutzerklaerung.vue")
       }
     ]
   },
