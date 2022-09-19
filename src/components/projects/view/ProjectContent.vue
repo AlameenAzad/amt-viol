@@ -439,17 +439,17 @@
                     "
                   >
                     <div
-                      class="q-ml-md font-16 row"
+                      class="q-ml-md font-16 row justify-between"
                       v-for="(cost, index) in project.estimatedCosts"
                       :key="index"
                     >
-                      <div class="col-8">
+                      <div class="col-auto">
                         <p class="q-mb-sm">
                           {{ cost.name }}
                         </p>
                       </div>
-                      <div class="col-4 text-right ">
-                        <p class="q-mb-sm text-overflow">{{ cost.price }}€</p>
+                      <div class="col-auto text-right ">
+                        <p class="q-mb-sm text-overflow">{{ cost.price }} €</p>
                       </div>
                     </div>
                   </div>

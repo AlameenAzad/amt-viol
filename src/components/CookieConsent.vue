@@ -29,11 +29,19 @@
                 </div>
                 <router-link
                   style="text-decoration: none"
-                  class="text-primary mt-sm"
+                  class="text-primary q-mt-sm block"
                   :to="{ path: '/impressum' }"
                   target="_blank"
                 >
                   Impressum
+                </router-link>
+                <router-link
+                  style="text-decoration: none"
+                  class="text-primary q-mt-sm block"
+                  :to="{ path: '/datenschutzerklaerung' }"
+                  target="_blank"
+                >
+                  Datenschutzerklaerung
                 </router-link>
               </q-card-section>
             </div>

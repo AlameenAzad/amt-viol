@@ -28,7 +28,7 @@
                   @input="onSelect($event, index)"
                 >
                   <template v-slot:selected>
-                    <template v-if="!!user && user.username !== ''">
+                    <template v-if="!!user && !!user.id">
                       {{ user.username }}
                     </template>
                     <template v-else>
@@ -42,18 +42,32 @@
                       <q-item-section>
                         <q-item-label
                           :class="
-                            scope.opt.username === user.username
+                            scope.opt.username === user.username ||
+                            (!!scope.opt &&
+                              !!scope.opt.user_detail &&
+                              scope.opt.user_detail.fullName === user.username)
                               ? 'text-primary text-weight-600'
                               : ''
                           "
-                          >{{
-                            !!scope.opt &&
-                            !!scope.opt.user_detail &&
-                            !!scope.opt.user_detail.fullName
-                              ? scope.opt.user_detail.fullName
-                              : scope.opt.username
-                          }}</q-item-label
                         >
+                          <span class="text-grey-7">{{
+                            (!!scope.opt &&
+                              !!scope.opt.user_detail &&
+                              !!scope.opt.user_detail.municipality &&
+                              scope.opt.user_detail.municipality.title) ||
+                              ""
+                          }}</span>
+                          <span>
+                            -
+                            {{
+                              !!scope.opt &&
+                              !!scope.opt.user_detail &&
+                              !!scope.opt.user_detail.fullName
+                                ? scope.opt.user_detail.fullName
+                                : scope.opt.username
+                            }}
+                          </span>
+                        </q-item-label>
                       </q-item-section>
                     </q-item>
                   </template>
@@ -151,7 +165,10 @@ export default {
   computed: {
     userOptions() {
       return (
-        !!this.$store.state.userCenter && this.$store.state.userCenter.users
+        !!this.$store.state.userCenter &&
+        this.$store.state.userCenter.users
+          .map(user => user)
+          .sort((a, b) => a.username.localeCompare(b.username))
       );
     }
   }
