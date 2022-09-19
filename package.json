@@ -18,6 +18,7 @@
     "darkreader": "^4.9.33",
     "js-cookie": "^3.0.1",
     "quasar": "^1.18.5",
+    "v-money": "^0.8.1",
     "vue-i18n": "^8.0.0",
     "vue-translation-manager": "^1.2.0",
     "vuedraggable": "^2.24.3",
