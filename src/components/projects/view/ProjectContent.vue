@@ -273,13 +273,13 @@
                     <p class="q-mb-sm text-overflow">
                       {{ (!!project.info && project.info.email) || "" }}
                     </p>
-                    <p class="q-mb-sm">
+                    <!-- <p class="q-mb-sm">
                       {{
                         (!!project.municipality &&
                           project.municipality.location) ||
                           ""
                       }}
-                    </p>
+                    </p> -->
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
