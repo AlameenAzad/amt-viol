@@ -296,13 +296,13 @@
                     <p class="q-mb-sm text-overflow">
                       {{ (!!checklist.info && checklist.info.email) || "" }}
                     </p>
-                    <p class="q-mb-sm">
+                    <!-- <p class="q-mb-sm">
                       {{
                         (!!checklist.municipality &&
                           checklist.municipality.location) ||
                           ""
                       }}
-                    </p>
+                    </p> -->
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />

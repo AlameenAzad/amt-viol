@@ -205,6 +205,7 @@
                           v-model="publishDateStart"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
+                          :locale="datepickerLocale"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -246,6 +247,7 @@
                           v-model="publishDateEnd"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
+                          :locale="datepickerLocale"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -288,6 +290,7 @@
                           v-model="endDateStart"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
+                          :locale="datepickerLocale"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -329,6 +332,7 @@
                           v-model="endDateEnd"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
+                          :locale="datepickerLocale"
                         >
                           <div class="row items-center justify-end">
                             <q-btn
@@ -931,6 +935,56 @@ export default {
     }
   },
   computed: {
+    datepickerLocale() {
+      return {
+        days: [
+          this.$t("Sunday"),
+          this.$t("Monday"),
+          this.$t("Tuesday"),
+          this.$t("Wednesday"),
+          this.$t("Thursday"),
+          this.$t("Friday"),
+          this.$t("Saturday")
+        ],
+        daysShort: [
+          this.$t("Sun"),
+          this.$t("Mon"),
+          this.$t("Tue"),
+          this.$t("Wed"),
+          this.$t("Thu"),
+          this.$t("Fri"),
+          this.$t("Sat")
+        ],
+        months: [
+          this.$t("January"),
+          this.$t("February"),
+          this.$t("March"),
+          this.$t("April"),
+          this.$t("May"),
+          this.$t("June"),
+          this.$t("July"),
+          this.$t("August"),
+          this.$t("September"),
+          this.$t("October"),
+          this.$t("November"),
+          this.$t("December")
+        ],
+        monthsShort: [
+          this.$t("Jan"),
+          this.$t("Feb"),
+          this.$t("Mar"),
+          this.$t("Apr"),
+          this.$t("May"),
+          this.$t("Jun"),
+          this.$t("Jul"),
+          this.$t("Aug"),
+          this.$t("Sep"),
+          this.$t("Oct"),
+          this.$t("Nov"),
+          this.$t("Dec")
+        ]
+      };
+    },
     typeOptions() {
       return [
         {
