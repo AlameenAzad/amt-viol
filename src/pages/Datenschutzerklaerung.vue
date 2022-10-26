@@ -12,7 +12,15 @@
             Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der
             EU-Datenschutzgrundverordnung (DSGVO), ist:
           </p>
-          <p>Krusche & Company GmbH</p>
+          <p class="font-16">Amt Viöl</p>
+          <p class="font-16">Der Amtsvorsteher - Thomas Hansen</p>
+          <p class="font-16">Westerende 41</p>
+          <p class="font-16">25884 Viöl</p>
+          <ul>
+            <li>Telefon: 04843 2090-0</li>
+            <li>Fax: 04843 2090-70</li>
+            <li>E-Mail: info@amt-vioel.de</li>
+          </ul>
           <h2>Ihre Betroffenenrechte</h2>
           <p>
             Unter den angegebenen Kontaktdaten unseres Datenschutzbeauftragten
@@ -458,7 +466,7 @@
             E-Mail oder wenden Sie sich direkt an die für den Datenschutz
             verantwortliche Person in unserer Organisation:
           </p>
-          <p>datenschutz@kruschecompany.com</p>
+          <p>Datenschutzbeauftragter: Hauke Kruse (hauke.kruse@amt-vioel.de)</p>
           <p>
             <em
               >Die Datenschutzerklärung wurde mithilfe der activeMind AG
