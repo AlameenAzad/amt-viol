@@ -450,7 +450,7 @@
             Rechtsansprüchen.
           </p>
           <h3>Empfänger eines Widerspruchs</h3>
-          <p>Krusche & Company GmbH, datenschutz@kruschecompany.com</p>
+          <p>Datenschutzbeauftragter: Hauke Kruse (hauke.kruse@amt-vioel.de)</p>
           <hr />
           <h2>Änderung unserer Datenschutzbestimmungen</h2>
           <p>
