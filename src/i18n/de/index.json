@@ -60,6 +60,7 @@
     "categories": "Kategorien",
     "start": "Datum Veröffentlichung",
     "end": "Datum Ende",
+    "created_at": "Datum der Erstellung",
     "createFunding": "Fördermittel erstellen"
   },
   "checkListCols": {
@@ -243,6 +244,7 @@
     "visibility": "Sichtbarkeit",
     "filterCategories": "Filterkategorien",
     "tags": "Tags",
+    "projectStartingCondition": "Ausgangssituation",
     "projectContent": "Projektinhalt",
     "projectGoals": "Projektziele",
     "projectValue&Benefits": "Projektmehrwert & -nutzen",
@@ -292,6 +294,7 @@
     "selectCategories": "Kategorien auswählen",
     "selectTags": "Tags auswählen",
     "descripeProject": "Beschreiben Sie Ihr Projekt",
+    "descripeProjectStartingCondition": "Ausgangssituation",
     "describeProjectGoals": "Beschreiben Sie Ihre Projektziele",
     "costPosition": "Kostenpositionen",
     "esitimatedCost": "Kostenschätzung (in €) ",
@@ -450,6 +453,7 @@
   "Funding research": "Fördermittelrecherche",
   "Check database “Fundings”": "Check Datenbank „Fördermittel“",
   "Check for funding scouting": "Check über Förderscouting",
+  "Select Funding": "Finanzierung",
   "Joint research for funding or check of the project idea": "Check beim Fördermittelgeber*in",
   "Check Guidlines (long version)": "Check Richtlinie (Langfassung)",
   "Preparation/optimisation of project documents": "Ausarbeitung/Optimierung Projektunterlagen",
