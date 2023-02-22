@@ -82,12 +82,7 @@ export default {
   },
   computed: {
     fundings() {
-      return this.$store.state.funding.fundings.map(funding => {
-        return {
-          id: funding.id,
-          title: funding.title
-        };
-      });
+      return JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
     }
   }
 };
