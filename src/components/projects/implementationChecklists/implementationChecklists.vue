@@ -1,28 +1,20 @@
 <template>
   <div>
-    <q-select
-      outlined
-      :bg-color="isInChecklist ? 'white' : ''"
-      dense
-      v-model="model"
-      :multiple="isInChecklist === false"
-      :clearable="isInChecklist === true"
-      :options="projects"
-      options-selected-class="text-primary text-weight-600"
-      class="no-shadow input-radius-6"
-      @input="onSelect"
-    >
+    <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model"
+      :multiple="isInChecklist === false" :clearable="isInChecklist === true"
+      :options="checklists" options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6"
+      @input="onSelect">
       <template v-slot:selected>
         <div v-if="!isInChecklist">
           <template v-if="model && model.length > 0">
-            <span v-for="(project, index) in model" :key="index">
+            <span v-for="(checklist, index) in model" :key="index">
               {{ index > 0 ? ", " : "" }}
-              {{ project.title }}
+              {{ checklist.title }}
             </span>
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Projects") }}
+              {{ $t("Select Checklists") }}
             </span>
           </template>
         </div>
@@ -34,7 +26,7 @@
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Projects") }}
+              {{ $t("Select Checklists") }}
             </span>
           </template>
         </div>
@@ -52,7 +44,7 @@
 
 <script>
 export default {
-  name: "projectIdeas",
+  name: "checklists",
   props: {
     isInChecklist: {
       type: Boolean,
@@ -70,40 +62,35 @@ export default {
   },
   methods: {
     onSelect(value) {
+      console.log(value);
       if (!this.isInChecklist) {
-        const projects = [];
+        const checklists = [];
         value.forEach(element => {
-          projects.push({ id: element.id });
+          checklists.push({ id: element.id });
         });
-        this.$emit("update:linkToProject", projects.length > 0 ? projects : []);
+        this.$emit("update:linkToProject", checklists.length > 0 ? checklists : []);
       } else {
-        let project = value;
+        let checklist = value;
         this.$emit(
           "update:linkToProject",
-          !!project && project.id ? project : null
+          !!checklist && checklist.id ? checklist : null
         );
       }
-    },
-    setProject() {
-      this.model = JSON.parse(JSON.stringify(this.$store.state.project.project)) ;
     }
   },
   computed: {
-    projects() {
-      return this.$store.state.project.projects.map(project => {
+    checklists() {
+      return this.$store.state.implementationChecklist.checklists.map(checklist => {
         return {
-          id: project.id,
-          title: project.title
+          id: checklist.id,
+          title: checklist.title
         };
       });
     }
   }
-  // mounted() {
-  //   this.model = this.editing
-  //     ? JSON.parse(JSON.stringify(this.$store.state.project.project.projects))
-  //     : null;
-  // }
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -150,6 +150,18 @@ export default {
         id: null
       });
     },
+    setUsers() {
+      this.users = JSON.parse(
+        JSON.stringify(
+          this.$store.state.project.project.editors.map(user => {
+            return {
+              username: user.username,
+              id: user.id
+            };
+          })
+        )
+      );
+    },
     removeUser(index) {
       this.users.splice(index, 1);
       this.$emit(
