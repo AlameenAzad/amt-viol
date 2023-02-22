@@ -534,7 +534,7 @@
                     " class="font-16">
                       <div class="row" v-for="(checklist, index) in project.checklists" :key="index">
                         <div class="col-auto q-ml-md">
-                          <a class="q-mb-sm text-blue block text-weight-600 cursor-pointer" target="_blank" rel="noopener noreferrer"
+                          <a class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
                             @click.prevent="viewChecklist(checklist.id)">{{ checklist.title }}</a>
                         </div>
                       </div>

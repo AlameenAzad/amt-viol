@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     onSelect(value) {
-      console.log(value);
       if (!this.isInChecklist) {
         const checklists = [];
         value.forEach(element => {
@@ -80,12 +79,7 @@ export default {
   },
   computed: {
     checklists() {
-      return this.$store.state.implementationChecklist.checklists.map(checklist => {
-        return {
-          id: checklist.id,
-          title: checklist.title
-        };
-      });
+      return this.$store.state.implementationChecklist.checklists;
     }
   }
 };

@@ -151,16 +151,15 @@ export default {
       });
     },
     setUsers() {
-      this.users = JSON.parse(
-        JSON.stringify(
-          this.$store.state.project.project.editors.map(user => {
-            return {
-              username: user.username,
-              id: user.id
-            };
-          })
-        )
-      );
+      const editors = this.$store.state.project.project.editors;
+      editors.map(user => {
+        return {
+          username: user.username,
+          id: user.id
+        }
+      });
+
+      this.users = JSON.parse(JSON.stringify(editors));
     },
     removeUser(index) {
       this.users.splice(index, 1);
