@@ -1,28 +1,19 @@
 <template>
   <div>
-    <q-select
-      outlined
-      :bg-color="isInChecklist ? 'white' : ''"
-      dense
-      v-model="model"
-      :multiple="isInChecklist === false"
-      :clearable="isInChecklist === true"
-      :options="projects"
-      options-selected-class="text-primary text-weight-600"
-      class="no-shadow input-radius-6"
-      @input="onSelect"
-    >
+    <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model"
+      :multiple="isInChecklist === false" :clearable="isInChecklist === true" :options="fundings"
+      options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6" @input="onSelect">
       <template v-slot:selected>
         <div v-if="!isInChecklist">
           <template v-if="model && model.length > 0">
-            <span v-for="(project, index) in model" :key="index">
+            <span v-for="(funding, index) in model" :key="index">
               {{ index > 0 ? ", " : "" }}
-              {{ project.title }}
+              {{ funding.title }}
             </span>
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Projects") }}
+              {{ $t("Select Funding") }}
             </span>
           </template>
         </div>
@@ -34,7 +25,7 @@
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Projects") }}
+              {{ $t("Select Funding") }}
             </span>
           </template>
         </div>
@@ -52,7 +43,7 @@
 
 <script>
 export default {
-  name: "projectIdeas",
+  name: "fundings",
   props: {
     isInChecklist: {
       type: Boolean,
@@ -71,39 +62,32 @@ export default {
   methods: {
     onSelect(value) {
       if (!this.isInChecklist) {
-        const projects = [];
+        const fundings = [];
         value.forEach(element => {
-          projects.push({ id: element.id });
+          fundings.push({ id: element.id });
         });
-        this.$emit("update:linkToProject", projects.length > 0 ? projects : []);
+        this.$emit("update:linkToChecklist", fundings.length > 0 ? fundings : []);
       } else {
-        let project = value;
+        let funding = value;
         this.$emit(
-          "update:linkToProject",
-          !!project && project.id ? project : null
+          "update:linkToChecklist",
+          !!funding && funding.id ? funding : null
         );
       }
     },
-    setProject() {
-      this.model = JSON.parse(JSON.stringify(this.$store.state.project.project)) ;
+    setFunding() {
+      this.model = this.$store.state.project.project.fundingGuideline[0] ? JSON.parse(JSON.stringify(this.$store.state.project.project.fundingGuideline[0]))
+        : null;
     }
   },
   computed: {
-    projects() {
-      return this.$store.state.project.projects.map(project => {
-        return {
-          id: project.id,
-          title: project.title
-        };
-      });
+    fundings() {
+      return JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
     }
   }
-  // mounted() {
-  //   this.model = this.editing
-  //     ? JSON.parse(JSON.stringify(this.$store.state.project.project.projects))
-  //     : null;
-  // }
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -64,6 +64,12 @@ export default {
         categories.push({ id: element.id });
       });
       this.$emit("update:category", categories.length > 0 ? categories : []);
+    },
+    setCategories() {
+      this.model = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
+      : null;
+  
     }
   },
   computed: {

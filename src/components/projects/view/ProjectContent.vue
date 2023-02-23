@@ -119,6 +119,7 @@
                     "
                     class="row justify-between"
                   >
+
                     <div class="col-auto">
                       <q-btn
                         @click="addToWatchlist()"
@@ -137,6 +138,15 @@
                           {{ $t("bookmark") }}
                         </q-tooltip></q-btn
                       >
+                    </div>
+                    <!-- Redirect to checklist creation page -->
+                    <div v-if="isAdmin || (!!project && !!project.owner && project.owner.id) === (!!loggedInUser && loggedInUser.id)"
+                      class="col-auto">
+                      <q-btn @click="createChecklist()" color="blue" unelevated class="radius-6 text-weight-600" no-caps icon="list"
+                        :loading="archiveIsLoading">
+                        <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+                          {{ $t("checkListCols.createImplementationChecklist") }}
+                        </q-tooltip></q-btn>
                     </div>
                     <div class="col-auto">
                       <q-btn
@@ -508,6 +518,36 @@
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
                 </div>
+                <!-- If checklist(s) selected -->
+
+                <div v-if="
+                  project.checklists &&
+                  project.checklists.length > 0
+                ">
+                  <q-card-section>
+                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      {{ $t("Implementation checklist") }}
+                    </h4>
+                    <div v-if="
+  project.checklists &&
+  project.checklists.length > 0
+                    " class="font-16">
+                      <div class="row" v-for="(checklist, index) in project.checklists" :key="index">
+                        <div class="col-auto q-ml-md">
+                          <a class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                            @click.prevent="viewChecklist(checklist.id)">{{ checklist.title }}</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="q-ml-md font-16" v-else>
+                      <p class="q-mb-sm q-mt-xs">
+                        No Implementation Checklists
+                      </p>
+                    </div>
+                  </q-card-section>
+                  <q-separator inset class="bg-blue opacity-10" />
+                </div>
+
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     {{ $t("projectContent.plannedPeriod") }}
@@ -742,6 +782,18 @@
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
                   <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    {{ $t("newProjectIdeaForm.projectStartingCondition") }}
+                  </h4>
+                  <div class="q-ml-md font-16">
+                    <p class="q-mb-sm text-block" v-html="
+                      !!project.details && !!project.details.startingCondition
+                        ? project.details.startingCondition
+                        : 'No Project Starting Condition found'
+                    "></p>
+                  </div>
+                </q-card-section>
+                <q-card-section>
+                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                     {{ $t("projectContent.projectContent") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -845,6 +897,7 @@ import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+
 export default {
   name: "projectContent",
   data() {
@@ -881,6 +934,18 @@ export default {
     }
   },
   methods: {
+    async getProject() {
+      await this.$store.dispatch("project/getSpecificProject", {
+        id: Number(this.project.id)
+      });
+    },
+    createChecklist() {
+      this.$router.push({
+        path: "/user/newChecklist",
+         query: {red: "pid"}
+      });
+    },
+
     dateFormatter,
     closeArchiveDialog(val) {
       this.archiveDialog = val;
@@ -920,6 +985,11 @@ export default {
     async viewFunding(id) {
       if (!!id) {
         this.$router.push({ path: `/user/newFunding/${id}` });
+      }
+    },
+    async viewChecklist(id) {
+      if (!!id) {
+        this.$router.push({ path: `/user/newChecklist/${id}` });
       }
     },
     async addToWatchlist() {

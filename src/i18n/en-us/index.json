@@ -60,6 +60,7 @@
     "categories": "Categories",
     "start": "Planned Start",
     "end": "Planned End",
+    "created_at": "Creation Date",
     "createFunding": "Create Funding"
   },
   "checkListCols": {
@@ -241,6 +242,7 @@
     "visibility": "Visibility",
     "filterCategories": "Filter Categories",
     "tags": "Tags",
+    "projectStartingCondition": "Starting Condition",
     "projectContent": "Project Content",
     "projectGoals": "Project Goals",
     "projectValue&Benefits": "Project Value & Benefits",
@@ -288,6 +290,7 @@
     "selectCategories": "Select Categories",
     "selectTags": "Select Tags",
     "descripeProject": "Describe Project",
+    "descripeProjectStartingCondition": "Starting Condition",
     "describeProjectGoals": "Describe Project Goals",
     "costPosition": "Cost Position",
     "esitimatedCost": "Estimated Cost (in €) ",
@@ -415,6 +418,7 @@
   "Check for funding scouting": "Check for funding scouting",
   "Joint research for funding or check of the project idea": "Joint research for funding or check of the project idea",
   "Check Guidlines (long version)": "Check Guidlines (long version)",
+  "Select Funding": "Selected Funding",
   "Preparation/optimisation of project documents": "Preparation/optimisation of project documents",
   "Check Content with Guidelines": "Check Content with Guidelines",
   "If necessary check cooperations": "If necessary check cooperations (Optional)",
