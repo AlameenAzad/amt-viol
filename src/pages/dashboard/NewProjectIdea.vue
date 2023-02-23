@@ -245,6 +245,20 @@
               <q-separator class="bg-blue opacity-10" />
             </div>
           </div>
+          <!-- Project Starting Condition -->
+          <div class="row items-baseline">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                {{ $t("newProjectIdeaForm.projectStartingCondition") }}
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <q-input outlined type="textarea" rows="10" class="no-shadow input-radius-6"
+                :placeholder="$t('projectIdeaPlaceholder.descripeProjectStartingCondition')" v-model="form.details.startingCondition"
+                :rules="[val => !!val || $t('Required')]" />
+            </div>
+          </div>
+          <!-- Project Starting Condition End -->
           <div class="row items-baseline">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
@@ -396,6 +410,22 @@
                 :editing="!!project ? project.fundingGuideline : []"
                 @update:linkToFunding="form.fundingGuideline = $event"
               />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <q-separator class="bg-blue opacity-10" />
+            </div>
+          </div>
+          <div class="row items-center">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                {{ $t("homeBtns.checkListBtn") }}
+              </p>
+            </div>
+            <div class="col-12 col-md-8">
+              <Checklists :requiresValidation="false" :editing="!!project ? project.checklists : []"
+                @update:linkToProject="form.checklists = $event" />
             </div>
           </div>
           <div class="row">
@@ -733,6 +763,7 @@ import Links from "components/projects/create/Links.vue";
 import Fundings from "components/funding/Fundings.vue";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
+import Checklists from "components/projects/implementationChecklists/implementationChecklists.vue";
 
 export default {
   name: "newProjectIdea",
@@ -742,6 +773,7 @@ export default {
     Tags,
     EstimatedCost,
     Links,
+    Checklists,
     Fundings,
     ImageDialog
   },
@@ -764,6 +796,7 @@ export default {
           postalCode: ""
         },
         details: {
+          startingCondition: "",
           content: "",
           goals: "",
           valuesAndBenefits: "",
@@ -772,6 +805,7 @@ export default {
           status: ""
         },
         fundingGuideline: [],
+        checklists: [],
         municipality: "",
         editors: [],
         categories: [],

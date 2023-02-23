@@ -181,7 +181,7 @@
               </div>
               <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
-                  {{ $t("statsTable.publishDate") }}
+                  {{ $t("fundingsCol.created_at") }}
                 </p>
                 <q-input
                   filled
@@ -264,7 +264,8 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-6 col-md-3">
+
+              <!-- <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
                 </p>
@@ -348,7 +349,7 @@
                     </q-icon>
                   </template>
                 </q-input>
-              </div>
+              </div> -->
             </div>
           </q-expansion-item>
         </div>
@@ -561,8 +562,9 @@ export default {
         "type",
         "categories",
         "user",
-        "plannedStart",
-        "plannedEnd"
+        // "plannedStart",
+        // "plannedEnd",
+        "createdAt"
       ],
       viewIsLoading: false,
       editIsLoading: false,
@@ -1117,6 +1119,20 @@ export default {
           sort: (a, b, rowA, rowB) => {
             const dateA = new Date(rowA.plannedEnd);
             const dateB = new Date(rowB.plannedEnd);
+            return dateB - dateA;
+          }
+        },
+        {
+          name: "createdAt",
+          label: this.$t("fundingsCol.created_at"),
+          align: "left",
+          field: row => {
+            return dateFormatter(row.createdAt);
+          },
+          sortable: true,
+          sort: (a, b, rowA, rowB) => {
+            const dateA = new Date(rowA.createdAt);
+            const dateB = new Date(rowB.createdAt);
             return dateB - dateA;
           }
         },

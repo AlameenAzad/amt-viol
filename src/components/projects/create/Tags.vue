@@ -64,6 +64,12 @@ export default {
         tags.push({ id: element.id });
       });
       this.$emit("update:tag", tags.length > 0 ? tags : []);
+    },
+
+    setTags() {
+      this.model = this.editing
+      ? JSON.parse(JSON.stringify(this.$store.state.project.project.tags))
+      : null;
     }
   },
   computed: {
