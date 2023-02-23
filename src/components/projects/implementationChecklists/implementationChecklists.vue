@@ -14,7 +14,7 @@
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Checklists") }}
+              {{ $t("Select Implementation Checklist") }}
             </span>
           </template>
         </div>
@@ -26,7 +26,7 @@
           </template>
           <template v-else>
             <span class="text-grey">
-              {{ $t("Select Checklists") }}
+              {{ $t("Select Implementation Checklist") }}
             </span>
           </template>
         </div>
