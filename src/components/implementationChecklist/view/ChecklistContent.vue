@@ -1209,6 +1209,17 @@
                                   ></p>
                                 </div>
                               </div>
+                              <div v-if="propertyName === 'selectFunding' && checklist.funding">
+                                 <a
+                                      class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      @click.prevent="
+                                        viewFunding(checklist.funding.id)
+                                      "
+                                      >{{ checklist.funding.title }}</a
+                                    >
+                              </div>
                               <div v-if="propertyName === 'checkDatabase'">
                                 <div
                                   v-if="card.file && card.file.length > 0"
