@@ -186,23 +186,23 @@
                 <q-input
                   filled
                   clearable
-                  v-model="publishDateStart"
+                  v-model="createdAtStart"
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('From')"
-                  @click="$refs.publishDateStart.show()"
+                  @click="$refs.createdAtStart.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="publishDateStart"
+                        ref="createdAtStart"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
-                          @input="$refs.publishDateStart.hide()"
-                          v-model="publishDateStart"
+                          @input="$refs.createdAtStart.hide()"
+                          v-model="createdAtStart"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
                           :locale="datepickerLocale"
@@ -227,24 +227,24 @@
                 <q-input
                   clearable
                   filled
-                  :disable="!publishDateStart"
-                  v-model="publishDateEnd"
+                  :disable="!createdAtStart"
+                  v-model="createdAtEnd"
                   class="no-shadow q-mb-lg input-radius-4"
                   color="primary"
                   bg-color="white"
                   :placeholder="$t('Until')"
-                  @click="$refs.publishDateEnd.show()"
+                  @click="$refs.createdAtEnd.show()"
                 >
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                       <q-popup-proxy
-                        ref="publishDateEnd"
+                        ref="createdAtEnd"
                         transition-show="scale"
                         transition-hide="scale"
                       >
                         <q-date
-                          @input="$refs.publishDateEnd.hide()"
-                          v-model="publishDateEnd"
+                          @input="$refs.createdAtEnd.hide()"
+                          v-model="createdAtEnd"
                           mask="DD.MM.YYYY"
                           first-day-of-week="1"
                           :locale="datepickerLocale"
@@ -557,6 +557,8 @@ export default {
       publishDateEnd: "",
       endDateStart: "",
       endDateEnd: "",
+      createdAtStart: "",
+      createdAtEnd: "",
       visibleColumns: [
         "title",
         "type",
@@ -564,7 +566,7 @@ export default {
         "user",
         // "plannedStart",
         // "plannedEnd",
-        "createdAt"
+        "createdAtStart"
       ],
       viewIsLoading: false,
       editIsLoading: false,
@@ -593,6 +595,8 @@ export default {
       let publishDateEnd = terms.publishDateEnd ? terms.publishDateEnd : "";
       let endDateStart = terms.endDateStart ? terms.endDateStart : "";
       let endDateEnd = terms.endDateEnd ? terms.endDateEnd : "";
+      let createdAtStart = terms.createdAtStart ? terms.createdAtStart : "";
+      let createdAtEnd = terms.createdAtEnd ? terms.createdAtEnd : "";
       let filteredRows = rows;
       if (!!search) {
         filteredRows = filteredRows.filter(row => {
@@ -683,6 +687,41 @@ export default {
               return new Date(row.plannedEnd) <= endDate;
             } else if (startDate instanceof Date && !isNaN(startDate)) {
               return new Date(row.plannedEnd) >= startDate;
+            }
+          }
+        });
+      }
+      if (!!createdAtStart || !!createdAtEnd) {
+
+        const createdAtStartParts = createdAtStart.split(".");
+        const startDate = new Date(
+          createdAtStartParts[2],
+          createdAtStartParts[1] - 1,
+          createdAtStartParts[0]
+        );
+        const createdAtEndParts = createdAtEnd.split(".");
+        const endDate = new Date(
+          createdAtEndParts[2],
+          createdAtEndParts[1] - 1,
+          createdAtEndParts[0]
+        );
+        filteredRows = rows.filter(row => {
+          if (!!row.createdAt) {
+            if (
+              endDate instanceof Date &&
+              !isNaN(endDate) &&
+              startDate instanceof Date &&
+              !isNaN(startDate)
+            ) {
+                  console.log(createdAtStart, createdAtEnd);
+              return (
+                new Date(row.createdAt) >= startDate &&
+                new Date(row.createdAt) <= endDate
+              );
+            } else if (endDate instanceof Date && !isNaN(endDate)) {
+              return new Date(row.createdAt) <= endDate;
+            } else if (startDate instanceof Date && !isNaN(startDate)) {
+              return new Date(row.createdAt) >= startDate;
             }
           }
         });
@@ -1048,7 +1087,9 @@ export default {
         publishDateStart: this.publishDateStart,
         publishDateEnd: this.publishDateEnd,
         endDateStart: this.endDateStart,
-        endDateEnd: this.endDateEnd
+        endDateEnd: this.endDateEnd,
+        createdAtStart: this.createdAtStart,
+        createdAtEnd: this.createdAtEnd,
       };
     },
     isAdmin() {
@@ -1123,7 +1164,7 @@ export default {
           }
         },
         {
-          name: "createdAt",
+          name: "createdAtStart",
           label: this.$t("fundingsCol.created_at"),
           align: "left",
           field: row => {
