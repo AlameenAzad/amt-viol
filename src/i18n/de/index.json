@@ -60,7 +60,7 @@
     "categories": "Kategorien",
     "start": "Datum Veröffentlichung",
     "end": "Datum Ende",
-    "created_at": "Erstelldatum",
+    "created_at": "Datum der Erstellung",
     "createFunding": "Fördermittel erstellen"
   },
   "checkListCols": {
@@ -453,7 +453,7 @@
   "Funding research": "Fördermittelrecherche",
   "Check database “Fundings”": "Check Datenbank „Fördermittel“",
   "Check for funding scouting": "Check über Förderscouting",
-  "Select Funding": "Förderrichtlinie",
+  "Select Funding": "Finanzierung",
   "Joint research for funding or check of the project idea": "Check beim Fördermittelgeber*in",
   "Check Guidlines (long version)": "Check Richtlinie (Langfassung)",
   "Preparation/optimisation of project documents": "Ausarbeitung/Optimierung Projektunterlagen",
@@ -496,7 +496,7 @@
   "acceptMyPrefrences": "Meine Präferenzen akzeptieren",
   "bookmark": "Merken",
   "edit": "Bearbeiten",
-  "duplicate": "Duplizieren",
+  "duplicate": "Duplizieren Sie",
   "archive": "Archivieren",
   "delete": "Löschen",
   "acceptEssentials": "Essentials akzeptieren",
