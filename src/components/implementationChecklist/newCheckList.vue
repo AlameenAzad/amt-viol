@@ -1801,12 +1801,12 @@ export default {
               //Select Funding Information
               {
                 objectName: "selectFunding",
-                objectTitle: "Finanzierung auswählen",
+                objectTitle: "Förderrichtlinie",
                 name: "",
                 text: "",
                 funding: null,
                 desc:
-                  "Welche Informationen müssen für ein zielführendes Gespräch ermittelt werden?",
+                  "Mit welcher Förderrichtlinie wurde das Projekt gefördert?",
                 sortPosition: 4,
                 objectId: 4,
                 active: false,
