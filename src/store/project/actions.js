@@ -270,6 +270,14 @@ export async function getSpecificProject(context, payload) {
   }
 }
 
+export async function tempCategories(context, payload) {
+  context.commit("setTempCategories", payload);
+}
+
+export async function tempTags(context, payload) {
+  context.commit("setTempTags", payload);
+}
+
 export async function addToWatchlist(context, payload) {
   const { id } = payload;
   if (!!id) {
