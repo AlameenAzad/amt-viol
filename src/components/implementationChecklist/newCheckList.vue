@@ -352,6 +352,25 @@
               </div>
             </div>
           </div>
+          <!-- Inline project view start -->
+          <div class="row" v-if="form.project && form.project.id">
+            <div class="col-12">
+              <q-separator class="bg-blue opacity-10" />
+            </div>
+          </div>
+          <div class="row item-center" v-if="form.project && form.project.id">
+            <div class="col-12 col-md-4">
+              <p class="font-16 no-margin">
+                {{
+                  $t("project Idea")
+                }}
+              </p>
+            </div>
+            <div class="col-12 q-mt-sm" v-if="form.project && form.project.id">
+              <InlineProjectView :projectID="form.project.id" />
+            </div>
+          </div>
+          <!-- Inline project view end -->
           <q-card style="background:#16428B1A" class="q-pa-none shadow-0">
             <q-card-section class="q-pa-md font-16 text-weight-600">{{
               $t("Project activity")
@@ -1027,6 +1046,7 @@ import Funding from "components/implementationChecklist/Funding.vue";
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
+import InlineProjectView from "components/projects/view/InlineProjectView.vue";
 import draggable from "vuedraggable";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
@@ -1039,6 +1059,7 @@ export default {
     UserSelect,
     Categories,
     Tags,
+    InlineProjectView,
     ImageDialog
   },
   data() {

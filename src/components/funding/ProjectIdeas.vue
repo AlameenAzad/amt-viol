@@ -85,7 +85,12 @@ export default {
       }
     },
     setProject() {
-      this.model = JSON.parse(JSON.stringify(this.$store.state.project.project)) ;
+      let project = this.$store.state.project.project;
+      project = {
+        id: project.id,
+        title: project.title
+      }
+      this.model = project;
     }
   },
   computed: {
