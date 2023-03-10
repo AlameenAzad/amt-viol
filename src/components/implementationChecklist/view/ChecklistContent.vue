@@ -306,6 +306,21 @@
                   </div>
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
+                <div v-if="!!checklist.info && !!checklist.info.location">
+                        <q-card-section
+
+                        >
+                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            {{ $t("personalData.location") }}
+                          </h4>
+                          <div class="q-ml-md font-16">
+                            <p class="q-mb-sm">
+                              {{ (!!checklist.info && checklist.info.location) || "" }}
+                            </p>
+                          </div>
+                        </q-card-section>
+                        <q-separator inset class="bg-blue opacity-10" />
+                    </div>
                 <div v-if="checklist.editors && checklist.editors.length > 0">
                   <q-card-section>
                     <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">

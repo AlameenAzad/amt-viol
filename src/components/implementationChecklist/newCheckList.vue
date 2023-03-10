@@ -158,6 +158,12 @@
                     disable
                   />
                 </div>
+                <div class="col-12">
+                  <MunicipalityCities
+                    :currentMunicipality="form.info.location"
+                    @update:city="form.info.location = $event"
+                    />
+                </div>
               </div>
             </div>
           </div>
@@ -1030,6 +1036,7 @@ import Tags from "components/projects/create/Tags.vue";
 import draggable from "vuedraggable";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
 export default {
   name: "newCheckList",
   components: {
@@ -1037,6 +1044,7 @@ export default {
     ProjectIdeas,
     Funding,
     UserSelect,
+    MunicipalityCities,
     Categories,
     Tags,
     ImageDialog
@@ -2480,7 +2488,8 @@ export default {
           phone: "",
           email: "",
           streetNo: "",
-          postalCode: ""
+          postalCode: "",
+          location: "",
         },
         municipality: "",
         editors: [],

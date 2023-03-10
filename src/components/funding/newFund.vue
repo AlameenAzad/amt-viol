@@ -115,6 +115,12 @@
                     v-model="form.info.email"
                   />
                 </div>
+                 <div class="col-12">
+                    <MunicipalityCities
+                      :currentMunicipality="form.info.location"
+                      @update:city="form.info.location = $event"
+                      />
+                  </div>
               </div>
             </div>
           </div>
@@ -792,6 +798,7 @@ import ProjectIdeas from "components/funding/ProjectIdeas.vue";
 import ImplementationChecklists from "components/funding/ImplementationChecklists.vue";
 import Fundings from "components/funding/Fundings.vue";
 import ImageDialog from "components/ImageDialog.vue";
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
 
 export default {
   name: "newFund",
@@ -800,6 +807,7 @@ export default {
     Categories,
     Tags,
     FundingRate,
+    MunicipalityCities,
     Links,
     ProjectIdeas,
     ImplementationChecklists,
@@ -821,7 +829,8 @@ export default {
           phone: "",
           email: "",
           streetNo: "",
-          postalCode: ""
+          postalCode: "",
+          location: ""
         },
         details: {
           goal: "",
