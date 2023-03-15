@@ -73,9 +73,9 @@ export default {
       : null;
     },
 
-    //Set the selected categories temporarily in the store to be accessible in other components
+    //Set the selected tags temporarily in the store to be accessible in other components
     setTempTags(tags) {
-      this.$store.dispatch("project/tempTags", tags);
+      this.$store.commit("project/setTempTags", tags);
     }
   },
   computed: {

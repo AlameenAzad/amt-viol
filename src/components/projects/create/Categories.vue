@@ -73,7 +73,7 @@ export default {
     },
     //Set the selected categories temporarily in the store to be accessible in other components
     setTempCategories(categories) {
-      this.$store.dispatch("project/tempCategories", categories);
+      this.$store.commit("project/setTempCategories", categories);
     }
   },
   computed: {

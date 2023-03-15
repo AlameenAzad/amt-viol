@@ -39,17 +39,17 @@
             <ul class="no-margin">
               <li v-if="scope.opt.categoryWeight">
                 <strong>
-                  <small>{{ Math.round(scope.opt.categoryWeight) }}% category match level</small>
+                  <small>{{ Math.round(scope.opt.categoryWeight) }}% Übereinstimmungsgrad nach Kategorien</small>
                 </strong>
               </li>
               <li v-if="scope.opt.tagWeight">
                 <strong>
-                  <small>{{ Math.round(scope.opt.tagWeight) }}% tag match level</small>
+                  <small>{{ Math.round(scope.opt.tagWeight) }}% Übereinstimmungsgrad nach Schlagwörter</small>
                 </strong>
               </li>
               <li v-if="scope.opt.ctWeight">
                 <strong>
-                  <small>{{ Math.round(scope.opt.ctWeight * 100) }}% overall match level</small>
+                  <small>{{ Math.round(scope.opt.ctWeight * 100) }}% Übereinstimmungsgrad insgesamt</small>
                 </strong>
               </li>
             </ul>
@@ -102,13 +102,12 @@ export default {
 
     onSelectOpen() {
       let fundings = this.filteredFundings;
-      let selectedCategories = JSON.parse(JSON.stringify(this.$store.state.project.tempCategories.map(category => {
+      let selectedCategories = JSON.parse(JSON.stringify(this.$store.state.project.tempCategories)).map(category => {
         return category.id
-      })));
-      let selectedTags = JSON.parse(JSON.stringify(this.$store.state.project.tempTags.map(tag => {
+      });
+      let selectedTags = JSON.parse(JSON.stringify(this.$store.state.project.tempTags)).map(tag => {
         return tag.id
-      })));
-
+      });
       if (selectedCategories.length == 0 || selectedCategories.length == 0) {
         this.mappedFundings = this.fundings;
       } else {
