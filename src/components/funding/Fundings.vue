@@ -30,10 +30,10 @@
         </template>
       </template>
       <template v-slot:option="scope" v-if="sorted">
-          <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents" class="bg-red-14 q-mb-xs text-white justify-between" :style="{opacity: scope.opt.ctWeight}">
+          <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents" class="bg-red-14 q-mb-xs text-white justify-between" :style="{opacity: scope.opt.ctWeight + 0.1}">
             <q-item-section>
-              <q-item-label class="">{{ scope.opt.title }}
-
+              <q-item-label class="">
+                {{ scope.opt.title }}
               </q-item-label>
             </q-item-section>
             <ul class="no-margin">
