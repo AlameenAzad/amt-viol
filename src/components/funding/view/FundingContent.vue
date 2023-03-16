@@ -352,6 +352,21 @@
                   </q-card-section>
                   <q-separator inset class="bg-blue opacity-10" />
                 </div>
+                <div>
+                    <q-card-section
+                      v-if="!!funding.info && !!funding.info.location"
+                    >
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("personalData.location") }}
+                      </h4>
+                      <div class="q-ml-md font-16">
+                        <p class="q-mb-sm">
+                          {{ (!!funding.info && funding.info.location) || "" }}
+                        </p>
+                      </div>
+                    </q-card-section>
+                    <q-separator inset class="bg-blue opacity-10" />
+                </div>
                 <q-card-section
                   v-if="funding.editors && funding.editors.length > 0"
                 >
