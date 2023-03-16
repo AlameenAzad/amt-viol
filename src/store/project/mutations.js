@@ -23,6 +23,14 @@ export function setSpecificProject(state, payload) {
   state.project = payload;
 }
 
+export function setTempCategories(state, payload) {
+  state.tempCategories = payload;
+}
+
+export function setTempTags(state, payload) {
+  state.tempTags = payload;
+}
+
 export function archiveProject(state, payload) {
   if (state.project) {
     state.project.archived = true;

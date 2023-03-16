@@ -1,8 +1,8 @@
 <template>
   <div>
     <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model"
-      :multiple="isInChecklist === false" :clearable="isInChecklist === true" :options="fundings"
-      options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6" @input="onSelect">
+      :multiple="isInChecklist === false" :clearable="isInChecklist === true" :options="mappedFundings"
+      options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6" @input="onSelect" @focus="onSelectOpen">
       <template v-slot:selected>
         <div v-if="!isInChecklist">
           <template v-if="model && model.length > 0">
@@ -30,13 +30,44 @@
           </template>
         </div>
       </template>
-      <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-          <q-item-section>
-            <q-item-label>{{ scope.opt.title }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
+      <template v-slot:option="scope" v-if="sorted">
+            <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents" class="bg-red-14 q-mb-xs text-white justify-between" :style="{ opacity: scope.opt.ctWeight }">
+              <q-item-section>
+                <q-item-label class="">{{ scope.opt.title }}
+
+                </q-item-label>
+              </q-item-section>
+              <ul class="no-margin">
+                <li v-if="scope.opt.categoryWeight">
+                  <strong>
+                    <small>{{ Math.round(scope.opt.categoryWeight) }}% category match level</small>
+                  </strong>
+                </li>
+                <li v-if="scope.opt.tagWeight">
+                  <strong>
+                    <small>{{ Math.round(scope.opt.tagWeight) }}% tag match level</small>
+                  </strong>
+                </li>
+                <li v-if="scope.opt.ctWeight">
+                  <strong>
+                    <small>{{ Math.round(scope.opt.ctWeight * 100) }}% overall match level</small>
+                  </strong>
+                </li>
+              </ul>
+            </q-item>
+            <q-item v-else v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs">
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.title }}</q-item-label>
+                </q-item-section>
+              </q-item>
+        </template>
+        <template v-slot:option="scope" v-else>
+              <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.title }}</q-item-label>
+                </q-item-section>
+              </q-item>
+          </template>
     </q-select>
   </div>
 </template>
@@ -56,6 +87,8 @@ export default {
   },
   data() {
     return {
+      mappedFundings: [],
+      sorted: false,
       model: this.editing
     };
   },
@@ -75,6 +108,59 @@ export default {
         );
       }
     },
+    onSelectOpen() {
+      let fundings = this.filteredFundings;
+      let selectedCategories = JSON.parse(JSON.stringify(this.$store.state.project.tempCategories.map(category => {
+        return category.id
+      })));
+      let selectedTags = JSON.parse(JSON.stringify(this.$store.state.project.tempTags.map(tag => {
+        return tag.id
+      })));
+
+       if (selectedCategories.length == 0 || selectedCategories.length == 0) {
+        this.mappedFundings = this.fundings;
+      } else {
+        this.sorted = true;
+        const sortedAndFiltered = fundings
+          .map((funding) => {
+            const categories = funding.categories.map((category) => category.id);
+            const tags = funding.tags.map((tag) => tag.id);
+            const matchingCategories = categories.filter((id) => selectedCategories.includes(id));
+            const matchingTags = tags.filter((id) => selectedTags.includes(id));
+            const matchingCategoriesCount = matchingCategories.length;
+            const matchingTagsCount = matchingTags.length;
+            const totalCategoriesCount = selectedCategories.length;
+            const totalTagsCount = selectedTags.length;
+            const categoryWeight = (matchingCategoriesCount / totalCategoriesCount) * 100;
+            const tagWeight = (matchingTagsCount / totalTagsCount) * 100;
+            const ctWeight = ((categoryWeight + tagWeight) / 2) / 100; //Category and tag weight combined
+            const matchLevel =
+              matchingCategoriesCount === totalCategoriesCount && matchingTagsCount === totalTagsCount
+                ? 1 //Highest matches are the ones that have exactly the same amount of tags and categories as selected
+                : matchingCategoriesCount > totalCategoriesCount / 2
+                  ? 2 //Second degree matches are the ones that have the majority of the selected categories
+                  : 3; //Third degree matches are funding that don’t follow points a and b. will be sorted based on the most amount of matching categories + tags
+            return { ...funding, matchingCategoriesCount, categoryWeight, matchingTagsCount, tagWeight, matchLevel, ctWeight };
+          })
+          .sort((a, b) => {
+            if (a.matchLevel !== b.matchLevel) {
+              return a.matchLevel - b.matchLevel;
+            }
+            if (a.matchLevel === 1) {
+              return b.categoryWeight - a.categoryWeight || b.tagWeight - a.tagWeight;
+            }
+            if (a.matchLevel === 2) {
+              const categoryDiff = b.matchingCategoriesCount - a.matchingCategoriesCount;
+              return categoryDiff !== 0 ? categoryDiff : b.matchingTagsCount - a.matchingTagsCount;
+            }
+            return b.matchingCategoriesCount + b.matchingTagsCount - a.matchingCategoriesCount - a.matchingTagsCount;
+          })
+          .filter((funding) => funding.matchingCategoriesCount > 0);
+
+
+        this.mappedFundings = sortedAndFiltered.slice(0, 10);
+      }
+    },
     setFunding() {
       this.model = this.$store.state.project.project.fundingGuideline[0] ? JSON.parse(JSON.stringify(this.$store.state.project.project.fundingGuideline[0]))
         : null;
@@ -83,7 +169,25 @@ export default {
   computed: {
     fundings() {
       return JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
+    },
+    filteredFundings() {
+      const fundings = JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
+      return fundings.map(funding => {
+        return {
+          id: funding.id,
+          title: funding.title,
+          categories: funding.categories,
+          tags: funding.tags
+        }
+      });
     }
+  },
+  beforeMount() {
+    this.$store.dispatch("project/tempCategories", []);
+    this.$store.dispatch("project/tempTags", []);
+  },
+  mounted() {
+    this.mappedFundings = this.fundings;
   }
 };
 </script>
