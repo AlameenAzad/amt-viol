@@ -64,12 +64,18 @@ export default {
         tags.push({ id: element.id });
       });
       this.$emit("update:tag", tags.length > 0 ? tags : []);
+      this.setTempTags(tags);
     },
 
     setTags() {
       this.model = this.editing
       ? JSON.parse(JSON.stringify(this.$store.state.project.project.tags))
       : null;
+    },
+
+    //Set the selected tags temporarily in the store to be accessible in other components
+    setTempTags(tags) {
+      this.$store.commit("project/setTempTags", tags);
     }
   },
   computed: {

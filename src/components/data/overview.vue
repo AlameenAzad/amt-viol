@@ -164,20 +164,21 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td
-            @click="view(props.row)"
-            auto-width
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-            class="font-14 cursor-pointer"
-          >
+        <q-td
+          @click="view(props.row)"
+          auto-width
+          v-for="col in props.cols"
+          :key="col.name"
+          :props="props"
+          class="font-14 cursor-pointer"
+        >
             {{
               col.value && col.value.length > 48
-                ? col.value.substring(0, 48) + "..."
-                : col.value
+              ? col.value.substring(0, 48) + "..."
+              : col.value
             }}
-          </q-td>
+
+        </q-td>
           <q-td class="text-right" auto-width>
             <q-btn size="md" color="primary" round flat dense icon="more_vert">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
@@ -671,12 +672,18 @@ export default {
     data() {
       return this.tab == "projectIdeas"
         ? !!this.$store.state.project.projects &&
-            this.$store.state.project.projects
+            this.$store.state.project.projects.filter((item) => {
+              return item.owner.id == this.loggedInUser.id
+            })
         : this.tab == "fundings"
         ? !!this.$store.state.funding.fundings &&
-          this.$store.state.funding.fundings
+          this.$store.state.funding.fundings.filter((item) => {
+            return item.owner.id == this.loggedInUser.id
+          })
         : !!this.$store.state.implementationChecklist.checklists &&
-          this.$store.state.implementationChecklist.checklists;
+          this.$store.state.implementationChecklist.checklists.filter((item) => {
+            return item.owner.id == this.loggedInUser.id
+          });
     },
     projectCols() {
       return [
