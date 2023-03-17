@@ -64,12 +64,16 @@ export default {
         categories.push({ id: element.id });
       });
       this.$emit("update:category", categories.length > 0 ? categories : []);
+      this.setTempCategories(categories);
     },
-    setCategories() {
+    setCategories () {
       this.model = this.editing
       ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
       : null;
-  
+    },
+    //Set the selected categories temporarily in the store to be accessible in other components
+    setTempCategories(categories) {
+      this.$store.commit("project/setTempCategories", categories);
     }
   },
   computed: {
