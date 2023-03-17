@@ -168,13 +168,14 @@
               </p>
             </div>
             <div class="col-12 col-md-8">
-              <ProjectIdeas
+              <ProjectIdeas ref="projectidea"
                 :isInChecklist="true"
                 :editing="!!checklist ? checklist.project : null"
                 @update:linkToProject="changeProject($event)"
               />
             </div>
           </div>
+
           <div class="row items-center">
             <div class="col-12 col-md-4">
               <p class="font-16 no-margin">
@@ -182,7 +183,7 @@
               </p>
             </div>
             <div class="col-12 col-md-8">
-              <UserSelect
+              <UserSelect ref="userSelect"
                 :editing="!!checklist ? checklist.editors : []"
                 @update:user="form.editors = $event"
               />
@@ -247,7 +248,7 @@
               <p class="font-16 no-margin">{{ $t("Filter Categories") }}</p>
             </div>
             <div class="col-12 col-md-8">
-              <Categories
+              <Categories ref="categories"
                 :requiresValidation="true"
                 :editing="!!checklist ? checklist.categories : []"
                 @update:category="form.categories = $event"
@@ -259,7 +260,7 @@
               <p class="font-16 no-margin">{{ $t("Tags") }}</p>
             </div>
             <div class="col-12 col-md-8">
-              <Tags
+              <Tags ref="tags"
                 :requiresValidation="true"
                 :editing="!!checklist ? checklist.tags : []"
                 @update:tag="form.tags = $event"
@@ -356,11 +357,13 @@
               $t("Project activity")
             }}</q-card-section>
           </q-card>
+
           <div
             v-for="(card, index) in form.items"
             :key="index"
             class="row items-start"
           >
+
             <div class="col-12 col-md-4 q-pr-sm">
               <p class="font-16 no-margin text-weight-600">
                 {{ card.cardTitle }}
@@ -590,7 +593,8 @@
                           />
                         </div>
                       </q-card-section>
-                      <q-card-section>
+
+                      <q-card-section v-if="!element.hasOwnProperty('funding')" >
                         <div class="row q-col-gutter-md">
                           <div class="col-12">
                             <q-input
@@ -608,6 +612,7 @@
                             class="col-12"
                           >
                             <ProjectIdeas
+
                               :isInChecklist="true"
                               :editing="
                                 !!checklist
@@ -625,6 +630,7 @@
                               @update:linkToProject="element.project = $event"
                             />
                           </div>
+
                           <div class="col-12">
                             <q-input
                               outlined
@@ -706,6 +712,17 @@
                           </div>
                         </div>
                       </q-card-section>
+
+                      <!-- Funding selection  -->
+                      <q-card-section v-if="element.hasOwnProperty('funding')">
+                        <div class="row q-col-gutter-md">
+                          <div class="col-12">
+                            <Funding ref="fundings" :isInChecklist="true" :editing="!!checklist ? checklist.funding : null"
+                              @update:linkToChecklist="changeFunding($event)" />
+                          </div>
+                        </div>
+                      </q-card-section>
+                      <!-- Funding selection end -->
                     </div>
                     <draggable
                       v-if="element.active === true"
@@ -814,6 +831,7 @@
                               />
                             </div>
                           </q-card-section>
+
                           <draggable
                             v-if="item.active === true"
                             handle=".handle"
@@ -1005,18 +1023,19 @@
 import { scroll } from "quasar";
 const { getScrollTarget, setScrollPosition } = scroll;
 import ProjectIdeas from "components/funding/ProjectIdeas.vue";
+import Funding from "components/implementationChecklist/Funding.vue";
 import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import draggable from "vuedraggable";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
-
 export default {
   name: "newCheckList",
   components: {
     draggable,
     ProjectIdeas,
+    Funding,
     UserSelect,
     Categories,
     Tags,
@@ -1024,14 +1043,17 @@ export default {
   },
   data() {
     return {
+      projectView: null,
       imageIndex: null,
       image: null,
       imageDialog: false,
       projectIdea: true,
+
       form: {
         title: "",
         ideaProvider: "volunteering",
         project: null,
+        funding: null,
         visibility: "",
         items: [
           {
@@ -1776,6 +1798,22 @@ export default {
                   }
                 ]
               },
+              //Select Funding Information
+              {
+                objectName: "selectFunding",
+                objectTitle: "Förderrichtlinie",
+                name: "",
+                text: "",
+                funding: null,
+                desc:
+                  "Mit welcher Förderrichtlinie wurde das Projekt gefördert?",
+                sortPosition: 4,
+                objectId: 4,
+                active: false,
+                fixed: false,
+                file: null,
+              },
+              //End Select Funding Information
               {
                 objectName: "checkGuildlines",
                 objectTitle: "Check Richtlinie (Langfassung)",
@@ -1783,8 +1821,8 @@ export default {
                 text: "",
                 desc:
                   "Worauf muss bei der Durchsicht von Langfassungen geachtet werden?",
-                sortPosition: 4,
-                objectId: 4,
+                sortPosition: 5,
+                objectId: 5,
                 active: false,
                 fixed: false,
                 file: null,
@@ -2544,9 +2582,6 @@ export default {
         this.$store.state.userCenter.user.user
       );
     },
-    // checklist() {
-    //   return this.$store.state.implementationChecklist.checklist;
-    // },
     checklist() {
       return (
         !!this.$route.params.id &&
@@ -2557,9 +2592,17 @@ export default {
     }
   },
   methods: {
+    //Method to get project data
+    async getProject() {
+      await this.$store.dispatch("project/getSpecificProject", {
+        id: Number(this.form.project.id)
+      });
+      this.setFunding();
+    },
     updateCaption(value, index) {
       this.form.media[index].caption = value;
     },
+
     addCaption(image, index) {
       this.imageDialog = true;
       this.imageIndex = index;
@@ -2567,6 +2610,11 @@ export default {
     },
     changeProject(val) {
       this.form.project = val;
+      //Call method to get project data when project is selected/onchange project to autofill the form
+      this.getProject();
+    },
+    changeFunding(val) {
+      this.form.funding = val;
     },
     disableDate(index) {
       if (index !== null || index !== undefined) {
@@ -2768,273 +2816,198 @@ export default {
       ];
     },
     async setInitialContact(checklist) {
+      const initialContactItem = this.form.items.find(item => item.cardName === "initialContact");
+      const items = initialContactItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.initialContact.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.initialContact[newItem.objectName].name;
+          newItem.text = checklist.initialContact[newItem.objectName].text;
+          newItem.active = checklist.initialContact[newItem.objectName].active;
+          newItem.tasks = checklist.initialContact[newItem.objectName].tasks;
+          newItem.file = checklist.initialContact[newItem.objectName].file;
+          newItem.id = checklist.initialContact[newItem.objectName].id;
+          newItem.sortPosition = checklist.initialContact[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(item => item.cardName === "initialContact"),
+        ...initialContactItem,
         start: checklist.initialContact.start,
         end: checklist.initialContact.end,
         id: checklist.initialContact.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "initialContact")
-              .items.find(item => item.objectName === "captureIdea"),
-            name: checklist.initialContact.captureIdea.name,
-            text: checklist.initialContact.captureIdea.text,
-            sortPosition: checklist.initialContact.captureIdea.sortPosition,
-            active: checklist.initialContact.captureIdea.active,
-            tasks: checklist.initialContact.captureIdea.tasks,
-            file: checklist.initialContact.captureIdea.file,
-            project: !!checklist.initialContact.captureIdea?.project?.id
-              ? {
-                  id: checklist.initialContact.captureIdea?.project?.id,
-                  title: checklist.initialContact.captureIdea?.project?.title
-                }
-              : null,
-
-            id: checklist.initialContact.captureIdea.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "initialContact")
-              .items.find(item => item.objectName === "caputreContect"),
-            name: checklist.initialContact.caputreContect.name,
-            text: checklist.initialContact.caputreContect.text,
-            sortPosition: checklist.initialContact.caputreContect.sortPosition,
-            active: checklist.initialContact.caputreContect.active,
-            tasks: checklist.initialContact.caputreContect.tasks,
-            file: checklist.initialContact.caputreContect.file,
-            id: checklist.initialContact.caputreContect.id
-          }
-        ]
+        items: sortedItems
       };
     },
     async setPreparation(checklist) {
+      const preparationItem = this.form.items.find(item => item.cardName === "preparation");
+
+      const items = preparationItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.preparation.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.preparation[newItem.objectName].name;
+          newItem.text = checklist.preparation[newItem.objectName].text;
+          newItem.active = checklist.preparation[newItem.objectName].active;
+          newItem.tasks = checklist.preparation[newItem.objectName].tasks;
+          newItem.file = checklist.preparation[newItem.objectName].file;
+          newItem.id = checklist.preparation[newItem.objectName].id;
+          newItem.sortPosition = checklist.preparation[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(item => item.cardName === "preparation"),
+        ...preparationItem,
         start: checklist.preparation.start,
         end: checklist.preparation.end,
         id: checklist.preparation.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparation")
-              .items.find(item => item.objectName === "inspection"),
-            name: checklist.preparation.inspection.name,
-            text: checklist.preparation.inspection.text,
-            sortPosition: 1,
-            active: checklist.preparation.inspection.active,
-            tasks: checklist.preparation.inspection.tasks,
-            file: checklist.preparation.inspection.file,
-            id: checklist.preparation.inspection.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparation")
-              .items.find(item => item.objectName === "captureRequirements"),
-            name: checklist.preparation.captureRequirements.name,
-            text: checklist.preparation.captureRequirements.text,
-            sortPosition: 2,
-            active: checklist.preparation.captureRequirements.active,
-            tasks: checklist.preparation.captureRequirements.tasks,
-            file: checklist.preparation.captureRequirements.file,
-            id: checklist.preparation.captureRequirements.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparation")
-              .items.find(item => item.objectName === "captureNeeds"),
-            name: checklist.preparation.captureNeeds.name,
-            text: checklist.preparation.captureNeeds.text,
-            sortPosition: 3,
-            active: checklist.preparation.captureNeeds.active,
-            tasks: checklist.preparation.captureNeeds.tasks,
-            file: checklist.preparation.captureNeeds.file,
-            id: checklist.preparation.captureNeeds.id
-          }
-        ]
+        items: sortedItems
       };
     },
     async setFundingResearch(checklist) {
+      const fundingResearchItem = this.form.items.find(item => item.cardName === "fundingResearch");
+
+      const items = fundingResearchItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.fundingResearch.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.fundingResearch[newItem.objectName].name;
+          newItem.text = checklist.fundingResearch[newItem.objectName].text;
+          newItem.active = checklist.fundingResearch[newItem.objectName].active;
+          newItem.tasks = checklist.fundingResearch[newItem.objectName].tasks;
+          newItem.file = checklist.fundingResearch[newItem.objectName].file;
+          newItem.id = checklist.fundingResearch[newItem.objectName].id;
+          newItem.sortPosition = checklist.fundingResearch[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(item => item.cardName === "fundingResearch"),
+        ...fundingResearchItem,
         start: checklist.fundingResearch.start,
         end: checklist.fundingResearch.end,
         id: checklist.fundingResearch.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "fundingResearch")
-              .items.find(item => item.objectName === "checkDatabase"),
-            name: checklist.fundingResearch.checkDatabase.name,
-            text: checklist.fundingResearch.checkDatabase.text,
-            sortPosition: 1,
-            active: checklist.fundingResearch.checkDatabase.active,
-            tasks: checklist.fundingResearch.checkDatabase.tasks,
-            file: checklist.fundingResearch.checkDatabase.file,
-            id: checklist.fundingResearch.checkDatabase.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "fundingResearch")
-              .items.find(item => item.objectName === "checkForFunding"),
-            name: checklist.fundingResearch.checkForFunding.name,
-            text: checklist.fundingResearch.checkForFunding.text,
-            sortPosition: 2,
-            active: checklist.fundingResearch.checkForFunding.active,
-            tasks: checklist.fundingResearch.checkForFunding.tasks,
-            file: checklist.fundingResearch.checkForFunding.file,
-            id: checklist.fundingResearch.checkForFunding.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "fundingResearch")
-              .items.find(item => item.objectName === "checkWithFunding"),
-            name: checklist.fundingResearch.checkWithFunding.name,
-            text: checklist.fundingResearch.checkWithFunding.text,
-            sortPosition:
-              checklist.fundingResearch.checkWithFunding.sortPosition,
-            active: checklist.fundingResearch.checkWithFunding.active,
-            tasks: checklist.fundingResearch.checkWithFunding.tasks,
-            file: checklist.fundingResearch.checkWithFunding.file,
-            id: checklist.fundingResearch.checkWithFunding.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "fundingResearch")
-              .items.find(item => item.objectName === "checkGuildlines"),
-            name: checklist.fundingResearch.checkGuildlines.name,
-            text: checklist.fundingResearch.checkGuildlines.text,
-            sortPosition:
-              checklist.fundingResearch.checkGuildlines.sortPosition,
-            active: checklist.fundingResearch.checkGuildlines.active,
-            tasks: checklist.fundingResearch.checkGuildlines.tasks,
-            file: checklist.fundingResearch.checkGuildlines.file,
-            id: checklist.fundingResearch.checkGuildlines.id
-          }
-        ]
+        items: sortedItems
       };
     },
     async setPreparationOfProject(checklist) {
+      const preparationOfProjectItem = this.form.items.find(item => item.cardName === "preparationOfProject");
+
+      const items = preparationOfProjectItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.preparationOfProject.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.preparationOfProject[newItem.objectName].name;
+          newItem.text = checklist.preparationOfProject[newItem.objectName].text;
+          newItem.active = checklist.preparationOfProject[newItem.objectName].active;
+          newItem.tasks = checklist.preparationOfProject[newItem.objectName].tasks;
+          newItem.file = checklist.preparationOfProject[newItem.objectName].file;
+          newItem.id = checklist.preparationOfProject[newItem.objectName].id;
+          newItem.sortPosition = checklist.preparationOfProject[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(
-          item => item.cardName === "preparationOfProject"
-        ),
+        ...preparationOfProjectItem,
         start: checklist.preparationOfProject.start,
         end: checklist.preparationOfProject.end,
         id: checklist.preparationOfProject.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparationOfProject")
-              .items.find(item => item.objectName === "checkContent"),
-            name: checklist.preparationOfProject.checkContent.name,
-            text: checklist.preparationOfProject.checkContent.text,
-            sortPosition:
-              checklist.preparationOfProject.checkContent.sortPosition,
-            active: checklist.preparationOfProject.checkContent.active,
-            tasks: checklist.preparationOfProject.checkContent.tasks,
-            file: checklist.preparationOfProject.checkContent.file,
-            id: checklist.preparationOfProject.checkContent.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparationOfProject")
-              .items.find(item => item.objectName === "checkCooperations"),
-            name: checklist.preparationOfProject.checkCooperations.name,
-            text: checklist.preparationOfProject.checkCooperations.text,
-            sortPosition:
-              checklist.preparationOfProject.checkCooperations.sortPosition,
-            active: checklist.preparationOfProject.checkCooperations.active,
-            tasks: checklist.preparationOfProject.checkCooperations.tasks,
-            file: checklist.preparationOfProject.checkCooperations.file,
-            id: checklist.preparationOfProject.checkCooperations.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparationOfProject")
-              .items.find(item => item.objectName === "checkSimilarProejcts"),
-            name: checklist.preparationOfProject.checkSimilarProejcts.name,
-            text: checklist.preparationOfProject.checkSimilarProejcts.text,
-            sortPosition:
-              checklist.preparationOfProject.checkSimilarProejcts.sortPosition,
-            active: checklist.preparationOfProject.checkSimilarProejcts.active,
-            tasks: checklist.preparationOfProject.checkSimilarProejcts.tasks,
-            file: checklist.preparationOfProject.checkSimilarProejcts.file,
-            id: checklist.preparationOfProject.checkSimilarProejcts.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "preparationOfProject")
-              .items.find(item => item.objectName === "checkPlanning"),
-            name: checklist.preparationOfProject.checkPlanning.name,
-            text: checklist.preparationOfProject.checkPlanning.text,
-            sortPosition: 4,
-            active: checklist.preparationOfProject.checkPlanning.active,
-            tasks: checklist.preparationOfProject.checkPlanning.tasks,
-            file: checklist.preparationOfProject.checkPlanning.file,
-            id: checklist.preparationOfProject.checkPlanning.id
-          }
-        ]
+        items: sortedItems
       };
     },
     async setLegitimation(checklist) {
+      const legitimationItem = this.form.items.find(item => item.cardName === "legitimation");
+
+      const items = legitimationItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.legitimation.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.legitimation[newItem.objectName].name;
+          newItem.text = checklist.legitimation[newItem.objectName].text;
+          newItem.active = checklist.legitimation[newItem.objectName].active;
+          newItem.tasks = checklist.legitimation[newItem.objectName].tasks;
+          newItem.file = checklist.legitimation[newItem.objectName].file;
+          newItem.id = checklist.legitimation[newItem.objectName].id;
+          newItem.sortPosition = checklist.legitimation[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(item => item.cardName === "legitimation"),
+        ...legitimationItem,
         start: checklist.legitimation.start,
         end: checklist.legitimation.end,
         id: checklist.legitimation.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "legitimation")
-              .items.find(item => item.objectName === "template"),
-            name: checklist.legitimation.template.name,
-            text: checklist.legitimation.template.text,
-            sortPosition: 1,
-            active: checklist.legitimation.template.active,
-            tasks: checklist.legitimation.template.tasks,
-            file: checklist.legitimation.template.file,
-            id: checklist.legitimation.template.id
-          }
-        ]
+        items: sortedItems
       };
     },
     async setFinalExamination(checklist) {
+      const finalExaminationItem = this.form.items.find(item => item.cardName === "finalExamination");
+
+      const items = finalExaminationItem.items.map(item => {
+        const newItem = { ...item };
+
+        if (checklist.finalExamination.hasOwnProperty(newItem.objectName)) {
+          newItem.name = checklist.finalExamination[newItem.objectName].name;
+          newItem.text = checklist.finalExamination[newItem.objectName].text;
+          newItem.active = checklist.finalExamination[newItem.objectName].active;
+          newItem.tasks = checklist.finalExamination[newItem.objectName].tasks;
+          newItem.file = checklist.finalExamination[newItem.objectName].file;
+          newItem.id = checklist.finalExamination[newItem.objectName].id;
+          newItem.sortPosition = checklist.finalExamination[newItem.objectName].sortPosition;
+        }
+        return newItem;
+      });
+
+      const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
+
       return {
-        ...this.form.items.find(item => item.cardName === "finalExamination"),
+        ...finalExaminationItem,
         start: checklist.finalExamination.start,
         end: checklist.finalExamination.end,
         id: checklist.finalExamination.id,
-        items: [
-          {
-            ...this.form.items
-              .find(item => item.cardName === "finalExamination")
-              .items.find(item => item.objectName === "revision"),
-            name: checklist.finalExamination.revision.name,
-            text: checklist.finalExamination.revision.text,
-            sortPosition: checklist.finalExamination.revision.sortPosition,
-            active: checklist.finalExamination.revision.active,
-            tasks: checklist.finalExamination.revision.tasks,
-            file: checklist.finalExamination.revision.file,
-            id: checklist.finalExamination.revision.id
-          },
-          {
-            ...this.form.items
-              .find(item => item.cardName === "finalExamination")
-              .items.find(item => item.objectName === "signatures"),
-            name: checklist.finalExamination.signatures.name,
-            text: checklist.finalExamination.signatures.text,
-            sortPosition: checklist.finalExamination.signatures.sortPosition,
-            active: checklist.finalExamination.signatures.active,
-            tasks: checklist.finalExamination.signatures.tasks,
-            file: checklist.finalExamination.signatures.file,
-            id: checklist.finalExamination.signatures.id
-          }
-        ]
+        items: sortedItems
       };
+    },
+    //Autofill form with selected project funding info
+    setFunding() {
+      this.$refs.userSelect.setUsers();
+      this.$refs.categories.setCategories();
+      this.$refs.tags.setTags();
+      this.$refs.projectidea.setProject();
+      this.$refs.fundings[0].setFunding();
+      this.form.title = this.$store.state.project.project.title;
+      this.form.project = { id: this.$store.state.project.project.id, title: this.$store.state.project.project.title };
+      this.form.categories = this.$store.state.project.project.categories;
+      this.form.editors = this.$store.state.project.project.editors;
+      this.form.tags = this.$store.state.project.project.tags;
+      this.form.funding = this.$store.state.project.project.fundingGuideline;
+
+      if (this.form.funding[0]) {
+        const fundingResearchItem = this.form.items.find(item => item.cardName === "fundingResearch");
+        const selectFunding = fundingResearchItem.items.find(item => item.objectName === "selectFunding");
+        selectFunding.active = true;
+      }
     }
   },
   mounted() {
+    //If redirected from project idea creation page, auto fills form.
+    if (this.$route.query.red) {
+      this.setFunding();
+    }
     this.setData();
   },
   beforeDestroy() {

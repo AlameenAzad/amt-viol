@@ -1073,7 +1073,9 @@
                   (!!checklist.fundingResearch &&
                     !!checklist.fundingResearch.checkWithFunding.active) ||
                   (!!checklist.fundingResearch &&
-                    !!checklist.fundingResearch.checkGuildlines.active)
+                  !!checklist.fundingResearch.checkGuildlines.active) ||
+                  (!!checklist.fundingResearch &&
+                  !!checklist.fundingResearch.selectFunding.active)
               "
               class="col-12 q-mb-md"
             >
@@ -1133,7 +1135,7 @@
                     <div class="col-12 col-md-8">
                       <div
                         v-for="(card,
-                        propertyName) in checklist.fundingResearch"
+                        propertyName) in sortedFundingResearch"
                         :key="card.sortPosition"
                       >
                         <div
@@ -1164,7 +1166,8 @@
                                           )
                                         : propertyName === "checkGuildlines"
                                         ? $t("Check Guidlines (long version)")
-                                        : ""
+                                        : propertyName === "selectFunding"
+                              ? $t("Select Funding") : ""
                                     }}
                                   </p>
                                   <p
@@ -1205,6 +1208,17 @@
                                     v-html="!!card.text ? card.text : ''"
                                   ></p>
                                 </div>
+                              </div>
+                              <div v-if="propertyName === 'selectFunding' && checklist.funding">
+                                 <a
+                                      class="q-mb-sm text-blue block text-weight-600 cursor-pointer"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      @click.prevent="
+                                        viewFunding(checklist.funding.id)
+                                      "
+                                      >{{ checklist.funding.title }}</a
+                                    >
                               </div>
                               <div v-if="propertyName === 'checkDatabase'">
                                 <div
@@ -1427,7 +1441,7 @@
                     <div class="col-12 col-md-8">
                       <div
                         v-for="(card,
-                        propertyName) in checklist.preparationOfProject"
+                        propertyName) in sortedPreparationOfProject"
                         :key="card.sortPosition"
                       >
                         <div
@@ -1713,7 +1727,7 @@
                     </div>
                     <div class="col-12 col-md-8">
                       <div
-                        v-for="(card, propertyName) in checklist.legitimation"
+                        v-for="(card, propertyName) in sortedLegitimation"
                         :key="card.sortPosition"
                       >
                         <div
@@ -1934,7 +1948,7 @@
                     <div class="col-12 col-md-8">
                       <div
                         v-for="(card,
-                        propertyName) in checklist.finalExamination"
+                        propertyName) in sortedFinalExamination"
                         :key="card.sortPosition"
                       >
                         <div
@@ -2339,7 +2353,39 @@ export default {
     },
     checklist() {
       return this.$store.state.implementationChecklist.checklist;
-    }
+    },
+    sortedFundingResearch() {
+      const { fundingResearch } = this.checklist;
+      const sortedFundingResearch = Object.keys(fundingResearch)
+        .sort((a, b) => fundingResearch[a].sortPosition - fundingResearch[b].sortPosition)
+        .reduce((acc, key) => ({ ...acc, [key]: fundingResearch[key] }), {});
+
+      return sortedFundingResearch;
+    },
+    sortedPreparationOfProject() {
+      const { preparationOfProject } = this.checklist;
+      const sortedPreparationOfProject = Object.keys(preparationOfProject)
+        .sort((a, b) => preparationOfProject[a].sortPosition - preparationOfProject[b].sortPosition)
+        .reduce((acc, key) => ({ ...acc, [key]: preparationOfProject[key] }), {});
+
+      return sortedPreparationOfProject;
+    },
+    sortedLegitimation() {
+      const { legitimation } = this.checklist;
+      const sortedLegitimation = Object.keys(legitimation)
+        .sort((a, b) => legitimation[a].sortPosition - legitimation[b].sortPosition)
+        .reduce((acc, key) => ({ ...acc, [key]: legitimation[key] }), {});
+
+      return sortedLegitimation;
+    },
+    sortedFinalExamination() {
+      const { finalExamination } = this.checklist;
+      const sortedFinalExamination = Object.keys(finalExamination)
+        .sort((a, b) => finalExamination[a].sortPosition - finalExamination[b].sortPosition)
+        .reduce((acc, key) => ({ ...acc, [key]: finalExamination[key] }), {});
+
+      return sortedFinalExamination;
+    },
   },
   mounted() {
     this.getData();

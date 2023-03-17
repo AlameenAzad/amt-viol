@@ -229,8 +229,8 @@ export async function createNewChecklist(context, payload) {
         type: "positive"
       });
       // context.dispatch("getProjectIdeas");
-      // this.$router.push({ path: "/user/data?tab=implementationChecklist" });
-      this.$router.go(-1);
+      this.$router.push({ path: "/dashboard" });
+      // this.$router.go(-1);
     } catch (error) {
       console.log("error.response", error.response);
       Notify.create({
@@ -990,6 +990,9 @@ export async function constructFundingResearch(payload, editing) {
     const checkGuildlines = payload.items.find(
       item => item.objectName === "checkGuildlines"
     );
+    const selectFunding = payload.items.find(
+      item => item.objectName === "selectFunding"
+    );
     fundingResearch.checkDatabase = {
       ...checkDatabase
     };
@@ -1002,11 +1005,15 @@ export async function constructFundingResearch(payload, editing) {
     fundingResearch.checkGuildlines = {
       ...checkGuildlines
     };
+    fundingResearch.selectFunding = {
+      ...selectFunding
+    };
     if (editing === true) {
       fundingResearch.checkDatabase.id = checkDatabase.id;
       fundingResearch.checkForFunding.id = checkForFunding.id;
       fundingResearch.checkWithFunding.id = checkWithFunding.id;
       fundingResearch.checkGuildlines.id = checkGuildlines.id;
+      fundingResearch.selectFunding.id = selectFunding.id;
     }
     return fundingResearch;
   }
