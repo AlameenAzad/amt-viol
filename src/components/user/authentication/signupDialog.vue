@@ -8,6 +8,18 @@
         <q-form ref="signupForm" class="q-gutter-lg">
           <div class="row">
             <div class="col-12">
+              <p class="q-mb-sm font-16">Name</p>
+              <q-input
+                outlined
+                dense
+                class="no-shadow input-radius-6"
+                v-model="form.name"
+                :rules="[val => !!val || $t('Required')]"
+              />
+            </div>
+          </div>
+          <div class="row q-mt-none">
+            <div class="col-12">
               <p class="q-mb-sm font-16">Email</p>
               <q-input
                 @keyup.enter="signup"
@@ -16,6 +28,27 @@
                 class="no-shadow input-radius-6"
                 v-model="form.email"
                 :rules="[val => !!val || $t('Required')]"
+              />
+            </div>
+          </div>
+          <div class="row q-mt-none">
+            <div class="col-12">
+              <Municipality :isRequired="true" @update:municipality="form.municipality = $event" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <MunicipalityCities
+                :isRequired="true"
+                @update:city="form.location = $event"
+              />
+            </div>
+          </div>
+          <div class="row q-mt-none">
+            <div class="col-12">
+               <Categories
+                :requiresValidation="false"
+                @update:category="form.categories = $event"
               />
             </div>
           </div>
@@ -50,15 +83,27 @@
 </template>
 
 <script>
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
+import Municipality from "components/projects/create/Municipality.vue";
+import Categories from "components/projects/create/Categories.vue";
 export default {
   name: "signupDialog",
   props: {
     dialogState: { type: Boolean, default: false }
   },
+  components: {
+    MunicipalityCities,
+    Municipality,
+    Categories
+  },
   data() {
     return {
       form: {
-        email: ""
+        name: "",
+        email: "",
+        location: "",
+        municipality: null,
+        categories: []
       },
       isLoading: false,
       errorMsg: ""
@@ -84,7 +129,13 @@ export default {
       try {
         const res = await this.$api.post("/api/guest-requests", {
           data: {
-            email: form.email
+            name: form.name,
+            email: form.email,
+            location: form.location,
+            municipality: {
+              id: form.municipality
+            },
+            categories: form.categories
           }
         });
         this.$_options = false;
@@ -117,6 +168,9 @@ export default {
         this.$emit("update", val);
       }
     }
+  },
+  mounted() {
+    this.$store.dispatch("municipality/getMunicipalitiesPublic");
   }
 };
 </script>

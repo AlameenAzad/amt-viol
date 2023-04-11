@@ -167,7 +167,7 @@ export default {
   data() {
     return {
       currentUser: null,
-      options: ["admin", "user"],
+      options: ["admin", "user", "leader", "guest"],
       showDialog: false,
       isLoading: false,
       transferDialog: false,
@@ -195,7 +195,7 @@ export default {
         this.form.municipality.title =
           currentUser.user_detail.municipality.title;
         this.form.role =
-          currentUser.role.type === "authenticated" ? "user" : "admin";
+          currentUser.role.type === "authenticated" ? "user" : currentUser.role.type === "guest" ? "guest" : currentUser.role.type === "leader" ? "leader" : "admin";
         // this.form.municipality = {
         //   id: currentUser.user_detail.municipality.id,
         //   title: currentUser.user_detail.municipality.title

@@ -171,10 +171,21 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <RequestAccessDialog
+        :id="itemId"
+        :tab="tab"
+        :type="itemType"
+        :dialogState="requestDialog"
+        @update="(requestDialog = $event), (itemId = null), (itemType = null)"
+      />
     <InviteUser
       :dialogState="inviteUserDialog"
       @update="inviteUserDialog = $event"
       :guestEmail="currentGuestEmail"
+      :guestLocation="currentGuestLocation"
+      :guestMunicipality="currentGuestMunicipality"
+      :guestName="currentGuestName"
+      :guestCategories="currentGuestCategories"
       :notification="currentNoti"
       @deltedNotification="updateNotifications"
     />
@@ -184,10 +195,12 @@
 <script>
 import { date } from "quasar";
 import InviteUser from "components/user/management/InviteUser.vue";
+import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 export default {
   name: "notifications",
   components: {
-    InviteUser
+    InviteUser,
+    RequestAccessDialog,
   },
   data() {
     return {
@@ -196,8 +209,24 @@ export default {
       currentFundingComment: null,
       inviteUserDialog: false,
       currentGuestEmail: "",
-      currentNoti: null
+      currentGuestLocation: "",
+      currentGuestMunicipality: null,
+      currentGuestCategories: [],
+      currentGuestName: "",
+      currentNoti: null,
+      itemId: null,
+      tab: null,
+      itemType: null,
+      requestDialog: false,
     };
+  },
+  computed: {
+    loggedInUser() {
+      return (
+        !!this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.user
+      );
+    }
   },
   methods: {
     getIndex(index) {
@@ -249,7 +278,7 @@ export default {
       else if (type == "requests") return "person_add";
     },
     async view(noti, isFunding = false) {
-      console.log(noti);
+      console.log(this.loggedInUser);
       if (noti.typeOfNoti == "fundingComments" && isFunding) {
         this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
       } else if (noti.typeOfNoti == "fundingComments") {
@@ -259,15 +288,36 @@ export default {
         this.$router.push({ path: `/user/newFunding/${noti.id}` });
       } else if (noti.typeOfNoti == "requests") {
         if (noti.project != null) {
-          this.$router.push({
-            path: `/user/newProjectIdea/${noti.project.id}`
-          });
+          if (noti.project.owner.id != this.loggedInUser.id) {
+            this.tab = "projectIdeas";
+            this.itemId = noti.project.id;
+            this.itemType = "view";
+            this.requestDialog = true;
+          } else {
+            this.$router.push({
+              path: `/user/newProjectIdea/${noti.project.id}`
+            });
+          }
         } else if (noti.funding != null) {
-          this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
+          if (noti.funding.owner.id != this.loggedInUser.id) {
+            this.tab = "fundings";
+            this.itemId = noti.funding.id;
+            this.itemType = "view";
+            this.requestDialog = true;
+          } else {
+            this.$router.push({ path: `/user/newFunding/${noti.funding.id}` });
+          }
         } else if (noti.checklist != null) {
-          this.$router.push({
-            path: `/user/newChecklist/${noti.checklist.id}`
-          });
+          if (noti.checklist.owner.id != this.loggedInUser.id) {
+            this.tab = "implementationChecklist";
+            this.itemId = noti.checklist.id;
+            this.itemType = "view";
+            this.requestDialog = true;
+          } else {
+            this.$router.push({
+              path: `/user/newChecklist/${noti.checklist.id}`
+            });
+          }
         }
       }
     },
@@ -282,6 +332,10 @@ export default {
         this.currentNoti = noti;
         this.currentNoti.index = index;
         this.currentGuestEmail = noti.email;
+        this.currentGuestLocation = noti.location;
+        this.currentGuestMunicipality = noti.municipality;
+        this.currentGuestName = noti.name;
+        this.currentGuestCategories = noti.categories;
         this.inviteUserDialog = true;
       }
     },

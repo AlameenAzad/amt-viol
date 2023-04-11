@@ -270,6 +270,7 @@ export async function requestAccess(context, payload) {
   const { id } = payload;
   const { userId } = payload;
   const { type } = payload;
+  const { guest } = payload;
   console.log("id", id);
   console.log("userId", userId);
   console.log("type", type);
@@ -283,7 +284,8 @@ export async function requestAccess(context, payload) {
           funding: {
             id: id
           },
-          type: type
+          type: type,
+          guest: guest
         }
       });
       Notify.create({

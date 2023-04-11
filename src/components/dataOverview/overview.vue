@@ -407,7 +407,7 @@
                   </q-item>
                   <q-item
                     v-if="
-                      isAdmin || (props.row && props.row.type !== 'funding')
+                      isAdmin || (props.row && props.row.type !== 'funding' && !isGuest)
                     "
                     clickable
                     @click="editItem(props.row)"
@@ -730,17 +730,34 @@ export default {
     },
     dateFormatter,
     async view(row) {
+      const userMunicipality = this.$store.state.userCenter.user.userDetails.municipality.id;
       const id = row && row.id;
       this.itemId = row && row.id;
       this.viewIsLoading = true;
       if (row.type === "project") {
         this.tab = "projectIdeas";
-        if (
-          row.visibility === "listed only" &&
-          (!!row.owner && row.owner.id) !==
-            (!!this.loggedInUser && this.loggedInUser.id) &&
-          !this.isAdmin
-        ) {
+        if (row.visibility === "listed only" && (!!row.owner && row.owner.id) !== (!!this.loggedInUser && this.loggedInUser.id) && !this.isAdmin) {
+          // if (this.isGuest && userMunicipality != row.municipality.id) {
+          //   const hasReaderAccess =
+          //     !!row.readers &&
+          //     row.readers.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   const hasEditorAccess =
+          //     !!row.editors &&
+          //     row.editors.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
+          //     this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          //   } else {
+          //     this.itemId = row && row.id;
+          //     this.itemType = "view";
+          //     this.requestDialog = true;
+          //   }
+          // } else if (this.isGuest && userMunicipality == row.municipality.title) {
+          //   this.$router.push({ path: `/user/newProjectIdea/${id}` });
+          // }
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
@@ -769,6 +786,27 @@ export default {
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
         ) {
+          // if (this.isGuest) {
+          //   this.$router.push({ path: `/user/newFunding/${id}` });
+          // } else {
+          //   const hasReaderAccess =
+          //     !!row.readers &&
+          //     row.readers.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   const hasEditorAccess =
+          //     !!row.editors &&
+          //     row.editors.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
+          //     this.$router.push({ path: `/user/newFunding/${id}` });
+          //   } else {
+          //     this.itemId = row && row.id;
+          //     this.itemType = "view";
+          //     this.requestDialog = true;
+          //   }
+          // }
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
@@ -786,6 +824,7 @@ export default {
             this.itemType = "view";
             this.requestDialog = true;
           }
+
         } else {
           this.$router.push({ path: `/user/newFunding/${id}` });
         }
@@ -797,6 +836,27 @@ export default {
             (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
         ) {
+          // if (this.isGuest && userMunicipality != row.municipality.id) {
+          //   const hasReaderAccess =
+          //     !!row.readers &&
+          //     row.readers.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   const hasEditorAccess =
+          //     !!row.editors &&
+          //     row.editors.filter(
+          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+          //     );
+          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
+          //     this.$router.push({ path: `/user/newChecklist/${id}` });
+          //   } else {
+          //     this.itemId = row && row.id;
+          //     this.itemType = "view";
+          //     this.requestDialog = true;
+          //   }
+          // } else if (this.isGuest && userMunicipality == row.municipality.title) {
+          //   this.$router.push({ path: `/user/newChecklist/${id}` });
+          // }
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
@@ -1094,6 +1154,12 @@ export default {
     },
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
+    },
+    isLeader() {
+      return this.$store.getters["userCenter/isLeader"];
     },
     loggedInUser() {
       return (
