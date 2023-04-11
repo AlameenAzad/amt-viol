@@ -136,13 +136,10 @@
                   />
                 </div>
                 <div class="col-12">
-                  <q-input
-                    outlined
-                    dense
-                    class="no-shadow input-radius-6"
-                    :placeholder="$t('projectIdeaPlaceholder.location')"
-                    v-model="form.info.location"
-                  />
+                <MunicipalityCities
+                :currentMunicipality="form.info.location"
+                @update:city="form.info.location = $event"
+                />
                 </div>
               </div>
             </div>
@@ -764,6 +761,7 @@ import Fundings from "components/funding/Fundings.vue";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
 import Checklists from "components/projects/implementationChecklists/implementationChecklists.vue";
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
 
 export default {
   name: "newProjectIdea",
@@ -772,6 +770,7 @@ export default {
     Categories,
     Tags,
     EstimatedCost,
+    MunicipalityCities,
     Links,
     Checklists,
     Fundings,
