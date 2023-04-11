@@ -15,6 +15,24 @@ export async function getMunicipalities(context) {
   }
 }
 
+export async function getMunicipalitiesPublic(context) {
+  try {
+    const res = await api.get("/api/public/data");
+    context.commit("setMunicipalities", res.data.municipalities);
+  } catch (error) {
+    console.error("error :>> ", error);
+    Notify.create({
+      position: "top-right",
+      type: "negative",
+      message: error.response.data.error.message
+    });
+  }
+}
+
+export async function tempMunicipality(context, payload) {
+  context.commit("setTempMunicipality", payload);
+}
+
 export async function createMunicipality(context, payload) {
   const { title } = payload;
   const { location } = payload;

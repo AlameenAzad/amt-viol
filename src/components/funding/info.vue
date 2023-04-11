@@ -17,7 +17,7 @@
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
     >
-      <template v-slot:top>
+      <template v-slot:top v-if="!isGuest">
         <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
         <q-space />
         <p
@@ -183,6 +183,9 @@ export default {
         !!this.$store.state.funding.fundings &&
         this.$store.state.funding.fundings
       );
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
     },
     columns() {
       return [

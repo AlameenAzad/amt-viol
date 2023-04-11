@@ -18,7 +18,7 @@
       </div>
       <div class="col-12 col-md-9">
         <div class="row q-col-gutter-md justify-end">
-          <div class="col-12 col-md-auto">
+          <div class="col-12 col-md-auto" v-if="!isGuest">
             <q-btn
               color="blue"
               icon="add"
@@ -50,7 +50,7 @@
               </p>
             </q-btn>
           </div>
-          <div class="col-12 col-md-auto">
+          <div class="col-12 col-md-auto" v-if="!isGuest">
             <q-btn
               color="blue"
               icon="add"
@@ -75,7 +75,8 @@
     </div>
     <div class="row q-col-gutter-md ">
       <div class="col-12 col-md-6">
-        <dataOverview />
+        <myCommunityData v-if="isGuest" />
+        <dataOverview v-else />
       </div>
       <div class="col-12 col-md-6">
         <watchlist />
@@ -90,6 +91,7 @@
 <script>
 import fundingInfo from "components/funding/info.vue";
 import dataOverview from "components/data/overview.vue";
+import myCommunityData from "components/data/myCommunityData.vue";
 import watchlist from "components/watchlist/overview.vue";
 import network from "components/network/overview.vue";
 export default {
@@ -97,6 +99,7 @@ export default {
   components: {
     fundingInfo,
     dataOverview,
+    myCommunityData,
     watchlist,
     network
   },
@@ -106,6 +109,9 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
     }
   }
 };
