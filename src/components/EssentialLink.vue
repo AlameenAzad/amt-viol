@@ -56,11 +56,18 @@ export default {
   },
   computed: {
     dashboardRoutes() {
-      return this.$router.options.routes[1].children;
+      let routes = this.$router.options.routes[1].children;
+      if (this.isGuest) {
+        routes.splice(4, 5);
+      }
+      return routes;
     },
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
-    }
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
+    },
   },
   methods: {
     prevent(link) {

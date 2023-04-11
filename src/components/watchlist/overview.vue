@@ -74,10 +74,10 @@
       <template v-slot:top>
         <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
-            <p class="font-24">
+            <p class="font-20">
               {{ $t("watchListHome.myWatchList") }}
               <span
-                class="font-16 float-right text-blue text-underline text-weight-600 cursor-pointer"
+                class="font-14 float-right text-blue text-underline text-weight-600 cursor-pointer"
                 @click="$router.push({ path: `/watchlist?tab=${tab}` })"
               >
                 {{ $t("watchListHome.showMy") }}
@@ -192,7 +192,7 @@
                     ></q-item-section>
                   </q-item>
                   <q-item
-                    v-if="isAdmin || !props.row.hasOwnProperty('funding')"
+                    v-if="isAdmin || (!props.row.hasOwnProperty('funding') && !isGuest)"
                     clickable
                     v-close-popup
                     @click="editItem(props.row)"
@@ -637,6 +637,9 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
     },
     loggedInUser() {
       return (

@@ -8,7 +8,7 @@
       options-selected-class="text-primary"
       class="no-shadow input-radius-6"
       @input="onSelect"
-      :rules="[val => !!val || $t('Required')]"
+      :rules="!isRequired ? [val => !!val || $t('Required')] : []"
     >
       <template v-slot:selected>
         <template v-if="model">
@@ -36,6 +36,16 @@
 <script>
 export default {
   name: "municipalitySelect",
+  props: {
+    currentMunicipality: {
+      type: Object,
+      default: null
+    },
+    isRequired: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       model: ""
@@ -44,15 +54,25 @@ export default {
   methods: {
     onSelect(value) {
       const municipality = {
-        id: value.id
+        id: value.id,
+        title: value.title
       };
-      this.$emit("update:municipality", municipality);
+      this.$emit("update:municipality", municipality.id);
+      this.$store.commit("municipality/setTempMunicipality", municipality);
     }
   },
   computed: {
     administrations() {
       return this.$store.state.municipality.municipalities;
     }
+  },
+  mounted() {
+    if (this.currentMunicipality) {
+      this.model = this.currentMunicipality;
+    }
+  },
+  beforeDestroy() {
+    this.$store.commit("municipality/setTempMunicipality", null);
   }
 };
 </script>
