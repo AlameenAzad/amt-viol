@@ -31,11 +31,20 @@
           @click="loginDialog = true"
           color="yellow"
           unelevated
-          class="mr-0 radius-6"
+          class="q-mr-lg radius-6"
           no-caps
         >
           <p class="q-mb-none text-blue q-mx-xl q-my-xs">Login</p>
         </q-btn>
+        <q-btn
+            @click="signupDialogState = true"
+            color="yellow"
+            unelevated
+            class="mr-0 radius-6"
+            no-caps
+          >
+            <p class="q-mb-none text-blue q-mx-xl q-my-xs">Sign Up</p>
+          </q-btn>
       </q-toolbar>
     </q-header>
     <LoginDialog :dialogState="loginDialog" @update="loginDialog = $event" />
