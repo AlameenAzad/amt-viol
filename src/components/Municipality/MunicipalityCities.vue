@@ -85,10 +85,25 @@ export default {
       })
     },
   },
+  computed: {
+   userDetails() {
+      return (
+        this.$store.state.userCenter.user &&
+        this.$store.state.userCenter.user.userDetails
+      );
+    },
+  },
   mounted() {
     if (this.selectedMunicipality === null) {
-      //if the user has not selected a municipality yet then set the options to the cities of all municipalities
-      this.options = this.municipalities["All"];
+      if (this.userDetails && this.userDetails.municipality) {
+        this.selectedMunicipality = this.userDetails.municipality.title;
+        if (this.$route.query.tab === "personalData") {
+          this.model = this.userDetails.location;
+        }
+      } else {
+        //if the user has not selected a municipality yet then set the options to the cities of all municipalities
+        this.options = this.municipalities["All"];
+      }
     }
     this.options = this.municipalities[this.selectedMunicipality];
   }
