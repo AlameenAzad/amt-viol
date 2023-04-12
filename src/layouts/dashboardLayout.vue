@@ -66,6 +66,18 @@
           >
           </q-btn>
           <q-btn
+              v-if="isGuest"
+              icon="person"
+              to="/community/data?tab=projectIdeas"
+              flat
+              round
+              dark
+              color="blue"
+              class="mr-0"
+            >
+          </q-btn>
+          <q-btn
+          v-else
             icon="person"
             to="/user/data?tab=projectIdeas"
             flat
@@ -274,6 +286,9 @@ export default {
       if (!Cookies.get("consent")) return false;
       const cookie = JSON.parse(Cookies.get("consent"));
       return !!cookie.consent.prefrences;
+    },
+    isGuest(){
+      return this.$store.getters["userCenter/isGuest"];
     }
   },
   mounted() {
