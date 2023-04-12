@@ -477,10 +477,10 @@ export default {
         this.$store.state.userCenter.user.user
       );
     },
-    loggedInUserMunicipality() {
+    loggedInUserLocation() {
       return (
         !!this.$store.state.userCenter.user &&
-        this.$store.state.userCenter.user.userDetails.municipality
+        this.$store.state.userCenter.user.userDetails.location
       );
     },
     isInPage() {
@@ -497,16 +497,16 @@ export default {
       return this.tab == "projectIdeas"
         ? !!this.$store.state.project.projects &&
         this.$store.state.project.projects.filter((item) => {
-          return item.owner.user_detail.municipality.id == this.loggedInUserMunicipality.id && item.visibility != "only for me"
+          return item.visibility != "only for me"
         })
         : this.tab == "fundings"
           ? !!this.$store.state.funding.fundings &&
           this.$store.state.funding.fundings.filter((item) => {
-            return item.owner.user_detail.municipality.id == this.loggedInUserMunicipality.id && item.visibility != "only for me"
+            return item.visibility != "only for me"
           })
           : !!this.$store.state.implementationChecklist.checklists &&
           this.$store.state.implementationChecklist.checklists.filter((item) => {
-            return item.owner.user_detail.municipality.id == this.loggedInUserMunicipality.id && item.visibility != "only for me"
+            return item.visibility != "only for me"
           });
     },
     projectCols() {

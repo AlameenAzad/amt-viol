@@ -27,6 +27,16 @@
           {{ $t("fundingsInfo.showAll") }}
         </p>
       </template>
+      <template v-slot:top v-else>
+          <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
+          <q-space />
+          <p
+            @click="$router.push({ path: '/community/data?tab=fundings' })"
+            class="font-16 text-blue text-underline text-weight-600 cursor-pointer"
+          >
+            {{ $t("fundingsInfo.showAll") }}
+          </p>
+        </template>
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
           <q-th
