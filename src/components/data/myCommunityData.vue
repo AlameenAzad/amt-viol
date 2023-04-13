@@ -31,11 +31,11 @@
           <div class="col-12">
             <p class="font-20">
               <!-- {{ $t("myDataHome.myData") }} -->
-              Meine Gemeinschaftsdaten
+              Meine Gemeinde
               <span class="font-14 float-right text-blue text-underline text-weight-600 cursor-pointer"
                 @click="$router.push({ path: `/community/data?tab=${tab}` })">
                 <!-- {{ $t("myDataHome.showMy") }} -->
-                Meine Gemeinschaftsdaten
+                Meine Gemeinde
               </span>
             </p>
           </div>
