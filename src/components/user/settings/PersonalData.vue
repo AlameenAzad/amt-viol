@@ -124,11 +124,16 @@
           </p>
         </div>
         <div class="col-12 col-md-9">
-          <q-input
+          <!-- <q-input
             outlined
             class="no-shadow input-radius-6"
             v-model="form.location"
             :rules="[]"
+          /> -->
+
+          <MunicipalityCities
+          :currentMunicipality="form.location"
+          @update:city="form.location = $event"
           />
         </div>
       </div>
@@ -191,8 +196,12 @@
 </template>
 
 <script>
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
 export default {
   name: "personalDataTab",
+  components: {
+    MunicipalityCities
+  },
   data() {
     return {
       profileImage: null,
@@ -263,6 +272,7 @@ export default {
       }
     },
     savePersonalData() {
+      console.log(this.form);
       this.$refs.personalDataForm.validate().then(async success => {
         if (success) {
           this.isLoading = true;
