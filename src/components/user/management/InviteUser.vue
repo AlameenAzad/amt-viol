@@ -47,7 +47,7 @@
             <div class="col-12 col-md-9">
               <q-select
                 outlined
-                :options="roleOptions"
+                :options="!isLeader ? roleOptions : roleOptionsLeader"
                 options-selected-class="text-primary"
                 class="no-shadow input-radius-6"
                 v-model="form.role"
@@ -178,6 +178,7 @@ export default {
   },
   data() {
     return {
+      isLeader: false,
       roleOptions: [
         {
           label: "Admin",
@@ -194,6 +195,12 @@ export default {
         {
           label: "Municipality Leader",
           value: "Leader"
+        }
+      ],
+      roleOptionsLeader: [
+        {
+          label: "Guest",
+          value: "Guest"
         }
       ],
       form: {
@@ -268,6 +275,10 @@ export default {
         this.form.username = this.guestName;
       }
     }
+  },
+  mounted() {
+    this.isLeader = this.$store.getters["userCenter/isLeader"];
+    this.isLeader ? this.form.role = "Guest" : "";
   }
 };
 </script>
