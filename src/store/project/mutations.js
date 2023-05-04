@@ -1,5 +1,15 @@
 export function setProjectIdeas(state, payload) {
-  state.projects = payload;
+  state.projects = payload.sort((a, b) => {
+    const titleA = a.title.toUpperCase();
+    const titleB = b.title.toUpperCase();
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 export function addNewProjectIdea(state, payload) {
