@@ -1,5 +1,15 @@
 export function setFundings(state, payload) {
-  state.fundings = payload;
+  state.fundings = payload.sort((a, b) => {
+    const titleA = a.title.toUpperCase();
+    const titleB = b.title.toUpperCase();
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 export function addNewFunding(state, payload) {

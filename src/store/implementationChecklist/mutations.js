@@ -1,5 +1,15 @@
 export function setChecklists(state, payload) {
-  state.checklists = payload;
+  state.checklists = payload.sort((a, b) => {
+    const titleA = a.title.toUpperCase();
+    const titleB = b.title.toUpperCase();
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 export function setSpecificChecklist(state, payload) {

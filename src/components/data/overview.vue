@@ -396,7 +396,6 @@ export default {
     },
     dateFormatter,
     async view(row) {
-      const userMunicipality = this.$store.state.userCenter.user.userDetails.municipality.title;
       const id = row && row.id;
       this.viewIsLoading = true;
       if (this.tab === "projectIdeas") {
@@ -406,33 +405,7 @@ export default {
           (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
         ) {
-          // if (this.isGuest && userMunicipality != row.municipality.title) {
-          //        console.log(row);
-          //   const hasReaderAccess =
-          //     !!row.readers &&
-          //     row.readers.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   const hasEditorAccess =
-          //     !!row.editors &&
-          //     row.editors.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   console.log("hasReaderAccess", hasReaderAccess);
-          //   console.log("hasEditorAccess", hasEditorAccess);
-          //   console.log("hasReaderAccess", hasReaderAccess.length);
-          //   console.log("hasEditorAccess", hasEditorAccess.length);
-          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
-          //     this.$router.push({ path: `/user/newProjectIdea/${id}` });
-          //   } else {
-          //     this.itemId = row && row.id;
-          //     this.type = "view";
-          //     this.requestDialog = true;
-          //   }
-          // } else if (this.isGuest && userMunicipality == row.municipality.title) {
-          //   this.$router.push({ path: `/user/newProjectIdea/${id}` });
-          // }
-           const hasReaderAccess =
+          const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
               user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
@@ -453,6 +426,8 @@ export default {
             this.type = "view";
             this.requestDialog = true;
           }
+        } else {
+          this.$router.push({ path: `/user/newProjectIdea/${id}` });
         }
       } else if (this.tab === "fundings") {
         if (
@@ -461,31 +436,6 @@ export default {
           (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
         ) {
-
-          // console.log("userMunicipality", userMunicipality, "row.municipality.title", row.municipality.title);
-          // if (this.isGuest && userMunicipality != row.municipality.title) {
-
-          //   const hasReaderAccess =
-          //     !!row.readers &&
-          //     row.readers.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   const hasEditorAccess =
-          //     !!row.editors &&
-          //     row.editors.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
-          //     this.$router.push({ path: `/user/newFunding/${id}` });
-          //   } else {
-          //     this.itemId = row && row.id;
-          //     this.type = "view";
-          //     this.requestDialog = true;
-          //   }
-          // } else if (this.isGuest && userMunicipality == row.municipality.title) {
-          //   this.$router.push({ path: `/user/newFunding/${id}` });
-          // }
-
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
@@ -503,6 +453,8 @@ export default {
             this.type = "view";
             this.requestDialog = true;
           }
+        } else {
+          this.$router.push({ path: `/user/newFunding/${id}` });
         }
       } else {
         if (
@@ -511,27 +463,6 @@ export default {
           (!!this.loggedInUser && this.loggedInUser.id) &&
           !this.isAdmin
         ) {
-          // if (this.isGuest && userMunicipality != row.municipality.title) {
-          //   const hasReaderAccess =
-          //     !!row.readers &&
-          //     row.readers.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   const hasEditorAccess =
-          //     !!row.editors &&
-          //     row.editors.filter(
-          //       user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
-          //     );
-          //   if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
-          //     this.$router.push({ path: `/user/newChecklist/${id}` });
-          //   } else {
-          //     this.itemId = row && row.id;
-          //     this.type = "view";
-          //     this.requestDialog = true;
-          //   }
-          // } else if (this.isGuest && userMunicipality == row.municipality.title) {
-          //   this.$router.push({ path: `/user/newChecklist/${id}` });
-          // }
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
@@ -549,6 +480,8 @@ export default {
             this.type = "view";
             this.requestDialog = true;
           }
+        } else {
+          this.$router.push({ path: `/user/newChecklist/${id}` });
         }
       }
       this.viewIsLoading = false;
