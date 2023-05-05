@@ -73,7 +73,8 @@ export default {
         const res = await this.$store.dispatch("project/requestAccess", {
           id: this.id,
           userId: !!this.loggedInUser && this.loggedInUser.id,
-          type: this.type
+          type: this.type,
+          guest: this.isGuest
         });
         this.isLoading = false;
         if (res !== false) {
@@ -84,7 +85,8 @@ export default {
         const res = await this.$store.dispatch("funding/requestAccess", {
           id: this.id,
           userId: !!this.loggedInUser && this.loggedInUser.id,
-          type: this.type
+          type: this.type,
+          guest: this.isGuest
         });
         this.isLoading = false;
         if (res !== false) {
@@ -97,7 +99,8 @@ export default {
           {
             id: this.id,
             userId: !!this.loggedInUser && this.loggedInUser.id,
-            type: this.type
+            type: this.type,
+            guest: this.isGuest
           }
         );
         this.isLoading = false;
@@ -121,6 +124,9 @@ export default {
         !!this.$store.state.userCenter.user &&
         this.$store.state.userCenter.user.user
       );
+    },
+    isGuest() {
+      return this.$store.getters["userCenter/isGuest"];
     }
   }
 };

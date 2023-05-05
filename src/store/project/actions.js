@@ -326,6 +326,7 @@ export async function requestAccess(context, payload) {
   const { id } = payload;
   const { userId } = payload;
   const { type } = payload;
+  const { guest } = payload;
   if (!!id && !!userId && !!type) {
     try {
       const res = await api.post("/api/requests", {
@@ -336,7 +337,8 @@ export async function requestAccess(context, payload) {
           project: {
             id: id
           },
-          type: type
+          type: type,
+          guest: guest
         }
       });
       Notify.create({

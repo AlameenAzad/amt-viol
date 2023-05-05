@@ -47,7 +47,7 @@
             <div class="col-12 col-md-9">
               <q-select
                 outlined
-                :options="roleOptions"
+                :options="!isLeader ? roleOptions : roleOptionsLeader"
                 options-selected-class="text-primary"
                 class="no-shadow input-radius-6"
                 v-model="form.role"
@@ -78,9 +78,36 @@
               </p>
             </div>
             <div class="col-12 col-md-9">
-              <Municipality @update:municipality="form.municipality = $event" />
+              <Municipality :currentMunicipality="form.municipality" @update:municipality="form.municipality = $event" />
             </div>
           </div>
+          <div class="row items-baseline ">
+              <div class="col-12 col-md-3">
+                <p class="font-14 no-margin">
+                  {{ $t('personalData.location') }}
+                </p>
+              </div>
+              <div class="col-12 col-md-9">
+                <MunicipalityCities
+                :currentMunicipality="form.location"
+                    @update:city="form.location = $event"
+                  />
+              </div>
+            </div>
+          <div class="row items-baseline ">
+              <div class="col-12 col-md-3">
+                <p class="font-14 no-margin">
+                  Interests
+                </p>
+              </div>
+              <div class="col-12 col-md-9">
+                <Categories
+                  :requiresValidation="false"
+                  :editing="form.categories.length > 0 ? form.categories : []"
+                  @update:category="form.categories = $event"
+                />
+              </div>
+            </div>
           <div class="row items-baseline justify-evenly">
             <div class="col-12 col-md-3">
               <p class="font-14 no-margin">
@@ -131,18 +158,27 @@
 
 <script>
 import Municipality from "components/projects/create/Municipality.vue";
+import MunicipalityCities from "components/Municipality/MunicipalityCities.vue";
+import Categories from "components/projects/create/Categories.vue";
 export default {
   name: "inviteUserDialog",
   props: {
     dialogState: { type: Boolean, default: false },
     guestEmail: { type: String, default: "" },
+    guestLocation: { type: String, default: "" },
+    guestMunicipality: { type: Object, default: null },
+    guestCategories: { type: Array, default: () => [] },
+    guestName: { type: String, default: "" },
     notification: { type: Object, default: null }
   },
   components: {
-    Municipality
+    Municipality,
+    MunicipalityCities,
+    Categories
   },
   data() {
     return {
+      isLeader: false,
       roleOptions: [
         {
           label: "Admin",
@@ -151,16 +187,32 @@ export default {
         {
           label: "User",
           value: "user"
+        },
+        {
+          label: "Guest",
+          value: "Guest"
+        },
+        {
+          label: "Municipality Leader",
+          value: "Leader"
+        }
+      ],
+      roleOptionsLeader: [
+        {
+          label: "Guest",
+          value: "Guest"
         }
       ],
       form: {
         username: "",
         role: "",
         municipality: {
-          id: null
+          id: null,
         },
+        categories: [],
         message: "",
-        email: ""
+        email: "",
+        location: ""
       },
       isLoading: false
     };
@@ -217,8 +269,16 @@ export default {
     dialogState: function(val) {
       if (val) {
         this.form.email = this.guestEmail;
+        this.form.location = this.guestLocation;
+        this.form.municipality = this.guestMunicipality;
+        this.form.categories = this.guestCategories;
+        this.form.username = this.guestName;
       }
     }
+  },
+  mounted() {
+    this.isLeader = this.$store.getters["userCenter/isLeader"];
+    this.isLeader ? this.form.role = "Guest" : "";
   }
 };
 </script>

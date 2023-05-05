@@ -231,7 +231,7 @@ export default {
           field: row =>
             (!!row.role && row.role.type === "authenticated"
               ? "User"
-              : "Admin") || "Role Unavailable",
+              : !!row.role && row.role.type === "guest" ? "Guest" : !!row.role && row.role.type === "leader" ? "Municipality Leader" : "Admin") || "Role Unavailable",
           format: val => `${val}`,
           sortable: true
         }

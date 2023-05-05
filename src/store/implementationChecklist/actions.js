@@ -1139,6 +1139,7 @@ export async function requestAccess(context, payload) {
   const { id } = payload;
   const { userId } = payload;
   const { type } = payload;
+  const { guest } = payload;
   console.log("id", id);
   console.log("userId", userId);
   console.log("type", type);
@@ -1152,7 +1153,8 @@ export async function requestAccess(context, payload) {
           checklist: {
             id: id
           },
-          type: type
+          type: type,
+          guest: guest
         }
       });
       Notify.create({
@@ -1199,7 +1201,7 @@ export async function duplicateChecklist(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
-      const res = await api.post(`/api/checklist/duplicate/${id}`);
+      const res = await api.post(`/api/checklist/du          plicate/${id}`);
       Notify.create({
         message: "Umsetzungscheckliste erfolgreich dupliziert",
         type: "positive"

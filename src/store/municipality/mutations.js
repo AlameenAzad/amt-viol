@@ -33,3 +33,7 @@ export function editMunicipality(state, payload) {
     ];
   }
 }
+
+export function setTempMunicipality(state, payload) {
+  state.tempMunicipality = payload;
+}

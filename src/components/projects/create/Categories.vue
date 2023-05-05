@@ -87,12 +87,10 @@ export default {
         })
         .sort((a, b) => a.title.localeCompare(b.title));
     }
+  },
+  mounted() {
+    this.$store.state.category.categories.length === 0 ? this.$store.dispatch("category/getCategories") : null;
   }
-  // mounted() {
-  //   this.model = this.editing
-  //     ? JSON.parse(JSON.stringify(this.$store.state.project.project.categories))
-  //     : null;
-  // }
 };
 </script>
 

@@ -165,7 +165,8 @@ const routes = [
           titleDE: "Verwaltungsbereiche",
           showInNavigation: true,
           requireAuth: true,
-          requireAdmin: false
+          requireAdmin: false,
+          isGuest: true
         },
         icon: "/icons/Municipality.svg",
         component: () => import("pages/dashboard/Municipality.vue")
@@ -225,6 +226,18 @@ const routes = [
         },
         icon: "/icons/Home.svg",
         component: () => import("pages/dashboard/MyData.vue")
+      },
+      {
+        path: "/community/data",
+        name: "CommunityData",
+        meta: {
+          title: "My Community Data",
+          titleDE: "Meine Gemeinschaftsdaten",
+          requireAuth: true,
+          requireAdmin: false
+        },
+        icon: "/icons/Home.svg",
+        component: () => import("pages/dashboard/CommunityData.vue")
       },
       {
         path: "/user/settings",
