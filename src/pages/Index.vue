@@ -1,14 +1,14 @@
 <template>
   <q-page class="bg-white">
-    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="bg-primary">
+    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="light-blue">
       <div class="row justify-center text-center q-pb-xl">
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 q-mb-md">
-              <h1 class="font-50 text-white text-weight-600 q-mb-none">
+              <h1 class="font-50 text-weight-600 q-mb-none ppeditorial">
                 Förderscouting-Plattform
               </h1>
-              <p class="text-white">
+              <p class="ppeditorial">
                 Das Projekt „Interkommunale Förderscouting-Plattform
                 Nordfriesland“ ist ein Modellvorhaben im Rahmen der
                 Förderinitiative „Heimat 2.0“ des Bundesministeriums für Wohnen,
@@ -51,15 +51,15 @@
                 >
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
                         <q-img
                           spinner-color="primary"
-                          src="icons/idea.svg"
-                          style="height: 60px; max-width: 60px"
+                          src="../assets/Idea.svg"
+                          style="height: 100%; max-width: 60px"
                         />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px">
                           Projektideen
                         </h3>
                         <p class="q-mb-none textColor">
@@ -75,15 +75,15 @@
                 <q-card class="full-height full-width radius-20 shadow-1">
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
                         <q-img
                           spinner-color="primary"
-                          src="icons/money.svg"
-                          style="height: 60px; max-width: 60px"
+                          src="../assets/Fundings.svg"
+                          style="height: 100%; max-width: 60px;"
                         />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
                           Fördermittel-Kurzinfos
                         </h3>
                         <p class="q-mb-none textColor">
@@ -99,15 +99,15 @@
                 <q-card class="full-height full-width radius-20 shadow-1">
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
                         <q-img
                           spinner-color="primary"
-                          src="icons/checklist.svg"
-                          style="height: 60px; max-width: 60px"
+                          src="../assets/Checklists.svg"
+                          style="height: 100%; max-width: 80px"
                         />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
                           Umsetzungschecklisten
                         </h3>
                         <p class="q-mb-none textColor">
@@ -123,8 +123,8 @@
           </div>
         </div>
         <div class="row q-mt-lg justify-center">
-          <div class="col-12 col-md-8 q-mt-lg">
-            <p class="font-16 text-left">
+          <div class="col-12 col-md-8 q-mt-lg textColor">
+            <p class="font-16 text-left textColor">
               Ziel der Plattform ist die langfristige Stärkung der
               Handlungsfähigkeit der Kommunen im Rahmen des allgemeinen
               Entwicklungsprozesses „von der Idee zum Projekt“. Vor dem
@@ -235,7 +235,7 @@ export default {
 
 <style lang="scss">
 .textColor {
-  color: $black-1;
+  color: #000055;
 }
 .homepageList {
   list-style-type: none;

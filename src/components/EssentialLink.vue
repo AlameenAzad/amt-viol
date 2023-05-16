@@ -17,9 +17,9 @@
         @click="prevent(link)"
       >
         <q-item-section avatar>
-          <img class="icon-white" :src="link.icon" />
+          <img class="icon-blue" :src="link.icon" />
         </q-item-section>
-        <q-item-section>
+        <q-item-section style="color: #000055">
           {{ $i18n.locale === "en-us" ? link.meta.title : link.meta.titleDE }}
         </q-item-section>
       </q-item>
@@ -95,7 +95,7 @@ export default {
   position: relative;
 }
 .activeMenu .q-focus-helper {
-  background: white !important;
+  background: #0050FF !important;
   opacity: 0.15 !important;
 }
 .activeMenu::before {

@@ -64,7 +64,7 @@
       <template v-slot:top>
         <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
-            <p class="font-20">
+            <p class="font-20 ppeditorial">
               {{ $t("myDataHome.myData") }}
               <span
                 class="font-14 float-right text-blue text-underline text-weight-600 cursor-pointer"
