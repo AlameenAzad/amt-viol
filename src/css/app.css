@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 .dimmed:after {
-    background: rgba(22, 66, 139, 0.5) !important;
+  background: rgba(22, 66, 139, 0.5) !important;
 }
 @media (max-width: 1027px) {
   .container {
@@ -60,17 +60,22 @@
 }
 /* End Input Border radius */
 .q-field--dense .q-field__control,
-.q-field--dense .q-field__marginal
-{
+.q-field--dense .q-field__marginal {
   height: 48px;
 }
-.q-field--auto-height .q-field__control{
+.q-field--auto-height .q-field__control {
   height: auto;
 }
 .icon-white {
   filter: invert(100%) sepia(0%) saturate(6403%) hue-rotate(213deg)
     brightness(108%) contrast(100%);
 }
+
+.icon-blue {
+  filter: invert(8%) sepia(67%) saturate(5653%) hue-rotate(242deg)
+    brightness(73%) contrast(123%);
+}
+
 /* font sizes */
 .font-10 {
   font-size: 10px;
@@ -166,9 +171,35 @@
 .text-weight-600 {
   font-weight: 600;
 }
+.light-blue {
+  background-color: #bfd3ff;
+  color: black;
+}
+
+@font-face {
+  font-family: "PPeditorial";
+  src: url("../fonts/PPEditorialNew-Ultralight.otf") format("opentype");
+}
+
+.ppeditorial {
+  font-family: "PPEditorial", sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "PPEditorial", sans-serif !important;
+}
+
 html,
 body {
   font-family: "Open Sans", sans-serif;
+  /* font-family: "PPEditorial", sans-serif !important; */
   background-color: #eff2f7;
+  font-size: 16px;
 }
+
 /* End font import */

@@ -1,7 +1,7 @@
 <template>
   <q-page :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'" class="q-mt-lg">
     <div v-if="dataLoaded">
-      <p class="text-center font-36 text-weight-regular q-my-lg">
+      <p class="text-center font-36 text-weight-regular q-my-lg ppeditorial">
         {{ $t("myData.fundings") }}
       </p>
       <div

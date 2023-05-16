@@ -16,7 +16,7 @@
         />
         <div class="col-4 col-md-auto">
           <q-toolbar-title
-            class="text-weight-600"
+            class="text-weight-600 ppeditorial"
             :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
             @click="$router.currentRoute.meta.backLink ? $router.go(-1) : ''"
           >
@@ -119,7 +119,7 @@
       show-if-above
       bordered
       class="leftDrawer text-white"
-      content-class="bg-blue"
+      content-class="light-blue"
       :mini="!leftDrawerOpen || miniState"
       @click.capture="drawerClick"
     >
@@ -158,7 +158,7 @@
           :to="{ path: '/impressum' }"
           target="_blank"
         >
-          <p class="q-ml-md cursor-pointer text-blue-grey-1">
+          <p class="q-ml-md cursor-pointer text-black">
             Impressum
           </p>
         </router-link>
@@ -167,13 +167,13 @@
           :to="{ path: '/datenschutzerklaerung' }"
           target="_blank"
         >
-          <p class="q-ml-md cursor-pointer text-blue-grey-1">
+          <p class="q-ml-md cursor-pointer text-black">
             Datenschutzerklaerung
           </p>
         </router-link>
         <p
           @click="showCookieBox"
-          class="q-ml-md cursor-pointer text-blue-grey-1"
+          class="q-ml-md cursor-pointer text-black"
         >
           {{ $t("Change Cookie settings") }}
         </p>
