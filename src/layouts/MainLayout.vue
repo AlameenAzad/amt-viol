@@ -2,7 +2,7 @@
   <q-layout view="lhh lpR fFf">
     <q-header
       :class="{ dimmed: loginDialog }"
-      class="bg-primary text-white no-shadow"
+      class="light-blue text-white no-shadow"
     >
       <q-toolbar class="q-my-sm navContainer ">
         <!-- TODO Fix toolbar title taking full width -->
@@ -15,8 +15,11 @@
             size="lg"
             :ripple="false"
             :to="{ name: 'landing' }"
+            class="light-blue"
           >
-            Foerderscouting Plattform
+          <q-avatar size="250px" style="height: 100px; border-radius: 0px;">
+            <img src="../assets/Logo.svg">
+          </q-avatar>
           </q-btn>
           <q-btn
             v-if="$q.screen.lt.md"
@@ -79,7 +82,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center bg-blue-5 text-white font-16 q-py-md">
+      <div class="text-center text-white font-16 q-py-md"  style="background-color: #40407B;">
         {{ currentYear }} © Amt Viöl. All rights reserved
         <p
           @click="showCookieBox"

@@ -18,21 +18,21 @@
       :no-results-label="$t('No results')"
     >
       <template v-slot:top v-if="!isGuest">
-        <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
+        <p class="font-24 ppeditorial">{{ $t("fundingsInfo.current") }}</p>
         <q-space />
         <p
           @click="$router.push({ path: '/user/data?tab=fundings' })"
-          class="font-16 text-blue text-underline text-weight-600 cursor-pointer"
+          class="font-16 text-blue text-underline text-weight-600 cursor-pointer ppeditorial"
         >
           {{ $t("fundingsInfo.showAll") }}
         </p>
       </template>
       <template v-slot:top v-else>
-          <p class="font-24">{{ $t("fundingsInfo.current") }}</p>
+          <p class="font-24 ppeditorial">{{ $t("fundingsInfo.current") }}</p>
           <q-space />
           <p
             @click="$router.push({ path: '/community/data?tab=fundings' })"
-            class="font-16 text-blue text-underline text-weight-600 cursor-pointer"
+            class="font-16 text-blue text-underline text-weight-600 cursor-pointer ppeditorial"
           >
             {{ $t("fundingsInfo.showAll") }}
           </p>
