@@ -1,14 +1,14 @@
 <template>
   <q-page class="bg-white">
-    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="bg-primary">
+    <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="light-blue">
       <div class="row justify-center text-center q-pb-xl">
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 q-mb-md">
-              <h1 class="font-50 text-white text-weight-600 q-mb-none">
+              <h1 class="font-50 text-weight-600 q-mb-none ppeditorial">
                 Förderscouting-Plattform
               </h1>
-              <p class="text-white">
+              <p class="ppeditorial">
                 Das Projekt „Interkommunale Förderscouting-Plattform
                 Nordfriesland“ ist ein Modellvorhaben im Rahmen der
                 Förderinitiative „Heimat 2.0“ des Bundesministeriums für Wohnen,
@@ -17,22 +17,10 @@
               </p>
             </div>
             <div class="col-12 col-md-6 q-mx-auto">
-              <q-input
-                class="no-shadow q-mb-lg input-radius-4"
-                color="primary"
-                bg-color="white"
-                placeholder="Dokument finden"
-                filled
-                v-model="documentSearch"
-                @keyup.enter="searchForDocument"
-              >
+              <q-input class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
+                placeholder="Dokument finden" filled v-model="documentSearch" @keyup.enter="searchForDocument">
                 <template v-slot:append>
-                  <q-icon
-                    class="cursor-pointer"
-                    @click="searchForDocument"
-                    color="primary"
-                    name="search"
-                  />
+                  <q-icon class="cursor-pointer" @click="searchForDocument" color="primary" name="search" />
                 </template>
               </q-input>
             </div>
@@ -46,20 +34,14 @@
           <div class="col-12 col-md-8">
             <div class="row q-col-gutter-lg">
               <div class="col-12 col-md-4">
-                <q-card
-                  class="full-height full-width bg-white radius-20 shadow-1"
-                >
+                <q-card class="full-height full-width bg-white radius-20 shadow-1">
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
-                        <q-img
-                          spinner-color="primary"
-                          src="icons/idea.svg"
-                          style="height: 60px; max-width: 60px"
-                        />
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
+                        <q-img spinner-color="primary" src="../assets/Idea.svg" style="height: 100%; max-width: 60px" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px">
                           Projektideen
                         </h3>
                         <p class="q-mb-none textColor">
@@ -75,15 +57,12 @@
                 <q-card class="full-height full-width radius-20 shadow-1">
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
-                        <q-img
-                          spinner-color="primary"
-                          src="icons/money.svg"
-                          style="height: 60px; max-width: 60px"
-                        />
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
+                        <q-img spinner-color="primary" src="../assets/Fundings.svg"
+                          style="height: 100%; max-width: 60px;" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
                           Fördermittel-Kurzinfos
                         </h3>
                         <p class="q-mb-none textColor">
@@ -99,15 +78,12 @@
                 <q-card class="full-height full-width radius-20 shadow-1">
                   <q-card-section>
                     <div class="row">
-                      <div class="col-12 text-center">
-                        <q-img
-                          spinner-color="primary"
-                          src="icons/checklist.svg"
-                          style="height: 60px; max-width: 60px"
-                        />
+                      <div class="col-12 text-center" style="position: absolute; top: -20px; right: 10px;">
+                        <q-img spinner-color="primary" src="../assets/Checklists.svg"
+                          style="height: 100%; max-width: 80px" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none">
+                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
                           Umsetzungschecklisten
                         </h3>
                         <p class="q-mb-none textColor">
@@ -123,8 +99,8 @@
           </div>
         </div>
         <div class="row q-mt-lg justify-center">
-          <div class="col-12 col-md-8 q-mt-lg">
-            <p class="font-16 text-left">
+          <div class="col-12 col-md-8 q-mt-lg textColor">
+            <p class="font-16 text-left textColor">
               Ziel der Plattform ist die langfristige Stärkung der
               Handlungsfähigkeit der Kommunen im Rahmen des allgemeinen
               Entwicklungsprozesses „von der Idee zum Projekt“. Vor dem
@@ -164,6 +140,29 @@
             </p>
           </div>
         </div>
+        <!-- Videos -->
+        <div class="row q-mt-lg">
+          <div class="col-12 col-md-6 q-mt-lg textColor">
+
+            <div class="flex justify-center">
+              <h6 class="q-px-xl">Wie kann
+                mich die
+                Förderscouting-Plattform bei der
+                Projektarbeit unterstützen?</h6>
+              <video controls poster="../assets/image1.png" style=" width: 75%; height: auto;">
+                <source src="https://api.foerderscouting-plattform.de/uploads/Plattformpotentiale_d0f41f78dd.mp4">
+              </video>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 q-mt-lg textColor">
+            <div class="flex justify-center">
+              <h6 class="q-px-xl">Wie funktioniert die Förderscouting-Plattform?</h6>
+              <video controls poster="../assets/image2.png" style="width: 75%; height: auto;">
+                <source src="https://api.foerderscouting-plattform.de/uploads/Projektarbeit_acbd6b13eb.mp4">
+              </video>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
     <section :class="$q.screen.gt.sm ? '' : 'q-px-sm'" class="q-py-xl">
@@ -173,12 +172,7 @@
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width  shadow-0">
                 <q-card-section class="full-height flex flex-center">
-                  <q-img
-                    spinner-color="primary"
-                    src="logo-3.svg"
-                    height="150px"
-                    contain
-                  />
+                  <q-img spinner-color="primary" src="logo-3.svg" height="150px" contain />
                 </q-card-section>
               </q-card>
             </div>
@@ -186,24 +180,14 @@
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width  shadow-0">
                 <q-card-section class="full-height flex flex-center">
-                  <q-img
-                    spinner-color="primary"
-                    src="logo-2.svg"
-                    height="150px"
-                    contain
-                  />
+                  <q-img spinner-color="primary" src="logo-2.svg" height="150px" contain />
                 </q-card-section>
               </q-card>
             </div>
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width shadow-0">
                 <q-card-section class="full-height flex center">
-                  <q-img
-                    spinner-color="primary"
-                    src="logo-1.svg"
-                    height="150px"
-                    contain
-                  />
+                  <q-img spinner-color="primary" src="logo-1.svg" height="150px" contain />
                 </q-card-section>
               </q-card>
             </div>
@@ -235,10 +219,12 @@ export default {
 
 <style lang="scss">
 .textColor {
-  color: $black-1;
+  color: #000055;
 }
+
 .homepageList {
   list-style-type: none;
+
   li::before {
     content: "";
     display: inline-block;
