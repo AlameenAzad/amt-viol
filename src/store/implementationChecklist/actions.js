@@ -1201,7 +1201,7 @@ export async function duplicateChecklist(context, payload) {
   const { id } = payload;
   if (!!id) {
     try {
-      const res = await api.post(`/api/checklist/du          plicate/${id}`);
+      const res = await api.post(`/api/checklist/duplicate/${id}`);
       Notify.create({
         message: "Umsetzungscheckliste erfolgreich dupliziert",
         type: "positive"

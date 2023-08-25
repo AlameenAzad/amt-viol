@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model"
-      :multiple="isInChecklist === false" :clearable="isInChecklist === true" :options="mappedFundings"
-      options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6" @input="onSelect" @focus="onSelectOpen">
+    <q-select outlined :bg-color="isInChecklist ? 'white' : ''" dense v-model="model" :multiple="isInChecklist === false"
+      :clearable="isInChecklist === true" :options="mappedFundings" options-selected-class="text-primary text-weight-600"
+      class="no-shadow input-radius-6" @input="onSelect" @focus="onSelectOpen">
       <template v-slot:selected>
         <div v-if="!isInChecklist">
           <template v-if="model && model.length > 0">
@@ -31,43 +31,45 @@
         </div>
       </template>
       <template v-slot:option="scope" v-if="sorted">
-            <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs text-white justify-between" style="background-color: #0050ff;" :style="{ opacity: scope.opt.ctWeight + 0.1 }">
-              <q-item-section>
-                <q-item-label class="">{{ scope.opt.title }}
+        <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents"
+          class="q-mb-xs text-white justify-between" style="background-color: #0050ff;"
+          :style="{ opacity: scope.opt.ctWeight + 0.1 }">
+          <q-item-section>
+            <q-item-label class="">{{ scope.opt.title }}
 
-                </q-item-label>
-              </q-item-section>
-              <ul class="no-margin">
-                <li v-if="scope.opt.categoryWeight">
-                  <strong>
-                    <small>{{ Math.round(scope.opt.categoryWeight) }}% category match level</small>
-                  </strong>
-                </li>
-                <li v-if="scope.opt.tagWeight">
-                  <strong>
-                    <small>{{ Math.round(scope.opt.tagWeight) }}% tag match level</small>
-                  </strong>
-                </li>
-                <li v-if="scope.opt.ctWeight">
-                  <strong>
-                    <small>{{ Math.round(scope.opt.ctWeight * 100) }}% overall match level</small>
-                  </strong>
-                </li>
-              </ul>
-            </q-item>
-            <q-item v-else v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs">
-                <q-item-section>
-                  <q-item-label>{{ scope.opt.title }}</q-item-label>
-                </q-item-section>
-              </q-item>
-        </template>
-        <template v-slot:option="scope" v-else>
-              <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-                <q-item-section>
-                  <q-item-label>{{ scope.opt.title }}</q-item-label>
-                </q-item-section>
-              </q-item>
-          </template>
+            </q-item-label>
+          </q-item-section>
+          <ul class="no-margin">
+            <li v-if="scope.opt.categoryWeight">
+              <strong>
+                <small>{{ Math.round(scope.opt.categoryWeight) }}% Übereinstimmungsgrad nach Kategorien</small>
+              </strong>
+            </li>
+            <li v-if="scope.opt.tagWeight">
+              <strong>
+                <small>{{ Math.round(scope.opt.tagWeight) }}% Übereinstimmungsgrad nach Schlagwörter</small>
+              </strong>
+            </li>
+            <li v-if="scope.opt.ctWeight">
+              <strong>
+                <small>{{ Math.round(scope.opt.ctWeight * 100) }}% Übereinstimmungsgrad insgesamt</small>
+              </strong>
+            </li>
+          </ul>
+        </q-item>
+        <q-item v-else v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+      <template v-slot:option="scope" v-else>
+        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
     </q-select>
   </div>
 </template>
@@ -192,6 +194,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
