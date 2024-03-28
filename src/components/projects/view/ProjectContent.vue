@@ -821,7 +821,6 @@
                           : 'No Project Goals found'
                       "
                     >
-                      <!-- {{ project.details.goals || "No Project Goals found" }} -->
                     </p>
                   </div>
                 </q-card-section>

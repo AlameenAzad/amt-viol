@@ -1,6 +1,7 @@
 .DS_Store
 .thumbs.db
 node_modules
+yarn.lock
 
 # Quasar core related directories
 .quasar
@@ -33,3 +34,4 @@ yarn-error.log*
 *.sln
 .env
 .env.dev
+yarn.lock
