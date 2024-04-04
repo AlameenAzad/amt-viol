@@ -748,7 +748,27 @@
                         </div>
                       </q-card-section>
                       <!-- Funding selection end -->
+                       
                     </div>
+                    <!-- Inline funding view start -->
+                      <div class="row" v-if="form.funding && form.funding.id && element.objectTitle === 'Förderrichtlinie'">
+                        <div class="col-12">
+                          <q-separator class="bg-blue opacity-10" />
+                        </div>
+                      </div>
+                      <div class="row item-center" v-if="form.funding && form.funding.id && element.objectTitle === 'Förderrichtlinie'">
+                        <!-- <div class="col-12 col-md-4">
+                          <p class="font-16 no-margin">
+                            {{
+                              $t("Funding")
+                            }}
+                          </p>
+                        </div> -->
+                        <div class="col-12 q-mt-xl" v-if="form.funding && form.funding.id && element.objectTitle === 'Förderrichtlinie'">
+                          <InlineFundingView :fundingId="form.funding.id" />
+                        </div>
+                      </div>
+                    <!-- Inline funding view end -->
                     <draggable
                       v-if="element.active === true"
                       handle=".handle"
@@ -1053,6 +1073,7 @@ import UserSelect from "components/user/UserSelect.vue";
 import Categories from "components/projects/create/Categories.vue";
 import Tags from "components/projects/create/Tags.vue";
 import InlineProjectView from "components/projects/view/InlineProjectView.vue";
+import InlineFundingView from "components/funding/view/InlineFundingView.vue";
 import draggable from "vuedraggable";
 import ImageDialog from "components/ImageDialog.vue";
 import { dateFormatter } from "src/boot/dateFormatter";
@@ -1068,7 +1089,8 @@ export default {
     Categories,
     Tags,
     InlineProjectView,
-    ImageDialog
+    ImageDialog,
+    InlineFundingView
   },
   data() {
     return {
@@ -1827,22 +1849,6 @@ export default {
                   }
                 ]
               },
-              //Select Funding Information
-              {
-                objectName: "selectFunding",
-                objectTitle: "Förderrichtlinie",
-                name: "",
-                text: "",
-                funding: null,
-                desc:
-                  "Mit welcher Förderrichtlinie wurde das Projekt gefördert?",
-                sortPosition: 4,
-                objectId: 4,
-                active: false,
-                fixed: false,
-                file: null,
-              },
-              //End Select Funding Information
               {
                 objectName: "checkGuildlines",
                 objectTitle: "Check Richtlinie (Langfassung)",
@@ -1850,8 +1856,8 @@ export default {
                 text: "",
                 desc:
                   "Worauf muss bei der Durchsicht von Langfassungen geachtet werden?",
-                sortPosition: 5,
-                objectId: 5,
+                sortPosition: 4,
+                objectId: 4,
                 active: false,
                 fixed: false,
                 file: null,
@@ -1948,7 +1954,23 @@ export default {
                     ]
                   }
                 ]
-              }
+              },
+              //Select Funding Information
+              {
+                objectName: "selectFunding",
+                objectTitle: "Förderrichtlinie",
+                name: "",
+                text: "",
+                funding: null,
+                desc:
+                  "Mit welcher Förderrichtlinie wurde das Projekt gefördert?",
+                sortPosition: 5,
+                objectId: 5,
+                active: false,
+                fixed: false,
+                file: null,
+              },
+              //End Select Funding Information
             ]
           },
           {
