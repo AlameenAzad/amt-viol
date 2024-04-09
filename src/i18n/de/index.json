@@ -496,6 +496,8 @@
   "acceptMyPrefrences": "Meine Präferenzen akzeptieren",
   "bookmark": "Merken",
   "print": "Drucken",
+  "transferOwnership": "Eigentum übertragen",
+  "transferOwnershipMessage": "Bitte wählen Sie einen Benutzer aus, an den das Dokument übertragen werden soll",
   "edit": "Bearbeiten",
   "duplicate": "Duplizieren",
   "archive": "Archivieren",
