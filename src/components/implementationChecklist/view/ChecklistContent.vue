@@ -621,12 +621,12 @@
                                   {{ $t("Initial discussion with the politics") }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">
                                   {{ $t("start") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -636,12 +636,12 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -653,6 +653,25 @@
                                       !!checklist.initialContact &&
                                         checklist.initialContact.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                               <!-- responsiblePerson -->
+                               <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.initialContact &&
+                                      checklist.initialContact.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -888,10 +907,10 @@
                                   }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">{{ $t("start") }}</p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -901,12 +920,12 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -918,6 +937,25 @@
                                       !!checklist.preparation &&
                                         checklist.preparation.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                              <!-- responsiblePerson -->
+                              <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.preparation &&
+                                      checklist.preparation.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -1156,10 +1194,10 @@
                                   {{ $t("Funding research") }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">{{ $t("start") }}</p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -1169,15 +1207,15 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
-                                    $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                    $q.screen.gt.sm ? 'q-mb-sm q-mb-none' : 'q-mt-sm'
                                   "
                                   class="font-16"
                                 >
@@ -1186,6 +1224,25 @@
                                       !!checklist.fundingResearch &&
                                         checklist.fundingResearch.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                              <!-- responsiblePerson -->
+                              <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.fundingResearch &&
+                                      checklist.fundingResearch.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -1462,10 +1519,10 @@
                                   }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">{{ $t("start") }}</p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -1475,12 +1532,12 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -1492,6 +1549,25 @@
                                       !!checklist.preparationOfProject &&
                                         checklist.preparationOfProject.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                               <!-- responsiblePerson -->
+                               <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.preparationOfProject &&
+                                      checklist.preparationOfProject.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -1749,10 +1825,10 @@
                                   {{ $t("Legitimation for submission") }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">{{ $t("start") }}</p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -1762,12 +1838,12 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -1779,6 +1855,25 @@
                                       !!checklist.legitimation &&
                                         checklist.legitimation.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                              <!-- responsiblePerson -->
+                              <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.legitimation &&
+                                      checklist.legitimation.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -1969,10 +2064,10 @@
                                   }}
                                 </h4>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mb-none font-16">{{ $t("start") }}</p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p class="q-mb-none font-16">
                                   {{
                                     dateFormatter(
@@ -1982,12 +2077,12 @@
                                   }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-3">
+                              <div class="col-12 col-md-4">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("end") }}
                                 </p>
                               </div>
-                              <div class="col-12 col-md-9">
+                              <div class="col-12 col-md-8">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -1999,6 +2094,25 @@
                                       !!checklist.finalExamination &&
                                         checklist.finalExamination.end
                                     )
+                                  }}
+                                </p>
+                              </div>
+                              <!-- responsiblePerson -->
+                              <div class="col-12">
+                                <p class="q-mt-sm q-mb-none font-16">
+                                  {{ $t("responsiblePerson") }}
+                                </p>
+                              </div>
+                              <div class="col-12">
+                                <p
+                                  :class="
+                                    $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                  "
+                                  class="font-16"
+                                >
+                                  {{
+                                    !!checklist.finalExamination &&
+                                      checklist.finalExamination.responsiblePerson
                                   }}
                                 </p>
                               </div>
@@ -2260,20 +2374,18 @@
                     </q-card-section>
                     <q-separator inset class="bg-blue opacity-10" />
                     <div v-if="!!checklist.info && !!checklist.info.location">
-                            <q-card-section
-
-                            >
-                              <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
-                                {{ $t("personalData.location") }}
-                              </h4>
-                              <div class="q-ml-md font-16">
-                                <p class="q-mb-sm">
-                                  {{ (!!checklist.info && checklist.info.location) || "" }}
-                                </p>
-                              </div>
-                            </q-card-section>
-                            <q-separator inset class="bg-blue opacity-10" />
+                      <q-card-section>
+                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          {{ $t("personalData.location") }}
+                        </h4>
+                        <div class="q-ml-md font-16">
+                          <p class="q-mb-sm">
+                            {{ (!!checklist.info && checklist.info.location) || "" }}
+                          </p>
                         </div>
+                      </q-card-section>
+                      <q-separator inset class="bg-blue opacity-10" />
+                    </div>
                     <div v-if="checklist.editors && checklist.editors.length > 0">
                       <q-card-section>
                         <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -2531,12 +2643,12 @@
                                 {{ $t("Initial discussion with the politics") }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">
                                 {{ $t("start") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -2546,12 +2658,12 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
                                   $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
@@ -2563,6 +2675,25 @@
                                     !!checklist.initialContact &&
                                       checklist.initialContact.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12 col-lg-4">
+                              <p class="q-mb-sm q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                              <p
+                                :class="
+                                  $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.initialContact &&
+                                    checklist.initialContact.responsiblePerson
                                 }}
                               </p>
                             </div>
@@ -2797,10 +2928,10 @@
                                 }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">{{ $t("start") }}</p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -2810,15 +2941,15 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
-                                  $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
                                 "
                                 class="font-16"
                               >
@@ -2827,6 +2958,25 @@
                                     !!checklist.preparation &&
                                       checklist.preparation.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12 col-lg-4">
+                              <p class="q-mb-sm q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                              <p
+                                :class="
+                                  $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.preparation &&
+                                    checklist.preparation.responsiblePerson
                                 }}
                               </p>
                             </div>
@@ -3065,10 +3215,10 @@
                                 {{ $t("Funding research") }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">{{ $t("start") }}</p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -3078,15 +3228,15 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
-                                  $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
                                 "
                                 class="font-16"
                               >
@@ -3095,6 +3245,25 @@
                                     !!checklist.fundingResearch &&
                                       checklist.fundingResearch.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12 col-lg-4">
+                              <p class="q-mb-sm q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                              <p
+                                :class="
+                                  $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.fundingResearch &&
+                                    checklist.fundingResearch.responsiblePerson
                                 }}
                               </p>
                             </div>
@@ -3371,10 +3540,10 @@
                                 }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">{{ $t("start") }}</p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -3384,15 +3553,15 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
-                                  $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
                                 "
                                 class="font-16"
                               >
@@ -3401,6 +3570,25 @@
                                     !!checklist.preparationOfProject &&
                                       checklist.preparationOfProject.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12 col-lg-4">
+                              <p class="q-mb-sm q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                              <p
+                                :class="
+                                  $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.preparationOfProject &&
+                                    checklist.preparationOfProject.responsiblePerson
                                 }}
                               </p>
                             </div>
@@ -3658,10 +3846,10 @@
                                 {{ $t("Legitimation for submission") }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">{{ $t("start") }}</p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -3671,15 +3859,15 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
-                                  $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
                                 "
                                 class="font-16"
                               >
@@ -3688,6 +3876,25 @@
                                     !!checklist.legitimation &&
                                       checklist.legitimation.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12">
+                              <p class="q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12">
+                              <p
+                                :class="
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.legitimation &&
+                                    checklist.legitimation.responsiblePerson
                                 }}
                               </p>
                             </div>
@@ -3878,10 +4085,10 @@
                                 }}
                               </h4>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mb-none font-16">{{ $t("start") }}</p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p class="q-mb-none font-16">
                                 {{
                                   dateFormatter(
@@ -3891,15 +4098,15 @@
                                 }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("end") }}
                               </p>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-8">
                               <p
                                 :class="
-                                  $q.screen.gt.sm ? 'q-mt-sm q-mb-none' : 'q-mb-sm'
+                                  $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
                                 "
                                 class="font-16"
                               >
@@ -3908,6 +4115,25 @@
                                     !!checklist.finalExamination &&
                                       checklist.finalExamination.end
                                   )
+                                }}
+                              </p>
+                            </div>
+                            <!-- responsiblePerson -->
+                            <div class="col-12 col-lg-4">
+                              <p class="q-mb-sm q-mt-sm q-mb-none font-16">
+                                {{ $t("responsiblePerson") }}
+                              </p>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                              <p
+                                :class="
+                                  $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
+                                "
+                                class="font-16"
+                              >
+                                {{
+                                  !!checklist.finalExamination &&
+                                    checklist.finalExamination.responsiblePerson
                                 }}
                               </p>
                             </div>
