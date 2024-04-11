@@ -265,9 +265,10 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [0, 0, 0, 0],
+          margin: [15, 0, 15, 0],
           html2canvas: { useCORS: true, scale: 2 },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
           @hasStartedGeneration="hasStartedGeneration()"
@@ -593,6 +594,7 @@
                       </q-card-section>
                     </q-card>
                   </div>
+                  
                   <div
                     v-if="
                       (!!checklist.initialContact &&
@@ -2502,6 +2504,13 @@
                         </div>
                       </div>
                     </q-card-section>
+                    <q-separator inset class="bg-blue opacity-10" />
+                    <q-card-section v-if="checklist.project && checklist.project.id">
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("project Idea") }}
+                      </h4>
+                      <InlineProjectView :projectID="checklist.project.id" />
+                    </q-card-section>
                   </q-card>
                 </div>
                 <div
@@ -4127,6 +4136,7 @@ import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+import InlineProjectView from "components/projects/view/InlineProjectView.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
 export default {
@@ -4150,6 +4160,7 @@ export default {
   },
   components: {
     DeleteDialog,
+    InlineProjectView,
     ArchiveDialog,
     RequestAccessDialog,
     VueHtml2pdf

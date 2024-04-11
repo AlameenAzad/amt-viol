@@ -294,7 +294,7 @@
         :float-layout="true"
         :enable-download="false"
         :preview-modal="true"
-        :paginate-elements-by-height="1300"
+        :paginate-elements-by-height="18000"
         :pdf-quality="2"
         :manual-pagination="true"
         pdf-format="a4"
@@ -302,9 +302,10 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [0, 0, 0, 0],
+          margin: [15, 0, 15, 0],
           html2canvas: { useCORS: true, scale: 2 },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
         @hasStartedGeneration="hasStartedGeneration()"
