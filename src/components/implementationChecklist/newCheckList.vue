@@ -1026,15 +1026,6 @@
             icon="add"
             :label="$t('publishButton.publish')"
           />
-          <q-fab-action
-            @click="
-              !!checklist ? editChecklist(false) : submitNewChecklist(false)
-            "
-            color="primary"
-            icon="edit"
-            outline
-            :label="$t('draftButton.saveAsDraft')"
-          />
         </q-fab>
       </q-page-sticky>
     </div>
