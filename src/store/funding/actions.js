@@ -13,6 +13,18 @@ export async function getFundings(context) {
   }
 }
 
+export async function getFundingsWithArchived(context) {
+  try {
+    const res = await api.get("/api/fundings?withArchived=true");
+    context.commit("setFundingsWithArchived", res.data);
+  } catch (error) {
+    Notify.create({
+      type: "negative",
+      message: error.response.data.error.message
+    });
+  }
+}
+
 export async function createNewFunding(context, payload) {
   const { data } = payload;
   console.log("data :>> ", data);

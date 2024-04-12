@@ -179,6 +179,7 @@ export default {
     this.$store.dispatch("project/tempTags", []);
   },
   mounted() {
+    this.$store.dispatch("funding/getFundingsWithArchived");
     this.mappedFundings = this.fundings;
   }
 };
