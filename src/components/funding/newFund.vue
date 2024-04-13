@@ -1018,7 +1018,7 @@ export default {
       }
       this.$store.dispatch("userCenter/getUsers");
 
-      if (this.form.archived) {
+      if (this.form.archived && !isAdmin) {
         this.$q.notify({
           message: this.$t("Der Zugang zu archivierten Dokumenten ist nicht möglich"),
           color: "negative",

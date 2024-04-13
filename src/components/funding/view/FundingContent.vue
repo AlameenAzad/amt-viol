@@ -110,7 +110,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-auto" v-if="!!funding && !funding.archived">
+                <div class="col-12 col-md-auto" v-if="!!funding && !funding.archived || isAdmin">
                   <div
                     :class="
                       $q.screen.gt.sm

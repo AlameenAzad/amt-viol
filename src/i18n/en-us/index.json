@@ -267,7 +267,8 @@
     "title": "Select Tag"
   },
   "fundingSelector": {
-    "title": "Select Funding"
+    "title": "Select Funding",
+    "expired": "Expired"
   },
   "estimatedCost": {
     "costName": "Cost name",

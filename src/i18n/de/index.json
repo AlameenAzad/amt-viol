@@ -275,7 +275,8 @@
     "addCost": "Kosten hinzufügen"
   },
   "fundingSelector": {
-    "title": "Förderrichtlinien auswählen"
+    "title": "Förderrichtlinien auswählen",
+    "expired": "abgelaufen"
   },
   "links": {
     "linkAdd": "Link hinzufügen"
