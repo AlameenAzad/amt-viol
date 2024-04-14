@@ -15,6 +15,10 @@
                 Stadtentwicklung und Bauwesen (BMWSB) in Zusammenarbeit mit dem
                 Bundesinstitut für Bau-, Stadt- und Raumforschung (BBSR).
               </p>
+              <br>
+              <strong class="ppeditorial">
+                Um sich als Nutzer (Verwaltung) zu registrieren, kontaktieren Sie bitte foerderscouting-plattform@amt-vioel.de
+              </strong>
             </div>
             <div class="col-12 col-md-6 q-mx-auto">
               <q-input class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
@@ -172,14 +176,6 @@
             <div class="col-12 col-md-4">
               <q-card class="full-height full-width  shadow-0">
                 <q-card-section class="full-height flex flex-center">
-                  <q-img spinner-color="primary" src="logo-3.svg" height="150px" contain />
-                </q-card-section>
-              </q-card>
-            </div>
-
-            <div class="col-12 col-md-4">
-              <q-card class="full-height full-width  shadow-0">
-                <q-card-section class="full-height flex flex-center">
                   <q-img spinner-color="primary" src="logo-2.svg" height="150px" contain />
                 </q-card-section>
               </q-card>
@@ -188,6 +184,13 @@
               <q-card class="full-height full-width shadow-0">
                 <q-card-section class="full-height flex center">
                   <q-img spinner-color="primary" src="logo-1.svg" height="150px" contain />
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-12 col-md-4">
+              <q-card class="full-height full-width  shadow-0">
+                <q-card-section class="full-height flex flex-center">
+                  <q-img spinner-color="primary" src="logo-3.svg" height="150px" contain />
                 </q-card-section>
               </q-card>
             </div>
