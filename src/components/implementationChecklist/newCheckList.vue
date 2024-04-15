@@ -636,6 +636,9 @@
                             @input="disableDate(index)"
                             v-model="element.active"
                           />
+                          <q-tooltip offset="10, 10">
+                            {{ element.active ? $t("Done") : $t("notDone") }}
+                          </q-tooltip>
                         </div>
                       </q-card-section>
 
@@ -894,6 +897,9 @@
                                 class="customToggle"
                                 v-model="item.active"
                               />
+                              <q-tooltip offset="10, 10">
+                                {{ item.active ? $t("Done") : $t("notDone") }}
+                              </q-tooltip>
                             </div>
                           </q-card-section>
 
@@ -995,6 +1001,9 @@
                                       class="customToggle"
                                       v-model="child.active"
                                     />
+                                    <q-tooltip offset="10, 10">
+                                      {{ child.active ? $t("Done") : $t("notDone") }}
+                                    </q-tooltip>
                                   </div>
                                 </q-card-section>
                                 <q-separator
