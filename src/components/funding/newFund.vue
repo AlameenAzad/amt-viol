@@ -1003,6 +1003,16 @@ export default {
         this.dataLoaded = true;
       }
       this.$store.dispatch("userCenter/getUsers");
+
+      if (this.form.archived && !isAdmin) {
+        this.$q.notify({
+          message: this.$t("Der Zugang zu archivierten Dokumenten ist nicht möglich"),
+          color: "negative",
+          position: "top"
+        });
+        this.$router.go(-1);
+        
+      }
     }
   },
   computed: {

@@ -300,6 +300,7 @@ export async function logout(context) {
   context.commit("category/setCategories", [], { root: true });
   context.commit("funding/setFundings", [], { root: true });
   context.commit("funding/setSpecificFunding", null, { root: true });
+  context.commit("funding/setFundingsWithArchived", [], { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
   context.commit("implementationChecklist/setSpecificChecklist", null, {
     root: true
