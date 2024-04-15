@@ -706,20 +706,6 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-3 q-mr-sm">
-              <q-btn
-                :label="$t('draftButton.saveAsDraft')"
-                @click="
-                  project ? editProjectIdea(false) : submitNewProjectIdea(false)
-                "
-                size="16px"
-                outline
-                color="primary"
-                :loading="isLoading"
-                no-caps
-                class="radius-6 q-py-xs full-width"
-              />
-            </div>
             <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('publishButton.publish')"

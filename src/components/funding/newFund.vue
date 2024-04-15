@@ -743,20 +743,6 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-3 q-mr-sm">
-              <q-btn
-                :label="$t('newProjectIdeaForm.saveDraft')"
-                @click="
-                  !!funding ? editFunding(false) : submitNewFunding(false)
-                "
-                outline
-                size="16px"
-                color="primary"
-                no-caps
-                class="radius-6 q-py-xs full-width"
-                :loading="isLoading"
-              />
-            </div>
             <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('newProjectIdeaForm.publish')"

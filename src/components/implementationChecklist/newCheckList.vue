@@ -995,20 +995,6 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-3 q-mr-sm">
-              <q-btn
-                :label="$t('draftButton.saveAsDraft')"
-                @click="
-                  !!checklist ? editChecklist(false) : submitNewChecklist(false)
-                "
-                size="16px"
-                outline
-                color="primary"
-                :loading="isLoading"
-                no-caps
-                class="radius-6 q-py-xs full-width"
-              />
-            </div>
             <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('publishButton.publish')"
@@ -1039,15 +1025,6 @@
             color="primary"
             icon="add"
             :label="$t('publishButton.publish')"
-          />
-          <q-fab-action
-            @click="
-              !!checklist ? editChecklist(false) : submitNewChecklist(false)
-            "
-            color="primary"
-            icon="edit"
-            outline
-            :label="$t('draftButton.saveAsDraft')"
           />
         </q-fab>
       </q-page-sticky>
