@@ -2826,7 +2826,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -2846,7 +2863,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3092,7 +3126,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3114,7 +3165,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3134,7 +3202,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3395,7 +3480,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3415,7 +3517,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3435,7 +3554,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3455,7 +3591,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3711,7 +3864,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3731,7 +3901,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3753,7 +3940,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -3773,7 +3977,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -4008,7 +4229,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -4248,7 +4486,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -4268,7 +4523,24 @@
                                         :key="index"
                                         class="col-auto q-mr-md"
                                       >
+                                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                          <q-card>
+                                            <q-card-section style="max-height: 70vh;" class="scroll">
+                                              <iframe
+                                                className="doc"
+                                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                              />
+                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                                            </q-card-section>
+
+                                          </q-card>
+                                        </q-dialog>
+                                      </div>
                                         <a
+                                          v-else
                                           class="q-mb-md text-blue block text-weight-600"
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -4401,6 +4673,8 @@ export default {
       itemId: null,
       type: null,
       tab: "implementationChecklist",
+      openDocumentPreviewModal: false,
+      previewDocumentData: null,
       deleteDialog: false,
       archiveDialog: false,
       documentTransferDialog: false,
@@ -4502,6 +4776,10 @@ export default {
         this.viewIsLoading = true;
         this.$router.push({ path: `/user/newProjectIdea/${id}` });
       }
+    },
+    async handleOpenDocumentPreviewModal (file) {
+      this.openDocumentPreviewModal = true;
+      this.previewDocumentData = file.url;
     },
     async addToWatchlist() {
       this.watchlistIsLoading = true;
