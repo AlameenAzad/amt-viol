@@ -121,6 +121,25 @@
                   >
                     <div class="col-auto">
                       <q-btn
+                        v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+                        @click="transferDocument()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 text-weight-600"
+                        no-caps
+                        outline
+                        icon="send"
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("transferOwnership") }}
+                        </q-tooltip></q-btn
+                      >
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
                         @click="exportToPdf()"
                         color="blue"
                         unelevated
@@ -1606,6 +1625,13 @@
           (duplicateIsLoading = false)
       "
     />
+    <DocumentTransferDialog
+      v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+      :id="itemId"
+      type="project"
+      :dialogState="documentTransferDialog"
+      @update="closeDocumentTransferDialog($event), (itemId = null)"
+    />
   </div>
 </template>
 
@@ -1614,6 +1640,7 @@ import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+import DocumentTransferDialog from "components/DocumentTransferDialog.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
 export default {
@@ -1627,6 +1654,7 @@ export default {
       requestDialog: false,
       deleteDialog: false,
       archiveDialog: false,
+      documentTransferDialog: false,
       isLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
@@ -1639,6 +1667,7 @@ export default {
     DeleteDialog,
     ArchiveDialog,
     RequestAccessDialog,
+    DocumentTransferDialog,
     VueHtml2pdf
   },
   watch: {
@@ -1670,6 +1699,12 @@ export default {
       this.archiveDialog = val;
       if (!!this.project && this.project.archived === true) {
         this.$router.go(-1);
+      }
+    },
+    closeDocumentTransferDialog(val) {
+      this.documentTransferDialog = val;
+      if (!!this.project && this.project.id) {
+        this.documentTransferDialog = false;
       }
     },
     closeDeleteDialog(val) {
@@ -1770,6 +1805,10 @@ export default {
     async archiveProject() {
       this.itemId = !!this.project && this.project.id;
       this.archiveDialog = true;
+    },
+    async transferDocument() {
+      this.itemId = !!this.project && this.project.id;
+      this.documentTransferDialog = true;
     },
     async deleteProject() {
       this.itemId = !!this.project && this.project.id;

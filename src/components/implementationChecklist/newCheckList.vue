@@ -393,8 +393,28 @@
               <p class="font-16 no-margin text-weight-600">
                 {{ card.cardTitle }}
               </p>
-              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
-                <div class="col-2">
+              <!-- responsiblePerson -->
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between">
+                <div class="col-3">
+                  <p class="font-14 no-margin">{{ $t("responsiblePerson") }}</p>
+                </div>
+                <div style="width: 225px;">
+                  <q-input
+                    outlined
+                    dense
+                    class="no-shadow input-radius-6"
+                    color="primary"
+                    bg-color="white"
+                    :placeholder="$t('responsiblePerson')"
+                    ref="responsiblePerson"
+                    v-model="card.responsiblePerson"
+                    :value="card.responsiblePerson"
+                  >
+                  </q-input>
+                </div>
+              </div>
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between">
+                <div class="col-3">
                   <p class="font-14 no-margin">{{ $t("start") }}</p>
                 </div>
                 <div>
@@ -451,8 +471,8 @@
                   </q-input>
                 </div>
               </div>
-              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md">
-                <div class="col-2">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between">
+                <div class="col-3">
                   <p class="font-14 no-margin">{{ $t("end") }}</p>
                 </div>
                 <div>
@@ -616,6 +636,9 @@
                             @input="disableDate(index)"
                             v-model="element.active"
                           />
+                          <q-tooltip offset="10, 10">
+                            {{ element.active ? $t("Done") : $t("notDone") }}
+                          </q-tooltip>
                         </div>
                       </q-card-section>
 
@@ -874,6 +897,9 @@
                                 class="customToggle"
                                 v-model="item.active"
                               />
+                              <q-tooltip offset="10, 10">
+                                {{ item.active ? $t("Done") : $t("notDone") }}
+                              </q-tooltip>
                             </div>
                           </q-card-section>
 
@@ -975,6 +1001,9 @@
                                       class="customToggle"
                                       v-model="child.active"
                                     />
+                                    <q-tooltip offset="10, 10">
+                                      {{ child.active ? $t("Done") : $t("notDone") }}
+                                    </q-tooltip>
                                   </div>
                                 </q-card-section>
                                 <q-separator
@@ -995,20 +1024,6 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-3 q-mr-sm">
-              <q-btn
-                :label="$t('draftButton.saveAsDraft')"
-                @click="
-                  !!checklist ? editChecklist(false) : submitNewChecklist(false)
-                "
-                size="16px"
-                outline
-                color="primary"
-                :loading="isLoading"
-                no-caps
-                class="radius-6 q-py-xs full-width"
-              />
-            </div>
             <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('publishButton.publish')"
@@ -1039,15 +1054,6 @@
             color="primary"
             icon="add"
             :label="$t('publishButton.publish')"
-          />
-          <q-fab-action
-            @click="
-              !!checklist ? editChecklist(false) : submitNewChecklist(false)
-            "
-            color="primary"
-            icon="edit"
-            outline
-            :label="$t('draftButton.saveAsDraft')"
           />
         </q-fab>
       </q-page-sticky>
@@ -1112,6 +1118,7 @@ export default {
             cardTitle: "Erstgespräch mit dem politischen Ehrenamt",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               // captureIdea
               {
@@ -1320,6 +1327,7 @@ export default {
             cardTitle: "Erstellung der Projektideen-Skizze",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               {
                 objectName: "inspection",
@@ -1630,6 +1638,7 @@ export default {
             cardTitle: "Fördermittelrecherche",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               {
                 objectName: "checkDatabase",
@@ -1978,6 +1987,7 @@ export default {
             cardTitle: "Ausarbeitung/Optimierung Projektunterlagen",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               {
                 objectName: "checkContent",
@@ -2260,6 +2270,7 @@ export default {
             cardTitle: "Legitimierung zur Einreichung",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               {
                 objectName: "template",
@@ -2383,6 +2394,7 @@ export default {
             cardTitle: "Prüfung der Projektunterlagen final",
             start: "",
             end: "",
+            responsiblePerson: "",
             items: [
               {
                 objectName: "revision",
@@ -2885,12 +2897,12 @@ export default {
       });
 
       const sortedItems = items.sort((a, b) => (a.sortPosition - b.sortPosition));
-
       return {
         ...initialContactItem,
         start: checklist.initialContact.start,
         end: checklist.initialContact.end,
         id: checklist.initialContact.id,
+        responsiblePerson: checklist.initialContact.responsiblePerson,
         items: sortedItems
       };
     },
@@ -2919,6 +2931,7 @@ export default {
         start: checklist.preparation.start,
         end: checklist.preparation.end,
         id: checklist.preparation.id,
+        responsiblePerson: checklist.preparation.responsiblePerson,
         items: sortedItems
       };
     },
@@ -2947,6 +2960,7 @@ export default {
         start: checklist.fundingResearch.start,
         end: checklist.fundingResearch.end,
         id: checklist.fundingResearch.id,
+        responsiblePerson: checklist.fundingResearch.responsiblePerson,
         items: sortedItems
       };
     },
@@ -2975,6 +2989,7 @@ export default {
         start: checklist.preparationOfProject.start,
         end: checklist.preparationOfProject.end,
         id: checklist.preparationOfProject.id,
+        responsiblePerson: checklist.preparationOfProject.responsiblePerson,
         items: sortedItems
       };
     },
@@ -3003,6 +3018,7 @@ export default {
         start: checklist.legitimation.start,
         end: checklist.legitimation.end,
         id: checklist.legitimation.id,
+        responsiblePerson: checklist.legitimation.responsiblePerson,
         items: sortedItems
       };
     },
@@ -3031,6 +3047,7 @@ export default {
         start: checklist.finalExamination.start,
         end: checklist.finalExamination.end,
         id: checklist.finalExamination.id,
+        responsiblePerson: checklist.finalExamination.responsiblePerson,
         items: sortedItems
       };
     },
