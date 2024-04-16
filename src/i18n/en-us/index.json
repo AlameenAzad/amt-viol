@@ -267,7 +267,8 @@
     "title": "Select Tag"
   },
   "fundingSelector": {
-    "title": "Select Funding"
+    "title": "Select Funding",
+    "expired": "Expired"
   },
   "estimatedCost": {
     "costName": "Cost name",
@@ -401,8 +402,10 @@
   "title": "Title",
   "Contact Details": "Contact data",
   "start": "Start",
+  "responsiblePerson": "Responsible Person",
   "end": "End",
   "Done": "Done",
+  "notDone": "Not Done",
   "Contact Details (optional)": "Contact data (optional)",
   "In Progress": "In Progress",
   "Initial discussion with the politics": "Initial discussion with the politics",
@@ -451,6 +454,9 @@
   "Caption updated": "Caption updated",
   "Close": "Close",
   "bookmark": "Bookmark",
+  "print": "Print",
+  "transferOwnership": "Transfer Ownership",
+  "transferOwnershipMessage": "Please select a user to transfer the document to",
   "edit": "Edit",
   "duplicate": "Duplicate",
   "archive": "Archive",

@@ -897,6 +897,7 @@ export async function constructInitialContact(payload, editing) {
     if (!!payload.end) {
       initialContact.end = payload.end;
     }
+    initialContact.responsiblePerson = payload.responsiblePerson;
     if (editing === true) {
       initialContact.id = payload.id;
     }
@@ -933,6 +934,7 @@ export async function constructpreparation(payload, editing) {
     if (!!payload.start) {
       preparation.start = payload.start;
     }
+    preparation.responsiblePerson = payload.responsiblePerson;
     if (!!payload.end) {
       preparation.end = payload.end;
     }
@@ -972,6 +974,7 @@ export async function constructFundingResearch(payload, editing) {
     if (!!payload.start) {
       fundingResearch.start = payload.start;
     }
+    fundingResearch.responsiblePerson = payload.responsiblePerson;
     if (!!payload.end) {
       fundingResearch.end = payload.end;
     }
@@ -1025,6 +1028,7 @@ export async function constructPreparationOfProject(payload, editing) {
     if (!!payload.start) {
       preparationOfProject.start = payload.start;
     }
+    preparationOfProject.responsiblePerson = payload.responsiblePerson;
     if (!!payload.end) {
       preparationOfProject.end = payload.end;
     }
@@ -1071,6 +1075,7 @@ export async function constructLegitimation(payload, editing) {
     if (!!payload.start) {
       legitimation.start = payload.start;
     }
+    legitimation.responsiblePerson = payload.responsiblePerson;
     if (!!payload.end) {
       legitimation.end = payload.end;
     }
@@ -1094,6 +1099,7 @@ export async function constructFinalExamination(payload, editing) {
     if (!!payload.start) {
       finalExamination.start = payload.start;
     }
+    finalExamination.responsiblePerson = payload.responsiblePerson;
     if (!!payload.end) {
       finalExamination.end = payload.end;
     }
