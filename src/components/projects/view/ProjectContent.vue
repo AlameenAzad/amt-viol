@@ -121,6 +121,25 @@
                   >
                     <div class="col-auto">
                       <q-btn
+                        v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+                        @click="transferDocument()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 text-weight-600"
+                        no-caps
+                        outline
+                        icon="send"
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("transferOwnership") }}
+                        </q-tooltip></q-btn
+                      >
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
                         @click="exportToPdf()"
                         color="blue"
                         unelevated
@@ -289,9 +308,10 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [0, 0, 0, 0],
+          margin: [15, 0, 15, 0],
           html2canvas: { useCORS: true, scale: 2 },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
         @hasStartedGeneration="hasStartedGeneration()"
@@ -1343,13 +1363,24 @@
                         v-for="(file, index) in project.files"
                         :key="index"
                       >
-                        <a
-                          class="q-mb-sm text-blue block text-weight-600"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          :href="`${appUrl}${file.url}`"
-                          >{{ file.name }}</a
-                        >
+                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                        <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                        <q-dialog v-model="openDocumentPreviewModal" full-width>
+                          <q-card>
+                            <q-card-section style="max-height: 70vh;" class="scroll">
+                              <iframe
+                                className="doc"
+                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                style="width: 100%; height: 70vh; border-style: none;"
+                              />
+                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                            </q-card-section>
+
+                          </q-card>
+                        </q-dialog>
+                      </div>
+
+                        <a v-else class="q-mb-sm text-blue block text-weight-600" target="_blank" rel="noopener noreferrer" :href="`${appUrl}${file.url}`" >{{ file.name }}</a>
                       </div>
                     </div>
                     <div v-else>
@@ -1605,6 +1636,13 @@
           (duplicateIsLoading = false)
       "
     />
+    <DocumentTransferDialog
+      v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+      :id="itemId"
+      type="project"
+      :dialogState="documentTransferDialog"
+      @update="closeDocumentTransferDialog($event), (itemId = null)"
+    />
   </div>
 </template>
 
@@ -1613,6 +1651,7 @@ import { dateFormatter } from "src/boot/dateFormatter";
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
+import DocumentTransferDialog from "components/DocumentTransferDialog.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
 export default {
@@ -1626,18 +1665,22 @@ export default {
       requestDialog: false,
       deleteDialog: false,
       archiveDialog: false,
+      documentTransferDialog: false,
       isLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
       watchlistIsLoading: false,
-      duplicateIsLoading: false
+      duplicateIsLoading: false,
+      openDocumentPreviewModal: false,
+      previewDocumentData: null
     };
   },
   components: {
     DeleteDialog,
     ArchiveDialog,
     RequestAccessDialog,
+    DocumentTransferDialog,
     VueHtml2pdf
   },
   watch: {
@@ -1671,6 +1714,12 @@ export default {
         this.$router.go(-1);
       }
     },
+    closeDocumentTransferDialog(val) {
+      this.documentTransferDialog = val;
+      if (!!this.project && this.project.id) {
+        this.documentTransferDialog = false;
+      }
+    },
     closeDeleteDialog(val) {
       this.deleteDialog = val;
       if (!!this.project && !this.project.id) {
@@ -1692,6 +1741,10 @@ export default {
         });
         this.$q.loading.hide();
       }
+    },
+    async handleOpenDocumentPreviewModal (file) {
+      this.openDocumentPreviewModal = true;
+      this.previewDocumentData = file.url;
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
@@ -1769,6 +1822,10 @@ export default {
     async archiveProject() {
       this.itemId = !!this.project && this.project.id;
       this.archiveDialog = true;
+    },
+    async transferDocument() {
+      this.itemId = !!this.project && this.project.id;
+      this.documentTransferDialog = true;
     },
     async deleteProject() {
       this.itemId = !!this.project && this.project.id;

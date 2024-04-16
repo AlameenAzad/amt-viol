@@ -275,7 +275,8 @@
     "addCost": "Kosten hinzufügen"
   },
   "fundingSelector": {
-    "title": "Förderrichtlinien auswählen"
+    "title": "Förderrichtlinien auswählen",
+    "expired": "abgelaufen"
   },
   "links": {
     "linkAdd": "Link hinzufügen"
@@ -441,8 +442,10 @@
   "Project activity": "Projektaktivität",
   "title": "Titel",
   "start": "Beginn",
+  "responsiblePerson": "Verantwortlicher",
   "end": "Ende",
   "Done": "Erledigt",
+  "notDone": "Nicht erledigt",
   "In Progress": "Fortschritt",
   "Preparation of the project idea outline with internal coordination": "Erstellung der Projektideen-Skizze",
   "Capture Project Idea": "Erfassung der Projektidee (Themen, Inhalte)",
@@ -496,6 +499,8 @@
   "acceptMyPrefrences": "Meine Präferenzen akzeptieren",
   "bookmark": "Merken",
   "print": "Drucken",
+  "transferOwnership": "Eigentum übertragen",
+  "transferOwnershipMessage": "Bitte wählen Sie einen Benutzer aus, an den das Dokument übertragen werden soll",
   "edit": "Bearbeiten",
   "duplicate": "Duplizieren",
   "archive": "Archivieren",

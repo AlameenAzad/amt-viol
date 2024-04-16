@@ -13,7 +13,7 @@
             EU-Datenschutzgrundverordnung (DSGVO), ist:
           </p>
           <p class="font-16">Amt Viöl</p>
-          <p class="font-16">Der Amtsvorsteher - Thomas Hansen</p>
+          <p class="font-16">Der Amtsvorsteher - Eckhard Abel</p>
           <p class="font-16">Westerende 41</p>
           <p class="font-16">25884 Viöl</p>
           <ul>
