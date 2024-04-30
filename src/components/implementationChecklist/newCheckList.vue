@@ -394,7 +394,7 @@
                 {{ card.cardTitle }}
               </p>
               <!-- responsiblePerson -->
-              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between">
+              <div class="flex items-baseline row q-mt-lg q-col-gutter-x-md justify-between">
                 <div class="col-3">
                   <p class="font-14 no-margin">{{ $t("responsiblePerson") }}</p>
                 </div>
@@ -413,7 +413,7 @@
                   </q-input>
                 </div>
               </div>
-              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between">
+              <div class="flex items-baseline row q-mt-md q-col-gutter-x-md justify-between" style="margin-top: 35px;">
                 <div class="col-3">
                   <p class="font-14 no-margin">{{ $t("start") }}</p>
                 </div>
