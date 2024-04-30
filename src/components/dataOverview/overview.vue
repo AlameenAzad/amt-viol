@@ -1138,7 +1138,7 @@ export default {
     },
     filter() {
       // return object that contains all v-models. This will be passed to the filter method
-      return {
+      const filters = {
         name: this.search,
         type: this.type,
         category: this.category,
@@ -1149,8 +1149,10 @@ export default {
         endDateStart: this.endDateStart,
         endDateEnd: this.endDateEnd,
         createdAtStart: this.createdAtStart,
-        createdAtEnd: this.createdAtEnd,
+        createdAtEnd: this.createdAtEnd
       };
+
+      return filters;
     },
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
@@ -1261,6 +1263,25 @@ export default {
   },
   mounted() {
     this.getData();
+
+    if (localStorage.getItem("filters") !== null) {
+        var savedFilters = JSON.parse(localStorage.getItem("filters"));
+
+        this.search = savedFilters.name;
+        this.type = savedFilters.type;
+        this.category = savedFilters.category;
+        this.tagsKeywords = savedFilters.tagsKeywords;
+        this.projectCoordinator = savedFilters.projectCoordinator;
+        this.publishDateStart = savedFilters.publishDateStart;
+        this.publishDateEnd = savedFilters.publishDateEnd;
+        this.endDateStart = savedFilters.endDateStart;
+        this.endDateEnd = savedFilters.endDateEnd;
+        this.createdAtStart = savedFilters.createdAtStart;
+        this.createdAtEnd = savedFilters.createdAtEnd;
+    }
+  },
+  beforeDestroy() {
+    localStorage.setItem("filters", JSON.stringify(this.filter));
   }
 };
 </script>

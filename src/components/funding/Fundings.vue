@@ -19,9 +19,10 @@
       <template v-slot:selected>
         <template v-if="model && model.length > 0">
           <span v-for="(funding, index) in model" :key="index">
+            <q-chip v-if="funding.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
             {{ index > 0 ? ", " : "" }}
             {{ funding.title }}
-            <q-chip v-if="funding.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+            
           </span>
         </template>
         <template v-else>
@@ -34,8 +35,9 @@
           <q-item v-if="scope.index < 3" v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs text-white justify-between" style="background-color: #0050ff;" :style="{opacity: scope.opt.ctWeight + 0.1}">
             <q-item-section>
               <q-item-label class="">
-                {{ scope.opt.title }}
                 <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;"/>
+                {{ scope.opt.title }}
+               
               </q-item-label>
             </q-item-section>
             <ul class="no-margin">
@@ -58,8 +60,10 @@
           </q-item>
           <q-item v-else v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs">
               <q-item-section>
-                <q-item-label>{{ scope.opt.title }}
+                <q-item-label>
                   <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+                  {{ scope.opt.title }}
+                  
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -67,8 +71,10 @@
       <template v-slot:option="scope" v-else>
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
               <q-item-section>
-                <q-item-label>{{ scope.opt.title }}
+                <q-item-label>
                   <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+                  {{ scope.opt.title }}
+                  
                 </q-item-label>
               </q-item-section>
             </q-item>
