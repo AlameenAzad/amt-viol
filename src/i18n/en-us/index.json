@@ -192,6 +192,7 @@
   "DetailsAdministration": {
     "location": "Location",
     "users": "Users",
+    "guests": "Guests",
     "data": "Data",
     "title": "Title",
     "type": "Type",
@@ -340,6 +341,7 @@
   },
   "Search": "Search",
   "noUsers": "No users",
+  "noGuests": "No Guests",
   "addEditors": "Add Editors",
   "Implementation checklist": "Implementation Checklist",
   "NoCategories": "No Categories",
