@@ -21,7 +21,7 @@
                   outlined
                   dense
                   :value="user.username"
-                  :rules="[val => !!val || $t('Required')]"
+                  :rules="[(val) => !!val || $t('Required')]"
                   :options="userOptions"
                   options-selected-class="text-primary text-weight-600"
                   class="no-shadow input-radius-6"
@@ -55,7 +55,7 @@
                               !!scope.opt.user_detail &&
                               !!scope.opt.user_detail.municipality &&
                               scope.opt.user_detail.municipality.title) ||
-                              ""
+                            ""
                           }}</span>
                           <span>
                             -
@@ -109,12 +109,12 @@ export default {
   props: {
     editing: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
-      users: this.editing
+      users: this.editing,
     };
   },
   methods: {
@@ -138,7 +138,7 @@ export default {
       this.$emit(
         "update:user",
         this.users.length > 0
-          ? this.users.map(user => {
+          ? this.users.map((user) => {
               return { id: user.id };
             })
           : []
@@ -147,16 +147,16 @@ export default {
     addUser() {
       this.users.push({
         username: "",
-        id: null
+        id: null,
       });
     },
     setUsers() {
       const editors = this.$store.state.project.project.editors;
-      editors.map(user => {
+      editors.map((user) => {
         return {
           username: user.username,
-          id: user.id
-        }
+          id: user.id,
+        };
       });
 
       this.users = JSON.parse(JSON.stringify(editors));
@@ -166,23 +166,20 @@ export default {
       this.$emit(
         "update:user",
         this.users.length > 0
-          ? this.users.map(user => {
+          ? this.users.map((user) => {
               return { id: user.id };
             })
           : []
       );
-    }
+    },
   },
   computed: {
     userOptions() {
       return (
-        !!this.$store.state.userCenter &&
-        this.$store.state.userCenter.users
-          .map(user => user)
-          .sort((a, b) => a.username.localeCompare(b.username))
+        !!this.$store.state.userCenter && this.$store.state.userCenter.users
       );
-    }
-  }
+    },
+  },
   // mounted() {
   //   if (this.editing) {
   //     this.users = JSON.parse(
