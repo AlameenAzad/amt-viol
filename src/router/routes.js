@@ -196,6 +196,48 @@ const routes = [
         },
         icon: "/icons/Archive.svg",
         component: () => import("pages/dashboard/Stats.vue")
+      },
+      {
+        path: "/discuss",
+        name: "discuss",
+        meta: {
+          title: "DiscussPost",
+          titleDE: "diskutieren",
+          showInNavigation: true,
+          requireAuth: true,
+          requireAdmin: false,
+          isGuest: true
+        },
+        icon: "/icons/Discuss.svg",
+        component: () => import("pages/dashboard/Discuss.vue")
+      },
+      {
+        path: "/discuss/view/:id",
+        name: "discussPost",
+        meta: {
+          title: "Discuss",
+          titleDE: "diskutieren",
+          showInNavigation: false,
+          requireAuth: true,
+          requireAdmin: false,
+          isGuest: true
+        },
+        icon: "/icons/Discuss.svg",
+        component: () => import("pages/dashboard/DiscussView.vue")
+      },
+      {
+        path: "/discuss/create",
+        name: "createDiscuss",
+        meta: {
+          title: "Create Discuss",
+          titleDE: "diskutieren",
+          showInNavigation: false,
+          requireAuth: true,
+          requireAdmin: false,
+          isGuest: true
+        },
+        icon: "/icons/Discuss.svg",
+        component: () => import("pages/dashboard/NewDiscuss.vue")
       }
     ]
   },
