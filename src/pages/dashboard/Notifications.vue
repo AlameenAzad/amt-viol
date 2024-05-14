@@ -101,8 +101,9 @@
               class="radius-6 text-weight-600"
               :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
               no-caps
+              dense
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("notificationsUser.viewBtn") }}
               </p>
             </q-btn>
@@ -115,9 +116,10 @@
               outline
               class="radius-6 text-weight-600 q-ml-md"
               :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
+              dense
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("notificationsUser.viewFundingBtn") }}
               </p>
             </q-btn>
@@ -128,9 +130,10 @@
               unelevated
               class="radius-6 q-ml-md text-weight-600"
               :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
+              dense
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("notificationsUser.acceptBtn") }}
               </p>
             </q-btn>
@@ -141,10 +144,30 @@
               unelevated
               class="radius-6 q-ml-md text-weight-600"
               :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
+              dense
               no-caps
             >
-              <p class="q-mb-none q-mx-xl q-my-sm">
+              <p class="q-mb-none q-mx-md q-my-sm">
                 {{ $t("notificationsUser.declineBtn") }}
+              </p>
+            </q-btn>
+            <q-btn
+              @click="markAsRead(noti, index)"
+              color=""
+              unelevated
+              class="radius-6 q-ml-md text-weight-600 text-blue"
+              :class="$q.screen.lt.md ? 'full-width q-mb-md' : ''"
+              dense
+              no-caps
+            >
+              <p class="q-mb-none q-mx-md q-my-sm">
+                <q-icon
+                name="check"
+                size="xs"
+                >
+                  
+                </q-icon>
+                {{ $t("notificationsUser.markAsRead") }}
               </p>
             </q-btn>
           </div>
@@ -271,6 +294,12 @@ export default {
       // byDate = byDate.reverse();
       this.data = byDate;
     },
+    getData() {
+      this.$api.get("/api/user/notification").then(response => {
+      this.data = response.data;
+      this.prepData();
+      });
+    },
     getIcon(type) {
       if (type == "fundingExpirey") return "calendar_month";
       else if (type == "fundingComments") return "description";
@@ -352,16 +381,55 @@ export default {
       }
       this.updateNotifications(noti, index);
     },
+    async markAsRead(noti) {
+      const notificationType = noti.typeOfNoti;
+      switch (notificationType) {
+        case "fundingExpirey":
+          await this.$api.post("/api/read-notifications", {
+            data : {
+              user: this.loggedInUser.id,
+              funding_expirey: noti.id
+            }
+          });
+          break;
+        case "fundingComments":
+         await this.$api.post("/api/read-notifications", {
+            data : {
+              user: this.loggedInUser.id,
+              funding_comment: noti.id
+            }
+          });
+          this.getData();
+          break;
+        case "guest":
+          await this.$api.post("/api/read-notifications", {
+            data: {
+              user: this.loggedInUser.id,
+              guest_request: noti.id
+            }
+          });
+          this.getData();
+          break;
+        case "requests":
+          await this.$api.post("/api/read-notifications", {
+            data: {
+              user: this.loggedInUser.id,
+              request: noti.id
+            }
+          });
+          this.getData();
+          break;
+        default:
+          break;
+      }
+    },
     updateNotifications(noti, index) {
       this.data[noti.createdAt.split("T")[0]].splice(index, 1);
     }
   },
   mounted() {
-    this.$api.get("/api/user/notification").then(response => {
-      this.data = response.data;
-      this.prepData();
-    });
-  }
+    this.getData();
+  },
 };
 </script>
 

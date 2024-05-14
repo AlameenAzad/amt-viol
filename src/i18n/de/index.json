@@ -23,7 +23,8 @@
     "viewBtn": "Ansehen",
     "acceptBtn": "Annehmen",
     "declineBtn": "Ablehnen",
-    "viewFundingBtn": "Förderung ansehen"
+    "viewFundingBtn": "Förderung ansehen",
+    "markAsRead": "Als gelesen markieren"
   },
   "personalData": {
     "personalData": "Persönliche Daten",
@@ -232,7 +233,7 @@
     "owners": "Besitzer*in",
     "view": "Ansehen",
     "edit": "Bearbeiten",
-    "publish": "Veröffentlichen",
+    "publish": "Speichern",
     "delete": "Löschen"
   },
   "newProjectIdeaForm": {
@@ -258,7 +259,7 @@
     "uploads": "Uploads",
     "saveDraft": "Entwurf speichern",
     "editDraft": "Entwurf bearbeiten",
-    "publish": "Veröffentlichen"
+    "publish": "Speichern"
   },
   "userSelector": {
     "title": "Benutzer*in auswählen"
@@ -317,7 +318,7 @@
     "saveAsDraft": "Entwurf speichern"
   },
   "publishButton": {
-    "publish": "Veröffentlichen",
+    "publish": "Speichern",
     "edit": "Bearbeiten"
   },
   "projectStatusesOptions": {

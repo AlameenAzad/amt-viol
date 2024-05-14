@@ -35,7 +35,11 @@ export default function(/* { ssrContext } */) {
       implementationChecklist
     },
     plugins: [
-      createPersistedState()
+      createPersistedState({
+        key: "amt-viot",
+        // TODO change this to session storage
+        storage: window.sessionStorage
+      })
     ],
     // enable strict mode (adds overhead!)
     // for dev mode only
