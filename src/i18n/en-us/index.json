@@ -23,7 +23,8 @@
     "viewBtn": "View",
     "acceptBtn": "Accept",
     "declineBtn": "Decline",
-    "viewFundingBtn": "View Funding"
+    "viewFundingBtn": "View Funding",
+    "markAsRead": "Mark as read"
   },
   "personalData": {
     "personalData": "Personal Data",
