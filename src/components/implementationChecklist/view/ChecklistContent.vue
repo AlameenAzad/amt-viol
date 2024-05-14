@@ -278,7 +278,7 @@
         :preview-modal="true"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
-        :manual-pagination="true"
+        :manual-pagination="false"
         pdf-format="a4"
         pdf-orientation="portrait"
         pdf-content-width="800px"
@@ -290,9 +290,9 @@
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
-          @hasStartedGeneration="hasStartedGeneration()"
-          @hasGenerated="hasGenerated($event)"
-          ref="html2Pdf"
+        @hasStartedGeneration="hasStartedGeneration()"
+        @hasGenerated="hasGenerated($event)"
+        ref="html2Pdf"
         >
           <section slot="pdf-content" :style="{margin: '10px'}">
             <div class="row">
@@ -611,6 +611,20 @@
                           </div>
                         </div>
                       </q-card-section>
+                      <q-separator inset class="bg-blue opacity-10" />
+                      <q-card-section v-if="checklist.project && checklist.project.id">
+                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          {{ $t("project Idea") }}
+                        </h4>
+                        <InlineProjectView expandAll :projectID="checklist.project.id" />
+                      </q-card-section>
+                      <q-separator inset class="bg-blue opacity-10" />
+                      <q-card-section v-if="checklist.funding && checklist.funding.id">
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("Funding") }}
+                      </h4>
+                      <InlineFundingView expandAll :fundingId="checklist.funding.id" />
+                    </q-card-section>
                     </q-card>
                   </div>
                   
@@ -678,12 +692,12 @@
                                 </p>
                               </div>
                                <!-- responsiblePerson -->
-                               <div class="col-12">
+                               <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -695,7 +709,7 @@
                                       checklist.initialContact.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -836,6 +850,7 @@
                                     :key="task.sortPosition"
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
+                                    default-opened
                                     v-show="task.active === true"
                                   >
                                     <template v-slot:header>
@@ -962,12 +977,12 @@
                                 </p>
                               </div>
                               <!-- responsiblePerson -->
-                              <div class="col-12">
+                              <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -979,7 +994,7 @@
                                       checklist.preparation.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -1126,6 +1141,7 @@
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
                                     v-show="task.active === true"
+                                    default-opened
                                   >
                                     <template v-slot:header>
                                       <q-item-section>
@@ -1249,12 +1265,12 @@
                                 </p>
                               </div>
                               <!-- responsiblePerson -->
-                              <div class="col-12">
+                              <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mb-sm'
@@ -1266,7 +1282,7 @@
                                       checklist.fundingResearch.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -1447,6 +1463,7 @@
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
                                     v-show="task.active === true"
+                                    default-opened
                                   >
                                     <template v-slot:header>
                                       <q-item-section>
@@ -1574,12 +1591,12 @@
                                 </p>
                               </div>
                                <!-- responsiblePerson -->
-                               <div class="col-12">
+                               <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -1591,7 +1608,7 @@
                                       checklist.preparationOfProject.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -1765,6 +1782,7 @@
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
                                     v-show="task.active === true"
+                                    default-opened
                                   >
                                     <template v-slot:header>
                                       <q-item-section>
@@ -1880,12 +1898,12 @@
                                 </p>
                               </div>
                               <!-- responsiblePerson -->
-                              <div class="col-12">
+                              <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -1897,7 +1915,7 @@
                                       checklist.legitimation.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -2000,6 +2018,7 @@
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
                                     v-show="task.active === true"
+                                    default-opened
                                   >
                                     <template v-slot:header>
                                       <q-item-section>
@@ -2119,12 +2138,12 @@
                                 </p>
                               </div>
                               <!-- responsiblePerson -->
-                              <div class="col-12">
+                              <!-- <div class="col-12">
                                 <p class="q-mt-sm q-mb-none font-16">
                                   {{ $t("responsiblePerson") }}
                                 </p>
-                              </div>
-                              <div class="col-12">
+                              </div> -->
+                              <!-- <div class="col-12">
                                 <p
                                   :class="
                                     $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -2136,7 +2155,7 @@
                                       checklist.finalExamination.responsiblePerson
                                   }}
                                 </p>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col-12 col-md-8">
@@ -2260,6 +2279,7 @@
                                     style="background:#FDD50033"
                                     class="q-mb-sm"
                                     v-show="task.active === true"
+                                    default-opened
                                   >
                                     <template v-slot:header>
                                       <q-item-section>
@@ -2642,6 +2662,13 @@
                       </h4>
                       <InlineProjectView :projectID="checklist.project.id" />
                     </q-card-section>
+                    <q-separator inset class="bg-blue opacity-10" />
+                    <q-card-section v-if="checklist.funding && checklist.funding.id">
+                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        {{ $t("Funding") }}
+                      </h4>
+                      <InlineFundingView :fundingId="checklist.funding.id" />
+                    </q-card-section>
                   </q-card>
                 </div>
                 <div
@@ -2707,12 +2734,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12 col-lg-4">
+                            <!-- <div class="col-12 col-lg-4">
                               <p class="q-mb-sm q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12 col-lg-8">
+                            </div> -->
+                            <!-- <div class="col-12 col-lg-8">
                               <p
                                 :class="
                                   $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
@@ -2724,7 +2751,7 @@
                                     checklist.initialContact.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -3024,12 +3051,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12 col-lg-4">
+                            <!-- <div class="col-12 col-lg-4">
                               <p class="q-mb-sm q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12 col-lg-8">
+                            </div> -->
+                            <!-- <div class="col-12 col-lg-8">
                               <p
                                 :class="
                                   $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
@@ -3041,7 +3068,7 @@
                                     checklist.preparation.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -3362,12 +3389,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12 col-lg-4">
+                            <!-- <div class="col-12 col-lg-4">
                               <p class="q-mb-sm q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12 col-lg-8">
+                            </div> -->
+                            <!-- <div class="col-12 col-lg-8">
                               <p
                                 :class="
                                   $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
@@ -3379,7 +3406,7 @@
                                     checklist.fundingResearch.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -3755,12 +3782,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12 col-lg-4">
+                            <!-- <div class="col-12 col-lg-4">
                               <p class="q-mb-sm q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12 col-lg-8">
+                            </div> -->
+                            <!-- <div class="col-12 col-lg-8">
                               <p
                                 :class="
                                   $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
@@ -3772,7 +3799,7 @@
                                     checklist.preparationOfProject.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -4129,12 +4156,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                               <p class="q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12">
+                            </div> -->
+                            <!-- <div class="col-12">
                               <p
                                 :class="
                                   $q.screen.gt.sm ? 'q-mb-none' : 'q-mt-sm'
@@ -4146,7 +4173,7 @@
                                     checklist.legitimation.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -4385,12 +4412,12 @@
                               </p>
                             </div>
                             <!-- responsiblePerson -->
-                            <div class="col-12 col-lg-4">
+                            <!-- <div class="col-12 col-lg-4">
                               <p class="q-mb-sm q-mt-sm q-mb-none font-16">
                                 {{ $t("responsiblePerson") }}
                               </p>
-                            </div>
-                            <div class="col-12 col-lg-8">
+                            </div> -->
+                            <!-- <div class="col-12 col-lg-8">
                               <p
                                 :class="
                                   $q.screen.gt.lg ? 'q-mb-none' : 'q-mt-sm'
@@ -4402,7 +4429,7 @@
                                     checklist.finalExamination.responsiblePerson
                                 }}
                               </p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                         <div class="col-12 col-md-8">
@@ -4661,6 +4688,7 @@ import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
 import InlineProjectView from "components/projects/view/InlineProjectView.vue";
+import InlineFundingView from "components/funding/view/InlineFundingView.vue";
 import DocumentTransferDialog from "components/DocumentTransferDialog.vue";
 import VueHtml2pdf from "vue-html2pdf";
 
@@ -4692,6 +4720,7 @@ export default {
     ArchiveDialog,
     RequestAccessDialog,
     DocumentTransferDialog,
+    InlineFundingView,
     VueHtml2pdf
   },
   watch: {
