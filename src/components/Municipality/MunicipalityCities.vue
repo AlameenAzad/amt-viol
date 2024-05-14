@@ -1,11 +1,24 @@
 <template>
   <div>
-    <q-select clearable outlined dense v-model="model" :options="options" use-input
-          hide-selected
-          fill-input
-          input-debounce="0" @filter="filterFn" behavior="menu" @focus="municipalityChanged"
-          :label="$t('personalData.location')" :rules="isRequired ? [val => !!val || $t('Required')] : []"
-      options-selected-class="text-primary text-weight-600" class="no-shadow input-radius-6" @input="onSelect">
+    <q-select
+      clearable
+      outlined
+      dense
+      v-model="model"
+      :options="options"
+      use-input
+      hide-selected
+      fill-input
+      input-debounce="0"
+      @filter="filterFn"
+      behavior="menu"
+      @focus="municipalityChanged"
+      :label="$t('personalData.location')"
+      :rules="isRequired ? [(val) => !!val || $t('Required')] : []"
+      options-selected-class="text-primary text-weight-600"
+      class="no-shadow input-radius-6"
+      @input="onSelect"
+    >
       <template v-slot:selected>
         <template v-if="model">
           <span>
@@ -14,17 +27,17 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            {{ $t('personalData.location') }}
+            {{ $t("personalData.location") }}
           </span>
         </template>
       </template>
-          <template v-slot:option="scope">
-          <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-            <q-item-section>
-              <q-item-label>{{ scope.opt }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </template>
+      <template v-slot:option="scope">
+        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section>
+            <q-item-label>{{ scope.opt }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
     </q-select>
   </div>
 </template>
@@ -37,21 +50,22 @@ export default {
     currentMunicipality: null,
     isRequired: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       model: this.currentMunicipality,
       municipalities: municipalities,
       options: [],
-      selectedMunicipality: null
+      selectedMunicipality: null,
     };
   },
   methods: {
     municipalityChanged() {
       if (this.$store.state.municipality.tempMunicipality !== null) {
-        this.selectedMunicipality = this.$store.state.municipality.tempMunicipality.title;
+        this.selectedMunicipality =
+          this.$store.state.municipality.tempMunicipality.title;
         for (const key in this.municipalities) {
           if (key.includes(this.selectedMunicipality)) {
             this.options = this.municipalities[key];
@@ -68,34 +82,39 @@ export default {
       this.$emit("update:city", city);
     },
     filterFn(input, update) {
-      if (input === '' && this.selectedMunicipality !== null) {
+      if (input === "" && this.selectedMunicipality !== null) {
         update(() => {
           this.options = this.municipalities[this.selectedMunicipality];
-        })
+        });
         return;
-      } else if (input === '' && this.selectedMunicipality === null) {
+      } else if (input === "" && this.selectedMunicipality === null) {
         update(() => {
           this.options = this.municipalities["All"];
-        })
+        });
         return;
       }
       update(() => {
         const search = input.toLowerCase();
-        this.options = this.options.filter(v => v.toLowerCase().indexOf(search) > -1)
-      })
+        this.options = this.options.filter(
+          (v) => v.toLowerCase().indexOf(search) > -1
+        );
+      });
     },
   },
   computed: {
-   userDetails() {
+    userDetails() {
       return (
         this.$store.state.userCenter.user &&
         this.$store.state.userCenter.user.userDetails
       );
     },
+    isAdmin() {
+      return this.$store.getters["userCenter/isAdmin"];
+    },
   },
   mounted() {
     if (this.selectedMunicipality === null) {
-      if (this.userDetails && this.userDetails.municipality) {
+      if (this.userDetails && this.userDetails.municipality && !this.isAdmin) {
         this.selectedMunicipality = this.userDetails.municipality.title;
         if (this.$route.query.tab === "personalData") {
           this.model = this.userDetails.location;
@@ -106,7 +125,7 @@ export default {
       }
     }
     this.options = this.municipalities[this.selectedMunicipality];
-  }
+  },
 };
 </script>
 
