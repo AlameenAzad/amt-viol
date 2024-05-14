@@ -195,6 +195,7 @@
   "DetailsAdministration": {
     "location": "Ort",
     "users": "Benutzer*innen:",
+    "guests": "Gäste:",
     "data": "Daten",
     "title": "Titel",
     "type": "Typ",
@@ -383,6 +384,7 @@
   "select": "Auswählen",
   "confirm": "Bestätigen",
   "noUsers": "Keine Benutzer*innen",
+  "noGuests": "Keine Gäste",
   "adminstrationLocation": "Verwaltungsstandort",
   "editAdministration": "Verwaltung bearbeiten",
   "deleteAdministration": "Verwaltung löschen",
