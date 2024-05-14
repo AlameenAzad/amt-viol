@@ -29,6 +29,7 @@
             header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
             dense
             ref="expandableItem1"
+            :default-opened="expandAll"
             expand-icon-toggle
             class="q-mb-md"
           >
@@ -41,6 +42,7 @@
           <q-expansion-item
               switch-toggle-side
               expand-separator
+              :default-opened="expandAll"
               :label="$t('What is funded?')"
               header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
               dense
@@ -58,6 +60,7 @@
           <q-expansion-item
           switch-toggle-side
           expand-separator
+          :default-opened="expandAll"
           :label="$t('What is not funded?')"
           header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
           dense
@@ -74,6 +77,7 @@
           <q-expansion-item
             switch-toggle-side
             expand-separator
+            :default-opened="expandAll"
             :label="$t('Who will be funded?')"
             header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
             dense
@@ -91,6 +95,7 @@
           <q-expansion-item
             switch-toggle-side
             expand-separator
+            :default-opened="expandAll"
             :label="$t('Conditions for Applicants')"
             header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
             dense
@@ -107,6 +112,7 @@
           <q-expansion-item
               switch-toggle-side
               expand-separator
+              :default-opened="expandAll"
               :label="$t('Funding rates')"
               header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
               dense
@@ -146,6 +152,7 @@
           </q-expansion-item>
           <q-expansion-item
           switch-toggle-side
+          :default-opened="expandAll"
           expand-separator
           :label="$t('Basis for assessment')"
           header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
@@ -180,6 +187,10 @@
           type: Number,
           default: 0
         },
+        expandAll: {
+          type: Boolean,
+          default: false
+        }
       },
       data() {
         return {
@@ -213,9 +224,9 @@
           }
       }
     },
-      mounted() {
-        this.getFunding();
-      }
+    mounted() {
+      this.getFunding();
+    }
     }
   </script>
   

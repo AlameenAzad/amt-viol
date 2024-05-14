@@ -261,6 +261,26 @@ export async function deleteGuestRequest(context, payload) {
     }
   }
 }
+
+//Mark notification as read
+export async function markNotificationAsRead(context, payload) {
+  console.log('!!!', payload);
+  if (!!payload) {
+    try {
+      const res = await api.post(`/api/read-notifications`, payload);
+      console.log("res :>> ", res);
+      context.dispatch("getUserDetails");
+    }
+    catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}
+
 export async function getDataOverview(context) {
   try {
     const res = await api.get("/api/user/overview");

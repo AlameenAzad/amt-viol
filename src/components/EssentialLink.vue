@@ -17,7 +17,7 @@
         @click="prevent(link)"
       >
         <q-item-section avatar>
-          <img class="icon-blue" :src="link.icon" />
+          <img class="icon-blue" alt="" :src="link.icon" />
         </q-item-section>
         <q-item-section style="color: #000055">
           {{ $i18n.locale === "en-us" ? link.meta.title : link.meta.titleDE }}
