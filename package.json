@@ -28,7 +28,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@quasar/app": "^2.4.3",
+    "@quasar/app": "^3.3.3",
     "dotenv": "^10.0.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^9.1.0",
@@ -39,7 +39,7 @@
     "eslint-plugin-vue": "^9.0.0",
     "eslint-webpack-plugin": "^2.0.0",
     "vue-i18n-extract": "1.2.0",
-    "workbox-webpack-plugin": "^5.0.0"
+    "workbox-webpack-plugin": "^7.1.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
