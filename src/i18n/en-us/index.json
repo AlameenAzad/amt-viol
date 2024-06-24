@@ -46,7 +46,9 @@
     "selectUser": "Select User ",
     "saveChanges": "Save Changes",
     "resetPassword": "Reset Password",
-    "request": "Request"
+    "request": "Request",
+    "selectUserGroup": "Select User Group",
+    "changeOwner": "Change Owner"
   },
   "myData": {
     "projectIdeas": "Project Ideas",
@@ -188,7 +190,9 @@
     "projectCoordinator": "Project Coordinators",
     "view": "View",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "createState": "Create State",
+    "stateName": "State Name"
   },
   "DetailsAdministration": {
     "location": "Location",
@@ -340,9 +344,12 @@
     "sendInvitation": "Send Invitation",
     "cancel": "Cancel"
   },
+  "Sent": "Sent",
+  "NotSent": "Not Sent",
   "Search": "Search",
   "noUsers": "No users",
   "noGuests": "No Guests",
+  "editState": "Edit State",
   "addEditors": "Add Editors",
   "Implementation checklist": "Implementation Checklist",
   "NoCategories": "No Categories",
@@ -460,9 +467,22 @@
   "print": "Print",
   "transferOwnership": "Transfer Ownership",
   "transferOwnershipMessage": "Please select a user to transfer the document to",
+  "sendEmail": "Send an email to selected user group",
+  "viewEmail": "Details of email sent to user group",
+  "userGroups": {
+    "Users": "Users",
+    "Guest Users": "Guest Users",
+    "Administrators": "Administrators",
+    "Municipality Leaders": "Municipality Leaders"
+  },
+  "Recipient": "Recipient",
+  "Status": "Status",
+  "Subject": "Subject",
   "edit": "Edit",
   "duplicate": "Duplicate",
   "archive": "Archive",
+  "deleteState": "Delete State",
+  "deleteStateMessage": "Are you sure you want to delete this state? This action cannot be undone.",
   "delete": "Delete",
   "Change Cookie settings": "Change Cookie settings",
   "No data": "No data available",

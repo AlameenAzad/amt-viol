@@ -26,6 +26,7 @@
           v-model="query"
           placeholder="Suche"
           dense
+          role="searcbox"
         >
           <template v-slot:prepend>
             <q-icon name="search" />

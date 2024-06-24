@@ -72,3 +72,7 @@ export function changeLoadingMessages(state, payload) {
 export function changeShowCookieBox(state, payload) {
   state.showCookieBox = payload;
 }
+
+export function setUserGroups(state, payload) {
+  state.userGroups = payload;
+}

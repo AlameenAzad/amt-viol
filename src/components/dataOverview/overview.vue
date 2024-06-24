@@ -38,6 +38,7 @@
                   v-model="search"
                   :placeholder="$t('Search')"
                   dense
+                  role="searcbox"
                 >
                   <template v-slot:prepend>
                     <q-icon name="search" />
@@ -360,7 +361,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 text-black"
           >
             {{ col.label }}
           </q-th>
@@ -384,7 +385,7 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable @click="view(props.row)">
@@ -600,7 +601,7 @@ export default {
       let filteredRows = rows;
       if (!!search) {
         filteredRows = filteredRows.filter(row => {
-          return row.title.toLowerCase().includes(search);
+          return row.title.toLowerCase().includes(search) || row.tags.find(tag => tag.title.toLowerCase().includes(search));
         });
       }
       if (!!type && type.length > 0) {
