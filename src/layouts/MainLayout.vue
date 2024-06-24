@@ -28,6 +28,7 @@
             flat
             size="md"
             :to="{ name: 'landing' }"
+            aria-label="Home"
           />
         </q-toolbar-title>
         <q-btn
@@ -46,7 +47,7 @@
             class="mr-0 radius-6"
             no-caps
           >
-            <p class="q-mb-none text-blue q-mx-lg q-my-xs">Sign Up</p>
+            <p class="q-mb-none text-blue q-my-xs">Registrierung Gastzugang</p>
           </q-btn>
       </q-toolbar>
     </q-header>
@@ -77,7 +78,7 @@
               class="mr-0 radius-6"
               no-caps
             >
-              <p class="q-mb-none  q-mx-lg q-my-xs">Sign Up</p>
+              <p class="q-mb-none q-my-xs">Registrierung Gastzugang</p>
             </q-btn>
           </div>
         </div>

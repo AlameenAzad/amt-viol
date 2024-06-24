@@ -21,6 +21,7 @@
           v-model="filter"
           :placeholder="$t('Search')"
           dense
+          role="searcbox"
         >
           <template v-slot:prepend>
             <q-icon name="search" />
@@ -66,6 +67,7 @@
                     size="md"
                     dense
                     icon="more_vert"
+                    aria-label="Optionen"
                   >
                     <q-menu
                       transition-show="jump-down"

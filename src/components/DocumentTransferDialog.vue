@@ -9,7 +9,7 @@
             v-model="selected"
             behavior="default"
             :options="usersOptions"
-            :label="$t('generalData.selectUser')"
+            :label="$t('generalData.changeOwner')"
             outlined
             :rules="[val => !!val || $t('Required')]"
             dense

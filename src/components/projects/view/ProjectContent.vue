@@ -115,11 +115,11 @@
                     :class="
                       $q.screen.gt.sm
                         ? 'q-col-gutter-x-md'
-                        : 'q-col-gutter-x-xs q-mt-md'
+                        : 'q-col-gutter-x-md q-mt-md'
                     "
-                    class="row justify-between"
+                    class="row"
                   >
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-sm">
                       <q-btn
                         v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
                         @click="transferDocument()"
@@ -138,7 +138,7 @@
                         </q-tooltip></q-btn
                       >
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-md">
                       <q-btn
                         @click="exportToPdf()"
                         color="blue"
@@ -157,7 +157,7 @@
                         </q-tooltip></q-btn
                       >
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-md">
                       <q-btn
                         @click="addToWatchlist()"
                         color="blue"
@@ -183,7 +183,7 @@
                           (!!project && !!project.owner && project.owner.id) ===
                             (!!loggedInUser && loggedInUser.id)
                       "
-                      class="col-auto"
+                      class="col-auto q-mb-md"
                     >
                       <q-btn
                         @click="createChecklist()"
@@ -205,7 +205,7 @@
                         </q-tooltip></q-btn
                       >
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-md">
                       <q-btn
                         @click="editProject()"
                         color="blue"
@@ -224,7 +224,7 @@
                         </q-tooltip></q-btn
                       >
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-md">
                       <q-btn
                         @click="duplicateProject()"
                         color="blue"
@@ -248,7 +248,7 @@
                           (!!project && !!project.owner && project.owner.id) ===
                             (!!loggedInUser && loggedInUser.id)
                       "
-                      class="col-auto"
+                      class="col-auto q-mb-md"
                     >
                       <q-btn
                         @click="archiveProject()"
@@ -268,7 +268,7 @@
                         </q-tooltip></q-btn
                       >
                     </div>
-                    <div v-if="isAdmin" class="col-auto">
+                    <div v-if="isAdmin" class="col-auto q-mb-md">
                       <q-btn
                         @click="deleteProject()"
                         color="red"
@@ -1363,24 +1363,23 @@
                         v-for="(file, index) in project.files"
                         :key="index"
                       >
-                      <div v-if="file.ext === '.pdf' || file.ext === '.docx'">
+                      <div>
                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                           <q-card>
                             <q-card-section style="max-height: 70vh;" class="scroll">
-                              <iframe
+                              <embed
                                 className="doc"
-                                :src="`https://docs.google.com/gview?url=${appUrl}${previewDocumentData}&embedded=true`"
+                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
                                 style="width: 100%; height: 70vh; border-style: none;"
+                                type="application/pdf"
                               />
-                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                              <div style="width: 100%; height: 70vh; opacity: 0;">&nbsp;</div>
                             </q-card-section>
 
                           </q-card>
                         </q-dialog>
                       </div>
-
-                        <a v-else class="q-mb-sm text-blue block text-weight-600" target="_blank" rel="noopener noreferrer" :href="`${appUrl}${file.url}`" >{{ file.name }}</a>
                       </div>
                     </div>
                     <div v-else>
@@ -1744,7 +1743,13 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-      this.previewDocumentData = file.url;
+      
+      const test = await this.$api.get(`api/file/${file.id}`, {
+        responseType: 'blob'
+      });
+      
+      const testFile = new Blob([test.data], { type: 'application/pdf' });
+      this.previewDocumentData = URL.createObjectURL(testFile);
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
@@ -1884,5 +1889,8 @@ export default {
 }
 .text-block {
   white-space: pre-line;
+}
+.mobile-row {
+  max-width: 300px;
 }
 </style>
