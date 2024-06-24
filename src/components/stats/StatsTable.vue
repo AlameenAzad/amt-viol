@@ -38,6 +38,7 @@
                   v-model="search"
                   :placeholder="$t('Search')"
                   dense
+                  role="searcbox"
                 >
                   <template v-slot:prepend>
                     <q-icon name="search" />
@@ -384,7 +385,7 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item v-close-popup clickable @click="view(props.row)">

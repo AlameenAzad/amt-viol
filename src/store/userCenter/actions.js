@@ -264,7 +264,6 @@ export async function deleteGuestRequest(context, payload) {
 
 //Mark notification as read
 export async function markNotificationAsRead(context, payload) {
-  console.log('!!!', payload);
   if (!!payload) {
     try {
       const res = await api.post(`/api/read-notifications`, payload);

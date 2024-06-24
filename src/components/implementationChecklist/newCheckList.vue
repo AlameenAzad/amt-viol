@@ -591,6 +591,7 @@
                                   class="q-pa-none"
                                   icon="help_outline"
                                   color="primary"
+                                  aria-label="help"
                                 >
                                   <q-tooltip
                                     content-class="bg-transparent shadow-2 text-black q-pa-none"
@@ -635,8 +636,9 @@
                             class="customToggle"
                             @input="disableDate(index)"
                             v-model="element.active"
+                            aria-label="toggle"
                           />
-                          <q-tooltip offset="10, 10">
+                          <q-tooltip :offset="[10, 10]">
                             {{ element.active ? $t("Done") : $t("notDone") }}
                           </q-tooltip>
                         </div>
@@ -853,6 +855,7 @@
                                       class="q-pa-none"
                                       icon="help_outline"
                                       color="primary"
+                                      aria-label="help"
                                     >
                                       <q-tooltip
                                         content-class="bg-transparent shadow-2 text-black q-pa-none"
@@ -896,8 +899,9 @@
                                 color="primary"
                                 class="customToggle"
                                 v-model="item.active"
+                                aria-label="toggle"
                               />
-                              <q-tooltip offset="10, 10">
+                              <q-tooltip :offset="[10, 10]">
                                 {{ item.active ? $t("Done") : $t("notDone") }}
                               </q-tooltip>
                             </div>
@@ -957,6 +961,7 @@
                                             class="q-pa-none"
                                             icon="help_outline"
                                             color="primary"
+                                            aria-label="help"
                                           >
                                             <q-tooltip
                                               content-class="bg-transparent shadow-2 text-black q-pa-none"
@@ -1000,8 +1005,9 @@
                                       color="primary"
                                       class="customToggle"
                                       v-model="child.active"
+                                      aria-label="toggle"
                                     />
-                                    <q-tooltip offset="10, 10">
+                                    <q-tooltip :offset="[10, 10]">
                                       {{ child.active ? $t("Done") : $t("notDone") }}
                                     </q-tooltip>
                                   </div>
@@ -1046,6 +1052,7 @@
           icon="keyboard_arrow_left"
           direction="left"
           color="primary"
+          aria-label="Save"
         >
           <q-fab-action
             @click="
@@ -1115,7 +1122,7 @@ export default {
         items: [
           {
             cardName: "initialContact",
-            cardTitle: "Erstgespräch mit dem politischen Ehrenamt",
+            cardTitle: "Bedarfsklärung: Erstgespräch...",
             start: "",
             end: "",
             // responsiblePerson: "",
@@ -1324,7 +1331,7 @@ export default {
           },
           {
             cardName: "preparation",
-            cardTitle: "Erstellung der Projektideen-Skizze",
+            cardTitle: "Projektentwicklung: Erstellung...",
             start: "",
             end: "",
             // responsiblePerson: "",
@@ -1428,7 +1435,7 @@ export default {
               },
               {
                 objectName: "captureRequirements",
-                objectTitle: "Erfassung Anforderungen (Projektumfang)",
+                objectTitle: "Erfassung Bedarfe/ Ziel",
                 name: "",
                 text: "",
                 desc: "Wie können Anforderungen erfasst werden?",
@@ -1635,7 +1642,7 @@ export default {
           },
           {
             cardName: "fundingResearch",
-            cardTitle: "Fördermittelrecherche",
+            cardTitle: "Fördermittelrecherche: Fördermittelcheck",
             start: "",
             end: "",
             // responsiblePerson: "",
@@ -1984,7 +1991,7 @@ export default {
           },
           {
             cardName: "preparationOfProject",
-            cardTitle: "Ausarbeitung/Optimierung Projektunterlagen",
+            cardTitle: "Antragsstellung: Ausarbeitung Antragsunterlagen",
             start: "",
             end: "",
             responsiblePerson: "",
@@ -2267,7 +2274,7 @@ export default {
           },
           {
             cardName: "legitimation",
-            cardTitle: "Legitimierung zur Einreichung",
+            cardTitle: "Antragsstellung: Beschlussfassung",
             start: "",
             end: "",
             responsiblePerson: "",
@@ -2391,7 +2398,7 @@ export default {
           },
           {
             cardName: "finalExamination",
-            cardTitle: "Prüfung der Projektunterlagen final",
+            cardTitle: "Antragsstellung: Finale Antragseinreichun",
             start: "",
             end: "",
             responsiblePerson: "",
@@ -3136,5 +3143,8 @@ export default {
   .q-field__inner .q-field__control:before {
     border-color: $primary;
   }
+}
+.text-grey {
+  color: #5d5a5a !important;
 }
 </style>

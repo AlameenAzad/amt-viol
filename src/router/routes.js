@@ -158,6 +158,32 @@ const routes = [
         component: () => import("pages/dashboard/NetworkUser.vue")
       },
       {
+        path: "/email-center",
+        name: "EmailCenter",
+        meta: {
+          title: "Email Center",
+          titleDE: "E-Mail-Zentrum",
+          showInNavigation: true,
+          requireAuth: true,
+          requireAdmin: true
+        },
+        icon: "/icons/Document.svg",
+        component: () => import("pages/dashboard/EmailCenter.vue")
+      },
+      {
+        path: "/states",
+        name: "States",
+        meta: {
+          title: "States",
+          titleDE: "Staaten",
+          showInNavigation: true,
+          requireAuth: true,
+          requireAdmin: true
+        },
+        icon: "/icons/Government.svg",
+        component: () => import("pages/dashboard/States.vue")
+      },
+      {
         path: "/Administation/Areas",
         name: "AdministationAreas",
         meta: {

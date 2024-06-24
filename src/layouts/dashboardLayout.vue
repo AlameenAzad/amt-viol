@@ -2,8 +2,8 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-white text-black text-white">
       <q-toolbar class="q-my-sm justify-between" :class="$q.screen.gt.sm ? 'q-px-xl' : 'q-px-sm'">
-        <q-btn class="lt-md" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense color="primary" icon="menu" />
-        <div class="col-4 col-md-auto">
+        <q-btn class="lt-md" aria-label="Umschaltmenü" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense color="primary" icon="menu" />
+        <div class="col-3 col-md-auto">
           <q-toolbar-title class="text-weight-600 ppeditorial"
             :class="$router.currentRoute.meta.backLink ? 'cursor-pointer' : ''"
             @click="$router.currentRoute.meta.backLink ? $router.go(-1) : ''">
@@ -17,21 +17,21 @@
           </q-toolbar-title>
         </div>
         <div class="col-auto">
-          <q-btn flat round dark no-caps color="blue" @click="switchLang" class="mr-0 text-weight-bold">{{ $i18n.locale
+          <q-btn flat round dark no-caps color="blue" @click="switchLang" class="mr-0 text-weight-bold" aria-label="Sprache ändern">{{ $i18n.locale
             === "en-us" ? "EN" : "DE" }}
           </q-btn>
-          <q-btn :icon="themeIcon" flat round dark color="blue" @click="toggleDarkMode" class="mr-0">
+          <q-btn :icon="themeIcon" flat round dark color="blue" @click="toggleDarkMode" class="mr-0" aria-label="Dunkelmodus umschalten">
           </q-btn>
-          <q-btn icon="notifications" to="/user/notifications" flat round dark color="blue" class="mr-0">
+          <q-btn icon="notifications" to="/user/notifications" flat round dark color="blue" class="mr-0" aria-label="Benachrichtigungen">
           </q-btn>
           <q-btn v-if="isGuest" icon="person" to="/community/data?tab=projectIdeas" flat round dark color="blue"
-            class="mr-0">
+            class="mr-0" aria-label="Gemeinschaftsdaten">
           </q-btn>
-          <q-btn v-else icon="person" to="/user/data?tab=projectIdeas" flat round dark color="blue" class="mr-0">
+          <q-btn v-else icon="person" to="/user/data?tab=projectIdeas" flat round dark color="blue" class="mr-0" aria-label="Meine Daten">
           </q-btn>
-          <q-btn icon="settings" to="/user/settings?tab=generalData" flat round dark color="blue" class="mr-0">
+          <q-btn icon="settings" to="/user/settings?tab=generalData" flat round dark color="blue" class="mr-0" aria-label="Einstellungen">
           </q-btn>
-          <q-btn icon="question_mark" flat round dark color="blue" class="mr-0" @click="isOpenDialog = !isOpenDialog">
+          <q-btn icon="question_mark" flat round dark color="blue" class="mr-0" @click="isOpenDialog = !isOpenDialog" aria-label="Anleitungsvideos für die Plattform">
             <q-dialog v-model="isOpenDialog" position="right">
               <q-card style="width: 700px; max-width: 80vw; height: 95vh; max-height: 95vh;">
                 <q-card-section class=" scroll">
@@ -83,7 +83,7 @@
               </q-card>
             </q-dialog>
           </q-btn>
-          <q-btn v-if="$q.screen.gt.sm" icon="logout" flat round dark color="red" class="mr-0" @click="logout">
+          <q-btn v-if="$q.screen.gt.sm" icon="logout" flat round dark color="red" class="mr-0" @click="logout" aria-label="Abmeldung">
           </q-btn>
         </div>
 
@@ -108,7 +108,7 @@
         <EssentialLink :miniState="miniState" />
       </q-list>
       <div class="q-mini-drawer-hide absolute" style="top: 90px; right: -17px">
-        <q-btn dense round unelevated color="yellow" text-color="dark" icon="chevron_left" @click="miniState = true" />
+        <q-btn dense round unelevated color="yellow" text-color="dark" icon="chevron_left" @click="miniState = true" aria-label="Umschaltmenü" />
       </div>
       <div class="absolute-bottom">
         <router-link style="text-decoration: none" :to="{ path: '/impressum' }" target="_blank">

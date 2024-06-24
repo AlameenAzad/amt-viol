@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import municipalities from "src/municipalities.json";
+// import municipalities from "src/municipalities.json";
 export default {
   name: "municipalityCities",
   props: {
@@ -56,16 +56,18 @@ export default {
   data() {
     return {
       model: this.currentMunicipality,
-      municipalities: municipalities,
+      municipalities: [],
       options: [],
       selectedMunicipality: null,
     };
   },
   methods: {
+    getGroupedStates() {
+      this.$store.dispatch("municipality/getGroupedStates");
+    },
     municipalityChanged() {
-      if (this.$store.state.municipality.tempMunicipality !== null) {
-        this.selectedMunicipality =
-          this.$store.state.municipality.tempMunicipality.title;
+      if (this.$store.state.municipality.tempMunicipality) {
+        this.selectedMunicipality = this.$store.state.municipality.tempMunicipality.title;
         for (const key in this.municipalities) {
           if (key.includes(this.selectedMunicipality)) {
             this.options = this.municipalities[key];
@@ -73,7 +75,7 @@ export default {
         }
         this.options = this.municipalities[this.selectedMunicipality];
       } else {
-        this.options = this.municipalities["All"];
+        this.options = this.allStates;
       }
     },
     onSelect(value) {
@@ -82,14 +84,14 @@ export default {
       this.$emit("update:city", city);
     },
     filterFn(input, update) {
-      if (input === "" && this.selectedMunicipality !== null) {
+      if (input === "" && this.selectedMunicipality) {
         update(() => {
           this.options = this.municipalities[this.selectedMunicipality];
         });
         return;
-      } else if (input === "" && this.selectedMunicipality === null) {
+      } else if (input === "" && !this.selectedMunicipality) {
         update(() => {
-          this.options = this.municipalities["All"];
+          this.options = this.allStates;
         });
         return;
       }
@@ -111,8 +113,18 @@ export default {
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
     },
+    allStates() {
+      let allStates = [];
+      for (const key in this.municipalities) {
+        allStates = allStates.concat(this.municipalities[key]);
+      }
+      return allStates;
+    },
   },
   mounted() {
+    this.getGroupedStates();
+    this.municipalities = this.$store.state.municipality.groupedStates;
+
     if (this.selectedMunicipality === null) {
       if (this.userDetails && this.userDetails.municipality && !this.isAdmin) {
         this.selectedMunicipality = this.userDetails.municipality.title;
@@ -121,7 +133,7 @@ export default {
         }
       } else {
         //if the user has not selected a municipality yet then set the options to the cities of all municipalities
-        this.options = this.municipalities["All"];
+        this.options = this.allStates;
       }
     }
     this.options = this.municipalities[this.selectedMunicipality];
