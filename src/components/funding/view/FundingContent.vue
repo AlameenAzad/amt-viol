@@ -119,7 +119,7 @@
                     "
                     class="row justify-between"
                   >
-                    <div class="col-auto">
+                    <div class="col-auto q-mb-md">
                       <q-btn
                         @click="exportToPdf()"
                         color="blue"
@@ -1879,14 +1879,22 @@
                               :key="index"
                               class="row"
                             >
-                              <div class="col-auto">
-                                <a
-                                  class="q-mb-sm text-blue block text-weight-600"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  :href="`${appUrl}${file.url}`"
-                                  >{{ file.name }}</a
-                                >
+                              <div>
+                                <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
+                                <q-dialog v-model="openDocumentPreviewModal" full-width>
+                                  <q-card>
+                                    <q-card-section style="max-height: 70vh;" class="scroll">
+                                      <embed
+                                        className="doc"
+                                        :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
+                                        style="width: 100%; height: 70vh; border-style: none;"
+                                        type="application/pdf"
+                                      />
+                                      <div style="width: 100%; height: 70vh; opacity: 0;">&nbsp;</div>
+                                    </q-card-section>
+
+                                  </q-card>
+                                </q-dialog>
                               </div>
                             </div>
                           </div>
@@ -2023,7 +2031,9 @@ export default {
       archiveIsLoading: false,
       watchlistIsLoading: false,
       commentIsLoading: false,
-      commentDialog: false
+      commentDialog: false,
+      openDocumentPreviewModal: false,
+      previewDocumentData: null
     };
   },
   components: {
@@ -2063,6 +2073,16 @@ export default {
         id: Number(this.$route.params.id)
       });
       this.$q.loading.hide();
+    },
+    async handleOpenDocumentPreviewModal (file) {
+      this.openDocumentPreviewModal = true;
+      
+      const test = await this.$api.get(`api/file/${file.id}`, {
+        responseType: 'blob'
+      });
+      
+      const testFile = new Blob([test.data], { type: 'application/pdf' });
+      this.previewDocumentData = URL.createObjectURL(testFile);
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {

@@ -68,7 +68,7 @@
                 unelevated
                 :loading="isLoading"
               >
-                Sign up<template v-slot:loading>
+                Registrierung Gastzugang<template v-slot:loading>
                   <q-circular-progress
                     indeterminate
                     class="on-right"

@@ -22,7 +22,7 @@
             </div>
             <div class="col-12 col-md-6 q-mx-auto">
               <q-input class="no-shadow q-mb-lg input-radius-4" color="primary" bg-color="white"
-                placeholder="Dokument finden" filled v-model="documentSearch" @keyup.enter="searchForDocument">
+                placeholder="Dokument finden" filled v-model="documentSearch" @keyup.enter="searchForDocument" role="searcbox">
                 <template v-slot:append>
                   <q-icon class="cursor-pointer" @click="searchForDocument" color="primary" name="search" />
                 </template>
@@ -45,9 +45,9 @@
                         <q-img spinner-color="primary" src="../assets/Idea.svg" style="height: 100%; max-width: 60px" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px">
+                        <div class="font-16 text-weight-bold q-mb-none textColor ppeditorial" style="margin-top: 60px">
                           Projektideen
-                        </h3>
+                        </div>
                         <p class="q-mb-none textColor">
                           Nutzer*innen haben die Möglichkeit eigene Projektideen
                           anzulegen und im Netzwerk zu teilen.
@@ -66,9 +66,9 @@
                           style="height: 100%; max-width: 60px;" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
+                        <div class="font-16 text-weight-bold q-mb-none textColor ppeditorial" style="margin-top: 60px;">
                           Fördermittel-Kurzinfos
-                        </h3>
+                        </div>
                         <p class="q-mb-none textColor">
                           Kurze und übersichtliche Beschreibung aktueller
                           Fördermöglichkeiten.
@@ -87,9 +87,9 @@
                           style="height: 100%; max-width: 80px" />
                       </div>
                       <div class="col-12 text-center">
-                        <h3 class="font-16 text-weight-bold q-mb-none textColor" style="margin-top: 60px;">
+                        <div class="font-16 text-weight-bold q-mb-none textColor ppeditorial" style="margin-top: 60px;">
                           Umsetzungschecklisten
-                        </h3>
+                        </div>
                         <p class="q-mb-none textColor">
                           Förderprojekte von der Projektidee bis zum
                           Zuwendungsbescheid ansehen und nachnutzen.
@@ -149,10 +149,10 @@
           <div class="col-12 col-md-6 q-mt-lg textColor">
 
             <div class="flex justify-center">
-              <h6 class="q-px-xl">Wie kann
+              <span class="q-pa-xl font-18 ppeditorial">Wie kann
                 mich die
                 Förderscouting-Plattform bei der
-                Projektarbeit unterstützen?</h6>
+                Projektarbeit unterstützen?</span>
               <video controls poster="../assets/image1.png" style=" width: 75%; height: auto;">
                 <source src="https://api.foerderscouting-plattform.de/uploads/Plattformpotentiale_d0f41f78dd.mp4">
               </video>
@@ -160,7 +160,7 @@
           </div>
           <div class="col-12 col-md-6 q-mt-lg textColor">
             <div class="flex justify-center">
-              <h6 class="q-px-xl">Wie funktioniert die Förderscouting-Plattform?</h6>
+              <span class="q-pa-xl font-18 ppeditorial">Wie funktioniert die Förderscouting-Plattform?</span>
               <video controls poster="../assets/image2.png" style="width: 75%; height: auto;">
                 <source src="https://api.foerderscouting-plattform.de/uploads/Projektarbeit_acbd6b13eb.mp4">
               </video>

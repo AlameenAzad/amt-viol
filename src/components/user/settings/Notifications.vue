@@ -21,6 +21,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.app.fundingComments"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -38,6 +39,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.app.userJoinRequest"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -54,6 +56,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.app.fundingExpiry"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -70,6 +73,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.app.dataRequests"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -94,6 +98,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.email.fundingComments"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -111,6 +116,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.email.userJoinRequest"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -127,6 +133,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.email.fundingExpiry"
+            aria-label="toggle"
           />
         </div>
       </div>
@@ -143,6 +150,7 @@
             color="primary"
             class="customToggle"
             v-model="form.notifications.email.dataRequests"
+            aria-label="toggle"
           />
         </div>
       </div>

@@ -27,6 +27,7 @@
               v-model="filter"
               :placeholder="$t('Search')"
               dense
+              role="searcbox"
             >
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />
