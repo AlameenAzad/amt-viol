@@ -1891,9 +1891,10 @@
                                 <q-dialog v-model="openDocumentPreviewModal" full-width>
                                   <q-card>
                                     <q-card-section style="max-height: 70vh;" class="scroll">
-                                      <embed
+                                      <iframe
                                         className="doc"
-                                        :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
+                                        title="file"
+                                        :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
                                         style="width: 100%; height: 70vh; border-style: none;"
                                         type="application/pdf"
                                       />
