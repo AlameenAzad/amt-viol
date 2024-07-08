@@ -121,7 +121,7 @@
                   >
                     <div class="col-auto q-mb-sm">
                       <q-btn
-                        v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+                        v-if="!!project && !!project.id && (project.owner.id === loggedInUser.id || isAdmin)"
                         @click="transferDocument()"
                         color="blue"
                         unelevated
@@ -351,7 +351,7 @@
                           </p>
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                           {{ $t("projectContent.contactDetails") }}
@@ -380,7 +380,7 @@
                       </p> -->
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div>
                         <q-card-section
                           v-if="!!project.info && !!project.info.location"
@@ -396,7 +396,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
 
                       <q-card-section
@@ -454,7 +454,7 @@
                           </div>
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
                           {{ $t("projectContent.tags") }}
@@ -499,7 +499,7 @@
                           </p>
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div v-if="project.duplications > 0">
                         <q-card-section>
                           <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -511,7 +511,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
                       <div
                         v-if="
@@ -532,7 +532,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
 
                       <q-card-section
@@ -622,7 +622,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
                       <!-- If checklist(s) selected -->
 
@@ -659,7 +659,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
 
                       <q-card-section>
@@ -691,7 +691,7 @@
                           </div>
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div v-if="project.links && project.links.length > 0">
                         <q-card-section>
                           <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -729,7 +729,7 @@
                             </div>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
                       <q-card-section
                         v-if="project.files && project.files.length > 0"
@@ -908,7 +908,7 @@
                           ></p>
                         </div>
                       </q-card-section>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
                         <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -923,7 +923,7 @@
                         </div>
                       </q-card-section>
                      
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
                         <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -941,7 +941,7 @@
                         </div>
                       </q-card-section>
                       <div class="html2pdf__page-break"/>
-                      <q-separator inset class="bg-blue opacity-10" />
+                      
                       <div v-if="!!project.details && project.details.partner">
                         <q-card-section>
                           <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
@@ -956,7 +956,7 @@
                             </p>
                           </div>
                         </q-card-section>
-                        <q-separator inset class="bg-blue opacity-10" />
+                        
                       </div>
                     </q-card>
                   </div>
@@ -1636,7 +1636,7 @@
       "
     />
     <DocumentTransferDialog
-      v-if="!!project && !!project.id && project.owner.id === loggedInUser.id"
+      v-if="!!project && !!project.id && (project.owner.id === loggedInUser.id || isAdmin)"
       :id="itemId"
       type="project"
       :dialogState="documentTransferDialog"

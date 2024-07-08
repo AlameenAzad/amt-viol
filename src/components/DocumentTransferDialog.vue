@@ -109,17 +109,31 @@
         usersOptions() {
             const users = [];
             const filteredUsers = this.users.filter(item => item.user_detail.municipality.title === this.$store.state.userCenter.user.userDetails.municipality.title);
-            filteredUsers.forEach(user => {
-            users.push({
-                label: user.user_detail.fullName,
-                value: user.id
+              filteredUsers.forEach(user => {
+              users.push({
+                  label: user.user_detail.fullName,
+                  value: user.id
+              });
             });
-            });
-            return [...new Set(users)];
+            if (this.isAdmin) {
+              this.users.forEach(user => {
+                users.push({
+                  label: user.user_detail.fullName,
+                  value: user.id
+                });
+              });
+
+              return [...new Set(users)];
+            } else {
+              return [...new Set(users)];
+            }
         },
         users() {
           return this.$store.state.userCenter.users;
-        }
+        },
+        isAdmin() {
+          return this.$store.getters["userCenter/isAdmin"];
+        },
     }
   };
   </script>

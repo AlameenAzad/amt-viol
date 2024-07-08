@@ -125,7 +125,7 @@
                   >
                   <div class="col-auto q-mb-md">
                     <q-btn
-                      v-if="!!checklist && !!checklist.id && checklist.owner.id === loggedInUser.id"
+                      v-if="!!checklist && !!checklist.id && (checklist.owner.id === loggedInUser.id || isAdmin)"
                       @click="transferDocument()"
                       color="blue"
                       unelevated
@@ -278,12 +278,17 @@
         :preview-modal="true"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
-        :manual-pagination="false"
+        :manual-pagination="true"
         pdf-format="a4"
         pdf-orientation="portrait"
         pdf-content-width="800px"
         autoPaging="text"
-    
+        :htmlToPdfOptions="{
+          margin: [5, 0, 5, 0],
+          html2canvas: { useCORS: true, scale: 2 },
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        }"
 
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
@@ -4562,7 +4567,7 @@
       "
     />
     <DocumentTransferDialog
-      v-if="!!checklist && !!checklist.id && checklist.owner.id === loggedInUser.id"
+      v-if="!!checklist && !!checklist.id && (checklist.owner.id === loggedInUser.id || isAdmin)"
       :id="itemId"
       type="checklist"
       :dialogState="documentTransferDialog"
@@ -4780,7 +4785,7 @@ export default {
       this.deleteDialog = true;
     },
     exportToPdf() {
-      // this.$refs.html2Pdf.generatePdf();
+      this.$refs.html2Pdf.generatePdf();
     }
   },
   computed: {
