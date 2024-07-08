@@ -125,10 +125,9 @@ export default {
       if (!!this.form.title && this.form.municipality && !!this.editingId) {
         if (
           this.form.title !== this.state.title ||
-          this.form.municipality.id !== this.state.attributes.municipality.data.id
+          this.form.municipality.id !== this.state.municipality.id
         ) {
           this.isLoading = true;
-          console.log('!!!', this.form.title, this.form.municipality.id);
           const res = await this.$store.dispatch(
             "municipality/editState",
             {
@@ -160,10 +159,10 @@ export default {
         );
         if (state) {
           this.state = state;
-          this.form.title = state.attributes.title;
+          this.form.title = state.title;
           this.form.municipality = {
-            id: state.attributes.municipality.data.id,
-            title: state.attributes.municipality.data.attributes.title
+            id: state.municipality.id,
+            title: state.municipality.title
           };
         }
       }

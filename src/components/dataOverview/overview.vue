@@ -266,6 +266,19 @@
                 </q-input>
               </div>
 
+              <div class="col-6 col-md-3">
+                <q-btn
+                  @click="clearFilters"
+                  color="primary"
+                  class="radius-6"
+                  style="margin-top: 40px; font-size: 12px;"
+                  unelevated
+                  :label="$t('Clear filters')"
+                  :aria-label="$t('Clear filters')"
+                >
+                </q-btn>
+              </div>
+              
               <!-- <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
@@ -1021,6 +1034,20 @@ export default {
         this.getData();
       }
     },
+
+    async clearFilters() {
+      this.search = "";
+      this.type = null;
+      this.category = null;
+      this.tagsKeywords = null;
+      this.projectCoordinator = null;
+      this.publishDateStart = "";
+      this.publishDateEnd = "";
+      this.endDateStart = "";
+      this.endDateEnd = "";
+      this.createdAtStart = "";
+      this.createdAtEnd = "";
+    },
     // goToPage(page) {
     //   if (page === "projectIdeas") {
     //     this.$store.commit("project/setSpecificProject", null);
@@ -1266,7 +1293,7 @@ export default {
     this.getData();
 
     if (localStorage.getItem("filters") !== null) {
-        var savedFilters = JSON.parse(localStorage.getItem("filters"));
+        const savedFilters = JSON.parse(localStorage.getItem("filters"));
 
         this.search = savedFilters.name;
         this.type = savedFilters.type;

@@ -39,7 +39,7 @@ export function setTempMunicipality(state, payload) {
 }
 
 export function setStates(state, payload) {
-  state.states = payload.data;
+  state.states = payload;
 }
 
 export function setGroupedStates(state, payload) {
@@ -47,6 +47,7 @@ export function setGroupedStates(state, payload) {
 }
 
 export function addState(state, payload) {
+  console.log('!!!', payload);
   if (!!payload) {
     state.states.push(payload);
   }

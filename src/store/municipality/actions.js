@@ -94,9 +94,9 @@ export async function createState(context, payload) {
       const res = await api.post("/api/locations", {
         data: { title, municipality: municipality.id }
       });
-      context.commit("addState", res.data.data);
+      // context.commit("addState", res.data);
       Notify.create({
-        message: "Bundesland erfolgreich hinzugefügt",
+        message: "Geminde erfolgreich hinzugefügt",
         type: "positive"
       });
       context.dispatch("getStates");
@@ -147,7 +147,7 @@ export async function editState(context, payload) {
       const res = await api.put(`/api/locations/${id}`, {
         data: { title, municipality, updatedAt: new Date().toISOString() }
       });
-      context.commit("editState", res.data.data);
+      // context.commit("editState", res.data.data);
       Notify.create({
         message: "Bundesland erfolgreich aktualisiert",
         type: "positive"

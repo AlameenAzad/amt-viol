@@ -175,7 +175,7 @@ const routes = [
         name: "States",
         meta: {
           title: "States",
-          titleDE: "Staaten",
+          titleDE: "Geminden",
           showInNavigation: true,
           requireAuth: true,
           requireAdmin: true

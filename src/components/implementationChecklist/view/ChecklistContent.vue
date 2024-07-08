@@ -125,7 +125,7 @@
                   >
                   <div class="col-auto q-mb-md">
                     <q-btn
-                      v-if="!!checklist && !!checklist.id && checklist.owner.id === loggedInUser.id"
+                      v-if="!!checklist && !!checklist.id && (checklist.owner.id === loggedInUser.id || isAdmin)"
                       @click="transferDocument()"
                       color="blue"
                       unelevated
@@ -278,12 +278,17 @@
         :preview-modal="true"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
-        :manual-pagination="false"
+        :manual-pagination="true"
         pdf-format="a4"
         pdf-orientation="portrait"
         pdf-content-width="800px"
         autoPaging="text"
-    
+        :htmlToPdfOptions="{
+          margin: [5, 0, 5, 0],
+          html2canvas: { useCORS: true, scale: 2 },
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        }"
 
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
@@ -2853,9 +2858,10 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
+                                              <iframe
                                                 className="doc"
-                                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
                                                 style="width: 100%; height: 70vh; border-style: none;"
                                                 type="application/pdf"
                                               />
@@ -2883,12 +2889,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3140,12 +3147,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3173,12 +3181,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3204,12 +3213,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3476,12 +3486,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3507,12 +3518,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3538,12 +3550,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3568,12 +3581,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3834,12 +3848,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3864,12 +3879,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3896,12 +3912,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -3926,12 +3943,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -4171,12 +4189,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -4421,12 +4440,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -4451,12 +4471,13 @@
                                         <q-dialog v-model="openDocumentPreviewModal" full-width>
                                           <q-card>
                                             <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <embed
-                                className="doc"
-                                :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
-                                style="width: 100%; height: 70vh; border-style: none;"
-                                type="application/pdf"
-                              />
+                                              <iframe
+                                                className="doc"
+                                                title="file"
+                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                                style="width: 100%; height: 70vh; border-style: none;"
+                                                type="application/pdf"
+                                              />
                                               <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
                                             </q-card-section>
 
@@ -4562,7 +4583,7 @@
       "
     />
     <DocumentTransferDialog
-      v-if="!!checklist && !!checklist.id && checklist.owner.id === loggedInUser.id"
+      v-if="!!checklist && !!checklist.id && (checklist.owner.id === loggedInUser.id || isAdmin)"
       :id="itemId"
       type="checklist"
       :dialogState="documentTransferDialog"
@@ -4780,7 +4801,7 @@ export default {
       this.deleteDialog = true;
     },
     exportToPdf() {
-      // this.$refs.html2Pdf.generatePdf();
+      this.$refs.html2Pdf.generatePdf();
     }
   },
   computed: {

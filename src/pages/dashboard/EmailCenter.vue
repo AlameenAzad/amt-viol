@@ -204,7 +204,7 @@
                   <div class="q-mb-sm q-mt-sm flex justify-between">
                     <div>
                       <span class="text-weight-600 q-mr-xs font-14">{{ $t('Recipient') }}:</span>
-                      <span class="text-black q-mb-sm font-14">{{ $t(`userGroups.${viewDetails.userGroup.value}`) }}</span>
+                      <span class="text-black q-mb-sm font-14">{{ viewDetails.userGroup.value }}</span>
                     </div>
                     <span>
                       <span class="text-black font-14 text-italic">
@@ -453,6 +453,7 @@ export default {
         });
       } finally {
         this.isLoading = false;
+        this.getData();
       }
     },
     async getUserGroupOptions() {
@@ -491,15 +492,16 @@ export default {
     },
     async getData() {
       try {
-        const { data } = await this.$api.get("api/emailing-centers?populate[0]=attachments");
+        const { data } = await this.$api.get("api/emailing-centers");
+        console.log('!!!', data);
         this.emails = data;
         let emailData = [];
-        this.emails.data.forEach((email) => {
+        this.emails.forEach((email) => {
           emailData.push({
             id: email.id,
-            subject: email.attributes.subject,
-            status: email.attributes.status,
-            createdAt: this.dateFormatter(email.attributes.createdAt),
+            subject: email.subject,
+            status: email.status,
+            createdAt: this.dateFormatter(email.createdAt),
           });
         });
 
@@ -514,7 +516,7 @@ export default {
 
       this.viewDetails = {
         userGroup: {
-          label: this.$t(labelMapping[data.data.attributes.group] || data.data.attributes.group),
+          label: data.data.attributes.group,
           value: data.data.attributes.groupName,
         },
         subject: data.data.attributes.subject,

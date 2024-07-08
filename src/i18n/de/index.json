@@ -193,8 +193,8 @@
     "view": "Ansehen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
-    "createState": "Staat anlegen",
-    "stateName": "Staat"
+    "createState": "Geminde anlegen",
+    "stateName": "Geminde"
   },
   "DetailsAdministration": {
     "location": "Ort",
@@ -392,12 +392,13 @@
   "noUsers": "Keine Benutzer*innen",
   "noGuests": "Keine Gäste",
   "adminstrationLocation": "Verwaltungsstandort",
+  "Clear filters": "Filter zurücksetzen",
   "editAdministration": "Verwaltung bearbeiten",
-  "editState": "Staat bearbeiten",
+  "editState": "Geminde bearbeiten",
   "deleteAdministration": "Verwaltung löschen",
   "deleteAdministrationMessage": "Wollen Sie diese Verwaltung wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-  "deleteState": "Staat löschen",
-  "deleteStateMessage": "Wollen Sie diesen Staaten wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+  "deleteState": "Geminde löschen",
+  "deleteStateMessage": "Wollen Sie diesen Geminden wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
   "approve": "Genehmigen",
   "addEditors": "Bearbeiter*innen hinzufügen",
   "Add Images": "Bilder hinzufügen",

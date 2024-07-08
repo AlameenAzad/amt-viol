@@ -171,10 +171,13 @@
     },
     computed: {
       data() {
-        return this.$store.state.municipality.states.map(({ attributes, id }) => ({
-          ...attributes,
-          id
-        }));
+        return this.$store.state.municipality.states.map(state => {
+          return {
+            id: state.id,
+            title: state.title,
+            municipality: state.municipality.title
+          };
+        });
       },
       isAdmin() {
         return this.$store.getters["userCenter/isAdmin"];
@@ -198,7 +201,7 @@
           {
             name: "municipality",
             label: this.$t("administrativeAreas.administrationName"),
-            field: row => row.municipality.data.attributes.title,
+            field: row => row.municipality,
             sortable: true,
             align: "left"
           },
