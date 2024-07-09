@@ -313,6 +313,13 @@
         ref="html2Pdf"
       >
         <section slot="pdf-content">
+          <div class="row">
+              <div class="col-12">
+                <h1 class="font-24 text-weight-regular q-my-none">
+                  {{ funding.title || "" }}
+                </h1>
+              </div>
+            </div>
           <div class="row q-col-gutter-lg">
             <div class="col-12 col-md-4">
               <div class="row">
@@ -1884,9 +1891,10 @@
                                 <q-dialog v-model="openDocumentPreviewModal" full-width>
                                   <q-card>
                                     <q-card-section style="max-height: 70vh;" class="scroll">
-                                      <embed
+                                      <iframe
                                         className="doc"
-                                        :src="`${previewDocumentData}#toolbar=0&navpanes=0&scrollbar=0`"
+                                        title="file"
+                                        :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
                                         style="width: 100%; height: 70vh; border-style: none;"
                                         type="application/pdf"
                                       />

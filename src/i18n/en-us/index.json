@@ -393,6 +393,7 @@
   "select role": "Select Role",
   "select administration": "Select Administration",
   "delete user": "Delete User",
+  "Clear filters": "Clear filters",
   "select": "Select",
   "User Details": "User Details",
   "selectaccountanddata": "Select account to transfer the data and rights.",
