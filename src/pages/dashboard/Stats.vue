@@ -7,7 +7,7 @@
         :key="index"
       >
         <div class="shadow-2 radius-20 q-pa-md" style="height:130px">
-          <p class="font-14 text-blue-5 q-mt-xs q-mb-none">{{ stat.title }}</p>
+          <p class="font-14 text-blue-grey-10 q-mt-xs q-mb-none">{{ stat.title }}</p>
           <p class="font-24 text-weight-bold text-blue q-mb-sm">{{ stat.value }}</p>
         </div>
       </div>

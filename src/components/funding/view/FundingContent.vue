@@ -71,7 +71,7 @@
                 <div class="col-12 col-md-8">
                   <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">
+                      <p class="font-14 no-margin text-blue-grey-10">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
@@ -83,19 +83,19 @@
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!funding.owner && funding.owner.username) || "" }}
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Förderinfo
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
                           funding.visibility === "only for me"
@@ -128,6 +128,7 @@
                         no-caps
                         outline
                         icon="print"
+                        aria-label="Print"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -145,6 +146,7 @@
                         no-caps
                         outline
                         icon="star_outline"
+                        aria-label="Bookmark"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -163,6 +165,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
+                        aria-label="Edit"
                         :loading="editIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -181,6 +184,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
+                        aria-label="Archive"
                         :loading="archiveIsLoading"
                       >
                         <q-tooltip
@@ -200,6 +204,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
+                        aria-label="Delete"
                         :loading="deleteIsLoading"
                       >
                         <q-tooltip
@@ -224,7 +229,7 @@
                 <div class="col-8">
                   <div class="row">
                     <div class="col-4">
-                      <p class="font-14 no-margin text-blue-5">
+                      <p class="font-14 no-margin text-blue-grey-10">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
@@ -237,13 +242,13 @@
                       </p>
                     </div>
                     <div class="col-4">
-                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!funding.owner && funding.owner.username) || "" }}
                       </p>
                     </div>
                     <div class="col-4">
-                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Förderinfo
                       </p>
@@ -261,6 +266,7 @@
                         no-caps
                         outline
                         icon="star_outline"
+                        aria-label="Bookmark"
                         :loading="watchlistIsLoading"
                       />
                     </div>
@@ -272,6 +278,7 @@
                         class="radius-6 q-ml-md text-weight-600"
                         no-caps
                         icon="comment"
+                        aria-label="Comment"
                         :loading="commentIsLoading"
                       />
                     </div>
@@ -327,7 +334,7 @@
                   <q-card class="shadow-1 radius-20">
                     <div v-if="!!funding.title">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.fundingGuidelines") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -340,7 +347,7 @@
                     </div>
                     <div v-if="!!funding.provider">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("funding provider") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -353,7 +360,7 @@
                     </div>
                     <div v-if="!!funding.info && funding.info.contactName">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Contact person") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -380,7 +387,7 @@
                       "
                     >
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Contact Details") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -404,7 +411,7 @@
                         <q-card-section
                           v-if="!!funding.info && !!funding.info.location"
                         >
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("personalData.location") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -418,7 +425,7 @@
                     <q-card-section
                       v-if="funding.editors && funding.editors.length > 0"
                     >
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Invite Editor") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -553,7 +560,7 @@
                     <q-card-section class="q-pa-md">
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("statsTable.categories") }}
                           </h4>
                         </div>
@@ -583,7 +590,7 @@
                     <q-card-section class="q-pa-md">
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Tags") }}
                           </h4>
                         </div>
@@ -622,7 +629,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Funding goal") }}
                             </h4>
                           </div>
@@ -648,7 +655,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("What is funded?") }}
                             </h4>
                           </div>
@@ -674,7 +681,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("What is not funded?") }}
                             </h4>
                           </div>
@@ -700,7 +707,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Who will be funded?") }}
                             </h4>
                           </div>
@@ -728,7 +735,7 @@
                     >
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Conditions for Applicants") }}
                           </h4>
                         </div>
@@ -756,7 +763,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Funding rates") }}
                             </h4>
                           </div>
@@ -799,7 +806,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Own contribution") }}
                             </h4>
                           </div>
@@ -820,7 +827,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Accumulability") }}
                             </h4>
                           </div>
@@ -851,7 +858,7 @@
                     >
                       <div class="row items-center">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Links to the fundings") }}
                           </h4>
                         </div>
@@ -896,7 +903,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Basis for assessment") }}
                             </h4>
                           </div>
@@ -921,7 +928,7 @@
                       class="q-pa-md items-start"
                     >
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Funding Period") }}
                         </h4>
                       </div>
@@ -961,7 +968,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("Notes to the funding period") }}
                             </h4>
                           </div>
@@ -982,7 +989,7 @@
                       <q-card-section class="q-pa-md items-start">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("projectContent.links") }}
                             </h4>
                           </div>
@@ -1036,7 +1043,7 @@
                     >
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             Uploads
                           </h4>
                         </div>
@@ -1079,7 +1086,7 @@
                     <q-card-section class="q-pa-md items-start">
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.projectContent") }}
                           </h4>
                         </div>
@@ -1164,7 +1171,7 @@
               <q-card class="shadow-1 radius-20">
                 <div v-if="!!funding.title">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.fundingGuidelines") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1177,7 +1184,7 @@
                 </div>
                 <div v-if="!!funding.provider">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("funding provider") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1190,7 +1197,7 @@
                 </div>
                 <div v-if="!!funding.info && funding.info.contactName">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("Contact person") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1217,7 +1224,7 @@
                   "
                 >
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("Contact Details") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1241,7 +1248,7 @@
                     <q-card-section
                       v-if="!!funding.info && !!funding.info.location"
                     >
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("personalData.location") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -1255,7 +1262,7 @@
                 <q-card-section
                   v-if="funding.editors && funding.editors.length > 0"
                 >
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("Invite Editor") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1390,7 +1397,7 @@
                 <q-card-section class="q-pa-md">
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("statsTable.categories") }}
                       </h4>
                     </div>
@@ -1420,7 +1427,7 @@
                 <q-card-section class="q-pa-md">
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Tags") }}
                       </h4>
                     </div>
@@ -1459,7 +1466,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Funding goal") }}
                         </h4>
                       </div>
@@ -1485,7 +1492,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("What is funded?") }}
                         </h4>
                       </div>
@@ -1511,7 +1518,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("What is not funded?") }}
                         </h4>
                       </div>
@@ -1537,7 +1544,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Who will be funded?") }}
                         </h4>
                       </div>
@@ -1565,7 +1572,7 @@
                 >
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Conditions for Applicants") }}
                       </h4>
                     </div>
@@ -1593,7 +1600,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Funding rates") }}
                         </h4>
                       </div>
@@ -1636,7 +1643,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Own contribution") }}
                         </h4>
                       </div>
@@ -1657,7 +1664,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Accumulability") }}
                         </h4>
                       </div>
@@ -1688,7 +1695,7 @@
                 >
                   <div class="row items-center">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Links to the fundings") }}
                       </h4>
                     </div>
@@ -1733,7 +1740,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Basis for assessment") }}
                         </h4>
                       </div>
@@ -1758,7 +1765,7 @@
                   class="q-pa-md items-start"
                 >
                   <div class="col-12 col-md-4">
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("Funding Period") }}
                     </h4>
                   </div>
@@ -1798,7 +1805,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Notes to the funding period") }}
                         </h4>
                       </div>
@@ -1819,7 +1826,7 @@
                   <q-card-section class="q-pa-md items-start">
                     <div class="row">
                       <div class="col-12 col-md-4">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.links") }}
                         </h4>
                       </div>
@@ -1873,7 +1880,7 @@
                 >
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         Uploads
                       </h4>
                     </div>
@@ -1925,7 +1932,7 @@
                 <q-card-section class="q-pa-md items-start">
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("projectContent.projectContent") }}
                       </h4>
                     </div>

@@ -193,8 +193,8 @@
     "view": "Ansehen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
-    "createState": "Geminde anlegen",
-    "stateName": "Geminde"
+    "createState": "Gemeinde anlegen",
+    "stateName": "Gemeinde"
   },
   "DetailsAdministration": {
     "location": "Ort",
@@ -394,11 +394,11 @@
   "adminstrationLocation": "Verwaltungsstandort",
   "Clear filters": "Filter zurücksetzen",
   "editAdministration": "Verwaltung bearbeiten",
-  "editState": "Geminde bearbeiten",
+  "editState": "Gemeinde bearbeiten",
   "deleteAdministration": "Verwaltung löschen",
   "deleteAdministrationMessage": "Wollen Sie diese Verwaltung wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-  "deleteState": "Geminde löschen",
-  "deleteStateMessage": "Wollen Sie diesen Geminden wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+  "deleteState": "Gemeinde löschen",
+  "deleteStateMessage": "Wollen Sie diesen Gemeinden wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
   "approve": "Genehmigen",
   "addEditors": "Bearbeiter*innen hinzufügen",
   "Add Images": "Bilder hinzufügen",

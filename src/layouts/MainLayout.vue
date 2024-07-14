@@ -35,10 +35,14 @@
           @click="loginDialog = true"
           color="yellow"
           unelevated
-          class="q-mr-lg radius-6"
+          class="q-mr-sm radius-6"
           no-caps
         >
-          <p class="q-mb-none text-blue q-mx-lg q-my-xs">Login</p>
+          <p class="q-mb-none text-blue q-mx-sm q-my-xs"
+          :style="$q.screen.lt.sm ? 'font-size: 11px;' : ''"
+          >
+            Login
+          </p>
         </q-btn>
         <q-btn
             @click="signupDialogState = true"
@@ -47,8 +51,8 @@
             class="mr-0 radius-6"
             no-caps
           >
-            <p class="q-mb-none text-blue q-my-xs">Registrierung Gastzugang</p>
-          </q-btn>
+            <p class="q-mb-none text-blue q-my-xs" :style="$q.screen.lt.sm ? 'font-size: 11px;' : ''">Registrierung Gastzugang</p>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <LoginDialog :dialogState="loginDialog" @update="loginDialog = $event" />
