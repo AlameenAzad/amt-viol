@@ -316,7 +316,7 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [15, 0, 15, 0],
+          margin: [0, 5, 0, 5],
           html2canvas: { useCORS: true, scale: 2 },
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
@@ -330,7 +330,7 @@
           <div class="q-mx-md">
             <div class="row">
             <div class="col-12">
-              <h1 class="font-24 text-weight-regular q-my-none">
+              <h1 class="font-24 text-weight-regular q-my-none" style="line-height: 3rem;">
                 {{ project.title || "" }}
               </h1>
             </div>
@@ -882,7 +882,7 @@
                   </div>
                   <div class="col-12 q-mb-md">
                     <q-card class="shadow-1 radius-20">
-                      <div class="html2pdf__page-break"/>
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("newProjectIdeaForm.projectStartingCondition") }}
@@ -900,7 +900,7 @@
                           ></p>
                         </div>
                       </q-card-section>
-                      <div class="html2pdf__page-break"/>
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectContent") }}
@@ -917,7 +917,7 @@
                         </div>
                       </q-card-section>
                       
-                      <div class="html2pdf__page-break"/>
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectGoals") }}
@@ -932,7 +932,7 @@
                       </q-card-section>
                      
                       
-                      <div class="html2pdf__page-break"/>
+                      
                       <q-card-section>
                         <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectValue&Benefits") }}
@@ -948,7 +948,7 @@
                           ></p>
                         </div>
                       </q-card-section>
-                      <div class="html2pdf__page-break"/>
+                      
                       
                       <div v-if="!!project.details && project.details.partner">
                         <q-card-section>
@@ -977,9 +977,9 @@
 
       <div class="row">
         <div class="col-12">
-          <h1 class="font-24 text-weight-regular q-my-none">
+          <h4 class="font-24 text-weight-regular q-my-none">
             {{ project.title || "" }}
-          </h1>
+          </h4>
         </div>
       </div>
       <div class="row q-col-gutter-lg">
@@ -1752,13 +1752,13 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-      
-      const test = await this.$api.get(`api/file/${file.id}`, {
+
+      const resFile = await this.$api.get(`api/file/${file.id}`, {
         responseType: 'blob'
       });
       
-      const testFile = new Blob([test.data], { type: 'application/pdf' });
-      this.previewDocumentData = URL.createObjectURL(testFile);
+      const fileToShow = new Blob([resFile.data], { type: 'application/pdf' });
+      this.previewDocumentData = URL.createObjectURL(fileToShow);
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {

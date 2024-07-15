@@ -291,7 +291,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <h1 class="font-24 text-weight-regular q-my-none">
+          <h1 class="font-24 text-weight-regular q-my-none" style="line-height: 3rem;">
             {{ funding.title || "" }}
           </h1>
         </div>
@@ -309,7 +309,7 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [5, 0, 5, 0],
+          margin: [0, 5, 0, 5],
           html2canvas: { useCORS: true, scale: 2 },
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
@@ -322,9 +322,9 @@
         <section slot="pdf-content">
           <div class="row">
               <div class="col-12">
-                <h1 class="font-24 text-weight-regular q-my-none">
+                <h4 class="font-24 text-weight-regular q-my-none">
                   {{ funding.title || "" }}
-                </h1>
+                </h4>
               </div>
             </div>
           <div class="row q-col-gutter-lg">
