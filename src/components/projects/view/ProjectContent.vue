@@ -330,9 +330,9 @@
           <div class="q-mx-md">
             <div class="row">
             <div class="col-12">
-              <h1 class="font-24 text-weight-regular q-my-none" style="line-height: 3rem;">
+              <h4 class="font-24 text-weight-regular q-my-none">
                 {{ project.title || "" }}
-              </h1>
+              </h4>
             </div>
             </div>
             
@@ -341,7 +341,7 @@
               <div class="col-12 col-md-4">
                 <div class="row">
                   
-                  <div class="col-12 q-mb-md">
+                  <div class="col-12 q-mb-md" >
                     <q-card class="shadow-1 radius-20">
                       <q-card-section>
                         <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
@@ -977,9 +977,9 @@
 
       <div class="row">
         <div class="col-12">
-          <h4 class="font-24 text-weight-regular q-my-none">
+          <h1 class="font-24 text-weight-regular q-my-none" style="line-height: 3rem;">
             {{ project.title || "" }}
-          </h4>
+          </h1>
         </div>
       </div>
       <div class="row q-col-gutter-lg">
