@@ -42,8 +42,6 @@ export default function({ store } /* { ssrContext } */) {
     ) {
       console.error("You need to be signed in");
       next({ path: "/" });
-    } else if (to.path.startsWith('/pdf-js')) {
-      window.location.href = to.fullPath;
     } else {
       next();
     }
