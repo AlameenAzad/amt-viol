@@ -71,7 +71,7 @@
                 <div class="col-12 col-md-auto">
                   <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">
+                      <p class="font-14 no-margin text-blue-grey-10">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
@@ -83,19 +83,19 @@
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{ (!!project.owner && project.owner.username) || "" }}
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Projektidee
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
                           project.visibility === "only for me"
@@ -129,6 +129,7 @@
                         no-caps
                         outline
                         icon="send"
+                        aria-label="Transfer Ownership"
                         ><q-tooltip
                           anchor="top middle"
                           self="bottom middle"
@@ -147,6 +148,7 @@
                         no-caps
                         outline
                         icon="print"
+                        aria-label="Print"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -166,6 +168,7 @@
                         no-caps
                         outline
                         icon="star_outline"
+                        aria-label="Bookmark"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -192,6 +195,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="list"
+                        aria-label="Create Checklist"
                         :loading="archiveIsLoading"
                       >
                         <q-tooltip
@@ -213,6 +217,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
+                        aria-label="Edit"
                         :loading="editIsLoading"
                       >
                         <q-tooltip
@@ -232,6 +237,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="content_copy"
+                        aria-label="Duplicate"
                         :loading="duplicateIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -257,6 +263,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
+                        aria-label="Archive"
                         :loading="archiveIsLoading"
                       >
                         <q-tooltip
@@ -276,6 +283,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
+                        aria-label="Delete"
                         :loading="deleteIsLoading"
                       >
                         <q-tooltip
@@ -336,7 +344,7 @@
                   <div class="col-12 q-mb-md">
                     <q-card class="shadow-1 radius-20">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.contactPerson") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -353,7 +361,7 @@
                       </q-card-section>
                       
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.contactDetails") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -385,7 +393,7 @@
                         <q-card-section
                           v-if="!!project.info && !!project.info.location"
                         >
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.locationOfProject") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -402,7 +410,7 @@
                       <q-card-section
                         v-if="project.editors && project.editors.length > 0"
                       >
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.inviteEditors") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -429,7 +437,7 @@
                   <div class="col-12 q-mb-md">
                     <q-card class="shadow-1 radius-20">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.categories") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -456,7 +464,7 @@
                       </q-card-section>
                       
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.tags") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -482,7 +490,7 @@
                   <div class="col-12 q-mb-md">
                     <q-card class="shadow-1 radius-20">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.investive/non-investive") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -502,7 +510,7 @@
                       
                       <div v-if="project.duplications > 0">
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.duplications") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -519,7 +527,7 @@
                         "
                       >
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.projectStatus") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -541,7 +549,7 @@
                             project.estimatedCosts.length > 0
                         "
                       >
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.estimatedCost") }}
                         </h4>
                         <div
@@ -590,7 +598,7 @@
                         "
                       >
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.fundingGuidelines") }}
                           </h4>
                           <div
@@ -630,7 +638,7 @@
                         v-if="project.checklists && project.checklists.length > 0"
                       >
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Implementation checklist") }}
                           </h4>
                           <div
@@ -663,7 +671,7 @@
                       </div>
 
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.plannedPeriod") }}
                         </h4>
                         <div class="q-ml-md font-16 row">
@@ -694,7 +702,7 @@
                       
                       <div v-if="project.links && project.links.length > 0">
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             Links
                           </h4>
                           <div class="q-ml-md font-16">
@@ -734,7 +742,7 @@
                       <q-card-section
                         v-if="project.files && project.files.length > 0"
                       >
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           Uploads
                         </h4>
                         <div class="q-ml-md font-16">
@@ -849,7 +857,7 @@
                               </q-tab>
                             </q-tabs>
                             <p
-                              class="q-mt-md q-mb-none font-14 text-center text-grey"
+                              class="q-mt-md q-mb-none font-14 text-center text-blue-grey-10"
                             >
                               {{
                                 !!project.media[slide - 1] &&
@@ -867,7 +875,7 @@
                         style="height: 548px"
                       >
                         <div>
-                          <h6 class="text-grey">{{ $t("No Images") }}</h6>
+                          <h6 class="text-blue-grey-10">{{ $t("No Images") }}</h6>
                         </div>
                       </q-card-section>
                     </q-card>
@@ -876,7 +884,7 @@
                     <q-card class="shadow-1 radius-20">
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("newProjectIdeaForm.projectStartingCondition") }}
                         </h4>
                         
@@ -894,7 +902,7 @@
                       </q-card-section>
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectContent") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -911,7 +919,7 @@
                       
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectGoals") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -926,7 +934,7 @@
                       
                       <div class="html2pdf__page-break"/>
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.projectValue&Benefits") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -944,7 +952,7 @@
                       
                       <div v-if="!!project.details && project.details.partner">
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.CooperationPartner") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -980,7 +988,7 @@
             <div class="col-12 q-mb-md">
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.contactPerson") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -997,7 +1005,7 @@
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.contactDetails") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1027,7 +1035,7 @@
                   <q-card-section
                     v-if="!!project.info && !!project.info.location"
                   >
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.locationOfProject") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1042,7 +1050,7 @@
                 <q-card-section
                   v-if="project.editors && project.editors.length > 0"
                 >
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.inviteEditors") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1065,7 +1073,7 @@
             <div class="col-12 q-mb-md">
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.categories") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1090,7 +1098,7 @@
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.tags") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1114,7 +1122,7 @@
             <div class="col-12 q-mb-md">
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.investive/non-investive") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1133,7 +1141,7 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <div v-if="project.duplications > 0">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.duplications") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1148,7 +1156,7 @@
                   v-if="!!project.details && project.details.status !== null"
                 >
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.projectStatus") }}
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1169,7 +1177,7 @@
                     project.estimatedCosts && project.estimatedCosts.length > 0
                   "
                 >
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.estimatedCost") }}
                   </h4>
                   <div
@@ -1214,7 +1222,7 @@
                   "
                 >
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.fundingGuidelines") }}
                     </h4>
                     <div
@@ -1252,7 +1260,7 @@
 
                 <div v-if="project.checklists && project.checklists.length > 0">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("Implementation checklist") }}
                     </h4>
                     <div
@@ -1283,7 +1291,7 @@
                 </div>
 
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.plannedPeriod") }}
                   </h4>
                   <div class="q-ml-md font-16 row">
@@ -1314,7 +1322,7 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <div v-if="project.links && project.links.length > 0">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       Links
                     </h4>
                     <div class="q-ml-md font-16">
@@ -1353,7 +1361,7 @@
                 <q-card-section
                   v-if="project.files && project.files.length > 0"
                 >
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     Uploads
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1393,7 +1401,7 @@
             <!-- <div class="col-12 q-mb-md">
             <q-card class="shadow-1 radius-20">
               <q-card-section>
-                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                   {{ $t("projectContent.relevantDocuments") }}
                 </h4>
                 <div class="q-ml-md font-16">
@@ -1500,7 +1508,7 @@
                         </q-tab>
                       </q-tabs>
                       <p
-                        class="q-mt-md q-mb-none font-14 text-center text-grey"
+                        class="q-mt-md q-mb-none font-14 text-center text-blue-grey-10"
                       >
                         {{
                           !!project.media[slide - 1] &&
@@ -1518,7 +1526,7 @@
                   style="height: 548px"
                 >
                   <div>
-                    <h6 class="text-grey">{{ $t("No Images") }}</h6>
+                    <h6 class="text-blue-grey-10">{{ $t("No Images") }}</h6>
                   </div>
                 </q-card-section>
               </q-card>
@@ -1526,7 +1534,7 @@
             <div class="col-12 q-mb-md">
               <q-card class="shadow-1 radius-20">
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("newProjectIdeaForm.projectStartingCondition") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1541,7 +1549,7 @@
                   </div>
                 </q-card-section>
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.projectContent") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1557,7 +1565,7 @@
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.projectGoals") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1574,7 +1582,7 @@
                 </q-card-section>
                 <q-separator inset class="bg-blue opacity-10" />
                 <q-card-section>
-                  <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                  <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                     {{ $t("projectContent.projectValue&Benefits") }}
                   </h4>
                   <div class="q-ml-md font-16">
@@ -1591,7 +1599,7 @@
                 <q-separator inset class="bg-blue opacity-10" />
                 <div v-if="!!project.details && project.details.partner">
                   <q-card-section>
-                    <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                    <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                       {{ $t("projectContent.CooperationPartner") }}
                     </h4>
                     <div class="q-ml-md font-16">
