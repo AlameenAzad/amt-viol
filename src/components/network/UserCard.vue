@@ -16,25 +16,25 @@
           </div>
         </div>
         <div class="row q-mb-md">
-          <div class="col-4 text-blue-5 text-overflow">
+          <div class="col-4 text-blue-grey-10 text-overflow">
             <p class="no-margin">Administration:</p>
           </div>
           <div class="col-7 q-ml-md">Municipality name</div>
         </div>
         <div class="row q-mb-md">
-          <div class="col-4 font-16 text-blue-5 text-overflow">
+          <div class="col-4 font-16 text-blue-grey-10 text-overflow">
             <p class="no-margin">Location:</p>
           </div>
           <div class="col-7 q-ml-md">Erlangen</div>
         </div>
         <div class="row q-mb-md">
-          <div class="col-4 font-16 text-blue-5 text-overflow">
+          <div class="col-4 font-16 text-blue-grey-10 text-overflow">
             <p class="no-margin">Email:</p>
           </div>
           <div class="col-7 q-ml-md">talan.herwitz@mail.com</div>
         </div>
         <div class="row q-mb-md">
-          <div class="col-4 font-16 text-blue-5 text-overflow">
+          <div class="col-4 font-16 text-blue-grey-10 text-overflow">
             <p class="no-margin">Telefon:</p>
           </div>
           <div class="col-7 q-ml-md">0251 7764-113</div>

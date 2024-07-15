@@ -38,7 +38,7 @@
                   v-model="search"
                   :placeholder="$t('Search')"
                   dense
-                  role="searcbox"
+                  role="searchbox"
                 >
                   <template v-slot:prepend>
                     <q-icon name="search" />
@@ -361,7 +361,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 text-black"
           >
             {{ col.label }}
           </q-th>

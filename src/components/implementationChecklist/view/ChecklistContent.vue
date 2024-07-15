@@ -73,7 +73,7 @@
                 <div class="col-12 col-md-auto">
                   <div class="row q-col-gutter-y-sm q-col-gutter-x-xl">
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">
+                      <p class="font-14 no-margin text-blue-grey-10">
                         Erstelldatum
                       </p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
@@ -85,7 +85,7 @@
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Besitzer*in</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Besitzer*in</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
                           (!!checklist.owner && checklist.owner.username) || ""
@@ -93,13 +93,13 @@
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Typ</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Typ</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         Umsetzungscheckliste
                       </p>
                     </div>
                     <div class="col-auto">
-                      <p class="font-14 no-margin text-blue-5">Sichtbarkeit</p>
+                      <p class="font-14 no-margin text-blue-grey-10">Sichtbarkeit</p>
                       <p class="font-16 q-mt-xs q-mb-none text-weight-600 ">
                         {{
                           checklist.visibility === "only for me"
@@ -133,6 +133,7 @@
                       no-caps
                       outline
                       icon="send"
+                      aria-label="transfer document"
                       ><q-tooltip
                         anchor="top middle"
                         self="bottom middle"
@@ -151,6 +152,7 @@
                         no-caps
                         outline
                         icon="print"
+                        aria-label="print document"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -170,6 +172,7 @@
                         no-caps
                         outline
                         icon="star_outline"
+                        aria-label="bookmark document"
                         :loading="watchlistIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -188,6 +191,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="edit"
+                        aria-label="edit document"
                         :loading="editIsLoading"
                       >
                         <q-tooltip
@@ -207,6 +211,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="content_copy"
+                        aria-label="duplicate document"
                         :loading="duplicateIsLoading"
                         ><q-tooltip
                           anchor="top middle"
@@ -234,6 +239,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="inventory"
+                        aria-label="archive document"
                         :loading="archiveIsLoading"
                       >
                         <q-tooltip
@@ -253,6 +259,7 @@
                         class="radius-6 text-weight-600"
                         no-caps
                         icon="delete"
+                        aria-label="delete document"
                         :loading="deleteIsLoading"
                       >
                         <q-tooltip
@@ -308,7 +315,7 @@
                   <div class="col-12 q-mb-md">
                     <q-card class="shadow-1 radius-20">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Idea Provider/giver") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -323,7 +330,7 @@
                       </q-card-section>
                       <q-separator inset class="bg-blue opacity-10" />
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Contact person checklist view") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -340,7 +347,7 @@
                       </q-card-section>
                       <q-separator inset class="bg-blue opacity-10" />
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Contact Details") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -372,7 +379,7 @@
                               <q-card-section
 
                               >
-                                <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                                <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                                   {{ $t("personalData.location") }}
                                 </h4>
                                 <div class="q-ml-md font-16">
@@ -385,7 +392,7 @@
                           </div>
                       <div v-if="checklist.editors && checklist.editors.length > 0">
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Invite Editor") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -407,7 +414,7 @@
                       <q-card-section
                         v-if="checklist.project && checklist.project.id"
                       >
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Link for Project Idea") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -427,7 +434,7 @@
                       </q-card-section>
                       <div v-if="checklist.duplications > 0">
                         <q-card-section>
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.duplications") }}
                           </h4>
                           <div class="q-ml-md font-16">
@@ -558,7 +565,7 @@
                       <q-card-section class="q-pa-md">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("myData.categories") }}
                             </h4>
                           </div>
@@ -589,7 +596,7 @@
                       <q-card-section class="q-pa-md">
                         <div class="row">
                           <div class="col-12 col-md-4">
-                            <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                            <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                               {{ $t("projectContent.tags") }}
                             </h4>
                           </div>
@@ -613,14 +620,14 @@
                       </q-card-section>
                       <q-separator inset class="bg-blue opacity-10" />
                       <q-card-section v-if="checklist.project && checklist.project.id">
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("project Idea") }}
                         </h4>
                         <InlineProjectView expandAll :projectID="checklist.project.id" />
                       </q-card-section>
                       <q-separator inset class="bg-blue opacity-10" />
                       <q-card-section v-if="checklist.funding && checklist.funding.id">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Funding") }}
                       </h4>
                       <InlineFundingView expandAll :fundingId="checklist.funding.id" />
@@ -773,7 +780,7 @@
                                             card.project.id
                                         "
                                       >
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Link for Project Idea") }}
                                         </p>
                                         <a
@@ -792,7 +799,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -1060,7 +1067,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -1353,7 +1360,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -1681,7 +1688,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -1979,7 +1986,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -2220,7 +2227,7 @@
                                       class="row items-center q-mb-md"
                                     >
                                       <div>
-                                        <p class="font-16 text-blue-5 q-ma-none">
+                                        <p class="font-16 text-blue-grey-10 q-ma-none">
                                           {{ $t("Description") }}
                                         </p>
                                         <p
@@ -2354,7 +2361,7 @@
                 <div class="col-12 q-mb-md">
                   <q-card class="shadow-1 radius-20">
                     <q-card-section>
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Idea Provider/giver") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -2369,7 +2376,7 @@
                     </q-card-section>
                     <q-separator inset class="bg-blue opacity-10" />
                     <q-card-section>
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Contact person checklist view") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -2386,7 +2393,7 @@
                     </q-card-section>
                     <q-separator inset class="bg-blue opacity-10" />
                     <q-card-section>
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Contact Details") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -2416,7 +2423,7 @@
                     <q-separator inset class="bg-blue opacity-10" />
                     <div v-if="!!checklist.info && !!checklist.info.location">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("personalData.location") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -2429,7 +2436,7 @@
                     </div>
                     <div v-if="checklist.editors && checklist.editors.length > 0">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("Invite Editor") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -2451,7 +2458,7 @@
                     <q-card-section
                       v-if="checklist.project && checklist.project.id"
                     >
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Link for Project Idea") }}
                       </h4>
                       <div class="q-ml-md font-16">
@@ -2471,7 +2478,7 @@
                     </q-card-section>
                     <div v-if="checklist.duplications > 0">
                       <q-card-section>
-                        <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                        <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                           {{ $t("projectContent.duplications") }}
                         </h4>
                         <div class="q-ml-md font-16">
@@ -2602,7 +2609,7 @@
                     <q-card-section class="q-pa-md">
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("myData.categories") }}
                           </h4>
                         </div>
@@ -2633,7 +2640,7 @@
                     <q-card-section class="q-pa-md">
                       <div class="row">
                         <div class="col-12 col-md-4">
-                          <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                          <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("projectContent.tags") }}
                           </h4>
                         </div>
@@ -2657,14 +2664,14 @@
                     </q-card-section>
                     <q-separator inset class="bg-blue opacity-10" />
                     <q-card-section v-if="checklist.project && checklist.project.id">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("project Idea") }}
                       </h4>
                       <InlineProjectView :projectID="checklist.project.id" />
                     </q-card-section>
                     <q-separator inset class="bg-blue opacity-10" />
                     <q-card-section v-if="checklist.funding && checklist.funding.id">
-                      <h4 class="font-16 text-blue-5 q-mb-none q-mt-none">
+                      <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                         {{ $t("Funding") }}
                       </h4>
                       <InlineFundingView :fundingId="checklist.funding.id" />
@@ -2815,7 +2822,7 @@
                                           card.project.id
                                       "
                                     >
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Link for Project Idea") }}
                                       </p>
                                       <a
@@ -2834,7 +2841,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
@@ -3123,7 +3130,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
@@ -3451,7 +3458,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
@@ -3824,7 +3831,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
@@ -4165,7 +4172,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
@@ -4416,7 +4423,7 @@
                                     class="row items-center q-mb-md"
                                   >
                                     <div>
-                                      <p class="font-16 text-blue-5 q-ma-none">
+                                      <p class="font-16 text-blue-grey-10 q-ma-none">
                                         {{ $t("Description") }}
                                       </p>
                                       <p
