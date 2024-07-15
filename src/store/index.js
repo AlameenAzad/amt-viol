@@ -9,6 +9,7 @@ import category from "./category";
 import tag from "./tag";
 import municipality from "./municipality";
 import funding from "./funding";
+import forum from "./forum";
 import implementationChecklist from "./implementationChecklist";
 
 Vue.use(Vuex);
@@ -21,7 +22,7 @@ Vue.use(Vuex);
  * with the Store instance.
  */
 
-export default function(/* { ssrContext } */) {
+export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       errorDialog,
@@ -32,12 +33,12 @@ export default function(/* { ssrContext } */) {
       tag,
       municipality,
       funding,
-      implementationChecklist
+      implementationChecklist,
+      forum
     },
     plugins: [
       createPersistedState({
         key: "amt-viot",
-        // TODO change this to session storage
         storage: window.sessionStorage
       })
     ],

@@ -59,9 +59,11 @@ export async function getUserDetails(context) {
     console.log("res", res);
     // Delete the IDs from the response as they are not needed.
     const userDetails = res.data;
-    delete userDetails.notifications.id;
-    delete userDetails.notifications.app.id;
-    delete userDetails.notifications.email.id;
+    if (userDetails.notifications) {
+      delete userDetails.notifications.id;
+      delete userDetails.notifications.app.id;
+      delete userDetails.notifications.email.id;
+    }
     context.commit("setUserDetails", userDetails);
   } catch (error) {
     console.log("error :>> ", error.response);
@@ -205,8 +207,7 @@ export async function transferData(context, payload) {
   if (!!id && data.length > 0) {
     try {
       const res = await api.get(
-        `/api/user/transfer/${id}?data=${dataString}${
-          payload.hasOwnProperty("fromId") ? `&fromId=${payload.fromId}` : ""
+        `/api/user/transfer/${id}?data=${dataString}${payload.hasOwnProperty("fromId") ? `&fromId=${payload.fromId}` : ""
         }`
       );
       Notify.create({
