@@ -301,7 +301,7 @@
         @hasGenerated="hasGenerated($event)"
         ref="html2Pdf"
         >
-          <section slot="pdf-content" :style="{margin: '10px'}" id="print">
+          <section slot="pdf-content" id="print">
             <div class="row">
               <div class="col-12">
                 <h4 class="font-24 text-weight-regular q-my-none">
