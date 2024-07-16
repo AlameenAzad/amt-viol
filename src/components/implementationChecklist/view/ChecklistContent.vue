@@ -288,7 +288,7 @@
         :manual-pagination="false"
         pdf-format="a4"
         pdf-orientation="portrait"
-        pdf-content-width="800px"
+        pdf-content-width="1100px"
         autoPaging="text"
         :htmlToPdfOptions="{
           margin: [0, 5, 0, 5],
