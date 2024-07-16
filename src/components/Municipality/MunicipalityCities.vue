@@ -67,7 +67,8 @@ export default {
     },
     municipalityChanged() {
       if (this.$store.state.municipality.tempMunicipality) {
-        this.selectedMunicipality = this.$store.state.municipality.tempMunicipality.title;
+        this.selectedMunicipality =
+          this.$store.state.municipality.tempMunicipality.title;
         for (const key in this.municipalities) {
           if (key.includes(this.selectedMunicipality)) {
             this.options = this.municipalities[key];
@@ -118,6 +119,7 @@ export default {
       for (const key in this.municipalities) {
         allStates = allStates.concat(this.municipalities[key]);
       }
+      allStates.sort((a, b) => a.localeCompare(b));
       return allStates;
     },
   },
