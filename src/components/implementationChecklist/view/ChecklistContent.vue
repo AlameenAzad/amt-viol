@@ -292,7 +292,7 @@
         autoPaging="text"
         :htmlToPdfOptions="{
           margin: [0, 5, 0, 5],
-          html2canvas: { useCORS: true, scale: 2 },
+          html2canvas: { useCORS: true },
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
