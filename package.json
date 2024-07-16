@@ -19,7 +19,7 @@
     "js-cookie": "^3.0.1",
     "quasar": "^1.22.10",
     "v-money": "^0.8.1",
-    "vue-html2pdf": "^1.8.0",
+    "vue-html2pdf": "file:./src/libs/vue-html2pdf",
     "vue-i18n": "^8.0.0",
     "vue-translation-manager": "^1.2.0",
     "vuedraggable": "^2.24.3",
