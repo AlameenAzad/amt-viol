@@ -4810,9 +4810,10 @@ export default {
     exportToPdf() {
       try {
         this.$refs.html2Pdf.generatePdf()
-      }catch (error) {
+      } catch (error) {
         console.log("Ameen: ", error)
         this.$refs.html2Pdf.downloadPdf()
+      }
     }
   },
   computed: {
