@@ -283,7 +283,7 @@
         :float-layout="true"
         :enable-download="false"
         :preview-modal="true"
-        :paginate-elements-by-height="18000"
+        :paginate-elements-by-height="11180"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"
@@ -634,7 +634,7 @@
                     </q-card-section>
                     </q-card>
                   </div>
-                  
+
                   <div
                     v-if="
                       (!!checklist.initialContact &&
@@ -644,7 +644,7 @@
                     "
                     class="col-12 q-mb-md"
                   >
-                  
+
                     <q-card
                       class="shadow-1 radius-20"
                       :class="
@@ -915,7 +915,7 @@
                       </q-card-section>
                       <q-separator inset class="bg-blue opacity-10" />
                     </q-card>
-                    
+
                   </div>
                   <div
                     v-if="
@@ -2909,7 +2909,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -3167,7 +3167,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -3201,7 +3201,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -3233,7 +3233,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -3506,7 +3506,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -3538,7 +3538,7 @@
                                           </q-card>
                                         </q-dialog>
                                       </div>
-                                        
+
                                       </div>
                                     </div>
                                   </div>
@@ -4725,11 +4725,11 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-      
+
       const resFile = await this.$api.get(`api/file/${file.id}`, {
         responseType: 'blob'
       });
-      
+
       const fileToShow = new Blob([resFile.data], { type: 'application/pdf' });
       this.previewDocumentData = URL.createObjectURL(fileToShow);
     },
