@@ -281,8 +281,8 @@
         <vue-html2pdf
         :show-layout="false"
         :float-layout="true"
-        :enable-download="false"
-        :preview-modal="true"
+        :enable-download="true"
+        :preview-modal="false"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
         :manual-pagination="false"
@@ -4808,12 +4808,7 @@ export default {
       this.deleteDialog = true;
     },
     exportToPdf() {
-      try {
-        this.$refs.html2Pdf.generatePdf()
-      } catch (error) {
-        console.log("Ameen: ", error)
-        this.$refs.html2Pdf.downloadPdf()
-      }
+      this.$refs.html2Pdf.generatePdf()
     }
   },
   computed: {
