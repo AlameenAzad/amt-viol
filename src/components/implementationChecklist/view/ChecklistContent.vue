@@ -4808,7 +4808,11 @@ export default {
       this.deleteDialog = true;
     },
     exportToPdf() {
-      this.$refs.html2Pdf.generatePdf();
+      try {
+        this.$refs.html2Pdf.generatePdf()
+      }catch (error) {
+        console.log("Ameen: ", error)
+        this.$refs.html2Pdf.downloadPdf()
     }
   },
   computed: {
