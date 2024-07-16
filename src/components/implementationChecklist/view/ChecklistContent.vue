@@ -283,7 +283,7 @@
         :float-layout="true"
         :enable-download="false"
         :preview-modal="true"
-        :paginate-elements-by-height="11180"
+        :paginate-elements-by-height="9000"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"
