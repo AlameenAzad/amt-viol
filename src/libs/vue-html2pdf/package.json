@@ -24,7 +24,7 @@
   "_where": "/Users/alameenazad/work/K&C/Amt-Viol/amt-viol",
   "bundleDependencies": false,
   "dependencies": {
-    "html2pdf.js": "^0.9.2"
+    "html2pdf.js": "file:./src/libs/html2pdf.js"
   },
   "deprecated": false,
   "description": "https://github.com/kempsteven/vue-html2pdf",
