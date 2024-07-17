@@ -305,13 +305,14 @@
         :pdf-quality="2"
         :manual-pagination="true"
         pdf-format="a4"
-        pdf-orientation="portrait"
-        pdf-content-width="800px"
+        pdf-orientation="landscape"
+        pdf-content-width="1100px"
         autoPaging="text"
         :htmlToPdfOptions="{
           margin: [0, 5, 0, 5],
-          html2canvas: { useCORS: true, scale: 2 },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          html2canvas: { useCORS: true, scale: 2, letterRendering: true },
+          autoPaging: 'text',
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'landscape' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
