@@ -69,7 +69,8 @@
   "checkListCols": {
     "title": "Titel",
     "categories": "Kategorien",
-    "createImplementationChecklist": "Umsetzungscheckliste erstellen"
+    "createImplementationChecklist": "Umsetzungscheckliste erstellen",
+    "pdfDownloadProgress": "PDF wird vorbereitet. Bitte warten. Fortschritt"
   },
   "homeBtns": {
     "SearchBtn": "Dokumentensuche",
