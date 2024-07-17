@@ -280,8 +280,8 @@
       </div>
         <vue-html2pdf
         :show-layout="false"
-        :float-layout="true"
-        :enable-download="true"
+        :float-layout="false"
+        :enable-download="false"
         :preview-modal="false"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
@@ -299,6 +299,7 @@
 
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
+        @beforeDownload="beforeDownload($event)"
         ref="html2Pdf"
         >
           <section slot="pdf-content" id="print">
@@ -4809,7 +4810,10 @@ export default {
     },
     exportToPdf() {
       this.$refs.html2Pdf.generatePdf()
-    }
+    },
+    async beforeDownload({ html2pdf, options, pdfContent }) {
+      await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').save()
+    },
   },
   computed: {
     isAdmin() {
