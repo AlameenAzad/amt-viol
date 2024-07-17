@@ -291,13 +291,14 @@
         pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
-          margin: [0, 5, 0, 5],
+          margin: [10, 5, 10, 5],
           html2canvas: { useCORS: true, scale: 2 },
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
+        @progress="pdfGenerationProgress($event)"
         ref="html2Pdf"
         >
           <section slot="pdf-content" id="print">
@@ -389,7 +390,7 @@
                               </q-card-section>
                               <q-separator inset class="bg-blue opacity-10" />
                           </div>
-                      <div v-if="checklist.editors && checklist.editors.length > 0">
+                      <div v-if="checklist.editors && checklist.editors.length > 0" class="html2pdf__page-break">
                         <q-card-section>
                           <h4 class="font-16 text-blue-grey-10 q-mb-none q-mt-none">
                             {{ $t("Invite Editor") }}
@@ -4600,6 +4601,7 @@
 
 <script>
 import { dateFormatter } from "src/boot/dateFormatter";
+import { QSpinnerGears } from 'quasar'
 import DeleteDialog from "components/data/DeleteDialog.vue";
 import ArchiveDialog from "components/data/ArchiveDialog.vue";
 import RequestAccessDialog from "components/data/RequestAccessDialog.vue";
@@ -4808,7 +4810,23 @@ export default {
     },
     exportToPdf() {
       this.$refs.html2Pdf.generatePdf()
+      this.$q.loading.show({
+        message: `${this.$t("checkListCols.pdfDownloadProgress")} 0%`,
+        backgroundColor: "primary",
+        spinnerColor: "primary"
+      })
     },
+    pdfGenerationProgress(progress) {
+      this.$q.loading.show({
+        message: `${this.$t("checkListCols.pdfDownloadProgress")} ${progress}%`,
+        backgroundColor: "primary",
+      })
+      if(progress === 100) {
+        setTimeout(() => {
+          this.$q.loading.hide() 
+        }, 500);
+      }
+    }
   },
   computed: {
     isAdmin() {
