@@ -295,7 +295,6 @@
           html2canvas: { useCORS: true, scale: 2, letterRendering: true },
           autoPaging: 'text',
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
