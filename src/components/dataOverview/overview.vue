@@ -38,6 +38,7 @@
                   v-model="search"
                   :placeholder="$t('Search')"
                   dense
+                  role="searcbox"
                 >
                   <template v-slot:prepend>
                     <q-icon name="search" />
@@ -265,6 +266,19 @@
                 </q-input>
               </div>
 
+              <div class="col-6 col-md-3">
+                <q-btn
+                  @click="clearFilters"
+                  color="primary"
+                  class="radius-6"
+                  style="margin-top: 40px; font-size: 12px;"
+                  unelevated
+                  :label="$t('Clear filters')"
+                  :aria-label="$t('Clear filters')"
+                >
+                </q-btn>
+              </div>
+              
               <!-- <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
@@ -360,7 +374,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 text-black"
           >
             {{ col.label }}
           </q-th>
@@ -384,7 +398,7 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable @click="view(props.row)">
@@ -600,7 +614,7 @@ export default {
       let filteredRows = rows;
       if (!!search) {
         filteredRows = filteredRows.filter(row => {
-          return row.title.toLowerCase().includes(search);
+          return row.title.toLowerCase().includes(search) || row.tags.find(tag => tag.title.toLowerCase().includes(search));
         });
       }
       if (!!type && type.length > 0) {
@@ -1020,6 +1034,20 @@ export default {
         this.getData();
       }
     },
+
+    async clearFilters() {
+      this.search = "";
+      this.type = null;
+      this.category = null;
+      this.tagsKeywords = null;
+      this.projectCoordinator = null;
+      this.publishDateStart = "";
+      this.publishDateEnd = "";
+      this.endDateStart = "";
+      this.endDateEnd = "";
+      this.createdAtStart = "";
+      this.createdAtEnd = "";
+    },
     // goToPage(page) {
     //   if (page === "projectIdeas") {
     //     this.$store.commit("project/setSpecificProject", null);
@@ -1138,7 +1166,7 @@ export default {
     },
     filter() {
       // return object that contains all v-models. This will be passed to the filter method
-      return {
+      const filters = {
         name: this.search,
         type: this.type,
         category: this.category,
@@ -1149,8 +1177,10 @@ export default {
         endDateStart: this.endDateStart,
         endDateEnd: this.endDateEnd,
         createdAtStart: this.createdAtStart,
-        createdAtEnd: this.createdAtEnd,
+        createdAtEnd: this.createdAtEnd
       };
+
+      return filters;
     },
     isAdmin() {
       return this.$store.getters["userCenter/isAdmin"];
@@ -1261,6 +1291,25 @@ export default {
   },
   mounted() {
     this.getData();
+
+    if (localStorage.getItem("filters") !== null) {
+        const savedFilters = JSON.parse(localStorage.getItem("filters"));
+
+        this.search = savedFilters.name;
+        this.type = savedFilters.type;
+        this.category = savedFilters.category;
+        this.tagsKeywords = savedFilters.tagsKeywords;
+        this.projectCoordinator = savedFilters.projectCoordinator;
+        this.publishDateStart = savedFilters.publishDateStart;
+        this.publishDateEnd = savedFilters.publishDateEnd;
+        this.endDateStart = savedFilters.endDateStart;
+        this.endDateEnd = savedFilters.endDateEnd;
+        this.createdAtStart = savedFilters.createdAtStart;
+        this.createdAtEnd = savedFilters.createdAtEnd;
+    }
+  },
+  beforeDestroy() {
+    localStorage.setItem("filters", JSON.stringify(this.filter));
   }
 };
 </script>

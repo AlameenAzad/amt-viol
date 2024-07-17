@@ -132,6 +132,7 @@
               v-model="filter"
               :placeholder="$t('Search')"
               dense
+              role="searcbox"
             >
               <template v-slot:prepend>
                 <q-icon color="blue-5" name="search" />
@@ -146,7 +147,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 text-black"
           >
             {{ col.label }}
           </q-th>
@@ -170,7 +171,7 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 250px">
                   <q-item clickable v-close-popup @click="view(props.row)">

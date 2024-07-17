@@ -28,6 +28,7 @@
           :label="$t('newProjectIdeaForm.projectStartingCondition')"
           header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
           dense
+          :default-opened="expandAll"
           ref="expandableItem1"
           expand-icon-toggle
           class="q-mb-md"
@@ -41,6 +42,7 @@
          <q-expansion-item
             switch-toggle-side
             expand-separator
+            :default-opened="expandAll"
             :label="$t('projectContent.projectContent')"
             header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
             dense
@@ -57,6 +59,7 @@
            <q-expansion-item
             switch-toggle-side
             expand-separator
+            :default-opened="expandAll"
             :label="$t('projectContent.projectGoals')"
             header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
             dense
@@ -73,6 +76,7 @@
            <q-expansion-item
               switch-toggle-side
               expand-separator
+              :default-opened="expandAll"
               :label="$t('projectContent.projectValue&Benefits')"
               header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
               dense
@@ -90,6 +94,7 @@
              <q-expansion-item
             switch-toggle-side
             expand-separator
+            :default-opened="expandAll"
             :label="$t('Investive') + '/' + $t('Non-Investive')"
             header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
             dense
@@ -106,6 +111,7 @@
           <q-expansion-item
               switch-toggle-side
               expand-separator
+              :default-opened="expandAll"
               :label="$t('projectContent.projectStatus')"
               header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
               dense
@@ -122,6 +128,7 @@
              <q-expansion-item
                 switch-toggle-side
                 expand-separator
+                :default-opened="expandAll"
                 :label="$t('projectContent.estimatedCost')"
                 header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
                 dense
@@ -157,6 +164,7 @@
              <q-expansion-item
                 switch-toggle-side
                 expand-separator
+                :default-opened="expandAll"
                 :label="$t('projectContent.plannedPeriod')"
                 header-style="color: #0050ff; font-weight: bold; background-color: #f6f9ff;"
                 dense
@@ -196,6 +204,7 @@
               <q-expansion-item
                   switch-toggle-side
                   expand-separator
+                  :default-opened="expandAll"
                   :label="$t('projectContent.links')"
                   header-style="color: #0050ff; font-weight: bold; background-color: #e7efff;"
                   dense
@@ -247,26 +256,31 @@ import { dateFormatter } from "src/boot/dateFormatter";
         type: Number,
         default: 0
       },
+      expandAll: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
         model: this.projectID,
         selectedProject: null,
-        expanded: false
+        expanded: false,
       };
     },
   methods: {
-      dateFormatter,
+    dateFormatter,
       async getProject() {
         await this.$store.dispatch("project/getSpecificProject", {
           id: Number(this.model)
         });
-    }
+    },
     },
     computed: {
       project() {
       return this.$store.state.project.project;
-    }
+    },
+    
   },
     watch: {
     expanded() {
@@ -278,7 +292,7 @@ import { dateFormatter } from "src/boot/dateFormatter";
             item.hide();
           }
         }
-    }
+    },
   },
     mounted() {
       this.getProject();

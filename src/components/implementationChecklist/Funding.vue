@@ -7,6 +7,7 @@
         <div v-if="!isInChecklist">
           <template v-if="model && model.length > 0">
             <span v-for="(funding, index) in model" :key="index">
+              <q-chip v-if="funding.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
               {{ index > 0 ? ", " : "" }}
               {{ funding.title }}
             </span>
@@ -19,8 +20,10 @@
         </div>
         <div v-if="isInChecklist">
           <template v-if="model">
+            <q-chip v-if="model.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
             <span>
               {{ model.title }}
+              
             </span>
           </template>
           <template v-else>
@@ -35,8 +38,10 @@
           class="q-mb-xs text-white justify-between" style="background-color: #0050ff;"
           :style="{ opacity: scope.opt.ctWeight + 0.1 }">
           <q-item-section>
-            <q-item-label class="">{{ scope.opt.title }}
-
+            <q-item-label class="">
+              <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+              {{ scope.opt.title }}
+              
             </q-item-label>
           </q-item-section>
           <ul class="no-margin">
@@ -59,14 +64,22 @@
         </q-item>
         <q-item v-else v-bind="scope.itemProps" v-on="scope.itemEvents" class="q-mb-xs">
           <q-item-section>
-            <q-item-label>{{ scope.opt.title }}</q-item-label>
+            <q-item-label>
+              <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+              {{ scope.opt.title }}
+              
+            </q-item-label>
           </q-item-section>
         </q-item>
       </template>
       <template v-slot:option="scope" v-else>
         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section>
-            <q-item-label>{{ scope.opt.title }}</q-item-label>
+            <q-item-label>
+              <q-chip v-if="scope.opt.archived" :label="$t('fundingSelector.expired')" class="bg-orange-7 text-white" style="height: 20px; margin-bottom: 7px;" />
+              {{ scope.opt.title }}
+              
+            </q-item-label>
           </q-item-section>
         </q-item>
       </template>
@@ -170,7 +183,13 @@ export default {
   },
   computed: {
     fundings() {
-      return JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
+      return this.$store.state.funding.fundings.map(funding => {
+        return {
+          id: funding.id,
+          title: funding.title,
+          archived: funding.archived,
+        };
+      });
     },
     filteredFundings() {
       const fundings = JSON.parse(JSON.stringify(this.$store.state.funding.fundings));
@@ -189,6 +208,7 @@ export default {
     this.$store.dispatch("project/tempTags", []);
   },
   mounted() {
+    this.$store.dispatch("funding/getFundingsWithArchived");
     this.mappedFundings = this.fundings;
   }
 };

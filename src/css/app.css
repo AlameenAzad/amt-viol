@@ -194,6 +194,13 @@ h6 {
   font-family: "PPEditorial", sans-serif !important;
 }
 
+h1 {
+  /* line-height on mobile screens is 3rem */
+  @media (max-width: 480px) {
+    line-height: 3rem;
+  }
+}
+
 html,
 body {
   font-family: "Open Sans", sans-serif;

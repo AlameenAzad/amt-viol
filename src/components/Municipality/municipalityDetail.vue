@@ -1,5 +1,5 @@
 <template>
-  <div class="q-my-lg " :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
+  <div class="q-my-lg" :class="$q.screen.gt.sm ? 'q-mx-xl' : 'q-mx-sm'">
     <div class="row q-col-gutter-md">
       <!-- <div class="col-12 col-md-auto"> -->
       <!-- <q-card class="left-card radius-20 flex flex-center"> -->
@@ -22,26 +22,53 @@
               </p>
             </div>
             <div class="row">
-              <p class="label">{{ $t("DetailsAdministration.users") }}</p>
-              <div
-                v-if="
-                  !!municipality.users &&
+              <div class="col row">
+                <p class="label">{{ $t("DetailsAdministration.users") }}</p>
+                <div
+                  v-if="
+                    !!municipality.users &&
                     municipality.users.split(', ').length > 0
-                "
-                class="q-ml-xl"
-              >
-                <p
-                  v-for="(user, index) in municipality.users.split(', ')"
-                  :key="index"
-                  class="q-mb-xs"
+                  "
+                  class="q-ml-xl"
                 >
-                  {{ user }}
-                </p>
+                  <p
+                    v-for="(user, index) in municipality.users.split(', ')"
+                    :key="index"
+                    class="q-mb-xs"
+                  >
+                    {{ user }}
+                  </p>
+                </div>
+                <div v-else class="q-ml-xl">
+                  <p>
+                    {{ $t("noUsers") }}
+                  </p>
+                </div>
               </div>
-              <div v-else class="q-ml-xl">
-                <p>
-                  {{ $t("noUsers") }}
-                </p>
+              <div class="col">
+                <div class="row justify-end">
+                  <p class="label">{{ $t("DetailsAdministration.guests") }}</p>
+                  <div
+                    v-if="
+                      !!municipality.guests &&
+                      municipality.guests.split(', ').length > 0
+                    "
+                    class="q-ml-xl"
+                  >
+                    <p
+                      v-for="(guest, index) in municipality.guests.split(', ')"
+                      :key="index"
+                      class="q-mb-xs"
+                    >
+                      {{ guest }}
+                    </p>
+                  </div>
+                  <div v-else class="q-ml-xl">
+                    <p>
+                      {{ $t("noGuests") }}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
             <q-btn
@@ -53,6 +80,7 @@
               flat
               dense
               icon="more_vert"
+              aria-label="Optionen"
             >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
@@ -97,7 +125,7 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: 10
+        rowsPerPage: 10,
       }"
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
@@ -109,7 +137,7 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="font-14"
+            class="font-14 text-black"
           >
             {{ col.label }}
           </q-th>
@@ -133,7 +161,7 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert">
+            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable v-close-popup @click="view(props.row)">
@@ -182,10 +210,10 @@
                     @click="archiveItem(props.row)"
                     v-if="
                       isAdmin ||
-                        (props.row &&
-                          props.row.type !== 'funding' &&
-                          (!!props.row.owner && props.row.owner.id) ===
-                            (!!loggedInUser && loggedInUser.id))
+                      (props.row &&
+                        props.row.type !== 'funding' &&
+                        (!!props.row.owner && props.row.owner.id) ===
+                          (!!loggedInUser && loggedInUser.id))
                     "
                   >
                     <q-item-section
@@ -270,21 +298,21 @@ export default {
       itemId: null,
       tab: null,
       itemType: null,
-      municipality: {}
+      municipality: {},
     };
   },
   components: {
     MunicipalityDeleteDialog,
     EditMunicipalityDialog,
     DeleteDialog,
-    RequestAccessDialog
+    RequestAccessDialog,
   },
   methods: {
     getMunicipalityData() {
       const { id } = this.$route.params;
       if (id) {
         const municipality = this.$store.state.municipality.municipalities.find(
-          mun => {
+          (mun) => {
             return mun.id == id;
           }
         );
@@ -314,12 +342,14 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
@@ -342,12 +372,14 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/${id}` });
@@ -370,12 +402,14 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/${id}` });
@@ -405,7 +439,8 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
@@ -427,7 +462,8 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/edit/${id}` });
@@ -449,7 +485,8 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) =>
+                user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/edit/${id}` });
@@ -469,7 +506,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("project/archiveProjectIdea", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -477,7 +514,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("funding/archiveFunding", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -485,7 +522,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("implementationChecklist/archiveChecklist", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -496,7 +533,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("project/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -504,7 +541,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("funding/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -512,7 +549,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("implementationChecklist/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -545,7 +582,7 @@ export default {
     },
     getData() {
       this.$store.dispatch("municipality/getMunicipalities");
-    }
+    },
   },
   mounted() {
     this.getMunicipalityData();
@@ -557,41 +594,42 @@ export default {
           name: "id",
           label: "id",
           align: "left",
-          field: row => row.id,
-          sortable: true
+          field: (row) => row.id,
+          sortable: true,
         },
         {
           name: "title",
           required: true,
           label: this.$t("DetailsAdministration.title"),
           align: "left",
-          field: row => row.title,
-          sortable: true
+          field: (row) => row.title,
+          sortable: true,
         },
         {
           name: "type",
           align: "left",
           label: this.$t("DetailsAdministration.type"),
-          field: row => this.$t(row.type),
-          sortable: true
+          field: (row) => this.$t(row.type),
+          sortable: true,
         },
         {
           name: "categories",
           label: this.$t("DetailsAdministration.categories"),
-          field: row =>
+          field: (row) =>
             (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
+              row.categories.map((category) => category.title).join(", ")) ||
             this.$t("NoCategories"),
           sortable: true,
-          align: "left"
+          align: "left",
         },
         {
           name: "users",
           label: this.$t("DetailsAdministration.user"),
-          field: row => (!!row.owner && row.owner.username) || "No Owner Found",
+          field: (row) =>
+            (!!row.owner && row.owner.username) || "No Owner Found",
           sortable: true,
-          align: "left"
-        }
+          align: "left",
+        },
       ];
     },
     isAdmin() {
@@ -602,8 +640,8 @@ export default {
         !!this.$store.state.userCenter.user &&
         this.$store.state.userCenter.user.user
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

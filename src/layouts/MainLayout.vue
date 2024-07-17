@@ -18,7 +18,7 @@
             class="light-blue"
           >
           <q-avatar size="250px" style="height: 100px; border-radius: 0px;">
-            <img src="../assets/Logo.svg">
+            <img src="../assets/Logo.svg" alt="logo">
           </q-avatar>
           </q-btn>
           <q-btn
@@ -28,16 +28,21 @@
             flat
             size="md"
             :to="{ name: 'landing' }"
+            aria-label="Home"
           />
         </q-toolbar-title>
         <q-btn
           @click="loginDialog = true"
           color="yellow"
           unelevated
-          class="q-mr-lg radius-6"
+          class="q-mr-sm radius-6"
           no-caps
         >
-          <p class="q-mb-none text-blue q-mx-xl q-my-xs">Login</p>
+          <p class="q-mb-none text-blue q-mx-sm q-my-xs"
+          :style="$q.screen.lt.sm ? 'font-size: 11px;' : ''"
+          >
+            Login
+          </p>
         </q-btn>
         <q-btn
             @click="signupDialogState = true"
@@ -46,8 +51,8 @@
             class="mr-0 radius-6"
             no-caps
           >
-            <p class="q-mb-none text-blue q-mx-xl q-my-xs">Sign Up</p>
-          </q-btn>
+            <p class="q-mb-none text-blue q-my-xs" :style="$q.screen.lt.sm ? 'font-size: 11px;' : ''">Registrierung Gastzugang</p>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <LoginDialog :dialogState="loginDialog" @update="loginDialog = $event" />
@@ -77,7 +82,7 @@
               class="mr-0 radius-6"
               no-caps
             >
-              <p class="q-mb-none  q-mx-lg q-my-xs">Sign Up</p>
+              <p class="q-mb-none q-my-xs">Registrierung Gastzugang</p>
             </q-btn>
           </div>
         </div>

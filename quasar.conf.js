@@ -6,8 +6,8 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
-
-module.exports = function(ctx) {
+const ESLintPlugin = require('eslint-webpack-plugin');
+module.exports = function (ctx) {
   return {
     preFetch: true,
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -43,7 +43,8 @@ module.exports = function(ctx) {
       vueRouterMode: "history", // available values: 'hash', 'history'
       rtl: true,
       publicPath: "",
-      // transpile: false,
+      // transpile: true,
+      // transpileDependencies: ['/node_modules/darkreader/'],
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
@@ -61,12 +62,10 @@ module.exports = function(ctx) {
       }).parsed,
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack(cfg) {
-        cfg.module.rules.push({
-          enforce: "pre",
-          test: /\.(js|vue)$/,
-          loader: "eslint-loader",
-          exclude: /node_modules/
-        });
+        cfg.plugins.push(new ESLintPlugin({
+          // ESLint options go here.
+          extensions: ['js', 'vue'],
+        }));
       }
     },
 

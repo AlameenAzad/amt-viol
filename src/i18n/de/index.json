@@ -23,7 +23,8 @@
     "viewBtn": "Ansehen",
     "acceptBtn": "Annehmen",
     "declineBtn": "Ablehnen",
-    "viewFundingBtn": "Förderung ansehen"
+    "viewFundingBtn": "Förderung ansehen",
+    "markAsRead": "Als gelesen markieren"
   },
   "personalData": {
     "personalData": "Persönliche Daten",
@@ -45,7 +46,9 @@
     "selectUser": "Benutzer*in auswählen ",
     "saveChanges": "Änderungen speichern",
     "resetPassword": "Passwort zurücksetzen",
-    "request": "Anfrage"
+    "request": "Anfrage",
+    "selectUserGroup": "Benutzergruppe auswählen",
+    "changeOwner": "Besitzer*in ändern"
   },
   "myData": {
     "projectIdeas": "Projektideen",
@@ -66,7 +69,8 @@
   "checkListCols": {
     "title": "Titel",
     "categories": "Kategorien",
-    "createImplementationChecklist": "Umsetzungscheckliste erstellen"
+    "createImplementationChecklist": "Umsetzungscheckliste erstellen",
+    "pdfDownloadProgress": "PDF wird vorbereitet. Bitte warten. Fortschritt"
   },
   "homeBtns": {
     "SearchBtn": "Dokumentensuche",
@@ -75,8 +79,8 @@
     "checkListBtn": "Umsetzungscheckliste"
   },
   "fundingsInfo": {
-    "current": "Aktuelle Förderinfos",
-    "showAll": "Alle Förderinfos anzeigen"
+    "current": "Aktuelle Förder-Kurzinfos",
+    "showAll": "Alle Förder-Kurzinfos"
   },
   "fundingsColsHome": {
     "fundInfo": "Förderinfo",
@@ -189,11 +193,14 @@
     "projectCoordinator": "Projektkoordinator*innen",
     "view": "Ansehen",
     "edit": "Bearbeiten",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "createState": "Gemeinde anlegen",
+    "stateName": "Gemeinde"
   },
   "DetailsAdministration": {
     "location": "Ort",
     "users": "Benutzer*innen:",
+    "guests": "Gäste:",
     "data": "Daten",
     "title": "Titel",
     "type": "Typ",
@@ -206,7 +213,7 @@
     "archive": "Archivieren"
   },
   "Statistics": {
-    "currentFunding": "Aktuelle Förderinfos",
+    "currentFunding": "Aktuelle Förder-Kurzinfos",
     "projectIdeas": "Projektideen",
     "implementationChecklist": "Umsetzungschecklisten",
     "checklistArchive": "Umsetzungschecklisten-Archiv",
@@ -232,7 +239,7 @@
     "owners": "Besitzer*in",
     "view": "Ansehen",
     "edit": "Bearbeiten",
-    "publish": "Veröffentlichen",
+    "publish": "Speichern",
     "delete": "Löschen"
   },
   "newProjectIdeaForm": {
@@ -258,7 +265,7 @@
     "uploads": "Uploads",
     "saveDraft": "Entwurf speichern",
     "editDraft": "Entwurf bearbeiten",
-    "publish": "Veröffentlichen"
+    "publish": "Speichern"
   },
   "userSelector": {
     "title": "Benutzer*in auswählen"
@@ -275,7 +282,8 @@
     "addCost": "Kosten hinzufügen"
   },
   "fundingSelector": {
-    "title": "Förderrichtlinien auswählen"
+    "title": "Förderrichtlinien auswählen",
+    "expired": "abgelaufen"
   },
   "links": {
     "linkAdd": "Link hinzufügen"
@@ -316,7 +324,7 @@
     "saveAsDraft": "Entwurf speichern"
   },
   "publishButton": {
-    "publish": "Veröffentlichen",
+    "publish": "Speichern",
     "edit": "Bearbeiten"
   },
   "projectStatusesOptions": {
@@ -340,6 +348,8 @@
     "cancel": "Abbrechen",
     "transferData": "Daten übertragen"
   },
+  "Sent": "Gesendet",
+  "NotSent": "Nicht gesendet",
   "NoCategories": "Keine Kategorien",
   "funding": "Fördermittel",
   "Search": "Suche",
@@ -381,10 +391,15 @@
   "select": "Auswählen",
   "confirm": "Bestätigen",
   "noUsers": "Keine Benutzer*innen",
+  "noGuests": "Keine Gäste",
   "adminstrationLocation": "Verwaltungsstandort",
+  "Clear filters": "Filter zurücksetzen",
   "editAdministration": "Verwaltung bearbeiten",
+  "editState": "Gemeinde bearbeiten",
   "deleteAdministration": "Verwaltung löschen",
   "deleteAdministrationMessage": "Wollen Sie diese Verwaltung wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+  "deleteState": "Gemeinde löschen",
+  "deleteStateMessage": "Wollen Sie diesen Gemeinden wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
   "approve": "Genehmigen",
   "addEditors": "Bearbeiter*innen hinzufügen",
   "Add Images": "Bilder hinzufügen",
@@ -428,7 +443,7 @@
   "would like to access document": "möchte auf das Dokument zugreifen",
   "Idea Provider/giver": "Ideengeber*in",
   "Link for Project Idea": "Link zur Projektidee",
-  "Initial discussion with the politics": "Erstgespräch mit dem politischen Ehrenamt",
+  "Initial discussion with the politics": "Bedarfsklärung: Erstgespräch...",
   "Description": "Beschreibung:",
   "Project Name": "Projektname",
   "Implementation checklist": "Umsetzungscheckliste",
@@ -441,29 +456,31 @@
   "Project activity": "Projektaktivität",
   "title": "Titel",
   "start": "Beginn",
+  "responsiblePerson": "Verantwortlicher",
   "end": "Ende",
   "Done": "Erledigt",
+  "notDone": "Nicht erledigt",
   "In Progress": "Fortschritt",
-  "Preparation of the project idea outline with internal coordination": "Erstellung der Projektideen-Skizze",
+  "Preparation of the project idea outline with internal coordination": "Projektentwicklung: Erstellung...",
   "Capture Project Idea": "Erfassung der Projektidee (Themen, Inhalte)",
   "Capture Content": "Erfassung Kontext (Themen, Inhalte, Mehrwert, Nutzen)",
   "Inspection": "Ggf. Begehung (Abschätzung Projektumfang)",
-  "Capture requirements": "Erfassung Anforderungen (Projektumfang)",
+  "Capture requirements": "Erfassung Bedarfe/ Ziel",
   "Capture Needs": "Erfassung Bedarfe/Ziele",
-  "Funding research": "Fördermittelrecherche",
+  "Funding research": "Fördermittelrecherche: Fördermittelcheck",
   "Check database “Fundings”": "Check Datenbank „Fördermittel“",
   "Check for funding scouting": "Check über Förderscouting",
   "Select Funding": "Förderrichtlinie",
   "Joint research for funding or check of the project idea": "Check beim Fördermittelgeber*in",
   "Check Guidlines (long version)": "Check Richtlinie (Langfassung)",
-  "Preparation/optimisation of project documents": "Ausarbeitung/Optimierung Projektunterlagen",
+  "Preparation/optimisation of project documents": "Antragsstellung: Ausarbeitung Antragsunterlagen",
   "Check Content with Guidelines": "Check Inhalt mit Richtlinie",
   "If necessary check cooperations": "Ggf. Check Kooperationen",
   "If necessary check similar projects": "Ggf. Check vergleichbare Projekte",
   "Check planning and financing with all relevant departments": "Check Planung und Fördermittel mit allen relevanten Fachämtern",
-  "Legitimation for submission": "Legitimierung zur Einreichung",
+  "Legitimation for submission": "Antragsstellung: Beschlussfassung",
   "Presentation/discussion of the project documents": "Vorlage/ Diskussion der Projektunterlagen",
-  "Final examination of the project documents": "Prüfung der Projektunterlagen final",
+  "Final examination of the project documents": "Antragsstellung: Finale Antragseinreichun",
   "Collection of signatures": "Einholung von Unterschriften",
   "Revision of project documents": "Überarbeitung Projektunterlagen",
   "Records per page": "Datensätze pro Seite:",
@@ -495,6 +512,18 @@
   "userPrefrenceDesc": "Diese Cookies werden verwendet, um Ihre Präferenzen und Einstellungen für unsere Website zu speichern. Sie sind für das Funktionieren der Website nicht wesentlich und Sie können sie jederzeit abwählen. Dazu gehören Ihre Spracheinstellung, der dunkle Modus und das Abmelden ohne Bestätigung.",
   "acceptMyPrefrences": "Meine Präferenzen akzeptieren",
   "bookmark": "Merken",
+  "print": "Drucken",
+  "transferOwnership": "Besitzer*in ändern",
+  "transferOwnershipMessage": "Bitte wählen Sie einen Benutzer aus, an den das Dokument übertragen werden soll",
+  "sendEmail": "E-Mail an ausgewählte Benutzergruppe senden",
+  "viewEmail": "Details der an die Benutzergruppe gesendeten E-Mail",
+  "userGroups": {
+    "Users": "Benutzer*in",
+    "Guest Users": "Gast-Benutzer",
+    "Administrators": "Administratoren",
+    "Municipality Leaders": "Leiter der Gemeinde"
+  },
+  "Recipient": "Empfänger",
   "edit": "Bearbeiten",
   "duplicate": "Duplizieren",
   "archive": "Archivieren",
@@ -515,6 +544,8 @@
   "Published": "Veröffentlicht",
   "Draft": "Entwurf",
   "Status Unavailable": "Status Nicht verfügbar",
+  "Status": "Status",
+  "Subject": "Betreff",
   "Upload file": "Datei hochladen",
   "Add file": "Datei hinzufügen",
   "Content": " Anmerkung zur Förderquote",

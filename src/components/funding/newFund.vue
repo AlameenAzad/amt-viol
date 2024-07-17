@@ -743,20 +743,6 @@
             </div>
           </div>
           <div class="row justify-center">
-            <div class="col-5 col-md-3 q-mr-sm">
-              <q-btn
-                :label="$t('newProjectIdeaForm.saveDraft')"
-                @click="
-                  !!funding ? editFunding(false) : submitNewFunding(false)
-                "
-                outline
-                size="16px"
-                color="primary"
-                no-caps
-                class="radius-6 q-py-xs full-width"
-                :loading="isLoading"
-              />
-            </div>
             <div class="col-5 col-md-3 q-ml-sm">
               <q-btn
                 :label="$t('newProjectIdeaForm.publish')"
@@ -1017,6 +1003,16 @@ export default {
         this.dataLoaded = true;
       }
       this.$store.dispatch("userCenter/getUsers");
+
+      if (this.form.archived && !isAdmin) {
+        this.$q.notify({
+          message: this.$t("Der Zugang zu archivierten Dokumenten ist nicht möglich"),
+          color: "negative",
+          position: "top"
+        });
+        this.$router.go(-1);
+        
+      }
     }
   },
   computed: {

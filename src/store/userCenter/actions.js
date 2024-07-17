@@ -261,6 +261,25 @@ export async function deleteGuestRequest(context, payload) {
     }
   }
 }
+
+//Mark notification as read
+export async function markNotificationAsRead(context, payload) {
+  if (!!payload) {
+    try {
+      const res = await api.post(`/api/read-notifications`, payload);
+      console.log("res :>> ", res);
+      context.dispatch("getUserDetails");
+    }
+    catch (error) {
+      console.log("error :>> ", error.response);
+      Notify.create({
+        type: "negative",
+        message: error.response.data.error.message
+      });
+    }
+  }
+}
+
 export async function getDataOverview(context) {
   try {
     const res = await api.get("/api/user/overview");
@@ -300,6 +319,7 @@ export async function logout(context) {
   context.commit("category/setCategories", [], { root: true });
   context.commit("funding/setFundings", [], { root: true });
   context.commit("funding/setSpecificFunding", null, { root: true });
+  context.commit("funding/setFundingsWithArchived", [], { root: true });
   context.commit("implementationChecklist/setChecklists", [], { root: true });
   context.commit("implementationChecklist/setSpecificChecklist", null, {
     root: true
