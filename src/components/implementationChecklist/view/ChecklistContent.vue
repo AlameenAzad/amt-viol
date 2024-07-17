@@ -288,7 +288,7 @@
         :manual-pagination="false"
         pdf-format="a4"
         pdf-orientation="portrait"
-        pdf-content-width="1100px"
+        pdf-content-width="800px"
         autoPaging="text"
         :htmlToPdfOptions="{
           margin: [0, 5, 0, 5],
@@ -296,7 +296,6 @@
           jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
-
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
         ref="html2Pdf"
