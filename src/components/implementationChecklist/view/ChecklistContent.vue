@@ -280,9 +280,9 @@
       </div>
         <vue-html2pdf
         :show-layout="false"
-        :float-layout="false"
+        :float-layout="true"
         :enable-download="false"
-        :preview-modal="false"
+        :preview-modal="true"
         :paginate-elements-by-height="18000"
         :pdf-quality="2"
         :manual-pagination="false"
@@ -293,13 +293,12 @@
         :htmlToPdfOptions="{
           margin: [0, 5, 0, 5],
           html2canvas: { useCORS: true, scale: 2 },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'landscape' },
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         }"
 
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
-        @beforeDownload="beforeDownload($event)"
         ref="html2Pdf"
         >
           <section slot="pdf-content" id="print">
@@ -4810,9 +4809,6 @@ export default {
     },
     exportToPdf() {
       this.$refs.html2Pdf.generatePdf()
-    },
-    async beforeDownload({ html2pdf, options, pdfContent }) {
-      await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').save()
     },
   },
   computed: {
