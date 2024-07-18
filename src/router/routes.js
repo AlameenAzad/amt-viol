@@ -389,6 +389,9 @@ const routes = [
     ]
   },
   {
+    path: "/pdf-js/*",
+  },
+  {
     path: "/:catchAll(.*)*",
     component: () => import("pages/Error404.vue")
   }
