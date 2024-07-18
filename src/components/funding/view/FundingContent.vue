@@ -259,6 +259,26 @@
                   <div class="row justify-end">
                     <div class="col-auto">
                       <q-btn
+                        @click="exportToPdf()"
+                        color="blue"
+                        unelevated
+                        class="radius-6 text-weight-600 q-mr-md"
+                        no-caps
+                        outline
+                        icon="print"
+                        aria-label="Print"
+                        :loading="watchlistIsLoading"
+                        ><q-tooltip
+                          anchor="top middle"
+                          self="bottom middle"
+                          :offset="[10, 10]"
+                        >
+                          {{ $t("print") }}
+                        </q-tooltip></q-btn
+                      >
+                    </div>
+                    <div class="col-auto">
+                      <q-btn
                         @click="addToWatchlist()"
                         color="blue"
                         unelevated
