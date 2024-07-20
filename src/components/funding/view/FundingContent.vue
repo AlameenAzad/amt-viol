@@ -1916,21 +1916,6 @@
                             >
                               <div>
                                 <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                  <q-card>
-                                    <q-card-section style="max-height: 70vh;" class="scroll">
-                                      <iframe
-                                        className="doc"
-                                        title="file"
-                                        :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                        style="width: 100%; height: 70vh; border-style: none;"
-                                        type="application/pdf"
-                                      />
-                                      <div style="width: 100%; height: 70vh; opacity: 0;">&nbsp;</div>
-                                    </q-card-section>
-
-                                  </q-card>
-                                </q-dialog>
                               </div>
                             </div>
                           </div>
@@ -2044,6 +2029,20 @@
       :dialogState="commentDialog"
       @update="(commentDialog = $event), (commentIsLoading = false)"
     />
+    <q-dialog v-model="openDocumentPreviewModal" full-width>
+      <q-card>
+        <q-card-section style="max-height: 70vh;" class="scroll">
+          <iframe
+            className="doc"
+            title="file"
+            :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+            style="width: 100%; height: 70vh; border-style: none;"
+            type="application/pdf"
+          />
+          <div style="width: 100%; height: 70vh; opacity: 0;">&nbsp;</div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
