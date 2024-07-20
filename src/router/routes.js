@@ -389,16 +389,6 @@ const routes = [
     ]
   },
   {
-    path: "/pdf-js/*",
-    beforeEnter: (to, from) => {
-        if (isServerRoute(to)) {
-          window.location = to.fullPath
-          return false
-        }
-        return true
-      },
-  },
-  {
     path: "/:catchAll(.*)*",
     component: () => import("pages/Error404.vue")
   }
