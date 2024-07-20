@@ -2863,21 +2863,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -2894,21 +2879,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3152,21 +3122,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3186,21 +3141,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3218,21 +3158,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3491,21 +3416,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3523,21 +3433,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
 
                                       </div>
@@ -3555,21 +3450,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -3586,21 +3466,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -3853,21 +3718,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -3884,21 +3734,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -3917,21 +3752,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -3948,21 +3768,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -4194,21 +3999,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -4445,21 +4235,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -4476,21 +4251,6 @@
                                       >
                                       <div>
                                         <span @click="handleOpenDocumentPreviewModal(file)" class="text-blue q-my-sm text-weight-bold cursor-pointer" style="text-decoration: underline;">{{ file.name }} </span>
-                                        <q-dialog v-model="openDocumentPreviewModal" full-width>
-                                          <q-card>
-                                            <q-card-section style="max-height: 70vh;" class="scroll">
-                                              <iframe
-                                                className="doc"
-                                                title="file"
-                                                :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
-                                                style="width: 100%; height: 70vh; border-style: none;"
-                                                type="application/pdf"
-                                              />
-                                              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
-                                            </q-card-section>
-
-                                          </q-card>
-                                        </q-dialog>
                                       </div>
                                       </div>
                                     </div>
@@ -4597,6 +4357,21 @@
       :dialogState="documentTransferDialog"
       @update="closeDocumentTransferDialog($event), (itemId = null)"
     />
+    <q-dialog v-model="openDocumentPreviewModal" full-width>
+      <q-card>
+        <q-card-section style="max-height: 70vh;" class="scroll">
+          <iframe
+            className="doc"
+            title="file"
+            :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+            style="width: 100%; height: 70vh; border-style: none;"
+            type="application/pdf"
+          />
+          <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+        </q-card-section>
+
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -4727,13 +4502,7 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-
-      const resFile = await this.$api.get(`api/file/${file.id}`, {
-        responseType: 'blob'
-      });
-
-      const fileToShow = new Blob([resFile.data], { type: 'application/pdf' });
-      this.previewDocumentData = URL.createObjectURL(fileToShow);
+      this.previewDocumentData = `${process.env.VUE_APP_MAIN_URL}/api/file/${file.id}?token=${this.$store.state.userCenter.user.jwt}`;
     },
     async addToWatchlist() {
       this.watchlistIsLoading = true;
