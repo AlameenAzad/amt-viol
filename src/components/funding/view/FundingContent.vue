@@ -1922,7 +1922,7 @@
                                       <iframe
                                         className="doc"
                                         title="file"
-                                        :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+                                        :src="`pdf-js/generic/web/viewer_readonly.html?file=http://188.34.165.198:1337/api/file/2526`"
                                         style="width: 100%; height: 70vh; border-style: none;"
                                         type="application/pdf"
                                       />
@@ -2112,11 +2112,11 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-      
+
       const test = await this.$api.get(`api/file/${file.id}`, {
         responseType: 'blob'
       });
-      
+
       const testFile = new Blob([test.data], { type: 'application/pdf' });
       this.previewDocumentData = URL.createObjectURL(testFile);
     },
