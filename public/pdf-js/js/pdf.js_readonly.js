@@ -48,25 +48,25 @@ $(document).bind("keyup keydown", function (e) {
   // Disable Copy Text Shortcut (Ctrl + S)
   if ((e.ctrlKey || e.metaKey) && (e.keyCode == 67)) {
     if ( disableCopyText ) {
-      alert('Copy text is forbidden!'); e.preventDefault(); ClearClipboardData();
+      alert('Das Kopieren von Text ist verboten!'); e.preventDefault(); ClearClipboardData();
     }
   }
   // Disable Open File Shortcut (Ctrl + O)
   if ((e.ctrlKey || e.metaKey) && (e.keyCode == 79)) {
     if ( disableOpenFile ) {
-      alert('Open file is forbidden!'); e.preventDefault(); e.stopImmediatePropagation();
+      alert('Öffnen der Datei ist verboten!'); e.preventDefault(); e.stopImmediatePropagation();
     }
   }
   // Disable Print PDF Shortcut (Ctrl + P)
   if ((e.ctrlKey || e.metaKey) && (e.keyCode == 80)) {
     if ( disablePrintPdf ) {
-      alert('Print PDF is forbidden!'); e.preventDefault(); e.stopImmediatePropagation();
+      alert('Drucken von PDF ist verboten!'); e.preventDefault(); e.stopImmediatePropagation();
     }
   }
   // Disable Save PDF Shortcut (Ctrl + S)
   if ((e.ctrlKey || e.metaKey) && (e.keyCode == 83)) {
     if ( disableDownload ) {
-      alert('Download PDF is forbidden!'); e.preventDefault(); e.stopImmediatePropagation();
+      alert('Das Herunterladen von PDF ist verboten!'); e.preventDefault(); e.stopImmediatePropagation();
     }
   }
 });
