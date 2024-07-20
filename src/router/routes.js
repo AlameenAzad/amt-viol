@@ -388,10 +388,10 @@ const routes = [
       }
     ]
   },
-  {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue")
-  }
+  // {
+  //   path: "/:catchAll(.*)*",
+  //   component: () => import("pages/Error404.vue")
+  // }
 ];
 
 export default routes;
