@@ -390,7 +390,12 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue")
+    component: () => import("pages/Error404.vue"),
+    beforeEnter: (to, from, next) => {
+      if(to.path.startsWith('/pdf-js/') && !to.query.reloaded) {
+        window.location.href = `${to.fullPath}&reloaded=true`;
+      }
+    }
   }
 ];
 
