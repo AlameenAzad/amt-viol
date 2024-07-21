@@ -110,7 +110,7 @@
       <div class="q-mini-drawer-hide absolute" style="top: 90px; right: -17px">
         <q-btn dense round unelevated color="yellow" text-color="dark" icon="chevron_left" @click="miniState = true" aria-label="Umschaltmenü" />
       </div>
-      <div class="absolute-bottom">
+      <div v-if="!miniState" class="absolute-bottom">
         <router-link style="text-decoration: none" :to="{ path: '/impressum' }" target="_blank">
           <p class="q-ml-md cursor-pointer text-black">
             Impressum
