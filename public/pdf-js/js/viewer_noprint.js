@@ -2184,7 +2184,7 @@ const PDFViewerApplication = {
 exports.PDFViewerApplication = PDFViewerApplication;
 let validateFileURL;
 {
-  const HOSTED_VIEWER_ORIGINS = ["https://www.foerderscouting-plattform.de", "https://crm-stage.foerderscouting-plattform.de", "http://188.34.165.198", "https://foerderscouting-plattform.de"];
+  const HOSTED_VIEWER_ORIGINS = ["https://pdf.foerderscouting-plattform.de"];
 
   validateFileURL = function (file) {
     if (file === undefined) {
@@ -2198,12 +2198,14 @@ let validateFileURL;
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         return;
       }
+      console.log("🚀 ~ viewerOrigin:", viewerOrigin)
 
       const {
         origin,
         protocol
       } = new URL(file, window.location.href);
 
+      console.log("🚀 ~ origin:", origin)
       if (origin !== viewerOrigin && protocol !== "blob:") {
         throw new Error("file origin does not match viewer's");
       }

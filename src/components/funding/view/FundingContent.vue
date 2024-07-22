@@ -2035,7 +2035,7 @@
           <iframe
             className="doc"
             title="file"
-            :src="`pdf-js/generic/web/viewer_readonly.html?file=${previewDocumentData}`"
+            :src="previewDocumentData"
             style="width: 100%; height: 70vh; border-style: none;"
             type="application/pdf"
           />
@@ -2111,7 +2111,7 @@ export default {
     },
     async handleOpenDocumentPreviewModal (file) {
       this.openDocumentPreviewModal = true;
-      this.previewDocumentData = `${process.env.VUE_APP_MAIN_URL}/api/file/${file.id}?token=${this.$store.state.userCenter.user.jwt}`;
+      this.previewDocumentData = `https://pdf.foerderscouting-plattform.de/generic/web/viewer_readonly.html?file=${process.env.VUE_APP_MAIN_URL}/api/file/${file.id}?token=${this.$store.state.userCenter.user.jwt}`;
     },
     async handleRequest(val, id) {
       const res = await this.$store.dispatch("userCenter/manageRequest", {
