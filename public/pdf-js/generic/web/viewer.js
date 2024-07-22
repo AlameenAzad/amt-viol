@@ -2168,7 +2168,7 @@ const PDFViewerApplication = {
 exports.PDFViewerApplication = PDFViewerApplication;
 let validateFileURL;
 {
-  const HOSTED_VIEWER_ORIGINS = ["https://www.foerderscouting-plattform.de", "https://crm-stage.foerderscouting-plattform.de", "http://188.34.165.198", "https://foerderscouting-plattform.de"];
+  const HOSTED_VIEWER_ORIGINS = ["null"];
 
   validateFileURL = function (file) {
     if (file === undefined) {
