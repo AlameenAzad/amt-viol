@@ -213,7 +213,7 @@
                         >{{ $t("Recipient") }}:</span
                       >
                       <span class="text-black q-mb-sm font-14">{{
-                        viewDetails.userGroup.value
+                        viewDetails.userGroup[0].value
                       }}</span>
                     </div>
                     <span>
