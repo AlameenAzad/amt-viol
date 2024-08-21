@@ -15,11 +15,12 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: isInPage ? 10 : 5
+        rowsPerPage: isInPage ? 10 : 5,
       }"
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -148,14 +149,9 @@
                 >
                   <template v-slot:selected>
                     <template
-                      v-if="
-                        !!projectCoordinator && projectCoordinator.length > 0
-                      "
+                      v-if="!!projectCoordinator && projectCoordinator.length > 0"
                     >
-                      <span
-                        v-for="(item, index) in projectCoordinator"
-                        :key="index"
-                      >
+                      <span v-for="(item, index) in projectCoordinator" :key="index">
                         {{ index > 0 ? ", " : "" }}
                         {{ item.user }}
                       </span>
@@ -170,10 +166,8 @@
                     <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                       <q-item-section>
                         <q-item-label
-                          ><span class="text-grey-7">{{
-                            scope.opt.location
-                          }}</span>
-                          - {{ scope.opt.user }}</q-item-label
+                          ><span class="text-grey-7">{{ scope.opt.location }}</span> -
+                          {{ scope.opt.user }}</q-item-label
                         >
                       </q-item-section>
                     </q-item>
@@ -271,14 +265,14 @@
                   @click="clearFilters"
                   color="primary"
                   class="radius-6"
-                  style="margin-top: 40px; font-size: 12px;"
+                  style="margin-top: 40px; font-size: 12px"
                   unelevated
                   :label="$t('Clear filters')"
                   :aria-label="$t('Clear filters')"
                 >
                 </q-btn>
               </div>
-              
+
               <!-- <div class="col-6 col-md-3">
                 <p class="text-black q-mb-xs font-16">
                   {{ $t("statsTable.endDate") }}
@@ -398,7 +392,15 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
+            <q-btn
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+              aria-label="Optionen"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable @click="view(props.row)">
@@ -444,11 +446,7 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    @click="addToWatchlist(props.row)"
-                  >
+                  <q-item clickable v-close-popup @click="addToWatchlist(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("myDataTableOptions.bookmark") }}
@@ -473,10 +471,10 @@
                     @click="archiveItem(props.row)"
                     v-if="
                       isAdmin ||
-                        (props.row &&
-                          props.row.type !== 'funding' &&
-                          (!!props.row.owner && props.row.owner.id) ===
-                            (!!loggedInUser && loggedInUser.id))
+                      (props.row &&
+                        props.row.type !== 'funding' &&
+                        (!!props.row.owner && props.row.owner.id) ===
+                          (!!loggedInUser && loggedInUser.id))
                     "
                   >
                     <q-item-section
@@ -489,12 +487,7 @@
                           class="text-blue"
                           name="inventory"
                         />
-                        <q-spinner
-                          v-else
-                          color="red"
-                          size="sm"
-                          :thickness="2"
-                        /> </span
+                        <q-spinner v-else color="red" size="sm" :thickness="2" /> </span
                     ></q-item-section>
                   </q-item>
                   <q-item
@@ -513,12 +506,7 @@
                           class="text-red"
                           name="delete"
                         />
-                        <q-spinner
-                          v-else
-                          color="red"
-                          size="sm"
-                          :thickness="2"
-                        /> </span
+                        <q-spinner v-else color="red" size="sm" :thickness="2" /> </span
                     ></q-item-section>
                   </q-item>
                 </q-list>
@@ -553,7 +541,7 @@ export default {
   name: "dataOverview",
   components: {
     DeleteDialog,
-    RequestAccessDialog
+    RequestAccessDialog,
   },
   data() {
     return {
@@ -580,14 +568,14 @@ export default {
         "user",
         // "plannedStart",
         // "plannedEnd",
-        "createdAtStart"
+        "createdAtStart",
       ],
       viewIsLoading: false,
       editIsLoading: false,
       deleteIsLoading: false,
       archiveIsLoading: false,
       watchlistIsLoading: false,
-      requestDialog: false
+      requestDialog: false,
     };
   },
   methods: {
@@ -600,12 +588,8 @@ export default {
       let category = terms.category ? terms.category : null;
       let type = terms.type ? terms.type : null;
       let tagsKeywords = terms.tagsKeywords ? terms.tagsKeywords : null;
-      let projectCoordinator = terms.projectCoordinator
-        ? terms.projectCoordinator
-        : null;
-      let publishDateStart = terms.publishDateStart
-        ? terms.publishDateStart
-        : "";
+      let projectCoordinator = terms.projectCoordinator ? terms.projectCoordinator : null;
+      let publishDateStart = terms.publishDateStart ? terms.publishDateStart : "";
       let publishDateEnd = terms.publishDateEnd ? terms.publishDateEnd : "";
       let endDateStart = terms.endDateStart ? terms.endDateStart : "";
       let endDateEnd = terms.endDateEnd ? terms.endDateEnd : "";
@@ -613,28 +597,31 @@ export default {
       let createdAtEnd = terms.createdAtEnd ? terms.createdAtEnd : "";
       let filteredRows = rows;
       if (!!search) {
-        filteredRows = filteredRows.filter(row => {
-          return row.title.toLowerCase().includes(search) || row.tags.find(tag => tag.title.toLowerCase().includes(search));
+        filteredRows = filteredRows.filter((row) => {
+          return (
+            row.title.toLowerCase().includes(search) ||
+            row.tags.find((tag) => tag.title.toLowerCase().includes(search))
+          );
         });
       }
       if (!!type && type.length > 0) {
-        filteredRows = filteredRows.filter(row => {
+        filteredRows = filteredRows.filter((row) => {
           return type.includes(row.type.toLowerCase());
         });
       }
       if (!!category && category.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return row.categories.find(cat => category.includes(cat.title));
+        filteredRows = filteredRows.filter((row) => {
+          return row.categories.find((cat) => category.includes(cat.title));
         });
       }
       if (!!tagsKeywords && tagsKeywords.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return row.tags.find(tag => tagsKeywords.includes(tag.title));
+        filteredRows = filteredRows.filter((row) => {
+          return row.tags.find((tag) => tagsKeywords.includes(tag.title));
         });
       }
       if (!!projectCoordinator && projectCoordinator.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return projectCoordinator.find(item => {
+        filteredRows = filteredRows.filter((row) => {
+          return projectCoordinator.find((item) => {
             return item.user.includes(!!row.owner && row.owner.username);
           });
         });
@@ -652,7 +639,7 @@ export default {
           publishDateEndParts[1] - 1,
           publishDateEndParts[0]
         );
-        filteredRows = rows.filter(row => {
+        filteredRows = rows.filter((row) => {
           if (!!row.plannedStart && !!row.plannedEnd) {
             if (
               endDate instanceof Date &&
@@ -685,7 +672,7 @@ export default {
           endDateEndParts[1] - 1,
           endDateEndParts[0]
         );
-        filteredRows = rows.filter(row => {
+        filteredRows = rows.filter((row) => {
           if (!!row.plannedStart && !!row.plannedEnd) {
             if (
               endDate instanceof Date &&
@@ -706,7 +693,6 @@ export default {
         });
       }
       if (!!createdAtStart || !!createdAtEnd) {
-
         const createdAtStartParts = createdAtStart.split(".");
         const startDate = new Date(
           createdAtStartParts[2],
@@ -719,7 +705,7 @@ export default {
           createdAtEndParts[1] - 1,
           createdAtEndParts[0]
         );
-        filteredRows = rows.filter(row => {
+        filteredRows = rows.filter((row) => {
           if (!!row.createdAt) {
             if (
               endDate instanceof Date &&
@@ -727,10 +713,8 @@ export default {
               startDate instanceof Date &&
               !isNaN(startDate)
             ) {
-                  console.log(createdAtStart, createdAtEnd);
               return (
-                new Date(row.createdAt) >= startDate &&
-                new Date(row.createdAt) <= endDate
+                new Date(row.createdAt) >= startDate && new Date(row.createdAt) <= endDate
               );
             } else if (endDate instanceof Date && !isNaN(endDate)) {
               return new Date(row.createdAt) <= endDate;
@@ -744,13 +728,19 @@ export default {
     },
     dateFormatter,
     async view(row) {
-      const userMunicipality = this.$store.state.userCenter.user.userDetails.municipality.id;
+      const userMunicipality = this.$store.state.userCenter.user.userDetails.municipality
+        .id;
       const id = row && row.id;
       this.itemId = row && row.id;
       this.viewIsLoading = true;
       if (row.type === "project") {
         this.tab = "projectIdeas";
-        if (row.visibility === "listed only" && (!!row.owner && row.owner.id) !== (!!this.loggedInUser && this.loggedInUser.id) && !this.isAdmin) {
+        if (
+          row.visibility === "listed only" &&
+          (!!row.owner && row.owner.id) !==
+            (!!this.loggedInUser && this.loggedInUser.id) &&
+          !this.isAdmin
+        ) {
           // if (this.isGuest && userMunicipality != row.municipality.id) {
           //   const hasReaderAccess =
           //     !!row.readers &&
@@ -775,12 +765,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
@@ -824,12 +814,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/${id}` });
@@ -838,7 +828,6 @@ export default {
             this.itemType = "view";
             this.requestDialog = true;
           }
-
         } else {
           this.$router.push({ path: `/user/newFunding/${id}` });
         }
@@ -874,12 +863,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/${id}` });
@@ -908,7 +897,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
@@ -930,7 +919,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/edit/${id}` });
@@ -952,7 +941,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/edit/${id}` });
@@ -985,7 +974,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("project/archiveProjectIdea", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -993,7 +982,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("funding/archiveFunding", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -1001,7 +990,7 @@ export default {
         this.archiveIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("implementationChecklist/archiveChecklist", {
-          id: id
+          id: id,
         });
         this.archiveIsLoading = false;
         this.getData();
@@ -1012,7 +1001,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("project/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -1020,7 +1009,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("funding/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -1028,7 +1017,7 @@ export default {
         this.watchlistIsLoading = true;
         const id = row && row.id;
         await this.$store.dispatch("implementationChecklist/addToWatchlist", {
-          id: id
+          id: id,
         });
         this.watchlistIsLoading = false;
         this.getData();
@@ -1061,7 +1050,7 @@ export default {
     // },
     getData() {
       this.$store.dispatch("userCenter/getDataOverview");
-    }
+    },
   },
   computed: {
     datepickerLocale() {
@@ -1073,7 +1062,7 @@ export default {
           this.$t("Wednesday"),
           this.$t("Thursday"),
           this.$t("Friday"),
-          this.$t("Saturday")
+          this.$t("Saturday"),
         ],
         daysShort: [
           this.$t("Sun"),
@@ -1082,7 +1071,7 @@ export default {
           this.$t("Wed"),
           this.$t("Thu"),
           this.$t("Fri"),
-          this.$t("Sat")
+          this.$t("Sat"),
         ],
         months: [
           this.$t("January"),
@@ -1096,7 +1085,7 @@ export default {
           this.$t("September"),
           this.$t("October"),
           this.$t("November"),
-          this.$t("December")
+          this.$t("December"),
         ],
         monthsShort: [
           this.$t("Jan"),
@@ -1110,47 +1099,43 @@ export default {
           this.$t("Sep"),
           this.$t("Oct"),
           this.$t("Nov"),
-          this.$t("Dec")
-        ]
+          this.$t("Dec"),
+        ],
       };
     },
     typeOptions() {
       return [
         {
           value: "project",
-          label: this.$t("project")
+          label: this.$t("project"),
         },
         {
           value: "funding",
-          label: this.$t("funding")
+          label: this.$t("funding"),
         },
         {
           value: "checklist",
-          label: this.$t("checklist")
-        }
+          label: this.$t("checklist"),
+        },
       ];
     },
     categoryOptions() {
       const categories = [];
-      this.data.map(item =>
-        item.categories.map(cat =>
-          !!cat.title ? categories.push(cat.title) : null
-        )
+      this.data.map((item) =>
+        item.categories.map((cat) => (!!cat.title ? categories.push(cat.title) : null))
       );
       return [...new Set(categories)];
     },
     tagKeywordsOptions() {
       const tagsKeywords = [];
-      this.data.map(item =>
-        item.tags.map(tag =>
-          !!tag.title ? tagsKeywords.push(tag.title) : null
-        )
+      this.data.map((item) =>
+        item.tags.map((tag) => (!!tag.title ? tagsKeywords.push(tag.title) : null))
       );
       return [...new Set(tagsKeywords)];
     },
     projectCoordinatorOptions() {
       const users = [];
-      this.data.map(item =>
+      this.data.map((item) =>
         !!item.owner && !!item.owner.username
           ? users.push({
               user: item.owner.username,
@@ -1158,11 +1143,11 @@ export default {
                 !!item.owner &&
                 !!item.owner.user_detail &&
                 !!item.owner.user_detail.municipality &&
-                item.owner.user_detail.municipality.title
+                item.owner.user_detail.municipality.title,
             })
           : null
       );
-      return [...new Map(users.map(item => [item["user"], item])).values()];
+      return [...new Map(users.map((item) => [item["user"], item])).values()];
     },
     filter() {
       // return object that contains all v-models. This will be passed to the filter method
@@ -1177,7 +1162,7 @@ export default {
         endDateStart: this.endDateStart,
         endDateEnd: this.endDateEnd,
         createdAtStart: this.createdAtStart,
-        createdAtEnd: this.createdAtEnd
+        createdAtEnd: this.createdAtEnd,
       };
 
       return filters;
@@ -1193,8 +1178,7 @@ export default {
     },
     loggedInUser() {
       return (
-        !!this.$store.state.userCenter.user &&
-        this.$store.state.userCenter.user.user
+        !!this.$store.state.userCenter.user && this.$store.state.userCenter.user.user
       );
     },
     isInPage() {
@@ -1206,38 +1190,38 @@ export default {
           name: "id",
           label: "id",
           align: "left",
-          field: row => row.id,
-          sortable: true
+          field: (row) => row.id,
+          sortable: true,
         },
         {
           name: "title",
           label: this.$t("myData.title"),
           align: "left",
-          field: row => row.title,
-          sortable: true
+          field: (row) => row.title,
+          sortable: true,
         },
         {
           name: "type",
           label: this.$t("statsTable.type"),
           align: "left",
-          field: row => this.$t(row.type),
-          sortable: true
+          field: (row) => this.$t(row.type),
+          sortable: true,
         },
         {
           name: "categories",
           align: "left",
           label: this.$t("myData.categories"),
-          field: row =>
+          field: (row) =>
             (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
+              row.categories.map((category) => category.title).join(", ")) ||
             this.$t("NoCategories"),
-          sortable: true
+          sortable: true,
         },
         {
           name: "plannedStart",
           label: this.$t("fundingsCol.start"),
           align: "left",
-          field: row => {
+          field: (row) => {
             return dateFormatter(row.plannedStart);
           },
           sortable: true,
@@ -1245,25 +1229,25 @@ export default {
             const dateA = new Date(rowA.plannedStart);
             const dateB = new Date(rowB.plannedStart);
             return dateB - dateA;
-          }
+          },
         },
         {
           name: "plannedEnd",
           label: this.$t("fundingsCol.end"),
           align: "left",
-          field: row => dateFormatter(row.plannedEnd),
+          field: (row) => dateFormatter(row.plannedEnd),
           sortable: true,
           sort: (a, b, rowA, rowB) => {
             const dateA = new Date(rowA.plannedEnd);
             const dateB = new Date(rowB.plannedEnd);
             return dateB - dateA;
-          }
+          },
         },
         {
           name: "createdAtStart",
           label: this.$t("fundingsCol.created_at"),
           align: "left",
-          field: row => {
+          field: (row) => {
             return dateFormatter(row.createdAt);
           },
           sortable: true,
@@ -1271,15 +1255,15 @@ export default {
             const dateA = new Date(rowA.createdAt);
             const dateB = new Date(rowB.createdAt);
             return dateB - dateA;
-          }
+          },
         },
         {
           name: "user",
           label: this.$t("User"),
           align: "left",
-          field: row => row.owner && row.owner.username,
-          sortable: true
-        }
+          field: (row) => row.owner && row.owner.username,
+          sortable: true,
+        },
       ];
     },
     data() {
@@ -1287,30 +1271,39 @@ export default {
         !!this.$store.state.userCenter.dataOverview &&
         this.$store.state.userCenter.dataOverview
       );
-    }
+    },
   },
   mounted() {
     this.getData();
 
     if (localStorage.getItem("filters") !== null) {
-        const savedFilters = JSON.parse(localStorage.getItem("filters"));
+      const savedFilters = JSON.parse(localStorage.getItem("filters"));
 
-        this.search = savedFilters.name;
-        this.type = savedFilters.type;
-        this.category = savedFilters.category;
-        this.tagsKeywords = savedFilters.tagsKeywords;
-        this.projectCoordinator = savedFilters.projectCoordinator;
-        this.publishDateStart = savedFilters.publishDateStart;
-        this.publishDateEnd = savedFilters.publishDateEnd;
-        this.endDateStart = savedFilters.endDateStart;
-        this.endDateEnd = savedFilters.endDateEnd;
-        this.createdAtStart = savedFilters.createdAtStart;
-        this.createdAtEnd = savedFilters.createdAtEnd;
+      this.search = savedFilters.name;
+      this.type = savedFilters.type;
+      this.category = savedFilters.category;
+      this.tagsKeywords = savedFilters.tagsKeywords;
+      this.projectCoordinator = savedFilters.projectCoordinator;
+      this.publishDateStart = savedFilters.publishDateStart;
+      this.publishDateEnd = savedFilters.publishDateEnd;
+      this.endDateStart = savedFilters.endDateStart;
+      this.endDateEnd = savedFilters.endDateEnd;
+      this.createdAtStart = savedFilters.createdAtStart;
+      this.createdAtEnd = savedFilters.createdAtEnd;
+      this.$refs.table.setPagination({
+        page: savedFilters.page || 1,
+        rowsPerPage: savedFilters.rowsPerPage || 10,
+      });
     }
   },
   beforeDestroy() {
-    localStorage.setItem("filters", JSON.stringify(this.filter));
-  }
+    const filters = {
+      ...this.filter,
+      page: this.$refs.table.computedPagination.page,
+      rowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    localStorage.setItem("filters", JSON.stringify(filters));
+  },
 };
 </script>
 

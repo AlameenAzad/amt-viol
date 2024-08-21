@@ -17,6 +17,7 @@
         :rows-per-page-label="$t('Records per page')"
         :no-data-label="$t('No data')"
         :no-results-label="$t('No results')"
+        ref="table"
       >
         <template v-slot:top>
           <div class="row full-width justify-between items-center">
@@ -101,7 +102,7 @@
                         </span>
                       </q-item-section>
                     </q-item>
-  
+
                     <q-item
                       v-if="isAdmin"
                       clickable
@@ -134,7 +135,7 @@
       />
     </q-page>
   </template>
-  
+
   <script>
   import CreateDialog from "components/States/CreateDialog.vue";
   import DeleteDialog from "components/States/DeleteDialog.vue";
@@ -210,7 +211,23 @@
     },
     mounted() {
       this.getData();
+      if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.statesPage || 1,
+          rowsPerPage: savedPagination.statesRowsPerPage || 10,
+        });
     }
+    },
+    beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      statesPage: this.$refs.table.computedPagination.page,
+      statesRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
+  },
   };
   </script>
-  
