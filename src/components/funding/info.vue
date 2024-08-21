@@ -16,6 +16,7 @@
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:top v-if="!isGuest">
         <p class="font-24 ppeditorial">{{ $t("fundingsInfo.current") }}</p>
@@ -325,6 +326,23 @@ export default {
   },
   mounted() {
     this.getData();
-  }
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.fundingInfoPage || 1,
+          rowsPerPage: savedPagination.fundingInfoRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      fundingInfoPage: this.$refs.table.computedPagination.page,
+      fundingInfoRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
+  },
 };
 </script>

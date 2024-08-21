@@ -25,7 +25,8 @@
         page: 1,
         rowsPerPage: isInPage ? 10 : 5
       }" :rows-per-page-label="$t('Records per page')" :no-data-label="$t('No data')"
-      :no-results-label="$t('No results')">
+      :no-results-label="$t('No results')"
+      ref="table">
       <template v-slot:top>
         <div v-if="!isInPage" class="row full-width">
           <div class="col-12">
@@ -700,6 +701,23 @@ export default {
   mounted() {
     console.log("this.$router.currentRoute", this.$router.currentRoute);
     this.getData(this.tab);
-  }
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.dataOverviewPage || 1,
+          rowsPerPage: savedPagination.dataOverviewRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      dataOverviewPage: this.$refs.table.computedPagination.page,
+      dataOverviewRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
+  },
 };
 </script>
