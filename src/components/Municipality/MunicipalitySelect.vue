@@ -17,7 +17,7 @@
         </template>
         <template v-else>
           <span class="text-grey">
-            {{$t('Select Municipality')}}
+            {{ $t("Select Municipality") }}
           </span>
         </template>
       </template>
@@ -38,33 +38,35 @@ export default {
   props: {
     currentMunicipality: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      model: this.currentMunicipality
+      model: this.currentMunicipality,
     };
   },
   methods: {
     onSelect(value) {
       const municipality = {
         id: value.id,
-        title: value.title
+        title: value.title,
       };
       this.$emit("update:municipality", municipality);
-    }
+    },
   },
   computed: {
     municipalities() {
-      return this.$store.state.municipality.municipalities.map(municipality => {
-        return {
-          id: municipality.id,
-          title: municipality.title
-        };
-      });
-    }
-  }
+      return this.$store.state.municipality.municipalities
+        .map((municipality) => {
+          return {
+            id: municipality.id,
+            title: municipality.title,
+          };
+        })
+        .sort((a, b) => a.title.localeCompare(b.title));
+    },
+  },
   // mounted() {
   //   console.log("this.currentMunicipality", this.currentMunicipality.title);
   //   this.model = this.currentMunicipality.title
