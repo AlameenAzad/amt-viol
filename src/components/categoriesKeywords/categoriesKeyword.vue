@@ -49,6 +49,7 @@
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:top>
         <div class="row full-width justify-between items-center">
@@ -100,7 +101,6 @@
           </div>
         </div>
       </template>
-
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
           <q-th
@@ -271,6 +271,23 @@ export default {
   },
   mounted() {
     this.getData(this.tab);
-  }
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.categoriesKeywordPage || 1,
+          rowsPerPage: savedPagination.categoriesKeywordRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      categoriesKeywordPage: this.$refs.table.computedPagination.page,
+      categoriesKeywordRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
+  },
 };
 </script>

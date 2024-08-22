@@ -19,6 +19,7 @@
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:top>
         <div class="col-12">
@@ -1081,7 +1082,24 @@ export default {
   },
   mounted() {
     this.getArchivedStats();
-  }
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.statsPage || 1,
+          rowsPerPage: savedPagination.statsRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      statsPage: this.$refs.table.computedPagination.page,
+      statsRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
+  },
 };
 </script>
 

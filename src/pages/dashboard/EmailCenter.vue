@@ -301,6 +301,7 @@
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
@@ -619,6 +620,23 @@ export default {
   mounted() {
     this.getData();
     this.getUserGroupOptions();
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.emailCenterPage || 1,
+          rowsPerPage: savedPagination.emailCenterRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      emailCenterPage: this.$refs.table.computedPagination.page,
+      emailCenterRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
   },
 };
 </script>
