@@ -1124,14 +1124,14 @@ export default {
       this.data.map((item) =>
         item.categories.map((cat) => (!!cat.title ? categories.push(cat.title) : null))
       );
-      return [...new Set(categories)];
+      return [...new Set(categories)].sort();
     },
     tagKeywordsOptions() {
       const tagsKeywords = [];
       this.data.map((item) =>
         item.tags.map((tag) => (!!tag.title ? tagsKeywords.push(tag.title) : null))
       );
-      return [...new Set(tagsKeywords)];
+      return [...new Set(tagsKeywords)].sort();
     },
     projectCoordinatorOptions() {
       const users = [];
