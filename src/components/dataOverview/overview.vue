@@ -1290,7 +1290,6 @@ export default {
       this.endDateEnd = savedFilters.endDateEnd;
       this.createdAtStart = savedFilters.createdAtStart;
       this.createdAtEnd = savedFilters.createdAtEnd;
-      console.log("🚀 ~ mounted ~ savedFilters.page:", savedFilters.page);
       setTimeout(() => {
         this.$refs.table.setPagination({
           page: savedFilters.page || 1,
