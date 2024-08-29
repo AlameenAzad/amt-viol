@@ -14,7 +14,7 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: isInPage ? 10 : 5
+        rowsPerPage: isInPage ? 10 : 5,
       }"
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
@@ -150,14 +150,9 @@
                 >
                   <template v-slot:selected>
                     <template
-                      v-if="
-                        !!projectCoordinator && projectCoordinator.length > 0
-                      "
+                      v-if="!!projectCoordinator && projectCoordinator.length > 0"
                     >
-                      <span
-                        v-for="(item, index) in projectCoordinator"
-                        :key="index"
-                      >
+                      <span v-for="(item, index) in projectCoordinator" :key="index">
                         {{ index > 0 ? ", " : "" }}
                         {{ item.user }}
                       </span>
@@ -172,10 +167,8 @@
                     <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                       <q-item-section>
                         <q-item-label
-                          ><span class="text-grey-7">{{
-                            scope.opt.location
-                          }}</span>
-                          - {{ scope.opt.user }}</q-item-label
+                          ><span class="text-grey-7">{{ scope.opt.location }}</span> -
+                          {{ scope.opt.user }}</q-item-label
                         >
                       </q-item-section>
                     </q-item>
@@ -386,7 +379,15 @@
             }}
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
+            <q-btn
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+              aria-label="Optionen"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item v-close-popup clickable @click="view(props.row)">
@@ -427,11 +428,7 @@
                         /> </span
                     ></q-item-section>
                   </q-item>
-                  <q-item
-                    v-close-popup
-                    clickable
-                    @click="publishItem(props.row)"
-                  >
+                  <q-item v-close-popup clickable @click="publishItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("statsTable.publish") }}
@@ -451,11 +448,7 @@
                     ></q-item-section>
                   </q-item>
 
-                  <q-item
-                    clickable
-                    v-close-popup
-                    @click="deleteItem(props.row)"
-                  >
+                  <q-item clickable v-close-popup @click="deleteItem(props.row)">
                     <q-item-section
                       ><span class="text-right font-14 text-red">
                         {{ $t("statsTable.delete") }}
@@ -466,12 +459,7 @@
                           class="text-red"
                           name="delete"
                         />
-                        <q-spinner
-                          v-else
-                          color="red"
-                          size="sm"
-                          :thickness="2"
-                        /> </span
+                        <q-spinner v-else color="red" size="sm" :thickness="2" /> </span
                     ></q-item-section>
                   </q-item>
                 </q-list>
@@ -505,7 +493,7 @@ export default {
   name: "StatsTable",
   components: {
     DeleteDialog,
-    RequestAccessDialog
+    RequestAccessDialog,
   },
   data() {
     return {
@@ -530,16 +518,9 @@ export default {
       itemType: null,
       statsData: {
         stats: {},
-        table: {}
+        table: {},
       },
-      visibleColumns: [
-        "title",
-        "type",
-        "categories",
-        "publishDate",
-        "endDate",
-        "owners"
-      ]
+      visibleColumns: ["title", "type", "categories", "publishDate", "endDate", "owners"],
     };
   },
   methods: {
@@ -549,40 +530,36 @@ export default {
       let category = terms.category ? terms.category : null;
       let type = terms.type ? terms.type : null;
       let tagsKeywords = terms.tagsKeywords ? terms.tagsKeywords : null;
-      let projectCoordinator = terms.projectCoordinator
-        ? terms.projectCoordinator
-        : null;
-      let publishDateStart = terms.publishDateStart
-        ? terms.publishDateStart
-        : "";
+      let projectCoordinator = terms.projectCoordinator ? terms.projectCoordinator : null;
+      let publishDateStart = terms.publishDateStart ? terms.publishDateStart : "";
       let publishDateEnd = terms.publishDateEnd ? terms.publishDateEnd : "";
       let endDateStart = terms.endDateStart ? terms.endDateStart : "";
       let endDateEnd = terms.endDateEnd ? terms.endDateEnd : "";
       let filteredRows = rows;
       if (!!search) {
-        filteredRows = filteredRows.filter(row => {
+        filteredRows = filteredRows.filter((row) => {
           return row.title.toLowerCase().includes(search);
         });
       }
 
       if (!!type && type.length > 0) {
-        filteredRows = filteredRows.filter(row => {
+        filteredRows = filteredRows.filter((row) => {
           return type.includes(row.type.toLowerCase());
         });
       }
       if (!!category && category.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return row.categories.find(cat => category.includes(cat.title));
+        filteredRows = filteredRows.filter((row) => {
+          return row.categories.find((cat) => category.includes(cat.title));
         });
       }
       if (!!tagsKeywords && tagsKeywords.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return row.tags.find(tag => tagsKeywords.includes(tag.title));
+        filteredRows = filteredRows.filter((row) => {
+          return row.tags.find((tag) => tagsKeywords.includes(tag.title));
         });
       }
       if (!!projectCoordinator && projectCoordinator.length > 0) {
-        filteredRows = filteredRows.filter(row => {
-          return projectCoordinator.find(item => {
+        filteredRows = filteredRows.filter((row) => {
+          return projectCoordinator.find((item) => {
             return item.user.includes(!!row.owner && row.owner.username);
           });
         });
@@ -600,7 +577,7 @@ export default {
           publishDateEndParts[1] - 1,
           publishDateEndParts[0]
         );
-        filteredRows = rows.filter(row => {
+        filteredRows = rows.filter((row) => {
           if (!!row.plannedStart && !!row.plannedEnd) {
             if (
               endDate instanceof Date &&
@@ -633,7 +610,7 @@ export default {
           endDateEndParts[1] - 1,
           endDateEndParts[0]
         );
-        filteredRows = rows.filter(row => {
+        filteredRows = rows.filter((row) => {
           if (!!row.plannedStart && !!row.plannedEnd) {
             if (
               endDate instanceof Date &&
@@ -661,15 +638,15 @@ export default {
       for (const item in table) {
         if (table.hasOwnProperty(item)) {
           if (item === "fundings") {
-            table[item].forEach(funding => {
+            table[item].forEach((funding) => {
               data.push({ ...funding, type: "funding" });
             });
           } else if (item === "projects") {
-            table[item].forEach(funding => {
+            table[item].forEach((funding) => {
               data.push({ ...funding, type: "project" });
             });
           } else if (item === "checklists") {
-            table[item].forEach(funding => {
+            table[item].forEach((funding) => {
               data.push({ ...funding, type: "checklist" });
             });
           }
@@ -692,12 +669,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/${id}` });
@@ -720,12 +697,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/${id}` });
@@ -748,12 +725,12 @@ export default {
           const hasReaderAccess =
             !!row.readers &&
             row.readers.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasReaderAccess.length > 0 || hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/${id}` });
@@ -783,7 +760,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newProjectIdea/edit/${id}` });
@@ -805,7 +782,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newFunding/edit/${id}` });
@@ -827,7 +804,7 @@ export default {
           const hasEditorAccess =
             !!row.editors &&
             row.editors.filter(
-              user => user.id === (!!this.loggedInUser && this.loggedInUser.id)
+              (user) => user.id === (!!this.loggedInUser && this.loggedInUser.id)
             );
           if (hasEditorAccess.length > 0) {
             this.$router.push({ path: `/user/newChecklist/edit/${id}` });
@@ -858,7 +835,7 @@ export default {
       }
     },
     getArchivedStats() {
-      this.$api.get("/api/stats").then(response => {
+      this.$api.get("/api/stats").then((response) => {
         this.statsData = response.data;
         this.$emit("stats", this.statsData.stats);
         this.prepTableData();
@@ -874,23 +851,23 @@ export default {
     publishItem(row) {
       var data = {
         data: {
-          archived: false
-        }
+          archived: false,
+        },
       };
       if (row.type === "project") {
-        this.$api.put(`/api/projects/${row.id}`, data).then(response => {
+        this.$api.put(`/api/projects/${row.id}`, data).then((response) => {
           this.getArchivedStats();
         });
       } else if (row.type === "funding") {
-        this.$api.put(`/api/fundings/${row.id}`, data).then(response => {
+        this.$api.put(`/api/fundings/${row.id}`, data).then((response) => {
           this.getArchivedStats();
         });
       } else {
-        this.$api.put(`/api/checklists/${row.id}`, data).then(response => {
+        this.$api.put(`/api/checklists/${row.id}`, data).then((response) => {
           this.getArchivedStats();
         });
       }
-    }
+    },
   },
   computed: {
     datepickerLocale() {
@@ -902,7 +879,7 @@ export default {
           this.$t("Wednesday"),
           this.$t("Thursday"),
           this.$t("Friday"),
-          this.$t("Saturday")
+          this.$t("Saturday"),
         ],
         daysShort: [
           this.$t("Sun"),
@@ -911,7 +888,7 @@ export default {
           this.$t("Wed"),
           this.$t("Thu"),
           this.$t("Fri"),
-          this.$t("Sat")
+          this.$t("Sat"),
         ],
         months: [
           this.$t("January"),
@@ -925,7 +902,7 @@ export default {
           this.$t("September"),
           this.$t("October"),
           this.$t("November"),
-          this.$t("December")
+          this.$t("December"),
         ],
         monthsShort: [
           this.$t("Jan"),
@@ -939,49 +916,45 @@ export default {
           this.$t("Sep"),
           this.$t("Oct"),
           this.$t("Nov"),
-          this.$t("Dec")
-        ]
+          this.$t("Dec"),
+        ],
       };
     },
     typeOptions() {
       return [
         {
           value: "project",
-          label: this.$t("project")
+          label: this.$t("project"),
         },
         {
           value: "funding",
-          label: this.$t("funding")
+          label: this.$t("funding"),
         },
         {
           value: "checklist",
-          label: this.$t("checklist")
-        }
+          label: this.$t("checklist"),
+        },
       ];
     },
     categoryOptions() {
       const categories = [];
-      this.data.map(item =>
-        item.categories.map(cat =>
-          !!cat.title ? categories.push(cat.title) : null
-        )
+      this.data.map((item) =>
+        item.categories.map((cat) => (!!cat.title ? categories.push(cat.title) : null))
       );
-      return [...new Set(categories)];
+      return [...new Set(categories)].sort();
     },
     tagKeywordsOptions() {
       const tagsKeywords = [];
       this.data.map(
-        item =>
+        (item) =>
           !!item.tags &&
-          item.tags.map(tag =>
-            !!tag.title ? tagsKeywords.push(tag.title) : null
-          )
+          item.tags.map((tag) => (!!tag.title ? tagsKeywords.push(tag.title) : null))
       );
-      return [...new Set(tagsKeywords)];
+      return [...new Set(tagsKeywords)].sort();
     },
     projectCoordinatorOptions() {
       const users = [];
-      this.data.map(item =>
+      this.data.map((item) =>
         !!item.owner && !!item.owner.username
           ? users.push({
               user: item.owner.username,
@@ -989,11 +962,11 @@ export default {
                 !!item.owner &&
                 !!item.owner.user_detail &&
                 !!item.owner.user_detail.municipality &&
-                item.owner.user_detail.municipality.title
+                item.owner.user_detail.municipality.title,
             })
           : null
       );
-      return [...new Map(users.map(item => [item["user"], item])).values()];
+      return [...new Map(users.map((item) => [item["user"], item])).values()];
     },
     isInPage() {
       return true;
@@ -1009,7 +982,7 @@ export default {
         publishDateStart: this.publishDateStart,
         publishDateEnd: this.publishDateEnd,
         endDateStart: this.endDateStart,
-        endDateEnd: this.endDateEnd
+        endDateEnd: this.endDateEnd,
       };
     },
     columns() {
@@ -1018,8 +991,8 @@ export default {
           name: "id",
           label: "id",
           align: "left",
-          field: row => row.id,
-          sortable: true
+          field: (row) => row.id,
+          sortable: true,
         },
         {
           name: "title",
@@ -1027,58 +1000,58 @@ export default {
           label: this.$t("statsTable.title"),
           align: "left",
           field: "title",
-          sortable: true
+          sortable: true,
         },
         {
           name: "type",
           align: "left",
           label: this.$t("statsTable.type"),
-          field: row => this.$t(row.type),
-          sortable: true
+          field: (row) => this.$t(row.type),
+          sortable: true,
         },
         {
           name: "categories",
           align: "left",
           label: this.$t("statsTable.categories"),
-          field: row =>
+          field: (row) =>
             (!!row.categories &&
-              row.categories.map(category => category.title).join(", ")) ||
+              row.categories.map((category) => category.title).join(", ")) ||
             this.$t("NoCategories"),
-          sortable: true
+          sortable: true,
         },
         {
           name: "publishDate",
           align: "left",
           label: this.$t("statsTable.publishDate"),
-          field: row => dateFormatter(row.plannedStart),
+          field: (row) => dateFormatter(row.plannedStart),
           sortable: true,
           sort: (a, b, rowA, rowB) => {
             const dateA = new Date(rowA.plannedStart);
             const dateB = new Date(rowB.plannedStart);
             return dateB - dateA;
-          }
+          },
         },
         {
           name: "endDate",
           align: "left",
           label: this.$t("statsTable.endDate"),
-          field: row => dateFormatter(row.plannedEnd),
+          field: (row) => dateFormatter(row.plannedEnd),
           sortable: true,
           sort: (a, b, rowA, rowB) => {
             const dateA = new Date(rowA.plannedEnd);
             const dateB = new Date(rowB.plannedEnd);
             return dateB - dateA;
-          }
+          },
         },
         {
           name: "owners",
           align: "left",
           label: this.$t("statsTable.owners"),
-          field: row => row.owner && row.owner.username,
-          sortable: true
-        }
+          field: (row) => row.owner && row.owner.username,
+          sortable: true,
+        },
       ];
-    }
+    },
   },
   mounted() {
     this.getArchivedStats();
@@ -1086,9 +1059,9 @@ export default {
       const savedPagination = JSON.parse(localStorage.getItem("pagination"));
 
       this.$refs.table.setPagination({
-          page: savedPagination.statsPage || 1,
-          rowsPerPage: savedPagination.statsRowsPerPage || 10,
-        });
+        page: savedPagination.statsPage || 1,
+        rowsPerPage: savedPagination.statsRowsPerPage || 10,
+      });
     }
   },
   beforeDestroy() {
