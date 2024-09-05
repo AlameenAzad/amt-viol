@@ -5,24 +5,27 @@
         <div class="row q-col-gutter-md justify-end">
           <div class="col-12 col-md-auto">
             <q-btn
-            color="blue"
-            icon="add"
-            unelevated
-            outline
-            class="q-mb-md radius-6 text-weight-600"
-            :class="{ 'full-width': $q.screen.lt.md }"
-            no-caps
-            @click="dialogState = true"
+              color="blue"
+              icon="add"
+              unelevated
+              outline
+              class="q-mb-md radius-6 text-weight-600"
+              :class="{ 'full-width': $q.screen.lt.md }"
+              no-caps
+              @click="dialogState = true"
             >
-            <p class="q-mb-none q-mx-md q-my-sm">
-              {{ $t("projectIdeaPlaceholder.email") }}
+              <p class="q-mb-none q-mx-md q-my-sm">
+                {{ $t("projectIdeaPlaceholder.email") }}
               </p>
-              </q-btn>
-              
+            </q-btn>
+
             <!-- New Email Dialog -->
             <q-dialog v-model="$_options">
-              <q-card class="q-px-md q-py-xs radius-10" style="padding: 20px; min-width: 70%;">
-                <h5 style="margin: 5px 0 15px 5px;">
+              <q-card
+                class="q-px-md q-py-xs radius-10"
+                style="padding: 20px; min-width: 70%"
+              >
+                <h5 style="margin: 5px 0 15px 5px">
                   {{ $t("sendEmail") }}
                 </h5>
                 <q-card-section>
@@ -35,6 +38,8 @@
                     :rules="[(val) => !!val || $t('Required')]"
                     dense
                     class="no-shadow radius-6"
+                    multiple
+                    use-chips
                   />
                 </q-card-section>
 
@@ -69,10 +74,17 @@
                           icon: $q.iconSet.editor.align,
                           fixedLabel: true,
                           list: 'only-icons',
-                          options: ['left', 'center', 'right', 'justify']
-                        }
+                          options: ['left', 'center', 'right', 'justify'],
+                        },
                       ],
-                      ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                      [
+                        'bold',
+                        'italic',
+                        'strike',
+                        'underline',
+                        'subscript',
+                        'superscript',
+                      ],
                       ['token', 'hr', 'link', 'custom_btn'],
                       ['print', 'fullscreen'],
                       [
@@ -80,16 +92,7 @@
                           label: $q.lang.editor.formatting,
                           icon: $q.iconSet.editor.formatting,
                           list: 'no-icons',
-                          options: [
-                            'p',
-                            'h1',
-                            'h2',
-                            'h3',
-                            'h4',
-                            'h5',
-                            'h6',
-                            'code'
-                          ]
+                          options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code'],
                         },
                         {
                           label: $q.lang.editor.fontSize,
@@ -104,8 +107,8 @@
                             'size-4',
                             'size-5',
                             'size-6',
-                            'size-7'
-                          ]
+                            'size-7',
+                          ],
                         },
                         {
                           label: $q.lang.editor.defaultFont,
@@ -121,15 +124,15 @@
                             'impact',
                             'lucida_grande',
                             'times_new_roman',
-                            'verdana'
-                          ]
+                            'verdana',
+                          ],
                         },
-                        'removeFormat'
+                        'removeFormat',
                       ],
                       ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
                       ['undo', 'redo'],
-                      ['viewsource']
+                      ['viewsource'],
                     ]"
                     :fonts="{
                       arial: 'Arial',
@@ -139,7 +142,7 @@
                       impact: 'Impact',
                       lucida_grande: 'Lucida Grande',
                       times_new_roman: 'Times New Roman',
-                      verdana: 'Verdana'
+                      verdana: 'Verdana',
                     }"
                   />
                 </q-card-section>
@@ -192,19 +195,26 @@
                 </q-card-section>
               </q-card>
             </q-dialog>
-            
+
             <!-- View Email Dialog -->
             <q-dialog v-model="$_viewOptions" v-if="viewDialogState">
-              <q-card class="q-px-md q-py-xs radius-10" style="padding: 20px; min-width: 70%;">
-                <h5 style="margin: 5px 0 15px 5px;">
+              <q-card
+                class="q-px-md q-py-xs radius-10"
+                style="padding: 20px; min-width: 70%"
+              >
+                <h5 style="margin: 5px 0 15px 5px">
                   {{ viewDetails.subject }}
                 </h5>
                 <q-separator spaced></q-separator>
                 <q-card-section>
                   <div class="q-mb-sm q-mt-sm flex justify-between">
                     <div>
-                      <span class="text-weight-600 q-mr-xs font-14">{{ $t('Recipient') }}:</span>
-                      <span class="text-black q-mb-sm font-14">{{ viewDetails.userGroup.value }}</span>
+                      <span class="text-weight-600 q-mr-xs font-14"
+                        >{{ $t("Recipient") }}:</span
+                      >
+                      <span class="text-black q-mb-sm font-14">{{
+                        viewDetails.userGroup[0].value
+                      }}</span>
                     </div>
                     <span>
                       <span class="text-black font-14 text-italic">
@@ -215,7 +225,14 @@
                 </q-card-section>
                 <q-separator spaced></q-separator>
                 <!-- Email body -->
-                <q-card-section style="border: 1px solid lightgray; border-radius: 5px; padding: 15px; line-height: 2;">
+                <q-card-section
+                  style="
+                    border: 1px solid lightgray;
+                    border-radius: 5px;
+                    padding: 15px;
+                    line-height: 2;
+                  "
+                >
                   <div>
                     <div v-html="viewDetails.body" class="font-14 text-black"></div>
                   </div>
@@ -258,21 +275,18 @@
                       :loading="isLoading"
                       @click="cancelViewDialog()"
                     />
-                   
                   </div>
                 </q-card-section>
               </q-card>
             </q-dialog>
           </div>
         </div>
-
-        
       </div>
     </div>
 
     <!-- Emails table  -->
     <q-table
-      class="radius-20 shadow-1  pagination-no-shadow"
+      class="radius-20 shadow-1 pagination-no-shadow"
       :title="$t('E-Mails')"
       :data="this.emails"
       :visible-columns="visibleColumns"
@@ -282,11 +296,12 @@
         sortBy: 'id',
         descending: true,
         page: 1,
-        rowsPerPage: 10
+        rowsPerPage: 10,
       }"
       :rows-per-page-label="$t('Records per page')"
       :no-data-label="$t('No data')"
       :no-results-label="$t('No results')"
+      ref="table"
     >
       <template v-slot:header="props">
         <q-tr class="tableHeader" :props="props">
@@ -312,25 +327,36 @@
             class="font-14 cursor-pointer"
           >
             <span v-if="col.name === 'status'">
-              <q-chip :label="props.row[col.name] === true ? $t('Sent') : $t('NotSent')" class="text-white" style="height: 20px; margin-bottom: 7px;"
-              :color="props.row[col.name] === true ? 'positive' : 'negative'"
+              <q-chip
+                :label="props.row[col.name] === true ? $t('Sent') : $t('NotSent')"
+                class="text-white"
+                style="height: 20px; margin-bottom: 7px"
+                :color="props.row[col.name] === true ? 'positive' : 'negative'"
               />
             </span>
-            <span v-else>{{ props.row[col.name].length > 48 ? props.row[col.name].substring(0, 25) + " ..." : props.row[col.name] }}</span>
+            <span v-else>{{
+              props.row[col.name].length > 48
+                ? props.row[col.name].substring(0, 25) + " ..."
+                : props.row[col.name]
+            }}</span>
           </q-td>
           <q-td class="text-right" auto-width>
-            <q-btn size="md" color="primary" round flat dense icon="more_vert" aria-label="Optionen">
+            <q-btn
+              size="md"
+              color="primary"
+              round
+              flat
+              dense
+              icon="more_vert"
+              aria-label="Optionen"
+            >
               <q-menu transition-show="jump-down" transition-hide="jump-up">
                 <q-list style="min-width: 140px">
                   <q-item clickable v-close-popup @click="view(props.row)">
                     <q-item-section
                       ><span class="text-right font-14">
                         {{ $t("fundingTableOptions.view") }}
-                        <q-icon
-                          size="sm"
-                          class="text-blue"
-                          name="visibility"
-                        /> </span
+                        <q-icon size="sm" class="text-blue" name="visibility" /> </span
                     ></q-item-section>
                   </q-item>
                 </q-list>
@@ -357,7 +383,7 @@ export default {
       emails: [],
       visibleColumns: ["subject", "status", "createdAt"],
       form: {
-        userGroup: "",
+        userGroup: [],
         subject: "",
         body: "",
         attachments: [],
@@ -375,7 +401,7 @@ export default {
     cancelDialog() {
       this.dialogState = false;
       this.form = {
-        userGroup: "",
+        userGroup: [],
         subject: "",
         body: "",
         attachments: [],
@@ -384,7 +410,7 @@ export default {
     cancelViewDialog() {
       this.viewDialogState = false;
       this.viewDetails = {
-        userGroup: "",
+        userGroup: [],
         subject: "",
         body: "",
         attachments: [],
@@ -394,8 +420,8 @@ export default {
       this.isLoading = true;
       const { userGroup, subject, body, attachments } = this.form;
       const data = {
-        groupName: String(userGroup.label),
-        group: String(userGroup.value),
+        groupName: String(userGroup.map((group) => group.label)),
+        group: String(userGroup.map((group) => group.value)),
         subject,
         body,
       };
@@ -481,7 +507,6 @@ export default {
           ...group,
           label: this.$t(group.label),
         }));
-        
 
         this.groups = userGroupsOptionsTranslated;
         return userGroupsOptions;
@@ -493,7 +518,7 @@ export default {
     async getData() {
       try {
         const { data } = await this.$api.get("api/emailing-centers");
-        console.log('!!!', data);
+        console.log("!!!", data);
         this.emails = data;
         let emailData = [];
         this.emails.forEach((email) => {
@@ -511,18 +536,25 @@ export default {
       }
     },
     async view(row) {
-      const { data } = await this.$api.get(`api/emailing-centers/${row.id}?populate[0]=attachments`);
+      const { data } = await this.$api.get(
+        `api/emailing-centers/${row.id}?populate[0]=attachments`
+      );
       const labelMapping = this.getUserGroupOptions();
 
       this.viewDetails = {
-        userGroup: {
-          label: data.data.attributes.group,
-          value: data.data.attributes.groupName,
-        },
+        userGroup: [
+          {
+            label: data.data.attributes.group,
+            value: data.data.attributes.groupName,
+          },
+        ],
         subject: data.data.attributes.subject,
         body: data.data.attributes.body,
         attachments: data.data.attributes.attachments,
-        createdAt: date.formatDate(data.data.attributes.createdAt, "DD.MM.YYYY HH:mm:ss A"),
+        createdAt: date.formatDate(
+          data.data.attributes.createdAt,
+          "DD.MM.YYYY HH:mm:ss A"
+        ),
       };
 
       this.viewDialogState = true;
@@ -554,30 +586,30 @@ export default {
           name: "id",
           label: "id",
           align: "left",
-          field: row => row.id,
-          sortable: true
+          field: (row) => row.id,
+          sortable: true,
         },
         {
           name: "subject",
           align: "left",
           label: this.$t("Subject"),
-          field: row => row.subject,
-          sortable: true
+          field: (row) => row.subject,
+          sortable: true,
         },
         {
           name: "status",
           align: "left",
           label: this.$t("Status"),
-          field: row => row.status,
-          sortable: true
+          field: (row) => row.status,
+          sortable: true,
         },
         {
           name: "createdAt",
           align: "left",
           label: this.$t("fundingsCol.created_at"),
-          field: row => row.createdAt,
-          sortable: true
-        }
+          field: (row) => row.createdAt,
+          sortable: true,
+        },
       ];
     },
     appUrl() {
@@ -588,6 +620,23 @@ export default {
   mounted() {
     this.getData();
     this.getUserGroupOptions();
+    if (localStorage.getItem("pagination")) {
+      const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+
+      this.$refs.table.setPagination({
+          page: savedPagination.emailCenterPage || 1,
+          rowsPerPage: savedPagination.emailCenterRowsPerPage || 10,
+        });
+    }
+  },
+  beforeDestroy() {
+    const pagination = JSON.parse(localStorage.getItem("pagination"));
+    const localPagination = {
+      emailCenterPage: this.$refs.table.computedPagination.page,
+      emailCenterRowsPerPage: this.$refs.table.computedPagination.rowsPerPage,
+    };
+    const filters = { ...pagination, ...localPagination };
+    localStorage.setItem("pagination", JSON.stringify(filters));
   },
 };
 </script>
@@ -604,5 +653,8 @@ export default {
 
 .q-card__section--vert {
   padding: 7px;
+}
+.q-item--active .q-item__label {
+  color: $primary;
 }
 </style>
