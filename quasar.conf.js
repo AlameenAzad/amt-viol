@@ -112,7 +112,7 @@ module.exports = function (ctx) {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
         skipWaiting: true,
-        exclude: [".htaccess", "pull-BackEnd.php", "pull.php"]
+        exclude: []
       }, // only for GenerateSW
       manifest: {
         name: `Amt-viol`,
