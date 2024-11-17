@@ -26,7 +26,7 @@ This is a **Quasar Framework** application. Follow the steps below to set it up 
 
 ### Prerequisites
 
-1. **Node.js**: Ensure that you have Node.js installed (recommended version: 16+).
+1. **Node.js**: Ensure that you have Node.js installed (recommended version: 18+).
    Download it from [nodejs.org](https://nodejs.org/).
 2. **Package Manager**:
    - `npm` (comes with Node.js) or
